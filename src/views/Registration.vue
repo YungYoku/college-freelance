@@ -1,20 +1,22 @@
 <template>
-    <p>рега</p>
-    <form 
-    @submit.prevent = 'register'
-    >
+    Registration
+
+    <form @submit.prevent = 'register'>
         <input 
-        type="text" 
-        v-model.trim="username"
+			type="text"
+			v-model.trim="username"
         >
+
         <input 
-        type="password"
-        v-model.trim="password"
+			type="password"
+			v-model.trim="password"
         >
+
         <input 
-        type="password"
-        v-model.trim="passwordConfirm"
+			type="password"
+			v-model.trim="passwordConfirm"
         >
+
         <button type="submit">Отправить</button>
     </form>
 </template>

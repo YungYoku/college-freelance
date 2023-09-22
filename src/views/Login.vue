@@ -1,16 +1,16 @@
 <template>
-    <p>логин</p>
-    <form 
-    @submit.prevent = 'login'
-    >
+    Login
+
+    <form @submit.prevent="login">
         <input 
-        type="text" 
-        v-model.trim="username"
+			type="text"
+			v-model.trim="username"
         >
         <input 
-        type="password"
-        v-model.trim="password"
+			type="password"
+			v-model.trim="password"
         >
+
         <button type="submit">Отправить</button>
     </form>
 </template>
