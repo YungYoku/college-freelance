@@ -6,15 +6,15 @@ class Http {
     constructor() {
     }
 
-    async get(url: string, params: object = {}): Promise<unknown> {
-        return axios.get(this.api + url, params)
+    async get<T>(url: string, params: object = {}): Promise<T> {
+        return axios.get<T>(this.api + url, params)
             .then((res) => {
                 return res.data
             })
     }
 
-    async post(url: string, body: object = {}): Promise<unknown> {
-        return axios.post(this.api + url, body)
+    async post<T>(url: string, body: object = {}): Promise<T> {
+        return axios.post<T>(this.api + url, body)
             .then((res) => {
                 return res.data
             })

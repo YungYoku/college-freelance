@@ -27,6 +27,7 @@ import http from '@/plugins/http/index'
 import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
 import { useAuthStore } from '@/stores/auth.ts'
 import { useRouter } from 'vue-router'
+import { UserLogin } from '@/interfaces/UserLogin.ts'
 
 const auth = useAuthStore()
 
@@ -38,11 +39,11 @@ const password = ref('')
 const login = () => {
     if (password.value.length >= 8 && username.value.length) {
         http
-            .post('/collections/users/auth-with-password', {
+            .post<UserLogin>('/collections/users/auth-with-password', {
                 identity: username.value,
                 password: password.value,
             })
-            .then((res: unknown) => {
+            .then((res: UserLogin) => {
                 console.log(res)
                 auth.setToken(res.token)
                 router.push('/')

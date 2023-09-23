@@ -9,10 +9,12 @@ export const useAuthStore = defineStore({
     id: 'auth',
 
     state: (): State => ({
-        token: localStorage.uid ?? '',
+        token: localStorage.token ?? '',
     }),
 
-    getters: {},
+    getters: {
+        isLoggedIn: state => state.token
+    },
 
     actions: {
         setToken(token: string) {
