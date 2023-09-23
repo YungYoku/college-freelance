@@ -5,10 +5,12 @@
         <form @submit.prevent="login">
             <input
                 v-model.trim="username"
+                placeholder="Username"
                 type="text"
             />
             <input
                 v-model.trim="password"
+                placeholder="Password"
                 type="password"
             />
 
