@@ -1,28 +1,28 @@
 <template>
     <header>
         <router-link
-            v-if="auth.token"
+            v-if="auth.isLoggedIn"
             to="/"
         >
             Main
         </router-link>
 
         <router-link
-            v-if="!auth.token"
+            v-if="!auth.isLoggedIn"
             to="/login"
         >
             Login
         </router-link>
 
         <router-link
-            v-if="!auth.token"
+            v-if="!auth.isLoggedIn"
             to="/registration"
         >
             Registration
         </router-link>
 
         <button
-            v-if="auth.token"
+            v-if="auth.isLoggedIn"
             @click="logout"
         >
             Logout
@@ -39,8 +39,8 @@ const auth = useAuthStore()
 const router = useRouter()
 
 const logout = () => {
-    auth.$reset()
     localStorage.clear()
+    auth.$reset()
     router.push('/login')
 
 }
