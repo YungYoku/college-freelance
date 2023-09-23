@@ -25,6 +25,12 @@
 import { ref } from 'vue'
 import http from '@/plugins/http/index'
 import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
+import { useAuthStore } from '@/stores/auth.ts'
+import { useRouter } from 'vue-router'
+
+const auth = useAuthStore()
+
+const router = useRouter()
 
 const username = ref('')
 const password = ref('')
@@ -36,8 +42,10 @@ const login = () => {
                 identity: username.value,
                 password: password.value,
             })
-            .then((res: any) => {
+            .then((res: unknown) => {
                 console.log(res)
+                auth.setToken(res.token)
+                router.push('/')
             })
     }
 }
