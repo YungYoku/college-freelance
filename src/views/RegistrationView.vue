@@ -5,16 +5,19 @@
         <form @submit.prevent="register">
             <input
                 v-model.trim="username"
+                placeholder="Username"
                 type="text"
             />
 
             <input
                 v-model.trim="password"
+                placeholder="Password"
                 type="password"
             />
 
             <input
                 v-model.trim="passwordConfirm"
+                placeholder="Repeat password"
                 type="password"
             />
 
