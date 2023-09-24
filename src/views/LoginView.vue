@@ -43,8 +43,7 @@ const login = () => {
                 identity: username.value,
                 password: password.value,
             })
-            .then((res: UserLogin) => {
-                console.log(res)
+            .then((res) => {
                 auth.setToken(res.token)
                 router.push('/')
             })
