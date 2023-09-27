@@ -4,28 +4,28 @@
             v-if="auth.isLoggedIn"
             to="/"
         >
-            Main
+            Главная
         </router-link>
 
         <router-link
             v-if="!auth.isLoggedIn"
             to="/login"
         >
-            Login
+            Вход
         </router-link>
 
         <router-link
             v-if="!auth.isLoggedIn"
             to="/registration"
         >
-            Registration
+            Регистрация
         </router-link>
 
         <button
             v-if="auth.isLoggedIn"
             @click="logout"
         >
-            Logout
+            Выйти
         </button>
     </header>
 </template>
