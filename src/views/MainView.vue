@@ -1,6 +1,6 @@
 <template>
     <default-layout>
-        Main
+        Главная
 
         <job-offer
             v-for="offer in offers"

@@ -1,16 +1,16 @@
 <template>
     <default-layout>
-        Login
+        Вход
 
         <form @submit.prevent="login">
             <input
                 v-model.trim="username"
-                placeholder="Username"
+                placeholder="Имя пользователя"
                 type="text"
             />
             <input
                 v-model.trim="password"
-                placeholder="Password"
+                placeholder="Пароль"
                 type="password"
             />
 
