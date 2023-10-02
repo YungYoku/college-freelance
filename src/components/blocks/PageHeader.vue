@@ -4,7 +4,21 @@
             v-if="auth.isLoggedIn"
             to="/"
         >
-            Главная
+            Биржа
+        </router-link>
+
+        <router-link
+            v-if="auth.isLoggedIn"
+            to="/"
+        >
+            Чат
+        </router-link>
+
+        <router-link
+            v-if="auth.isLoggedIn"
+            to="/"
+        >
+            Мои объявления
         </router-link>
 
         <router-link
@@ -19,6 +33,13 @@
             to="/registration"
         >
             Регистрация
+        </router-link>
+
+        <router-link
+            v-if="auth.isLoggedIn"
+            to="/profile"
+        >
+            Профиль
         </router-link>
 
         <button
@@ -53,6 +74,7 @@ header {
   align-items: center;
 
   width: 100%;
+  min-height: 48px;
   gap: 10px;
 }
 </style>

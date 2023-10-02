@@ -26,6 +26,14 @@ const routes: Array<RouteRecordRaw> = [
             rules: []
         }
     },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: () => import('@/views/ProfileView.vue'),
+        meta: {
+            rules: ['auth']
+        }
+    },
 ]
 
 const router = createRouter({
