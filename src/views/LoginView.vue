@@ -1,7 +1,5 @@
 <template>
     <default-layout>
-        Вход
-
         <form @submit.prevent="login">
             <input
                 v-model.trim="username"

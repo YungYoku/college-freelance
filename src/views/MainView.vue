@@ -1,7 +1,5 @@
 <template>
     <default-layout>
-        Главная
-
         <job-offer
             v-for="offer in offers"
             :key="offer.id"

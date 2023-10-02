@@ -29,6 +29,8 @@ defineProps({
 
 <style scoped>
 .job-offer {
+    max-width: 200px;
+
     background: #1a1a1a;
 }
 </style>

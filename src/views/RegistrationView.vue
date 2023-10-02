@@ -1,7 +1,5 @@
 <template>
     <default-layout>
-        Регистрация
-
         <form @submit.prevent="register">
             <input
                 v-model.trim="username"
