@@ -1,21 +1,25 @@
 <template>
     <default-layout>
-        <form @submit.prevent="login">
-            <input
-                v-model.trim="username"
-                placeholder="Имя пользователя"
-                type="text"
-            />
-            <input
-                v-model.trim="password"
-                placeholder="Пароль"
-                type="password"
-            />
-
-            <button type="submit">
-                Отправить
-            </button>
-        </form>
+        <modal>
+            <form @submit.prevent="login">
+                <h2 class="title">
+                    Вход
+                </h2>
+                <TInput
+                    v-model.trim="username"
+                    placeholder="Имя пользователя"
+                    type="text"
+                />
+                <TInput
+                    v-model.trim="password"
+                    placeholder="Пароль"
+                    type="password"
+                />
+                <TButton type="submit">
+                    Отправить
+                </TButton>
+            </form>
+        </modal>
     </default-layout>
 </template>
 
@@ -26,6 +30,9 @@ import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
 import { useAuthStore } from '@/stores/auth.ts'
 import { useRouter } from 'vue-router'
 import { UserLogin } from '@/interfaces/UserLogin.ts'
+import modal from '@/components/structures/Modal.vue'
+import TInput from '@/components/structures/TInput.vue'
+import TButton from '@/components/structures/TInput.vue'
 
 const auth = useAuthStore()
 
@@ -35,6 +42,7 @@ const username = ref('')
 const password = ref('')
 
 const login = () => {
+    console.log(password.value, username.value)
     if (password.value.length >= 8 && username.value.length) {
         http
             .post<UserLogin>('/collections/users/auth-with-password', {
@@ -48,3 +56,16 @@ const login = () => {
     }
 }
 </script>
+
+<style scoped>
+.title {
+    color: black;
+}
+
+form {
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+}
+</style>
