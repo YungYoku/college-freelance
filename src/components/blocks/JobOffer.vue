@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import { JobOffer } from '@/interfaces/JobOffer.ts'
+import { JobOffer } from '@/interfaces/JobOffer'
 
 defineProps({
     jobOffer: {

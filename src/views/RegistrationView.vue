@@ -1,37 +1,42 @@
 <template>
     <default-layout>
-        <form @submit.prevent="register">
-            <input
-                v-model.trim="username"
-                placeholder="Имя пользователя"
-                type="text"
-            />
-
-            <input
-                v-model.trim="password"
-                placeholder="Пароль"
-                type="password"
-            />
-
-            <input
-                v-model.trim="passwordConfirm"
-                placeholder="Повторите пароль"
-                type="password"
-            />
-
-            <label>
-                <input
-                    v-model="permission"
-                    type="checkbox"
-                    value="1"
+        <modal>
+            <form @submit.prevent="register">
+                <h2 class="title">
+                    Регистрация
+                </h2>
+                <TInput
+                    v-model.trim="username"
+                    placeholder="Имя пользователя"
+                    type="text"
                 />
-                Решала
-            </label>
 
-            <button type="submit">
-                Отправить
-            </button>
-        </form>
+                <TInput
+                    v-model.trim="password"
+                    placeholder="Пароль"
+                    type="password"
+                />
+
+                <TInput
+                    v-model.trim="passwordConfirm"
+                    placeholder="Повторите пароль"
+                    type="password"
+                />
+
+                <label>
+                    <input
+                        v-model="permission"
+                        type="checkbox"
+                        value="1"
+                    />
+                    Решала
+                </label>
+
+                <button type="submit">
+                    Отправить
+                </button>
+            </form>
+        </modal>
     </default-layout>
 </template>
 
@@ -40,6 +45,8 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import http from '@/plugins/http/index'
 import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
+import Modal from '@/components/structures/Modal.vue'
+import TInput from '@/components/structures/TInput.vue'
 
 const router = useRouter()
 

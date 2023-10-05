@@ -1,20 +1,24 @@
 <template>
     <default-layout>
         <modal>
-            <h2 style="color:black">Вход</h2>
-            <TInput
-                v-model.trim="username"
-                placeholder="Имя пользователя"
-                type="text"
-            />
-            <TInput
-                v-model.trim="password"
-                placeholder="Пароль"
-                type="password"
-            />
-            <TButton type="submit">
-                Отправить
-            </TButton>
+            <form @submit.prevent="login">
+                <h2 class="title">
+                    Вход
+                </h2>
+                <TInput
+                    v-model.trim="username"
+                    placeholder="Имя пользователя"
+                    type="text"
+                />
+                <TInput
+                    v-model.trim="password"
+                    placeholder="Пароль"
+                    type="password"
+                />
+                <TButton type="submit">
+                    Отправить
+                </TButton>
+            </form>
         </modal>
     </default-layout>
 </template>
@@ -38,6 +42,7 @@ const username = ref('')
 const password = ref('')
 
 const login = () => {
+    console.log(password.value, username.value)
     if (password.value.length >= 8 && username.value.length) {
         http
             .post<UserLogin>('/collections/users/auth-with-password', {
@@ -51,3 +56,16 @@ const login = () => {
     }
 }
 </script>
+
+<style scoped>
+.title {
+    color: black;
+}
+
+form {
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+}
+</style>
