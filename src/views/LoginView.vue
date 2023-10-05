@@ -1,21 +1,21 @@
 <template>
     <default-layout>
-        <form @submit.prevent="login">
-            <input
+        <modal>
+            <h2 style="color:black">Вход</h2>
+            <TInput
                 v-model.trim="username"
                 placeholder="Имя пользователя"
                 type="text"
             />
-            <input
+            <TInput
                 v-model.trim="password"
                 placeholder="Пароль"
                 type="password"
             />
-
-            <button type="submit">
+            <TButton type="submit">
                 Отправить
-            </button>
-        </form>
+            </TButton>
+        </modal>
     </default-layout>
 </template>
 
@@ -26,6 +26,9 @@ import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
 import { useAuthStore } from '@/stores/auth.ts'
 import { useRouter } from 'vue-router'
 import { UserLogin } from '@/interfaces/UserLogin.ts'
+import modal from '@/components/structures/Modal.vue'
+import TInput from '@/components/structures/TInput.vue'
+import TButton from '@/components/structures/TInput.vue'
 
 const auth = useAuthStore()
 

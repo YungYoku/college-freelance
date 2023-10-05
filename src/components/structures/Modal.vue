@@ -1,11 +1,44 @@
 <template>
-
+  <form @submit.prevent="submitEvent">
+    <div class="wrapper">
+      <slot></slot>
+    </div>
+  </form>
 </template>
+  
+<script>
+export default {
+  name: 'modal',
 
-<script setup lang="ts">
-
+  methods: {
+      submitEvent(e) {
+      this.$emit('submit', e)
+    }
+  }
+}
 </script>
 
 <style scoped>
 
+form {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 10px;
+}
+
+.wrapper {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction: column;
+  border-radius: 5px;
+  padding: 20px;
+  background-color:#fff;
+}
+
+::slotted(input) {
+  margin: 10px;
+}
 </style>
+  
