@@ -1,9 +1,9 @@
 <template>
-  <form @submit.prevent="submitEvent">
-    <div class="wrapper">
+  <div class="wrapper">
+    <form @submit.prevent="submitEvent">
       <slot></slot>
-    </div>
-  </form>
+    </form>
+  </div>
 </template>
   
 <script>
