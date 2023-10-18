@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useAuthStore } from '@/stores/auth.ts'
+import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 
 const auth = useAuthStore()

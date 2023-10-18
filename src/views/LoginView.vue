@@ -1,20 +1,23 @@
 <template>
     <default-layout>
         <modal>
-            <h2 style="color:black">Вход</h2>
-            <TInput
-                v-model.trim="username"
-                placeholder="Имя пользователя"
-                type="text"
-            />
-            <TInput
-                v-model.trim="password"
-                placeholder="Пароль"
-                type="password"
-            />
-            <TButton type="submit">
-                Отправить
-            </TButton>
+            <grid>
+            
+                <h2 style="color:black">Вход</h2>
+                <TInput
+                    v-model.trim="username"
+                    placeholder="Имя пользователя"
+                    type="text"
+                />
+                <TInput
+                    v-model.trim="password"
+                    placeholder="Пароль"
+                    type="password"
+                />
+                <TButton type="submit" @click="login">
+                    Отправить
+                </TButton>
+            </grid>
         </modal>
     </default-layout>
 </template>
@@ -28,7 +31,8 @@ import { useRouter } from 'vue-router'
 import { UserLogin } from '@/interfaces/UserLogin.ts'
 import modal from '@/components/structures/Modal.vue'
 import TInput from '@/components/structures/TInput.vue'
-import TButton from '@/components/structures/TInput.vue'
+import TButton from '@/components/structures/TButton.vue'
+import Grid from '@/components/structures/Grid.vue'
 
 const auth = useAuthStore()
 
