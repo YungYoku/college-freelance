@@ -1,10 +1,9 @@
 <template>
     <default-layout>
         <modal>
-            <form @submit.prevent="login">
-                <h2 class="title">
-                    Вход
-                </h2>
+            <grid>
+            
+                <h2 style="color:black">Вход</h2>
                 <TInput
                     v-model.trim="username"
                     placeholder="Имя пользователя"
@@ -15,10 +14,10 @@
                     placeholder="Пароль"
                     type="password"
                 />
-                <TButton type="submit">
+                <TButton type="submit" @click="login">
                     Отправить
                 </TButton>
-            </form>
+            </grid>
         </modal>
     </default-layout>
 </template>
@@ -32,7 +31,8 @@ import { useRouter } from 'vue-router'
 import { UserLogin } from '@/interfaces/UserLogin.ts'
 import modal from '@/components/structures/Modal.vue'
 import TInput from '@/components/structures/TInput.vue'
-import TButton from '@/components/structures/TInput.vue'
+import TButton from '@/components/structures/TButton.vue'
+import Grid from '@/components/structures/Grid.vue'
 
 const auth = useAuthStore()
 
@@ -42,7 +42,6 @@ const username = ref('')
 const password = ref('')
 
 const login = () => {
-    console.log(password.value, username.value)
     if (password.value.length >= 8 && username.value.length) {
         http
             .post<UserLogin>('/collections/users/auth-with-password', {
@@ -56,16 +55,3 @@ const login = () => {
     }
 }
 </script>
-
-<style scoped>
-.title {
-    color: black;
-}
-
-form {
-    display:flex;
-    flex-direction: column;
-    justify-content:center;
-    align-items:center;
-}
-</style>
