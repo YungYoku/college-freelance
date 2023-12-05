@@ -25,7 +25,7 @@ export const useAuthStore = defineStore({
             verified: false,
             permission: 1
         },
-        token: localStorage.token ?? '',
+        token: localStorage.token ? JSON.parse(localStorage.token) : '',
     }),
 
     getters: {

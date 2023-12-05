@@ -9,9 +9,10 @@ class Http {
 
     async get<T>(url: string): Promise<T> {
         const auth = useAuthStore()
+
         return axios.get<T>(this.api + url, {
             headers: {
-                Authorization: JSON.parse(auth.token)
+                Authorization: auth.token
             }
         })
             .then((res) => {
@@ -21,9 +22,10 @@ class Http {
 
     async post<T>(url: string, body: object = {}): Promise<T> {
         const auth = useAuthStore()
+
         return axios.post<T>(this.api + url, body, {
             headers: {
-                Authorization: JSON.parse(auth.token)
+                Authorization: auth.token
             }
         })
             .then((res) => {
