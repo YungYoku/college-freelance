@@ -54,6 +54,7 @@ const login = () => {
             })
             .then((res) => {
                 auth.setToken(res.token)
+                auth.setUser(res.record)
                 router.push('/')
             })
     }
