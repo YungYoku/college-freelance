@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <form>
+        <form @submit.prevent>
             <slot></slot>
         </form>
     </div>
