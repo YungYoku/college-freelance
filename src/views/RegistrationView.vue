@@ -1,8 +1,8 @@
 <template>
     <default-layout>
         <modal>
-            <form @submit.prevent="register">
-                <h2 class="title">
+            <GridComp>
+                <h2>
                     Регистрация
                 </h2>
                 <TInput
@@ -32,10 +32,13 @@
                     Решала
                 </label>
 
-                <button type="submit">
+                <TButton 
+                    type="submit"
+                    @click="register"
+                >
                     Отправить
-                </button>
-            </form>
+                </TButton>
+            </GridComp>
         </modal>
     </default-layout>
 </template>
@@ -47,6 +50,9 @@ import http from '@/plugins/http/index'
 import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
 import Modal from '@/components/structures/Modal.vue'
 import TInput from '@/components/structures/TInput.vue'
+import TButton from '@/components/structures/TButton.vue'
+import GridComp from '@/components/structures/GridComp.vue'
+
 
 const router = useRouter()
 
@@ -70,3 +76,11 @@ const register = () => {
     }
 }
 </script>
+
+<style>
+
+label, h2{
+    color: black;
+}
+
+</style>

@@ -1,20 +1,21 @@
 <template>
-  <div class="wrapper">
-    <form @submit.prevent="submitEvent">
-      <slot></slot>
-    </form>
-  </div>
+    <div class="wrapper">
+        <form @submit.prevent="submitEvent">
+            <slot></slot>
+        </form>
+    </div>
 </template>
   
 <script>
 export default {
-  name: 'modal',
+    // eslint-disable-next-line vue/multi-word-component-names
+    name: 'modal',
 
-  methods: {
-      submitEvent(e) {
-      this.$emit('submit', e)
+    methods: {
+        submitEvent(e) {
+            this.$emit('submit', e)
+        }
     }
-  }
 }
 </script>
 

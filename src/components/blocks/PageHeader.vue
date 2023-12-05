@@ -63,7 +63,6 @@ const logout = () => {
     localStorage.clear()
     auth.$reset()
     router.push('/login')
-
 }
 </script>
 

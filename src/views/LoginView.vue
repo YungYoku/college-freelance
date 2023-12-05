@@ -1,9 +1,10 @@
 <template>
     <default-layout>
         <modal>
-            <grid>
-            
-                <h2 style="color:black">Вход</h2>
+            <GridComp>
+                <h2 style="color:black">
+                    Вход
+                </h2>
                 <TInput
                     v-model.trim="username"
                     placeholder="Имя пользователя"
@@ -14,10 +15,13 @@
                     placeholder="Пароль"
                     type="password"
                 />
-                <TButton type="submit" @click="login">
+                <TButton
+                    type="submit"
+                    @click="login"
+                >
                     Отправить
                 </TButton>
-            </grid>
+            </GridComp>
         </modal>
     </default-layout>
 </template>
@@ -32,7 +36,7 @@ import { UserLogin } from '@/interfaces/UserLogin.ts'
 import modal from '@/components/structures/Modal.vue'
 import TInput from '@/components/structures/TInput.vue'
 import TButton from '@/components/structures/TButton.vue'
-import Grid from '@/components/structures/Grid.vue'
+import GridComp from '@/components/structures/GridComp.vue'
 
 const auth = useAuthStore()
 
@@ -50,6 +54,7 @@ const login = () => {
             })
             .then((res) => {
                 auth.setToken(res.token)
+                auth.setUser(res.record)
                 router.push('/')
             })
     }
