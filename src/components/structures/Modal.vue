@@ -1,23 +1,10 @@
 <template>
     <div class="wrapper">
-        <form @submit.prevent="submitEvent">
+        <form>
             <slot></slot>
         </form>
     </div>
 </template>
-  
-<script>
-export default {
-    // eslint-disable-next-line vue/multi-word-component-names
-    name: 'modal',
-
-    methods: {
-        submitEvent(e) {
-            this.$emit('submit', e)
-        }
-    }
-}
-</script>
 
 <style scoped>
 
