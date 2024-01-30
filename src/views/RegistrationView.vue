@@ -1,74 +1,72 @@
 <template>
-    <default-layout>
-        <modal>
-            <GridComp>
-                <h2>
-                    Регистрация
-                </h2>
-                <TInput
-                    v-model.trim="username"
+    <DefaultLayout>
+        <Modal>
+            <Grid>
+                <Title>Регистрация</Title>
+
+                <Input
+                    v-model.trim="form.username"
                     placeholder="Имя пользователя"
                     type="text"
                 />
 
-                <TInput
-                    v-model.trim="password"
+                <Input
+                    v-model.trim="form.password"
                     placeholder="Пароль"
                     type="password"
                 />
 
-                <TInput
-                    v-model.trim="passwordConfirm"
+                <Input
+                    v-model.trim="form.passwordConfirm"
                     placeholder="Повторите пароль"
                     type="password"
                 />
 
-                <label>
-                    <input
-                        v-model="permission"
-                        type="checkbox"
-                        value="1"
-                    />
-                    Решала
-                </label>
+                <Checkbox
+                    v-model="form.permission"
+                    label="Решала"
+                />
 
-                <TButton 
+                <Button 
                     type="submit"
                     @click="register"
                 >
                     Отправить
-                </TButton>
-            </GridComp>
-        </modal>
-    </default-layout>
+                </Button>
+            </Grid>
+        </Modal>
+    </DefaultLayout>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+
 import http from '@/plugins/http/index'
 import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
 import Modal from '@/components/structures/Modal.vue'
-import TInput from '@/components/structures/TInput.vue'
-import TButton from '@/components/structures/TButton.vue'
-import GridComp from '@/components/structures/GridComp.vue'
+import Grid from '@/components/structures/Grid.vue'
+import Input from '@/components/elements/Input.vue'
+import Checkbox from '@/components/elements/Checkbox.vue'
+import Button from '@/components/elements/Button.vue'
+import Title from '@/components/elements/Title.vue'
 
 
 const router = useRouter()
 
-const username = ref('')
-const password = ref('')
-const passwordConfirm = ref('')
-const permission = ref(0)
+const form = reactive({
+    username: '',
+    password: '',
+    passwordConfirm: '',
+    permission: false
+})
 
 const register = () => {
-    if (password.value.length >= 8 && passwordConfirm.value === password.value && username.value.length) {
+    if (form.password.length >= 8 && form.passwordConfirm === form.password && form.username.length) {
         http
             .post('/collections/users/records', {
-                username: username.value,
-                password: password.value,
-                passwordConfirm: passwordConfirm.value,
-                permission: Number(permission.value)
+                ...form,
+                permission: Number(form.permission)
             })
             .then(() => {
                 router.push('/')
@@ -76,11 +74,3 @@ const register = () => {
     }
 }
 </script>
-
-<style>
-
-label, h2{
-    color: black;
-}
-
-</style>

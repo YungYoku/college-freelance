@@ -1,57 +1,59 @@
 <template>
     <default-layout>
-        <modal>
-            <GridComp>
-                <h2 style="color:black">
-                    Вход
-                </h2>
-                <TInput
-                    v-model.trim="username"
+        <Modal>
+            <Grid>
+                <Title>Вход</Title>
+
+                <Input
+                    v-model.trim="form.identity"
                     placeholder="Имя пользователя"
                     type="text"
                 />
-                <TInput
-                    v-model.trim="password"
+
+                <Input
+                    v-model.trim="form.password"
                     placeholder="Пароль"
                     type="password"
                 />
-                <TButton
+
+                <Button
                     type="submit"
                     @click="login"
                 >
                     Отправить
-                </TButton>
-            </GridComp>
-        </modal>
+                </Button>
+            </Grid>
+        </Modal>
     </default-layout>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
+
 import http from '@/plugins/http/index'
 import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
 import { useAuthStore } from '@/stores/auth.ts'
-import { useRouter } from 'vue-router'
 import { UserLogin } from '@/interfaces/UserLogin.ts'
-import modal from '@/components/structures/Modal.vue'
-import TInput from '@/components/structures/TInput.vue'
-import TButton from '@/components/structures/TButton.vue'
-import GridComp from '@/components/structures/GridComp.vue'
+import Modal from '@/components/structures/Modal.vue'
+import Grid from '@/components/structures/Grid.vue'
+import Input from '@/components/elements/Input.vue'
+import Button from '@/components/elements/Button.vue'
+import Title from '@/components/elements/Title.vue'
 
 const auth = useAuthStore()
 
 const router = useRouter()
 
-const username = ref('')
-const password = ref('')
+const form = reactive({
+    identity: '',
+    password: ''
+})
 
 const login = () => {
-    if (password.value.length >= 8 && username.value.length) {
+    if (form.password.length >= 8 && form.identity.length) {
         http
-            .post<UserLogin>('/collections/users/auth-with-password', {
-                identity: username.value,
-                password: password.value,
-            })
+            .post<UserLogin>('/collections/users/auth-with-password', form)
             .then((res) => {
                 auth.setToken(res.token)
                 auth.setUser(res.record)

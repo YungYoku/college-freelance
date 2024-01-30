@@ -1,5 +1,6 @@
 <template>
     <input
+        type="text"
         :value="modelValue"
         @input="updateValue"
     />
@@ -12,20 +13,21 @@ defineProps({
         default: ''
     }
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:model-value'])
 
 const updateValue = (event: Event) => {
-    emit('update:modelValue', (event.target as HTMLInputElement).value)
+    emit('update:model-value', (event.target as HTMLInputElement).value)
 }
 </script>
 
-<style scoped>
-input {
-    height: 36px;
-    margin-top: 10px;
-    padding: 10px 10px;
+<style scoped lang="sass">
+input
+    width: 300px
+    height: 36px
 
-    border-radius: 5px;
-}
+    padding: 10px
+
+    border-radius: 5px
+    border: none
 </style>
   
