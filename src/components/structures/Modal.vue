@@ -6,28 +6,26 @@
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="sass">
+form
+    display: flex
+    align-items: center
+    justify-content: center
+    padding: 10px
 
-form {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding: 10px;
-}
+.wrapper
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-direction: column
+    
+    padding: 10px
 
-.wrapper {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction: column;
-  border-radius: 5px;
-  padding: 20px;
-  background-color:#fff;
-}
+    background-color: #ffffff
+    border-radius: 5px
 
-::slotted(input) {
-  margin: 10px;
-}
+::slotted(input)
+    margin: 10px
 </style>
 
 

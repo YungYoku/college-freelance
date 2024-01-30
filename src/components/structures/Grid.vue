@@ -18,13 +18,11 @@ defineProps({
 
 </script>
 
-<style scoped>
-.grid {
-  display: grid;
-  gap: 10px;
-}
+<style scoped lang="sass">
+.grid
+    display: grid
+    gap: 10px
 
-.vertical {
-  grid-auto-flow: column;
-}
+.vertical 
+    grid-auto-flow: column
 </style>

@@ -7,15 +7,12 @@
     </button>
 </template>
 
-<style scoped>
-.btn {
-    margin-top: 10px;
+<style scoped lang="sass">
+.btn
+    font-size: 14px
 
-    font-size: 14px;
+    border-radius: 5px
 
-    border-radius: 15px;
-
-    cursor: pointer;
-}
+    cursor: pointer
 </style>
   
