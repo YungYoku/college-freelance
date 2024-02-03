@@ -7,6 +7,8 @@ export interface User {
     emailVisibility: boolean
     id: string
     name: string
+    surname: string
+    rating: number
     updated: string
     username: string
     verified: boolean
