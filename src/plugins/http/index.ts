@@ -32,6 +32,19 @@ class Http {
                 return res.data
             })
     }
+
+    async patch<T>(url: string, body: object = {}): Promise<T> {
+        const auth = useAuthStore()
+
+        return axios.patch<T>(this.api + url, body, {
+            headers: {
+                Authorization: auth.token
+            }
+        })
+            .then((res) => {
+                return res.data
+            })
+    }
 }
 
 export default new Http()

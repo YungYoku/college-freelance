@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { User } from '@/interfaces/UserLogin'
+import { User } from '@/interfaces/User'
 import LocalStorage from '@/plugins/localStorage'
 
 export interface State {
@@ -20,6 +20,8 @@ export const useAuthStore = defineStore({
             emailVisibility: false,
             id: '',
             name: '',
+            surname: '',
+            rating: 0,
             updated: '',
             username: '',
             verified: false,
@@ -39,7 +41,10 @@ export const useAuthStore = defineStore({
         },
 
         setUser(user: User) {
-            this.user = user
+            this.user = {
+                ...this.user,
+                ...user
+            }
             LocalStorage.write('user', {
                 id: user.id,
                 name: user.name
