@@ -6,7 +6,7 @@
 import { useAuthStore } from '@/stores/auth'
 import http from './plugins/http'
 import LocalStorage from '@/plugins/localStorage'
-import { User } from '@/interfaces/UserLogin'
+import { User } from '@/interfaces/User'
 
 const auth = useAuthStore()
 
