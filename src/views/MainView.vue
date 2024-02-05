@@ -1,9 +1,9 @@
 <template>
     <DefaultLayout>
-        <JobSearch 
-            :input-value="tag"
-        />
+        <JobSearch v-model="search" />
+
         <SearchTags @select-tag="updateSearch" />
+        
         <JobOffer
             v-for="offer in offers"
             :key="offer.id"
@@ -21,10 +21,10 @@ import JobOffer from '@/components/blocks/JobOffer.vue'
 import JobSearch from '@/components/blocks/JobSearch.vue'
 import SearchTags from '@/components/blocks/SearchTags.vue'
 
-const tag = ref('')
+const search = ref('')
 
-const updateSearch = (value: string) => {
-    tag.value = value
+const updateSearch = (tag: string) => {
+    search.value = tag
 }
 
 const offers = ref<Array<IJobOffer>>([])

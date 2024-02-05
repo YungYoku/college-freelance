@@ -1,14 +1,12 @@
 <template>
-    <div class="container">
-        <div class="search-tags">
-            <div
-                v-for="(item, index) in items"
-                :key="index"
-                class="child"
-                @click="selectTag(item)"
-            >
-                {{ item }}
-            </div>
+    <div class="search-tags">
+        <div
+            v-for="(item, index) in items"
+            :key="index"
+            class="search-tags__child"
+            @click="selectTag(item)"
+        >
+            {{ item }}
         </div>
     </div>
 </template>
@@ -37,19 +35,18 @@ const selectTag = (item: string) => {
 </script>
 
 <style scoped lang="sass">
-.container
-    margin: 0 auto
-    max-width: 80%
 .search-tags
-    
     display: flex
-    flex-flow: row wrap
     align-items: center
-    justify-content: start
-.child
-    border: 1px solid
-    border-radius: 10px
-    padding: 2px 4px
-    margin: 0 2px
-    border-color: #aaa
+    justify-content: flex-start
+    flex-wrap: wrap
+    gap: 5px
+
+    &__child
+        padding: 4px
+
+        border: 1px solid #aaaaaa
+        border-radius: 10px
+
+        line-height: 1
 </style>
