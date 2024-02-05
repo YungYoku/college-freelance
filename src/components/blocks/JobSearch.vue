@@ -11,11 +11,9 @@
 import Input from '@/components/elements/Input.vue'
 
 defineProps({
-    // eslint-disable-next-line vue/require-default-prop
     inputValue: {
         type: String,
+        default: ''
     }
 })
-
-
 </script>

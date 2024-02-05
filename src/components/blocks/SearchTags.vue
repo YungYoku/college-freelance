@@ -17,23 +17,26 @@
 import { ref } from 'vue'
 import { defineEmits } from 'vue'
 
-const emit = defineEmits(['selectedTag'])
+const emit = defineEmits(['select-tag'])
 const items = ref([
-    'тригонометрия ', 'сочинение ОГЭ', 'преобразование тригонометрических выражений', 'метод вспомогательного угла', 
-    'перпендикуляр в простанстве', 'биохимические формулы', '17 задача по математике ЕГЭ'
+    'тригонометрия',
+    'сочинение ОГЭ',
+    'преобразование тригонометрических выражений',
+    'метод вспомогательного угла', 
+    'перпендикуляр в простанстве',
+    'биохимические формулы',
+    '17 задача по математике ЕГЭ'
 ])
 
 const selectedItem = ref('')
 
 const selectTag = (item: string) => {
     selectedItem.value = item    
-    emit('selectedTag', selectedItem.value)
+    emit('select-tag', selectedItem.value)
 }
-
 </script>
 
 <style scoped lang="sass">
-
 .container
     margin: 0 auto
     max-width: 80%

@@ -3,7 +3,7 @@
         <JobSearch 
             :input-value="tag"
         />
-        <SearchTags @selected-tag="updateSearch" />
+        <SearchTags @select-tag="updateSearch" />
         <JobOffer
             v-for="offer in offers"
             :key="offer.id"
@@ -23,8 +23,8 @@ import SearchTags from '@/components/blocks/SearchTags.vue'
 
 const tag = ref('')
 
-const updateSearch = (tag:string) => {
-    console.log(tag)
+const updateSearch = (value: string) => {
+    tag.value = value
 }
 
 const offers = ref<Array<IJobOffer>>([])

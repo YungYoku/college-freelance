@@ -1,4 +1,3 @@
-<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <template>
     <DefaultLayout>
         <Modal>
@@ -30,41 +29,25 @@
     </DefaultLayout>
 </template>
 
-<script>
+<script setup lang="ts">
 import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
 import Modal from '@/components/structures/Modal.vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Pagination, Navigation } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/pagination'
-import 'swiper/css/navigation'
 
-export default {
-    components: {
-        Swiper,
-        DefaultLayout,
-        Modal,
-        SwiperSlide,
-    },
-    setup() {
-        return {
-            modules: [Pagination, Navigation],
-        }
-    },
-}
+const modules = [Pagination, Navigation]
 </script>
 
 <style scoped lang="sass">
-
 .swiper
-  width: 1000px
-  height: 75px
-  background-color: #4b525c 
-  color: black
+    width: 1000px
+    height: 75px
+    background-color: #4b525c 
+    color: black
 
-  @at-root .swiper-button-prev::after, .swiper-button-next::after
-  --swiper-theme-color: black
-  --swiper-navigation-size: 25px
+    @at-root .swiper-button-prev::after, .swiper-button-next::after
+    --swiper-theme-color: black
+    --swiper-navigation-size: 25px
 .swiper-button-prev, .swiper-button-next
     right: var(--swiper-navigation-sides-offset, 0px)
 
@@ -74,9 +57,9 @@ export default {
     background-color: #333
 
 .swiper-slide 
-  text-align: center
-  font-size: 18px
-  display: flex
-  justify-content: center
-  align-items: center
+    text-align: center
+    font-size: 18px
+    display: flex
+    justify-content: center
+    align-items: center
 </style>
