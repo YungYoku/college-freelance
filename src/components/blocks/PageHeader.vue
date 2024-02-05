@@ -2,7 +2,7 @@
     <header>
         <router-link
             v-if="auth.isLoggedIn"
-            to="/"
+            to="/exchange"
         >
             Биржа
         </router-link>

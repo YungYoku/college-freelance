@@ -27,6 +27,14 @@ const routes: Array<RouteRecordRaw> = [
         }
     },
     {
+        path: '/exchange',
+        name: 'Exchange',
+        component: () => import('@/views/ExchangeView.vue'),
+        meta: {
+            rules: ['auth']
+        }
+    },
+    {
         path: '/profile',
         name: 'Profile',
         component: () => import('@/views/ProfileView.vue'),

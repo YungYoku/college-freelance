@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="wrapper">
         <form @submit.prevent>
@@ -21,7 +22,7 @@ form
     
     padding: 10px
 
-    background-color: #ffffff
+    background-color: #4b525c
     border-radius: 5px
 
 ::slotted(input)
