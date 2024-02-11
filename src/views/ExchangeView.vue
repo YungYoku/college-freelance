@@ -6,24 +6,17 @@
                 :space-between="30"
                 :navigation="true"
                 :pagination="{
-                    clickable: true,
+                    clickable: true
                 }"
                 :modules="modules"
                 class="mySwiper"
             >
-                <swiper-slide>Университет</swiper-slide>    
-                <swiper-slide>Русский язык</swiper-slide>
-                <swiper-slide>Литература</swiper-slide>
-                <swiper-slide>История</swiper-slide>
-                <swiper-slide>Обществознание</swiper-slide>
-                <swiper-slide>Математика</swiper-slide>
-                <swiper-slide>География</swiper-slide>
-                <swiper-slide>ОБЖ</swiper-slide>
-                <swiper-slide>Иностранные языки</swiper-slide>
-                <swiper-slide>Физика</swiper-slide>
-                <swiper-slide>Химия</swiper-slide>
-                <swiper-slide>Биология</swiper-slide>
-                <swiper-slide>Информатика</swiper-slide>
+                <swiper-slide 
+                    v-for="(item, index) in items"
+                    :key="index"
+                >
+                    {{ item }}
+                </swiper-slide>    
             </swiper>
         </Modal>
     </DefaultLayout>
@@ -34,8 +27,19 @@ import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
 import Modal from '@/components/structures/Modal.vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Pagination, Navigation } from 'swiper/modules'
+import { ref } from 'vue'
 
 const modules = [Pagination, Navigation]
+
+const items = ref([
+    'Университет','Русский язык',
+    'Литература','История', 
+    'Обществознание','Математика',
+    'География','ОБЖ',
+    'Иностранные языки','Физика',
+    'Химия', 'Биология',
+    'Информатика',
+])
 </script>
 
 <style scoped lang="sass">
@@ -45,7 +49,8 @@ const modules = [Pagination, Navigation]
     background-color: #4b525c 
     color: black
 
-    @at-root .swiper-button-prev::after, .swiper-button-next::after
+    .swiper-button-prev::after, .swiper-button-next::after
+        content:''
     --swiper-theme-color: black
     --swiper-navigation-size: 25px
 .swiper-button-prev, .swiper-button-next

@@ -1,6 +1,11 @@
 <template>
     <header>
         <router-link
+            to="/"
+        >
+            Главная
+        </router-link>
+        <router-link
             v-if="auth.isLoggedIn"
             to="/exchange"
         >

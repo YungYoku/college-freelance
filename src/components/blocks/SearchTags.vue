@@ -44,8 +44,10 @@ const selectTag = (item: string) => {
 
     &__child
         padding: 4px
-
+        min-height: 40px
         line-height: 1
-
         border: 1px solid var(--light-100)
-        border-radius: 10px</style>
+        border-radius: 10px
+        display: flex
+        align-items: center
+</style>
