@@ -37,16 +37,15 @@ const selectTag = (item: string) => {
 <style scoped lang="sass">
 .search-tags
     display: flex
-    align-items: center
-    justify-content: flex-start
     flex-wrap: wrap
+    justify-content: flex-start
+    align-items: center
     gap: 5px
 
     &__child
         padding: 4px
 
-        border: 1px solid #aaaaaa
-        border-radius: 10px
-
         line-height: 1
-</style>
+
+        border: 1px solid var(--light-100)
+        border-radius: 10px</style>
