@@ -1,8 +1,13 @@
 <template>
     <header>
         <router-link
-            v-if="auth.isLoggedIn"
             to="/"
+        >
+            Главная
+        </router-link>
+        <router-link
+            v-if="auth.isLoggedIn"
+            to="/exchange"
         >
             Биржа
         </router-link>
@@ -19,6 +24,13 @@
             to="/"
         >
             Мои объявления
+        </router-link>
+
+        <router-link
+            v-if="auth.isLoggedIn"
+            to="/"
+        >
+            Создать объявление
         </router-link>
 
         <router-link
@@ -74,5 +86,4 @@ header
 
   width: 100%
   min-height: 48px
-  gap: 10px
-</style>
+  gap: 10px</style>

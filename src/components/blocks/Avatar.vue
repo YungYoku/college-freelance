@@ -7,6 +7,7 @@
     >
         <Image
             v-if="avatar"
+            class="avatar__image"
             :src="avatar"
         />
         <input
@@ -16,6 +17,20 @@
             type="file"
             accept="image/png, image/gif, image/jpeg, image/jpg, image/svg, image/webp, image/avif"
             @input="onImageLoad"
+        />
+
+        <Icon
+            v-if="avatar && editable"
+            class="avatar__icon-remove"
+            name="trash"
+            size="m"
+            @click="removeAvatar"
+        />
+        <Icon
+            v-if="!avatar && editable"
+            class="avatar__icon-upload"
+            name="upload"
+            size="m"
         />
     </div>
 </template>
@@ -27,6 +42,7 @@ import { useAuthStore } from '@/stores/auth'
 import { User } from '@/interfaces/User.ts'
 import http from '@/plugins/http'
 import Image from '@/components/elements/Image.vue'
+import Icon from '@/components/elements/Icon.vue'
 
 defineProps({
     size: {
@@ -49,13 +65,11 @@ const avatar = computed(() => {
     return ''
 })
 
-const handleImage = async (avatar: File) => {
-    console.log(avatar)
+const loadImage = async (avatar: File | string) => {
     const formData = new FormData()
 
     formData.append('avatar', avatar)
 
-    
     const user = await http.patch<User>(`/collections/users/records/${auth.user.id}`, formData)
     auth.setUser(user)
 }
@@ -64,20 +78,40 @@ const onImageLoad = (event: Event) => {
     const target = event.target as HTMLInputElement
     const file = target?.files?.[0]
 
-    if (file) handleImage(file)
+    if (file) loadImage(file)
 }
+
+const removeAvatar = () => loadImage('')
 </script>
 
 <style lang="sass" scoped>
 .avatar
     position: relative
-    border-radius: 50%
-    overflow: hidden
-    background: #333333
 
-    img
+    overflow: hidden
+
+    background: #444444
+    border-radius: 50%
+
+    &__image
         max-width: 100%
         max-height: 100%
+
+    &__icon-remove,
+    &__icon-upload
+        position: absolute
+        top: calc(50% - 15px)
+        right: calc(50% - 15px)
+        z-index: 2
+
+    &__icon-remove
+        opacity: 0
+        transition: all 0.2s
+
+    &:hover
+        .avatar__icon-remove
+            opacity: 1
+            transition: all 0.2s
 
     &__xs
         min-width: 15px
@@ -103,22 +137,26 @@ const onImageLoad = (event: Event) => {
     &__editable
         &::before
             content: ''
+            position: absolute
+            top: 0
+            left: 0
+            z-index: 1
+
             width: 100%
             height: 100%
-            position: absolute
-            left: 0
-            top: 0
-            z-index: 1
+
             background: transparent
+
             transition: all 0.2s
 
         &:hover::before
-            background: #333333
+            background: #444444
+
             transition: all 0.2s
 
     &__input
         width: 100%
         height: 100%
-        opacity: 0
+
         cursor: pointer
-</style>
+        opacity: 0</style>
