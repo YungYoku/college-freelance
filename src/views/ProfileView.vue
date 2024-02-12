@@ -79,6 +79,7 @@ onMounted(loadDescription)
 
 textarea
     width: 50%
+
     resize: vertical
 
 .profile
@@ -86,9 +87,8 @@ textarea
     align-items: center
     gap: 50px
 
-    &__name-rate    
+    &__name-rate
         display: flex
         flex-direction: column
         align-items: flex-start
-        gap: 15px
-</style>
+        gap: 15px</style>

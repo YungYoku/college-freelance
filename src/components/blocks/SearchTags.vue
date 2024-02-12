@@ -13,7 +13,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { defineEmits } from 'vue'
 
 const emit = defineEmits(['select-tag'])
 const items = ref([
@@ -43,11 +42,13 @@ const selectTag = (item: string) => {
     gap: 5px
 
     &__child
-        padding: 4px
-        min-height: 40px
-        line-height: 1
-        border: 1px solid var(--light-100)
-        border-radius: 10px
         display: flex
         align-items: center
-</style>
+
+        min-height: 40px
+        padding: 4px
+
+        line-height: 1
+
+        border: 1px solid var(--light-100)
+        border-radius: 10px</style>
