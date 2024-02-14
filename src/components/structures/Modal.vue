@@ -1,33 +1,29 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div class="wrapper">
-        <form @submit.prevent>
+    <div class="modal">
+        <form
+            class="modal__form"
+            @submit.prevent
+        >
             <slot></slot>
         </form>
     </div>
 </template>
 
 <style scoped lang="sass">
-form
+.modal
     display: flex
-    align-items: center
-    justify-content: center
-    padding: 10px
-
-.wrapper
-    display: flex
-    align-items: center
-    justify-content: center
     flex-direction: column
+    justify-content: center
+    align-items: center
     
     padding: 10px
 
     background-color: #4b525c
     border-radius: 5px
 
-::slotted(input)
-    margin: 10px
-</style>
+    &__form
+        display: flex
+        justify-content: center
+        align-items: center
 
-
-  
+        padding: 10px</style>

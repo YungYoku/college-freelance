@@ -7,9 +7,9 @@
         </router-link>
         <router-link
             v-if="auth.isLoggedIn"
-            to="/exchange"
+            to="/offers"
         >
-            Биржа
+            Объявления
         </router-link>
 
         <router-link

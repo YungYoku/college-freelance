@@ -20,6 +20,7 @@ export const useAuthStore = defineStore({
             emailVisibility: false,
             id: '',
             name: '',
+            description: '',
             surname: '',
             rating: 0,
             updated: '',
