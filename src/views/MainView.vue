@@ -3,7 +3,9 @@
         <JobSearch v-model="search" />
 
         <SearchTags @select-tag="updateSearch" />
-        
+
+        <SubjectsSlider />
+
         <JobOffer
             v-for="offer in offers"
             :key="offer.id"
@@ -20,6 +22,7 @@ import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
 import JobOffer from '@/components/blocks/JobOffer.vue'
 import JobSearch from '@/components/blocks/JobSearch.vue'
 import SearchTags from '@/components/blocks/SearchTags.vue'
+import SubjectsSlider from '@/components/blocks/SubjectsSlider.vue'
 
 const search = ref('')
 
