@@ -11,6 +11,22 @@ const routes: Array<RouteRecordRaw> = [
         }
     },
     {
+        path: '/offers',
+        name: 'Offers',
+        component: () => import('@/views/OffersView.vue'),
+        meta: {
+            rules: ['auth']
+        }
+    },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: () => import('@/views/ProfileView.vue'),
+        meta: {
+            rules: ['auth']
+        }
+    },
+    {
         path: '/login',
         name: 'Login',
         component: () => import('@/views/LoginView.vue'),
@@ -26,22 +42,6 @@ const routes: Array<RouteRecordRaw> = [
             rules: []
         }
     },
-    {
-        path: '/exchange',
-        name: 'Exchange',
-        component: () => import('@/views/ExchangeView.vue'),
-        meta: {
-            rules: ['auth']
-        }
-    },
-    {
-        path: '/profile',
-        name: 'Profile',
-        component: () => import('@/views/ProfileView.vue'),
-        meta: {
-            rules: ['auth']
-        }
-    },
 ]
 
 const router = createRouter({
@@ -51,7 +51,7 @@ const router = createRouter({
 
 router.beforeEach((to) => {
     const token = localStorage.token ?? null
-    const toRules = to.meta.rules as Array<string>
+    const toRules = to.meta.rules as Array<string> ?? []
 
     if (toRules.includes('auth')) {
         if (token) return true
