@@ -15,20 +15,18 @@
         </div>
 
         <Textarea
-            v-model="text"
+            v-model="description"
             label="Описание"
         />
 
-        <Button @click="submit">
+        <Button @click="save">
             Сохранить
         </Button>
     </default-layout>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { computed } from 'vue'
-import { AxiosResponse } from 'axios'
+import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 import http from '@/plugins/http'
@@ -39,38 +37,17 @@ import Textarea from '@/components/elements/Textarea.vue'
 
 const auth = useAuthStore()
 
-const text = ref('')
+const description = ref('')
 
-const description = computed(()=>{
-    if (auth.user.description) return `users/${auth.user.id}/${auth.user.description}`    
-    return ''
-})
+watch(() => auth.user.description, () => description.value = auth.user.description)
 
-const loadDescription = async() => {
-    try {
-        const response: AxiosResponse<{ items: { description: string }[] }> = await http.get(`/collections/users/records/${auth.user.id}`)
-        console.log('response', response.items[0])
-    
-        text.value = response.items[0].description
-    } catch (error) {
-        console.log('Ошибка:', error)
-        
-    }
+const save = async () => {
+    await http
+        .patch(`/collections/users/records/${auth.user.id}`, { description: description.value })
+        .catch(error => {
+            console.error(error)
+        })
 }
-
-const submit = async () => {
-    try {
-        await http.patch(`/collections/users/records/${auth.user.id}`, { description: text.value })
-        console.log('description successfully saved')
-
-    } catch (error) {
-        console.error('Ошибка сохранения текста:', error)    
-    }
-    console.log(text.value)
-
-}
-
-onMounted(loadDescription)
 </script>
 
 <style scoped lang="sass">
