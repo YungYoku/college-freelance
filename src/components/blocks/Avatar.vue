@@ -155,6 +155,10 @@ const removeAvatar = () => loadImage('')
             transition: all 0.2s
 
     &__input
+
+        position: absolute
+        left: 0
+
         width: 100%
         height: 100%
 
