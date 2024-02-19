@@ -22,12 +22,9 @@ const updateValue = (event: Event) => {
 
 <style scoped lang="sass">
 input
-    width: 300px
     height: 36px
-
     padding: 10px
 
-    border-radius: 5px
     border: none
-</style>
+    border-radius: 5px</style>
   
