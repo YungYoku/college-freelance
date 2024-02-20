@@ -28,7 +28,7 @@
 
         <router-link
             v-if="auth.isLoggedIn"
-            to="/"
+            to="/new-offer"
         >
             Создать объявление
         </router-link>
