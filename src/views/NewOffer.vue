@@ -16,6 +16,7 @@
                 placeholder="Предложите цену, ₽"
                 type="number"
             />
+            
             <Button @click="postOffer">
                 Создать объявление
             </Button>
@@ -44,8 +45,9 @@ const postOffer = async () => {
     console.log(auth.user.id)
     
     await http
-        .post(`/api/collections/job_offers/records/${auth.user.id}`,{
-            ...jobForm
+        .post('/collections/job_offers/records/', {
+            ...jobForm,
+            creator: auth.user.id
         })
         .catch(error => {
             console.error(error)
@@ -58,19 +60,18 @@ const postOffer = async () => {
 .tab
     display: flex
     flex-direction: column
-    align-items: center
     justify-content: center
-    gap: 20px
+    align-items: center
+
+    padding: 20px
 
     border: 1px solid grey
     border-radius: 10px
-    padding: 20px
+    gap: 20px
 
 select
-    border: 1px solid grey
-    border-radius: 3px
-
     padding: 2px 58px
     
     background: none
-</style>
+    border: 1px solid grey
+    border-radius: 3px</style>

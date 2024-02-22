@@ -53,6 +53,7 @@ const save = async () => {
 
 textarea
     width: 50%
+
     resize: vertical
 
 .profile
