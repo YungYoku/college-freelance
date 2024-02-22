@@ -1,16 +1,25 @@
 <template>
-    <div class="job-search">
+    <Grid
+        class="job-search"
+        :columns="columns"
+    >
         <Input
             v-model="value"
             placeholder="Поиск"
         />
-    </div>
+
+        <Button v-if="value">
+            Поиск
+        </Button>
+    </Grid>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 
 import Input from '@/components/elements/Input.vue'
+import Button from '@/components/elements/Button.vue'
+import Grid from '@/components/structures/Grid.vue'
 
 const props = defineProps({
     modelValue: {
@@ -29,4 +38,15 @@ const value = computed({
         emit('update:model-value', value)
     }
 })
+
+const columns = computed(() => {
+    if (value.value.length) return [4, 1]
+    return 1
+})
 </script>
+
+<style scoped lang="sass">
+.job-search
+    width: 720px
+    min-width: 320px
+    max-width: 100%</style>

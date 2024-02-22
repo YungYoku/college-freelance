@@ -25,6 +25,6 @@ const props = defineProps({
 
 const image = computed(() => {
     if (props.local) return props.src
-    return `https://college-freelance.hop.sh/api/files/${props.src}`
+    return `${import.meta.env.VITE_API}/files/${props.src}`
 })
 </script>

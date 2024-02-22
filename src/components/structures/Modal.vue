@@ -1,5 +1,8 @@
 <template>
-    <div class="modal">
+    <div
+        class="modal"
+        :style="style"
+    >
         <form
             class="modal__form"
             @submit.prevent
@@ -8,6 +11,23 @@
         </form>
     </div>
 </template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = defineProps({
+    width: {
+        type: Number,
+        default: 300
+    }
+})
+
+const style = computed(() => {
+    return {
+        width: `${props.width}px`
+    }
+})
+</script>
 
 <style scoped lang="sass">
 .modal
@@ -26,4 +46,5 @@
         justify-content: center
         align-items: center
 
+        width: 100%
         padding: 10px</style>

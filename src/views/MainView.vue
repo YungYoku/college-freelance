@@ -33,7 +33,7 @@ const updateSearch = (tag: string) => {
 const offers = ref<Array<IJobOffer>>([])
 
 http
-    .get<JobOffers>('/collections/jobOffers/records')
+    .get<JobOffers>('/collections/job_offers/records')
     .then(res => {
         offers.value = res.items
     })

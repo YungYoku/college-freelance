@@ -1,6 +1,7 @@
 <template>
     <header>
         <router-link
+            v-if="auth.isLoggedIn"
             to="/"
         >
             Главная
