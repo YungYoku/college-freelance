@@ -8,6 +8,11 @@ export interface JobOffer {
     description: string
     price: number
     creator: string
+    status: number
+    rating: number
+    deadline: Date
+    university: string
+    discipline: string
 }
 
 export interface JobOffers {

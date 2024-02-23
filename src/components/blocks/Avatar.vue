@@ -150,7 +150,7 @@ const removeAvatar = () => loadImage('')
             transition: all 0.2s
 
         &:hover::before
-            background: #444444
+            background: rgba(68, 68, 68, 0.8)
 
             transition: all 0.2s
 

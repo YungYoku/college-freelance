@@ -1,31 +1,28 @@
 <template>
-    <DefaultLayout>
-        <div class="tab">
-            <Input
-                v-model.trim="jobForm.title"
-                placeholder="Введите название объявления"
-                type="text"
-            />
+    <div class="tab">
+        <Input
+            v-model.trim="jobForm.title"
+            placeholder="Введите название объявления"
+            type="text"
+        />
             
-            <Textarea
-                v-model.trim="jobForm.description"
-                label="Описание"
-            /> 
-            <Input
-                v-model.trim="jobForm.price"
-                placeholder="Предложите цену, ₽"
-                type="number"
-            />
+        <Textarea
+            v-model.trim="jobForm.description"
+            label="Описание"
+        /> 
+        <Input
+            v-model.trim="jobForm.price"
+            placeholder="Предложите цену, ₽"
+            type="number"
+        />
             
-            <Button @click="postOffer">
-                Создать объявление
-            </Button>
-        </div>
-    </DefaultLayout>
+        <Button @click="postOffer">
+            Создать объявление
+        </Button>
+    </div>
 </template>
 
 <script setup lang="ts">
-import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
 import Input from '@/components/elements/Input.vue'
 import Textarea from '@/components/elements/Textarea.vue'
 import Button from '@/components/elements/Button.vue'

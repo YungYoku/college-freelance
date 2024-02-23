@@ -28,19 +28,16 @@ defineProps({
 
 <style scoped lang="sass">
 .job-offer
-    width: 440px
-    max-width: 100%
-    height: 200px
-
     display: flex
     flex-direction: column
-    gap: 5px
 
+    max-width: 100%
+    height: 200px
     padding: 10px
 
     background: #1a1a1a
     border-radius: 5px
+    gap: 5px
 
     &__price
-        margin: auto 0 0 auto
-</style>
+        margin: auto 0 0 auto</style>

@@ -1,5 +1,5 @@
 <template>
-    <DefaultLayout>
+    <AuthLayout>
         <Modal>
             <Grid>
                 <Title>Регистрация</Title>
@@ -35,7 +35,7 @@
                 </Button>
             </Grid>
         </Modal>
-    </DefaultLayout>
+    </AuthLayout>
 </template>
 
 <script lang="ts" setup>
@@ -43,14 +43,13 @@ import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
 import http from '@/plugins/http/index'
-import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
 import Modal from '@/components/structures/Modal.vue'
 import Grid from '@/components/structures/Grid.vue'
 import Input from '@/components/elements/Input.vue'
 import Checkbox from '@/components/elements/Checkbox.vue'
 import Button from '@/components/elements/Button.vue'
 import Title from '@/components/elements/Title.vue'
-
+import AuthLayout from '@/components/layouts/AuthLayout.vue'
 
 const router = useRouter()
 
