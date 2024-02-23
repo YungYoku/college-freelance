@@ -1,3 +1,5 @@
+import { User } from '@/interfaces/User.ts'
+
 export interface JobOffer {
     id: string
     collectionId: string
@@ -13,6 +15,9 @@ export interface JobOffer {
     deadline: Date
     university: string
     discipline: string
+    expand?: {
+        creator?: User
+    }
 }
 
 export interface JobOffers {
