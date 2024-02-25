@@ -66,7 +66,7 @@ const auth = useAuthStore()
 
 const avatar = computed(() => {
     if (props.image) return props.image
-    if (auth.user.avatar) return `users/${auth.user.id}/${auth.user.avatar}`
+    if (auth.user.avatar) return `_pb_users_auth_/${auth.user.id}/${auth.user.avatar}`
     return ''
 })
 
