@@ -50,5 +50,4 @@ watch(() => auth.user.id, getUserOffers, { immediate:true })
 
   border: 1px solid grey
   border-radius: 10px
-  gap: 20px
-</style>
+  gap: 20px</style>
