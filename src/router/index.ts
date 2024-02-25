@@ -28,6 +28,14 @@ const routes: Array<RouteRecordRaw> = [
                 }
             },
             {
+                path: '/offer/:id',
+                name: 'Offer',
+                component: () => import('@/views/OfferView.vue'),
+                meta: {
+                    rules: ['auth']
+                }
+            },
+            {
                 path: '/new-offer',
                 name: 'NewOffer',
                 component: () => import('@/views/NewOffer.vue'),

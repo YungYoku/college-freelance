@@ -35,20 +35,6 @@
         </router-link>
 
         <router-link
-            v-if="!auth.isLoggedIn"
-            to="/login"
-        >
-            Вход
-        </router-link>
-
-        <router-link
-            v-if="!auth.isLoggedIn"
-            to="/registration"
-        >
-            Регистрация
-        </router-link>
-
-        <router-link
             v-if="auth.isLoggedIn"
             to="/profile"
         >
@@ -61,6 +47,20 @@
         >
             Выйти
         </Button>
+
+        <router-link
+            v-if="!auth.isLoggedIn"
+            to="/login"
+        >
+            Вход
+        </router-link>
+
+        <router-link
+            v-if="!auth.isLoggedIn"
+            to="/registration"
+        >
+            Регистрация
+        </router-link>
     </header>
 </template>
 

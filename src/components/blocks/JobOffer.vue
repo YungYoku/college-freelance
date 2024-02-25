@@ -1,8 +1,8 @@
 <template>
     <div class="job-offer">
-        <div>
+        <router-link :to="`/offer/${jobOffer.id}`">
             Заголовок: {{ jobOffer.title }}
-        </div>
+        </router-link>
 
         <div>
             Описание: {{ jobOffer.description }}
