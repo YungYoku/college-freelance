@@ -1,48 +1,41 @@
 <template>
-    <default-layout>
-        <p
-            v-if="isOfferExist"
-        >У вас пока нет объявлений.</p>
-        <p
-            v-else
-        >Ваши объявления:</p>
+    <Grid :columns="4">
         <JobOffer
             v-for="offer in offers"
             :key="offer.id"
             :job-offer="offer"
         />
-    </default-layout>
+    </Grid>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 // import { reactive } from 'vue'
 import http from '@/plugins/http'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
 import JobOffer from '@/components/blocks/JobOffer.vue'
-import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
+import Grid from '@/components/structures/Grid.vue'
 
 const auth = useAuthStore()
-let isOfferExist = false
-
 
 const offers = ref<Array<IJobOffer>>([])
 
 const getUserOffers = async () => {
+    if (auth.user.id === '') return
+    console.log(auth.user.id)
     await http
-        .get<JobOffers>('/collections/job_offers/records')
+        .get<JobOffers>(`/collections/job_offers/records?filter=(creator='${auth.user.id}')`)
         .then(response => {
-            const userOffers = response.items.filter(offer => offer.creator === auth.user.id)
-            if (userOffers.length === 0)
-                isOfferExist = true
-            offers.value = userOffers
+            offers.value = response.items
         })
         .catch(error => {
             console.log(error)
         })
 }
-getUserOffers()
+
+watch(() => auth.user.id, getUserOffers, { immediate:true })
+
 </script>
 
 

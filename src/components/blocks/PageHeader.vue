@@ -55,18 +55,19 @@
             Профиль
         </router-link>
 
-        <button
+        <Button
             v-if="auth.isLoggedIn"
             @click="logout"
         >
             Выйти
-        </button>
+        </Button>
     </header>
 </template>
 
 <script lang="ts" setup>
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import Button from '@/components/elements/Button.vue'
 
 const auth = useAuthStore()
 

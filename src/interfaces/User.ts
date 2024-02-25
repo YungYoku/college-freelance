@@ -14,6 +14,9 @@ export interface User {
     username: string
     verified: boolean
     permission: number
+    university: {
+        name: string
+    }
 }
 
 export interface UserLogin {

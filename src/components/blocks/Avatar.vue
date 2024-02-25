@@ -44,7 +44,11 @@ import http from '@/plugins/http'
 import Image from '@/components/elements/Image.vue'
 import Icon from '@/components/elements/Icon.vue'
 
-defineProps({
+const props = defineProps({
+    image: {
+        type: String,
+        default: ''
+    },
     size: {
         type: String,
         default: 'm',
@@ -61,7 +65,8 @@ defineProps({
 const auth = useAuthStore()
 
 const avatar = computed(() => {
-    if (auth.user.avatar) return `users/${auth.user.id}/${auth.user.avatar}`
+    if (props.image) return props.image
+    if (auth.user.avatar) return `_pb_users_auth_/${auth.user.id}/${auth.user.avatar}`
     return ''
 })
 
@@ -150,7 +155,7 @@ const removeAvatar = () => loadImage('')
             transition: all 0.2s
 
         &:hover::before
-            background: #444444
+            background: rgba(68, 68, 68, 0.8)
 
             transition: all 0.2s
 

@@ -8,8 +8,16 @@
             Описание: {{ jobOffer.description }}
         </div>
 
-        <div class="job-offer__price">
-            Цена: {{ jobOffer.price }} ₽
+        <div class="job-offer__footer">
+            <User
+                v-if="jobOffer?.expand?.creator"
+                class="job-offer__user"
+                :user="jobOffer.expand.creator"
+            />
+
+            <div class="job-offer__price">
+                Цена: {{ jobOffer.price }} ₽
+            </div>
         </div>
     </div>
 </template>
@@ -17,6 +25,7 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 import { JobOffer } from '@/interfaces/JobOffer'
+import User from '@/components/blocks/User.vue'
 
 defineProps({
     jobOffer: {
@@ -28,19 +37,20 @@ defineProps({
 
 <style scoped lang="sass">
 .job-offer
-    width: 440px
-    max-width: 100%
-    height: 200px
-
     display: flex
     flex-direction: column
-    gap: 5px
 
+    max-width: 100%
+    height: 200px
     padding: 10px
 
     background: #1a1a1a
     border-radius: 5px
+    gap: 5px
 
-    &__price
-        margin: auto 0 0 auto
-</style>
+    &__footer
+        display: flex
+        justify-content: space-between
+        align-items: center
+
+        margin: auto 0 0 0</style>
