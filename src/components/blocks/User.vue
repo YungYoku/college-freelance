@@ -34,11 +34,14 @@ withDefaults(defineProps<Props>(), {
         username: '',
         verified: false,
         permission: 0,
+        university: {
+            name: ''
+        }
     }),
 })
 </script>
 
-<style lang="sass"scoped>
+<style lang="sass" scoped>
 .user
     display: flex
     justify-content: flex-start

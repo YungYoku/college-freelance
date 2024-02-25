@@ -12,7 +12,7 @@ export interface State {
 export const useAuthStore = defineStore({
     id: 'auth',
 
-    state: (): State => ({
+    state: (): State => <State>({
         user: {
             avatar: '',
             collectionId: '',
@@ -28,7 +28,10 @@ export const useAuthStore = defineStore({
             updated: '',
             username: '',
             verified: false,
-            permission: 1
+            permission: 1,
+            university: {
+                name: ''
+            }
         },
 
         offer: {
@@ -40,7 +43,12 @@ export const useAuthStore = defineStore({
             title: '',
             description: '',
             price: 0,
-            creator: ''
+            creator: '',
+            status: 0,
+            rating: 0,
+            university: '',
+            deadline: new Date(),
+            discipline: ''
         },
 
         token: localStorage.token ? JSON.parse(localStorage.token) : '',
