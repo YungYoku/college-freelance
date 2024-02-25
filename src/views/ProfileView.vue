@@ -37,7 +37,7 @@ const description = ref('')
 
 watch(() => auth.user.description, () => {
     description.value = auth.user.description
-})
+}, { immediate: true })
 
 const save = async () => {
     await http.patch(`/collections/users/records/${auth.user.id}`, { description: description.value })
