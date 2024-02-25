@@ -1,9 +1,9 @@
 <template>
-    <div class="default-layout">
+    <div class="auth-layout">
         <page-header />
 
         <Page>
-            <router-view />
+            <slot></slot>
         </Page>
     </div>
 </template>
@@ -14,7 +14,7 @@ import Page from '@/components/structures/Page.vue'
 </script>
 
 <style scoped lang="sass">
-.default-layout
+.auth-layout
     display: flex
     flex-direction: column
     align-items: center

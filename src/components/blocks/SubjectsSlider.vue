@@ -1,24 +1,22 @@
 
 <template>
-    <Modal>
-        <swiper
-            :slides-per-view="4"
-            :space-between="30"
-            :navigation="true"
-            :pagination="{
-                clickable: true
-            }"
-            :modules="modules"
-            class="mySwiper"
+    <swiper
+        :slides-per-view="4"
+        :space-between="30"
+        :navigation="true"
+        :pagination="{
+            clickable: true
+        }"
+        :modules="modules"
+        class="mySwiper"
+    >
+        <swiper-slide
+            v-for="(item, index) in items"
+            :key="index"
         >
-            <swiper-slide
-                v-for="(item, index) in items"
-                :key="index"
-            >
-                {{ item }}
-            </swiper-slide>
-        </swiper>
-    </Modal>
+            {{ item }}
+        </swiper-slide>
+    </swiper>
 </template>
 
 <script setup lang="ts">
@@ -26,8 +24,6 @@ import { ref } from 'vue'
 
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination } from 'swiper/modules'
-
-import Modal from '@/components/structures/Modal.vue'
 
 const modules = [Pagination, Navigation]
 
@@ -44,25 +40,18 @@ const items = ref([
 
 <style scoped lang="sass">
 .swiper
-    width: 1000px
+    width: 100%
+    max-width: 1080px
     height: 75px
 
-    color: black
+    color: #ffffff
 
-    background-color: #4b525c
+    background-color: #1a1a1a
+    border-radius: 5px
 
-    .swiper-button-prev::after,
-    .swiper-button-next::after
-        content: ''
-    --swiper-theme-color: black
+    --swiper-theme-color: #ffffff
+    --swiper-pagination-bullet-inactive-color: #e5e5e5
     --swiper-navigation-size: 25px
-.swiper-button-prev, .swiper-button-next
-    right: var(--swiper-navigation-sides-offset, 0px)
-
-.swiper-pagination
-    bottom: var(--swiper-pagination-bottom, -5px)
-.swiper-pagination-bullet
-    background-color: #333
 
 .swiper-slide
     display: flex

@@ -1,28 +1,28 @@
 <template>
-    <DefaultLayout>
-        <JobSearch v-model="search" />
+    <JobSearch v-model="search" />
 
-        <SearchTags @select-tag="updateSearch" />
+    <SearchTags @select-tag="updateSearch" />
 
-        <SubjectsSlider />
+    <SubjectsSlider />
 
+    <Grid :columns="4">
         <JobOffer
             v-for="offer in offers"
             :key="offer.id"
             :job-offer="offer"
         />
-    </DefaultLayout>
+    </Grid>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 import http from '@/plugins/http'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
-import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
 import JobOffer from '@/components/blocks/JobOffer.vue'
 import JobSearch from '@/components/blocks/JobSearch.vue'
 import SearchTags from '@/components/blocks/SearchTags.vue'
 import SubjectsSlider from '@/components/blocks/SubjectsSlider.vue'
+import Grid from '@/components/structures/Grid.vue'
 
 const search = ref('')
 
@@ -33,7 +33,7 @@ const updateSearch = (tag: string) => {
 const offers = ref<Array<IJobOffer>>([])
 
 http
-    .get<JobOffers>('/collections/jobOffers/records')
+    .get<JobOffers>('/collections/job_offers/records?expand=creator')
     .then(res => {
         offers.value = res.items
     })

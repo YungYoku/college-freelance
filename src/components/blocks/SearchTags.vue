@@ -45,9 +45,10 @@ const selectTag = (item: string) => {
         display: flex
         align-items: center
 
-        min-height: 40px
+        min-height: 24px
         padding: 4px
 
+        font-size: 12px
         line-height: 1
 
         border: 1px solid var(--light-100)
