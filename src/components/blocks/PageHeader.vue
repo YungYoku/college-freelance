@@ -22,7 +22,7 @@
 
         <router-link
             v-if="auth.isLoggedIn"
-            to="/"
+            to="/user-offers"
         >
             Мои объявления
         </router-link>
