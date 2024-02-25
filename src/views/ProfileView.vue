@@ -24,25 +24,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 import http from '@/plugins/http'
-import { useRouter } from 'vue-router'
 import Avatar from '@/components/blocks/Avatar.vue'
 import Button from '@/components/elements/Button.vue'
 import Textarea from '@/components/elements/Textarea.vue'
 
 const auth = useAuthStore()
-const router = useRouter()
 const description = ref('')
 
+watch(() => auth.user.description, () => {
+    description.value = auth.user.description
+})
+
 const save = async () => {
-    await http
-        .patch(`/collections/users/records/${auth.user.id}`, { description: description.value })
-        .then(() => {
-            router.push('/')
-        })
+    await http.patch(`/collections/users/records/${auth.user.id}`, { description: description.value })
 }
 </script>
 
