@@ -45,8 +45,9 @@ const columns = computed(() => {
 })
 </script>
 
-<style scoped lang="sass">
-.job-search
-    width: 720px
-    min-width: 320px
-    max-width: 100%</style>
+<style scoped lang="scss">
+.job-search {
+    width: 720px;
+    min-width: 320px;
+    max-width: 100%;
+}</style>

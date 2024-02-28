@@ -31,19 +31,28 @@ const src = computed(() => {
 })
 </script>
 
-<style lang="sass" scoped>
-.icon
-    cursor: pointer
+<style lang="scss" scoped>
+.icon {
+    cursor: pointer;
 
-    &_xs
-        max-width: 10px
-        max-height: 10px
-    &_s
-        max-width: 20px
-        max-height: 20px
-    &_m
-        max-width: 30px
-        max-height: 30px
-    &_l
-        max-width: 40px
-        max-height: 40px</style>
+    &_xs {
+        max-width: 10px;
+        max-height: 10px;
+    }
+
+    &_s {
+        max-width: 20px;
+        max-height: 20px;
+    }
+
+    &_m {
+        max-width: 30px;
+        max-height: 30px;
+    }
+
+    &_l {
+        max-width: 40px;
+        max-height: 40px;
+    }
+}
+</style>

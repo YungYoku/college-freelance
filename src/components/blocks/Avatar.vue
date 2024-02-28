@@ -89,82 +89,100 @@ const onImageLoad = (event: Event) => {
 const removeAvatar = () => loadImage('')
 </script>
 
-<style lang="sass" scoped>
-.avatar
-    position: relative
+<style lang="scss" scoped>
+.avatar {
+    position: relative;
 
-    overflow: hidden
+    overflow: hidden;
 
-    background: #444444
-    border-radius: 50%
+    background: #444444;
+    border-radius: 50% ;
 
-    &__image
-        max-width: 100%
-        max-height: 100%
+    &__image {
+        max-width: 100%;
+        max-height: 100%;
+    }
 
     &__icon-remove,
-    &__icon-upload
-        position: absolute
-        top: calc(50% - 15px)
-        right: calc(50% - 15px)
-        z-index: 2
+    &__icon-upload {
+        position: absolute;
+        top: calc(50% - 15px);
+        right: calc(50% - 15px);
+        z-index: 2;
+    }
 
-    &__icon-remove
-        opacity: 0
-        transition: all 0.2s
+    &__icon-remove {
+        opacity: 0;
+        transition: all 0.2s;
+    }
 
-    &:hover
-        .avatar__icon-remove
-            opacity: 1
-            transition: all 0.2s
+    &:hover {
+        .avatar__icon-remove {
+            opacity: 1;
+            transition: all 0.2s;
+        }
+    }
 
-    &__xs
-        min-width: 15px
-        max-width: 15px
-        min-height: 15px
-        max-height: 15px
-    &__s
-        min-width: 30px
-        max-width: 30px
-        min-height: 30px
-        max-height: 30px
-    &__m
-        min-width: 50px
-        max-width: 50px
-        min-height: 50px
-        max-height: 50px
-    &__l
-        min-width: 150px
-        max-width: 150px
-        min-height: 150px
-        max-height: 150px
+    &__xs {
+        min-width: 15px;
+        max-width: 15px;
+        min-height: 15px;
+        max-height: 15px;
+    }
 
-    &__editable
-        &::before
-            content: ''
-            position: absolute
-            top: 0
-            left: 0
-            z-index: 1
+    &__s {
+        min-width: 30px;
+        max-width: 30px;
+        min-height: 30px;
+        max-height: 30px;
+    }
 
-            width: 100%
-            height: 100%
+    &__m {
+        min-width: 50px;
+        max-width: 50px;
+        min-height: 50px;
+        max-height: 50px;
+    }
 
-            background: transparent
+    &__l {
+        min-width: 150px;
+        max-width: 150px;
+        min-height: 150px;
+        max-height: 150px;
+    }
 
-            transition: all 0.2s
+    &__editable {
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
 
-        &:hover::before
-            background: rgba(68, 68, 68, 0.8)
+            width: 100%;
+            height: 100%;
 
-            transition: all 0.2s
+            background: transparent;
 
-    &__input
-        position: absolute
-        left: 0
+            transition: all 0.2s;
+        }
 
-        width: 100%
-        height: 100%
+        &:hover::before {
+            background: rgba(68, 68, 68, 0.8);
 
-        cursor: pointer
-        opacity: 0</style>
+            transition: all 0.2s;
+        }
+    }
+
+    &__input {
+        position: absolute;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        cursor: pointer;
+        opacity: 0;
+    }
+}
+</style>

@@ -39,15 +39,17 @@ watch(() => auth.user.id, getUserOffers, { immediate:true })
 </script>
 
 
-<style scoped lang="sass">
-.offer-wrapper
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
+<style scoped lang="scss">
+.offer-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-  padding: 20px
+    padding: 20px;
 
-  border: 1px solid grey
-  border-radius: 10px
-  gap: 20px</style>
+    border: 1px solid grey;
+    border-radius: 10px;
+    gap: 20px;
+}
+</style>

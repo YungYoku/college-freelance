@@ -33,23 +33,25 @@ const selectTag = (item: string) => {
 }
 </script>
 
-<style scoped lang="sass">
-.search-tags
-    display: flex
-    flex-wrap: wrap
-    justify-content: flex-start
-    align-items: center
-    gap: 5px
+<style scoped lang="scss">
+.search-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
 
-    &__child
-        display: flex
-        align-items: center
+    &__child {
+        display: flex;
+        align-items: center;
 
-        min-height: 24px
-        padding: 4px
+        min-height: 24px;
+        padding: 4px;
 
-        font-size: 12px
-        line-height: 1
+        font-size: 12px;
+        line-height: 1;
 
-        border: 1px solid var(--light-100)
-        border-radius: 10px</style>
+        border: 1px solid var(--light-100);
+        border-radius: 10px;
+    }
+}</style>

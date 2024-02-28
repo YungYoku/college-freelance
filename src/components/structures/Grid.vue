@@ -36,12 +36,15 @@ const style = computed(() => {
 
 </script>
 
-<style scoped lang="sass">
-.grid
-    display: grid
+<style scoped lang="scss">
+.grid {
+    display: grid;
 
-    width: 100%
-    gap: 10px
+    width: 100%;
+    gap: 10px;
 
-.vertical
-    grid-auto-flow: column</style>
+    &.vertical {
+        grid-auto-flow: column;
+    }
+}
+</style>

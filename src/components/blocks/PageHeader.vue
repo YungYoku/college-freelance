@@ -80,12 +80,13 @@ const logout = () => {
 }
 </script>
 
-<style scoped lang="sass">
-header
-  display: flex
-  justify-content: center
-  align-items: center
+<style scoped lang="scss">
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  width: 100%
-  min-height: 48px
-  gap: 10px</style>
+    width: 100%;
+    min-height: 48px;
+    gap: 10px;
+}</style>

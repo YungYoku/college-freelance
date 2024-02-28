@@ -35,22 +35,25 @@ defineProps({
 })
 </script>
 
-<style scoped lang="sass">
-.job-offer
-    display: flex
-    flex-direction: column
+<style scoped lang="scss">
+.job-offer {
+    display: flex;
+    flex-direction: column;
 
-    max-width: 100%
-    height: 200px
-    padding: 10px
+    max-width: 100%;
+    height: 200px;
+    padding: 10px;
 
-    background: #1a1a1a
-    border-radius: 5px
-    gap: 5px
+    background: #1a1a1a;
+    border-radius: 5px;
+    gap: 5px;
 
-    &__footer
-        display: flex
-        justify-content: space-between
-        align-items: center
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-        margin: auto 0 0 0</style>
+        margin: auto 0 0 0;
+    }
+}
+</style>

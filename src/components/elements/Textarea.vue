@@ -28,11 +28,13 @@ const updateValue = (event: Event) => {
 }
 </script>
 
-<style scoped lang="sass">
-.textarea
-    padding: 10px
+<style scoped lang="scss">
+.textarea {
+    padding: 10px;
 
-    border: none
-    border-radius: 5px
+    border: none;
+    border-radius: 5px;
 
-    resize: none</style>
+    resize: none;
+}
+</style>

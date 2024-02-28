@@ -20,10 +20,12 @@ const updateValue = (event: Event) => {
 }
 </script>
 
-<style scoped lang="sass">
-input
-    height: 36px
-    padding: 10px
+<style scoped lang="scss">
+input {
+    height: 36px;
+    padding: 10px;
 
-    border: none
-    border-radius: 5px</style>
+    border: none;
+    border-radius: 5px;
+}
+</style>

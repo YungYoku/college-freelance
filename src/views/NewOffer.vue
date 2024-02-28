@@ -52,25 +52,19 @@ const postOffer = async () => {
 }
 </script>
 
-<style scoped lang="sass">
+<style scoped lang="scss">
+.tab {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-.tab
-    display: flex
-    flex-direction: column
-    justify-content: center
-    align-items: center
+    padding: 20px;
 
-    padding: 20px
-
-    border: 1px solid grey
-    border-radius: 10px
-    gap: 20px
-
-select
-    padding: 2px 58px
-    
-    background: none
-    border: 1px solid grey
-    border-radius: 3px</style>
+    border: 1px solid grey;
+    border-radius: 10px;
+    gap: 20px;
+}
+</style>
 
 

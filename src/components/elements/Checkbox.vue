@@ -27,12 +27,14 @@ const updateValue = () => {
 }
 </script>
 
-<style scoped lang="sass">
-.checkbox
-    color: #333333
+<style scoped lang="scss">
+.checkbox {
+    color: #333333;
 
-    input
-        border: none
-        border-radius: 5px
+    input {
+        border: none;
+        border-radius: 5px;
+    }
+}
 </style>
   

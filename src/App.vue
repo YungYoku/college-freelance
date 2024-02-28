@@ -23,5 +23,4 @@ const loadUserInfo = async () => {
     }
 }
 loadUserInfo()
-
 </script>

@@ -13,9 +13,11 @@ import PageHeader from '@/components/blocks/PageHeader.vue'
 import Page from '@/components/structures/Page.vue'
 </script>
 
-<style scoped lang="sass">
-.auth-layout
-    display: flex
-    flex-direction: column
-    align-items: center
-    gap: 10px</style>
+<style scoped lang="scss">
+.auth-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+</style>

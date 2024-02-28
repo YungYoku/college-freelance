@@ -1,5 +1,5 @@
 <template>
-    <div class="profile main-info">
+    <div class="profile">
         <Avatar
             size="l"
             editable
@@ -16,6 +16,7 @@
     <Textarea
         v-model="description"
         label="Описание"
+        class="profile__description"
     />
 
     <Button @click="save">
@@ -44,20 +45,21 @@ const save = async () => {
 }
 </script>
 
-<style scoped lang="sass">
+<style scoped lang="scss">
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 50px;
 
-textarea
-    width: 50%
+    &__name-rate {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
 
-    resize: vertical
-
-.profile
-    display: flex
-    align-items: center
-    gap: 50px
-
-    &__name-rate
-        display: flex
-        flex-direction: column
-        align-items: flex-start
-        gap: 15px</style>
+    &__description {
+        width: 50%;
+    }
+}
+</style>

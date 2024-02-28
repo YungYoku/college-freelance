@@ -41,9 +41,11 @@ withDefaults(defineProps<Props>(), {
 })
 </script>
 
-<style lang="sass" scoped>
-.user
-    display: flex
-    justify-content: flex-start
-    align-items: center
-    gap: 10px</style>
+<style lang="scss" scoped>
+.user {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+</style>
