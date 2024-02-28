@@ -15,7 +15,7 @@
 
     <Textarea
         v-model="description"
-        label="Описание"
+        placeholder="Описание"
         class="profile__description"
     />
 
@@ -30,8 +30,8 @@ import { useAuthStore } from '@/stores/auth'
 
 import http from '@/plugins/http'
 import Avatar from '@/components/blocks/Avatar.vue'
-import Button from '@/components/elements/Button.vue'
-import Textarea from '@/components/elements/Textarea.vue'
+import { Button } from '@/components/ui/button/index.ts'
+import { Textarea } from '@/components/ui/textarea/index.ts'
 
 const auth = useAuthStore()
 const description = ref('')
@@ -60,6 +60,9 @@ const save = async () => {
 
     &__description {
         width: 50%;
+        height: 240px;
+
+        resize: none;
     }
 }
 </style>

@@ -1,29 +1,37 @@
 <template>
     <AuthLayout>
-        <Modal>
-            <Grid>
-                <Title>Вход</Title>
+        <Card>
+            <CardHeader>
+                <CardTitle>
+                    Вход
+                </CardTitle>
+            </CardHeader>
 
-                <Input
-                    v-model.trim="form.identity"
-                    placeholder="Имя пользователя"
-                    type="text"
-                />
+            <CardContent>
+                <div class="grid items-center w-full gap-4">
+                    <Input
+                        v-model.trim="form.identity"
+                        placeholder="Имя пользователя"
+                        type="text"
+                    />
 
-                <Input
-                    v-model.trim="form.password"
-                    placeholder="Пароль"
-                    type="password"
-                />
+                    <Input
+                        v-model.trim="form.password"
+                        placeholder="Пароль"
+                        type="password"
+                    />
+                </div>
+            </CardContent>
 
+            <CardFooter>
                 <Button
                     type="submit"
                     @click="login"
                 >
                     Отправить
                 </Button>
-            </Grid>
-        </Modal>
+            </CardFooter>
+        </Card>
     </AuthLayout>
 </template>
 
@@ -34,12 +42,11 @@ import { useRouter } from 'vue-router'
 import http from '@/plugins/http/index'
 import { useAuthStore } from '@/stores/auth.ts'
 import { UserLogin } from '@/interfaces/User.ts'
-import Modal from '@/components/structures/Modal.vue'
-import Grid from '@/components/structures/Grid.vue'
-import Input from '@/components/elements/Input.vue'
-import Button from '@/components/elements/Button.vue'
-import Title from '@/components/elements/Title.vue'
 import AuthLayout from '@/components/layouts/AuthLayout.vue'
+
+import { Input } from '@/components/ui/input/index.ts'
+import { Button } from '@/components/ui/button/index.ts'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card/index.ts'
 
 const auth = useAuthStore()
 

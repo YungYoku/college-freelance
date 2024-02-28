@@ -8,6 +8,7 @@
   "env": {
     "vue/setup-compiler-macros": true
   },
+  "ignorePatterns": ["**/ui/**/*.vue", "**/ui/**/*.ts", "**/lib/utils.ts"],
   "rules": {
     "strict": 0,
     "vue/no-v-html": [

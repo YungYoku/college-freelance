@@ -1,20 +1,23 @@
 <template>
     <div class="search-tags">
-        <div
+        <Badge
             v-for="(item, index) in items"
             :key="index"
             class="search-tags__child"
             @click="selectTag(item)"
         >
             {{ item }}
-        </div>
+        </Badge>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 
+import { Badge } from '@/components/ui/badge/index.ts'
+
 const emit = defineEmits(['select-tag'])
+
 const items = ref([
     'тригонометрия',
     'сочинение ОГЭ',

@@ -67,7 +67,7 @@
 <script lang="ts" setup>
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
-import Button from '@/components/elements/Button.vue'
+import { Button } from '@/components/ui/button/index.ts'
 
 const auth = useAuthStore()
 

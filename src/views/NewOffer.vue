@@ -1,34 +1,51 @@
 <template>
-    <div class="tab">
-        <Input
-            v-model.trim="jobForm.title"
-            placeholder="Введите название объявления"
-            type="text"
-        />
-            
-        <Textarea
-            v-model.trim="jobForm.description"
-            label="Описание"
-        /> 
-        <Input
-            v-model.trim="jobForm.price"
-            placeholder="Предложите цену, ₽"
-            type="number"
-        />
-            
-        <Button @click="postOffer">
-            Создать объявление
-        </Button>
-    </div>
+    <Card class="new-offer">
+        <CardHeader>
+            <CardTitle>
+                Создание объявления
+            </CardTitle>
+        </CardHeader>
+
+        <CardContent>
+            <div class="grid items-center w-full gap-4">
+                <Input
+                    v-model.trim="jobForm.title"
+                    placeholder="Введите название объявления"
+                    type="text"
+                />
+
+                <Textarea
+                    v-model.trim="jobForm.description"
+                    class="new-offer__description"
+                    placeholder="Описание"
+                />
+
+                <Input
+                    v-model.trim="jobForm.price"
+                    placeholder="Предложите цену, ₽"
+                />
+            </div>
+        </CardContent>
+
+        <CardFooter>
+            <Button @click="postOffer">
+                Создать объявление
+            </Button>
+        </CardFooter>
+    </Card>
 </template>
 
 <script setup lang="ts">
-import Input from '@/components/elements/Input.vue'
-import Textarea from '@/components/elements/Textarea.vue'
-import Button from '@/components/elements/Button.vue'
-import http from '@/plugins/http'
-import { useAuthStore } from '@/stores/auth'
 import { reactive } from 'vue'
+
+import { useAuthStore } from '@/stores/auth'
+
+import http from '@/plugins/http'
+
+import { Input } from '@/components/ui/input/index.ts'
+import { Textarea } from '@/components/ui/textarea/index.ts'
+import { Button } from '@/components/ui/button/index.ts'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card/index.ts'
 
 const auth = useAuthStore()
 
@@ -53,17 +70,14 @@ const postOffer = async () => {
 </script>
 
 <style scoped lang="scss">
-.tab {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.new-offer {
+    min-width: 320px;
 
-    padding: 20px;
+    &__description {
+        height: 200px;
 
-    border: 1px solid grey;
-    border-radius: 10px;
-    gap: 20px;
+        resize: none;
+    }
 }
 </style>
 

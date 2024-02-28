@@ -24,3 +24,11 @@ const loadUserInfo = async () => {
 }
 loadUserInfo()
 </script>
+
+<style lang="scss">
+#app {
+    min-height: 100vh;
+
+    background: var(--background);
+}
+</style>
