@@ -4,6 +4,8 @@
             v-for="offer in offers"
             :key="offer.id"
             :job-offer="offer"
+            show-responses
+            show-remove
         />
     </Grid>
 </template>
@@ -11,7 +13,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
-// import { reactive } from 'vue'
+
 import http from '@/plugins/http'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
 import JobOffer from '@/components/blocks/JobOffer.vue'
@@ -23,19 +25,15 @@ const offers = ref<Array<IJobOffer>>([])
 
 const getUserOffers = async () => {
     if (auth.user.id === '') return
-    console.log(auth.user.id)
+
     await http
         .get<JobOffers>(`/collections/job_offers/records?filter=(creator='${auth.user.id}')`)
         .then(response => {
             offers.value = response.items
         })
-        .catch(error => {
-            console.log(error)
-        })
 }
 
 watch(() => auth.user.id, getUserOffers, { immediate:true })
-
 </script>
 
 
