@@ -15,19 +15,24 @@
         <div class="offer__rating">
             {{ offer.rating }}
         </div>
+
+        <Button
+            v-if="leaveResponseButtonShow"
+            @click="leaveResponse"
+        >
+            Откликнуться
+        </Button>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
 import { JobOffer } from '@/interfaces/JobOffer.ts'
-
-const route = useRoute()
-
-const { id } = route.params
+import { Button } from '@/components/ui/button/index.ts'
 
 const offer = ref<JobOffer>({
     collectionId: '',
@@ -43,9 +48,13 @@ const offer = ref<JobOffer>({
     status: 0,
     title: '',
     university: '',
-    updated: ''
+    updated: '',
+    executor: '',
+    responses: []
 })
 
+const route = useRoute()
+const { id } = route.params
 const loadOffer = async () => {
     if (!id) return
 
@@ -56,4 +65,18 @@ const loadOffer = async () => {
         })
 }
 loadOffer()
+
+const authStore = useAuthStore()
+const leaveResponse = async () => {
+    await http
+        .patch<JobOffer>(`/collections/job_offers/records/${id}`, {
+            responses: [...offer.value.responses, authStore.user.id]
+        })
+}
+
+const leaveResponseButtonShow = computed(() => {
+    const isAlreadyResponded = !offer.value.responses.includes(authStore.user.id)
+    const isItMyOffer = offer.value.creator === authStore.user.id
+    return isAlreadyResponded && !isItMyOffer
+})
 </script>
