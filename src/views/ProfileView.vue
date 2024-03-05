@@ -1,27 +1,27 @@
 <template>
-    <div class="profile">
-        <Avatar
-            size="l"
-            editable
-        />
-        <div class="profile__name-rate">
-            <div>Имя: {{ auth.user.name }}</div>
+	<div class="profile">
+		<Avatar
+			size="l"
+			editable
+		/>
+		<div class="profile__name-rate">
+			<div>Имя: {{ auth.user.name }}</div>
 
-            <div>Фамилия: {{ auth.user.surname }}</div>
+			<div>Фамилия: {{ auth.user.surname }}</div>
                 
-            <div>Рейтинг:  {{ auth.user.rating }}</div>
-        </div>
-    </div>
+			<div>Рейтинг:  {{ auth.user.rating }}</div>
+		</div>
+	</div>
 
-    <Textarea
-        v-model="description"
-        placeholder="Описание"
-        class="profile__description"
-    />
+	<Textarea
+		v-model="description"
+		placeholder="Описание"
+		class="profile__description"
+	/>
 
-    <Button @click="save">
-        Сохранить
-    </Button>
+	<Button @click="save">
+		Сохранить
+	</Button>
 </template>
 
 <script setup lang="ts">
@@ -37,11 +37,11 @@ const auth = useAuthStore()
 const description = ref('')
 
 watch(() => auth.user.description, () => {
-    description.value = auth.user.description
+	description.value = auth.user.description
 }, { immediate: true })
 
 const save = async () => {
-    await http.patch(`/collections/users/records/${auth.user.id}`, { description: description.value })
+	await http.patch(`/collections/users/records/${auth.user.id}`, { description: description.value })
 }
 </script>
 

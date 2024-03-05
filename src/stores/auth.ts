@@ -10,69 +10,69 @@ export interface State {
 }
 
 export const useAuthStore = defineStore({
-    id: 'auth',
+	id: 'auth',
 
-    state: (): State => <State>({
-        user: {
-            avatar: '',
-            collectionId: '',
-            collectionName: '',
-            created: '',
-            email: '',
-            emailVisibility: false,
-            id: '',
-            name: '',
-            description: '',
-            surname: '',
-            rating: 0,
-            updated: '',
-            username: '',
-            verified: false,
-            permission: 1,
-            university: {
-                name: ''
-            }
-        },
+	state: (): State => <State>({
+		user: {
+			avatar: '',
+			collectionId: '',
+			collectionName: '',
+			created: '',
+			email: '',
+			emailVisibility: false,
+			id: '',
+			name: '',
+			description: '',
+			surname: '',
+			rating: 0,
+			updated: '',
+			username: '',
+			verified: false,
+			permission: 1,
+			university: {
+				name: ''
+			}
+		},
 
-        offer: {
-            id: '',
-            collectionId: '',
-            collectionName: '',
-            created: '',
-            updated: '',
-            title: '',
-            description: '',
-            price: 0,
-            creator: '',
-            status: 0,
-            rating: 0,
-            university: '',
-            deadline: new Date(),
-            discipline: ''
-        },
+		offer: {
+			id: '',
+			collectionId: '',
+			collectionName: '',
+			created: '',
+			updated: '',
+			title: '',
+			description: '',
+			price: 0,
+			creator: '',
+			status: 0,
+			rating: 0,
+			university: '',
+			deadline: new Date(),
+			discipline: ''
+		},
 
-        token: localStorage.token ? JSON.parse(localStorage.token) : '',
-    }),
+		token: localStorage.token ? JSON.parse(localStorage.token) : '',
+	}),
 
-    getters: {
-        isLoggedIn: state => state.token
-    },
+	getters: {
+		isLoggedIn: state => state.token
+	},
 
-    actions: {
-        setToken(token: string) {
-            this.token = token
-            LocalStorage.write('token', token)
-        },
+	actions: {
+		setToken(token: string) {
+			this.token = token
+			LocalStorage.write('token', token)
+		},
 
-        setUser(user: User) {
-            this.user = {
-                ...this.user,
-                ...user
-            }
-            LocalStorage.write('user', {
-                id: user.id,
-                name: user.name
-            })
-        }
-    },
+		setUser(user: User) {
+			this.user = {
+				...this.user,
+				...user
+			}
+			LocalStorage.write('user', {
+				id: user.id,
+				name: user.name
+			})
+		}
+	},
 })

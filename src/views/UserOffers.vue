@@ -1,13 +1,13 @@
 <template>
-    <Grid :columns="4">
-        <JobOffer
-            v-for="offer in offers"
-            :key="offer.id"
-            :job-offer="offer"
-            show-responses
-            show-remove
-        />
-    </Grid>
+	<Grid :columns="4">
+		<JobOffer
+			v-for="offer in offers"
+			:key="offer.id"
+			:job-offer="offer"
+			show-responses
+			show-remove
+		/>
+	</Grid>
 </template>
 
 <script setup lang="ts">
@@ -24,16 +24,16 @@ const auth = useAuthStore()
 const offers = ref<Array<IJobOffer>>([])
 
 const getUserOffers = async () => {
-    if (auth.user.id === '') return
+	if (auth.user.id === '') return
 
-    await http
-        .get<JobOffers>(`/collections/job_offers/records?filter=(creator='${auth.user.id}')`)
-        .then(response => {
-            offers.value = response.items
-        })
+	await http
+		.get<JobOffers>(`/collections/job_offers/records?filter=(creator='${auth.user.id}')`)
+		.then(response => {
+			offers.value = response.items
+		})
 }
 
-watch(() => auth.user.id, getUserOffers, { immediate:true })
+watch(() => auth.user.id, getUserOffers, { immediate: true })
 </script>
 
 

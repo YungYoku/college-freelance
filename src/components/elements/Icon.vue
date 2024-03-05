@@ -1,11 +1,11 @@
 <template>
-    <Image
-        class="icon"
-        :class="[`icon_${size}`]"
-        :src="src"
-        alt="icon"
-        local
-    />
+	<Image
+		class="icon"
+		:class="[`icon_${size}`]"
+		:src="src"
+		alt="icon"
+		local
+	/>
 </template>
 
 <script setup lang="ts">
@@ -13,21 +13,21 @@ import { computed } from 'vue'
 import Image from '@/components/elements/Image.vue'
 
 const props = defineProps({
-    name: {
-        type: String,
-        default: ''
-    },
-    size: {
-        type: String,
-        default: 's',
-        validator: (size: string) => {
-            return ['xs', 's', 'm', 'l'].includes(size)
-        }
-    }
+	name: {
+		type: String,
+		default: ''
+	},
+	size: {
+		type: String,
+		default: 's',
+		validator: (size: string) => {
+			return ['xs', 's', 'm', 'l'].includes(size)
+		}
+	}
 })
 
 const src = computed(() => {
-    return new URL(`../icons/${props.name}.svg`, import.meta.url).href
+	return new URL(`../icons/${props.name}.svg`, import.meta.url).href
 })
 </script>
 

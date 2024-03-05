@@ -1,22 +1,22 @@
 
 <template>
-    <swiper
-        :slides-per-view="4"
-        :space-between="30"
-        :navigation="true"
-        :pagination="{
-            clickable: true
-        }"
-        :modules="modules"
-        class="mySwiper"
-    >
-        <swiper-slide
-            v-for="(item, index) in items"
-            :key="index"
-        >
-            {{ item }}
-        </swiper-slide>
-    </swiper>
+	<swiper
+		:slides-per-view="4"
+		:space-between="30"
+		:navigation="true"
+		:pagination="{
+			clickable: true
+		}"
+		:modules="modules"
+		class="mySwiper"
+	>
+		<swiper-slide
+			v-for="(item, index) in items"
+			:key="index"
+		>
+			{{ item }}
+		</swiper-slide>
+	</swiper>
 </template>
 
 <script setup lang="ts">
@@ -28,13 +28,13 @@ import { Navigation, Pagination } from 'swiper/modules'
 const modules = [Pagination, Navigation]
 
 const items = ref([
-    'Университет','Русский язык',
-    'Литература','История',
-    'Обществознание','Математика',
-    'География','ОБЖ',
-    'Иностранные языки','Физика',
-    'Химия', 'Биология',
-    'Информатика',
+	'Университет', 'Русский язык',
+	'Литература', 'История',
+	'Обществознание', 'Математика',
+	'География', 'ОБЖ',
+	'Иностранные языки', 'Физика',
+	'Химия', 'Биология',
+	'Информатика',
 ])
 </script>
 

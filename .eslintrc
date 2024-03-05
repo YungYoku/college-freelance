@@ -1,63 +1,91 @@
 {
   "root": true,
+  "env": {
+    "node": true,
+    "browser": true,
+    "es6": true,
+    "vue/setup-compiler-macros": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
   "extends": [
     "plugin:vue/vue3-recommended",
     "eslint:recommended",
     "@vue/eslint-config-typescript/recommended"
   ],
-  "env": {
-    "vue/setup-compiler-macros": true
-  },
   "ignorePatterns": ["**/ui/**/*.vue", "**/ui/**/*.ts", "**/lib/utils.ts"],
   "rules": {
-    "strict": 0,
-    "vue/no-v-html": [
-      "off"
-    ],
-    "vue/no-template-shadow": [
-      "off"
-    ],
+    "vue/multi-word-component-names": "off",
+    "vue/no-reserved-component-names": "off",
+    "vue/no-v-html": "off",
     "vue/html-indent": [
-      "error",
-      4
+      "warn",
+      "tab"
     ],
+    "vue/html-closing-bracket-spacing": ["error", {
+      "startTag": "never",
+      "endTag": "never",
+      "selfClosingTag": "never"
+    }],
     "indent": [
-      "error",
-      4
+      "warn",
+      "tab"
     ],
-    "vue/padding-line-between-blocks": [
-      "error",
-      "always"
-    ],
-    "vue/component-definition-name-casing": [
-      "error",
-      "kebab-case"
-    ],
-    "vue/html-self-closing": [
-      "error",
-      {
-        "html": {
-          "normal": "never",
-          "void": "always"
-        }
-      }
-    ],
-    "vue/multi-word-component-names": ["off"],
     "semi": [
-      "error",
+      "warn",
       "never"
     ],
     "quotes": [
-      "error",
-      "single",
-      {
-        "allowTemplateLiterals": true
-      }
+      "warn",
+      "single"
+    ],
+    "no-multi-spaces": [
+      "warn"
     ],
     "object-curly-spacing": [
       "warn",
       "always"
     ],
-    "keyword-spacing": "warn"
+    "keyword-spacing": [
+      "warn",
+      {
+        "after": true,
+        "before": true
+      }
+    ],
+    "comma-spacing": [
+      "warn",
+      {
+        "after": true,
+        "before": false
+      }
+    ],
+    "key-spacing": [
+      "warn",
+      {
+        "beforeColon": false,
+        "afterColon": true
+      }
+    ],
+    "no-console": [
+      "warn",
+      {
+        "allow": ["warn", "error"]
+      }
+    ],
+    "arrow-spacing": [
+      "warn",
+      {
+        "before": true,
+        "after": true
+      }
+    ],
+    "space-infix-ops": [
+      "warn",
+      {
+        "int32Hint": false
+      }
+    ]
   }
 }

@@ -2,49 +2,49 @@ import axios from 'axios'
 import { useAuthStore } from '@/stores/auth'
 
 class Http {
-    api = import.meta.env.VITE_API
+	api = import.meta.env.VITE_API
 
-    constructor() {
-    }
+	constructor() {
+	}
 
-    async get<T>(url: string): Promise<T> {
-        const auth = useAuthStore()
+	async get<T>(url: string): Promise<T> {
+		const auth = useAuthStore()
 
-        return axios.get<T>(this.api + url, {
-            headers: {
-                Authorization: auth.token
-            }
-        })
-            .then((res) => {
-                return res.data
-            })
-    }
+		return axios.get<T>(this.api + url, {
+			headers: {
+				Authorization: auth.token
+			}
+		})
+			.then((res) => {
+				return res.data
+			})
+	}
 
-    async post<T>(url: string, body: object = {}): Promise<T> {
-        const auth = useAuthStore()
+	async post<T>(url: string, body: object = {}): Promise<T> {
+		const auth = useAuthStore()
 
-        return axios.post<T>(this.api + url, body, {
-            headers: {
-                Authorization: auth.token
-            }
-        })
-            .then((res) => {
-                return res.data
-            })
-    }
+		return axios.post<T>(this.api + url, body, {
+			headers: {
+				Authorization: auth.token
+			}
+		})
+			.then((res) => {
+				return res.data
+			})
+	}
 
-    async patch<T>(url: string, body: object = {}): Promise<T> {
-        const auth = useAuthStore()
+	async patch<T>(url: string, body: object = {}): Promise<T> {
+		const auth = useAuthStore()
 
-        return axios.patch<T>(this.api + url, body, {
-            headers: {
-                Authorization: auth.token
-            }
-        })
-            .then((res) => {
-                return res.data
-            })
-    }
+		return axios.patch<T>(this.api + url, body, {
+			headers: {
+				Authorization: auth.token
+			}
+		})
+			.then((res) => {
+				return res.data
+			})
+	}
 }
 
 export default new Http()

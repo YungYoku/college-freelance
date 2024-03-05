@@ -1,38 +1,38 @@
 <template>
-    <AuthLayout>
-        <Card>
-            <CardHeader>
-                <CardTitle>
-                    Вход
-                </CardTitle>
-            </CardHeader>
+	<AuthLayout>
+		<Card>
+			<CardHeader>
+				<CardTitle>
+					Вход
+				</CardTitle>
+			</CardHeader>
 
-            <CardContent>
-                <div class="grid items-center w-full gap-4">
-                    <Input
-                        v-model.trim="form.identity"
-                        placeholder="Имя пользователя"
-                        type="text"
-                    />
+			<CardContent>
+				<div class="grid items-center w-full gap-4">
+					<Input
+						v-model.trim="form.identity"
+						placeholder="Имя пользователя"
+						type="text"
+					/>
 
-                    <Input
-                        v-model.trim="form.password"
-                        placeholder="Пароль"
-                        type="password"
-                    />
-                </div>
-            </CardContent>
+					<Input
+						v-model.trim="form.password"
+						placeholder="Пароль"
+						type="password"
+					/>
+				</div>
+			</CardContent>
 
-            <CardFooter>
-                <Button
-                    type="submit"
-                    @click="login"
-                >
-                    Отправить
-                </Button>
-            </CardFooter>
-        </Card>
-    </AuthLayout>
+			<CardFooter>
+				<Button
+					type="submit"
+					@click="login"
+				>
+					Отправить
+				</Button>
+			</CardFooter>
+		</Card>
+	</AuthLayout>
 </template>
 
 <script lang="ts" setup>
@@ -53,19 +53,19 @@ const auth = useAuthStore()
 const router = useRouter()
 
 const form = reactive({
-    identity: '',
-    password: ''
+	identity: '',
+	password: ''
 })
 
 const login = () => {
-    if (form.password.length >= 8 && form.identity.length) {
-        http
-            .post<UserLogin>('/collections/users/auth-with-password', form)
-            .then((res) => {
-                auth.setToken(res.token)
-                auth.setUser(res.record)
-                router.push('/')
-            })
-    }
+	if (form.password.length >= 8 && form.identity.length) {
+		http
+			.post<UserLogin>('/collections/users/auth-with-password', form)
+			.then((res) => {
+				auth.setToken(res.token)
+				auth.setUser(res.record)
+				router.push('/')
+			})
+	}
 }
 </script>

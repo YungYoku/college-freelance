@@ -1,38 +1,38 @@
 <template>
-    <div
-        class="avatar"
-        :class="[`avatar__${size}`, {
-            'avatar__editable': editable && avatar
-        }]"
-    >
-        <Image
-            v-if="avatar"
-            class="avatar__image"
-            :src="avatar"
-        />
-        <input
-            v-else-if="editable"
-            id="avatar"
-            class="avatar__input"
-            type="file"
-            accept="image/png, image/gif, image/jpeg, image/jpg, image/svg, image/webp, image/avif"
-            @input="onImageLoad"
-        />
+	<div
+		class="avatar"
+		:class="[`avatar__${size}`, {
+			'avatar__editable': editable && avatar
+		}]"
+	>
+		<Image
+			v-if="avatar"
+			class="avatar__image"
+			:src="avatar"
+		/>
+		<input
+			v-else-if="editable"
+			id="avatar"
+			class="avatar__input"
+			type="file"
+			accept="image/png, image/gif, image/jpeg, image/jpg, image/svg, image/webp, image/avif"
+			@input="onImageLoad"
+		>
 
-        <Icon
-            v-if="avatar && editable"
-            class="avatar__icon-remove"
-            name="trash"
-            size="m"
-            @click="removeAvatar"
-        />
-        <Icon
-            v-if="!avatar && editable"
-            class="avatar__icon-upload"
-            name="upload"
-            size="m"
-        />
-    </div>
+		<Icon
+			v-if="avatar && editable"
+			class="avatar__icon-remove"
+			name="trash"
+			size="m"
+			@click="removeAvatar"
+		/>
+		<Icon
+			v-if="!avatar && editable"
+			class="avatar__icon-upload"
+			name="upload"
+			size="m"
+		/>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -45,45 +45,45 @@ import Image from '@/components/elements/Image.vue'
 import Icon from '@/components/elements/Icon.vue'
 
 const props = defineProps({
-    image: {
-        type: String,
-        default: ''
-    },
-    size: {
-        type: String,
-        default: 'm',
-        validator: (size: string) => {
-            return ['xs', 's', 'm', 'l'].includes(size)
-        }
-    },
-    editable: {
-        type: Boolean,
-        default: false
-    }
+	image: {
+		type: String,
+		default: ''
+	},
+	size: {
+		type: String,
+		default: 'm',
+		validator: (size: string) => {
+			return ['xs', 's', 'm', 'l'].includes(size)
+		}
+	},
+	editable: {
+		type: Boolean,
+		default: false
+	}
 })
 
 const auth = useAuthStore()
 
 const avatar = computed(() => {
-    if (props.image) return props.image
-    if (auth.user.avatar) return `_pb_users_auth_/${auth.user.id}/${auth.user.avatar}`
-    return ''
+	if (props.image) return props.image
+	if (auth.user.avatar) return `_pb_users_auth_/${auth.user.id}/${auth.user.avatar}`
+	return ''
 })
 
 const loadImage = async (avatar: File | string) => {
-    const formData = new FormData()
+	const formData = new FormData()
 
-    formData.append('avatar', avatar)
+	formData.append('avatar', avatar)
 
-    const user = await http.patch<User>(`/collections/users/records/${auth.user.id}`, formData)
-    auth.setUser(user)
+	const user = await http.patch<User>(`/collections/users/records/${auth.user.id}`, formData)
+	auth.setUser(user)
 }
 
 const onImageLoad = (event: Event) => {
-    const target = event.target as HTMLInputElement
-    const file = target?.files?.[0]
+	const target = event.target as HTMLInputElement
+	const file = target?.files?.[0]
 
-    if (file) loadImage(file)
+	if (file) loadImage(file)
 }
 
 const removeAvatar = () => loadImage('')

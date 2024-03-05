@@ -1,31 +1,31 @@
 <template>
-    <div
-        class="modal"
-        :style="style"
-    >
-        <form
-            class="modal__form"
-            @submit.prevent
-        >
-            <slot></slot>
-        </form>
-    </div>
+	<div
+		class="modal"
+		:style="style"
+	>
+		<form
+			class="modal__form"
+			@submit.prevent
+		>
+			<slot/>
+		</form>
+	</div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 
 const props = defineProps({
-    width: {
-        type: Number,
-        default: 300
-    }
+	width: {
+		type: Number,
+		default: 300
+	}
 })
 
 const style = computed(() => {
-    return {
-        width: `${props.width}px`
-    }
+	return {
+		width: `${props.width}px`
+	}
 })
 </script>
 

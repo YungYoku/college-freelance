@@ -1,38 +1,38 @@
 <template>
-    <Card class="new-offer">
-        <CardHeader>
-            <CardTitle>
-                Создание объявления
-            </CardTitle>
-        </CardHeader>
+	<Card class="new-offer">
+		<CardHeader>
+			<CardTitle>
+				Создание объявления
+			</CardTitle>
+		</CardHeader>
 
-        <CardContent>
-            <div class="grid items-center w-full gap-4">
-                <Input
-                    v-model.trim="jobForm.title"
-                    placeholder="Введите название объявления"
-                    type="text"
-                />
+		<CardContent>
+			<div class="grid items-center w-full gap-4">
+				<Input
+					v-model.trim="jobForm.title"
+					placeholder="Введите название объявления"
+					type="text"
+				/>
 
-                <Textarea
-                    v-model.trim="jobForm.description"
-                    class="new-offer__description"
-                    placeholder="Описание"
-                />
+				<Textarea
+					v-model.trim="jobForm.description"
+					class="new-offer__description"
+					placeholder="Описание"
+				/>
 
-                <Input
-                    v-model.trim="jobForm.price"
-                    placeholder="Предложите цену, ₽"
-                />
-            </div>
-        </CardContent>
+				<Input
+					v-model.trim="jobForm.price"
+					placeholder="Предложите цену, ₽"
+				/>
+			</div>
+		</CardContent>
 
-        <CardFooter>
-            <Button @click="postOffer">
-                Создать объявление
-            </Button>
-        </CardFooter>
-    </Card>
+		<CardFooter>
+			<Button @click="postOffer">
+				Создать объявление
+			</Button>
+		</CardFooter>
+	</Card>
 </template>
 
 <script setup lang="ts">
@@ -50,22 +50,20 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 const auth = useAuthStore()
 
 const jobForm = reactive({
-    title: '',
-    description: '',
-    price: '',
+	title: '',
+	description: '',
+	price: '',
 })
 
 const postOffer = async () => {
-    console.log(auth.user.id)
-    
-    await http
-        .post('/collections/job_offers/records/', {
-            ...jobForm,
-            creator: auth.user.id
-        })
-        .catch(error => {
-            console.error(error)
-        })
+	await http
+		.post('/collections/job_offers/records/', {
+			...jobForm,
+			creator: auth.user.id
+		})
+		.catch(error => {
+			console.error(error)
+		})
 }
 </script>
 

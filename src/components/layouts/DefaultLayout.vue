@@ -1,11 +1,11 @@
 <template>
-    <div class="default-layout">
-        <page-header />
+	<div class="default-layout">
+		<page-header/>
 
-        <Page>
-            <router-view />
-        </Page>
-    </div>
+		<Page>
+			<router-view/>
+		</Page>
+	</div>
 </template>
 
 <script lang="ts" setup>

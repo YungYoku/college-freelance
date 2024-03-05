@@ -1,11 +1,11 @@
 <template>
-    <div class="auth-layout">
-        <page-header />
+	<div class="auth-layout">
+		<page-header/>
 
-        <Page>
-            <slot></slot>
-        </Page>
-    </div>
+		<Page>
+			<slot/>
+		</Page>
+	</div>
 </template>
 
 <script lang="ts" setup>

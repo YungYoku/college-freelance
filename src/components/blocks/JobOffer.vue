@@ -1,51 +1,51 @@
 <template>
-    <div class="job-offer">
-        <div class="job-offer__actions">
-            <div
-                v-if="jobOffer.responses && showResponses"
-                class="job-offer__responses"
-            >
-                <Icon
-                    name="comment-dots"
-                    size="s"
-                />
-                {{ jobOffer.responses.length }}
-            </div>
+	<div class="job-offer">
+		<div class="job-offer__actions">
+			<div
+				v-if="jobOffer.responses && showResponses"
+				class="job-offer__responses"
+			>
+				<Icon
+					name="comment-dots"
+					size="s"
+				/>
+				{{ jobOffer.responses.length }}
+			</div>
 
-            <div
-                v-if="showRemove"
-                class="job-offer__remove"
-            >
-                <Icon
-                    name="trash"
-                    size="s"
-                />
-            </div>
-        </div>
+			<div
+				v-if="showRemove"
+				class="job-offer__remove"
+			>
+				<Icon
+					name="trash"
+					size="s"
+				/>
+			</div>
+		</div>
 
-        <router-link
-            :to="`/offer/${jobOffer.id}`"
-            class="job-offer__title"
-        >
-            Заголовок: {{ jobOffer.title }}
-        </router-link>
+		<router-link
+			:to="`/offer/${jobOffer.id}`"
+			class="job-offer__title"
+		>
+			Заголовок: {{ jobOffer.title }}
+		</router-link>
 
-        <div class="job-offer__description">
-            Описание: {{ jobOffer.description }}
-        </div>
+		<div class="job-offer__description">
+			Описание: {{ jobOffer.description }}
+		</div>
 
-        <div class="job-offer__footer">
-            <User
-                v-if="jobOffer?.expand?.creator"
-                class="job-offer__user"
-                :user="jobOffer.expand.creator"
-            />
+		<div class="job-offer__footer">
+			<User
+				v-if="jobOffer?.expand?.creator"
+				class="job-offer__user"
+				:user="jobOffer.expand.creator"
+			/>
 
-            <div class="job-offer__price">
-                Цена: {{ jobOffer.price }} ₽
-            </div>
-        </div>
-    </div>
+			<div class="job-offer__price">
+				Цена: {{ jobOffer.price }} ₽
+			</div>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -55,18 +55,18 @@ import User from '@/components/blocks/User.vue'
 import Icon from '@/components/elements/Icon.vue'
 
 defineProps({
-    jobOffer: {
-        type: Object as PropType<JobOffer>,
-        required: true
-    },
-    showResponses: {
-        type: Boolean,
-        default: false
-    },
-    showRemove: {
-        type: Boolean,
-        default: false
-    }
+	jobOffer: {
+		type: Object as PropType<JobOffer>,
+		required: true
+	},
+	showResponses: {
+		type: Boolean,
+		default: false
+	},
+	showRemove: {
+		type: Boolean,
+		default: false
+	}
 })
 </script>
 
