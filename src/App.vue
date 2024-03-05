@@ -1,5 +1,5 @@
 <template>
-    <router-view />
+	<router-view/>
 </template>
 
 <script lang="ts" setup>
@@ -11,17 +11,24 @@ import { User } from '@/interfaces/User'
 const auth = useAuthStore()
 
 const loadUserInfo = async () => {
-    if (auth.isLoggedIn) {
-        const userId = LocalStorage.load('user')?.id ?? ''
-        if (!userId) return
+	if (auth.isLoggedIn) {
+		const userId = LocalStorage.load('user')?.id ?? ''
+		if (!userId) return
 
-        http
-            .get<User>('/collections/users/records/' + userId)
-            .then((data) => {
-                auth.setUser(data)
-            })
-    }
+		http
+			.get<User>('/collections/users/records/' + userId)
+			.then((data) => {
+				auth.setUser(data)
+			})
+	}
 }
 loadUserInfo()
-
 </script>
+
+<style lang="scss">
+#app {
+    min-height: 100vh;
+
+    background: var(--background);
+}
+</style>

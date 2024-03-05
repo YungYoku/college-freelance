@@ -1,91 +1,95 @@
 <template>
-    <header>
-        <router-link
-            v-if="auth.isLoggedIn"
-            to="/"
-        >
-            Главная
-        </router-link>
-        <router-link
-            v-if="auth.isLoggedIn"
-            to="/offers"
-        >
-            Объявления
-        </router-link>
+	<header>
+		<router-link
+			v-for="link in filteredMenu"
+			:key="link.text"
+			:to="link.to"
+		>
+			{{ link.text }}
+		</router-link>
 
-        <router-link
-            v-if="auth.isLoggedIn"
-            to="/"
-        >
-            Чат
-        </router-link>
+		<Button
+			v-if="auth.isLoggedIn"
+			@click="logout"
+		>
+			Выйти
+		</Button>
 
-        <router-link
-            v-if="auth.isLoggedIn"
-            to="/user-offers"
-        >
-            Мои объявления
-        </router-link>
+		<router-link
+			v-if="!auth.isLoggedIn"
+			to="/login"
+		>
+			Вход
+		</router-link>
 
-        <router-link
-            v-if="auth.isLoggedIn"
-            to="/new-offer"
-        >
-            Создать объявление
-        </router-link>
-
-        <router-link
-            v-if="!auth.isLoggedIn"
-            to="/login"
-        >
-            Вход
-        </router-link>
-
-        <router-link
-            v-if="!auth.isLoggedIn"
-            to="/registration"
-        >
-            Регистрация
-        </router-link>
-
-        <router-link
-            v-if="auth.isLoggedIn"
-            to="/profile"
-        >
-            Профиль
-        </router-link>
-
-        <Button
-            v-if="auth.isLoggedIn"
-            @click="logout"
-        >
-            Выйти
-        </Button>
-    </header>
+		<router-link
+			v-if="!auth.isLoggedIn"
+			to="/registration"
+		>
+			Регистрация
+		</router-link>
+	</header>
 </template>
 
 <script lang="ts" setup>
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
-import Button from '@/components/elements/Button.vue'
+import { Button } from '@/components/ui/button/index.ts'
+import { computed } from 'vue'
 
 const auth = useAuthStore()
 
 const router = useRouter()
 
+const menu = [
+	{
+		text: 'Главная',
+		to: '/',
+		can: auth.isLoggedIn
+	},
+	{
+		text: 'Объявления',
+		to: '/offers',
+		can: auth.isLoggedIn
+	},
+	{
+		text: 'Чат',
+		to: '/',
+		can: auth.isLoggedIn
+	},
+	{
+		text: 'Мои объявления',
+		to: '/user-offers',
+		can: auth.isLoggedIn
+	},
+	{
+		text: 'Создать объявление',
+		to: '/new-offer',
+		can: auth.isLoggedIn
+	},
+	{
+		text: 'Профиль',
+		to: '/profile',
+		can: auth.isLoggedIn
+	},
+]
+
+const filteredMenu = computed(() => menu.filter(item => item.can))
+
 const logout = () => {
-    localStorage.clear()
-    auth.$reset()
-    router.push('/login')
+	localStorage.clear()
+	auth.$reset()
+	router.push('/login')
 }
 </script>
 
-<style scoped lang="sass">
-header
-  display: flex
-  justify-content: center
-  align-items: center
+<style scoped lang="scss">
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  width: 100%
-  min-height: 48px
-  gap: 10px</style>
+    width: 100%;
+    min-height: 48px;
+    gap: 10px;
+}</style>

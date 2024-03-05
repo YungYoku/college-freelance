@@ -1,11 +1,11 @@
 <template>
-    <div class="user">
-        <Avatar
-            size="s"
-            :image="`users/${user.id}/${user.avatar}`"
-        />
-        {{ user.name }}
-    </div>
+	<div class="user">
+		<Avatar
+			size="s"
+			:image="`users/${user.id}/${user.avatar}`"
+		/>
+		{{ user.name }}
+	</div>
 </template>
 
 
@@ -18,32 +18,34 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-    user: () => ({
-        avatar: '',
-        collectionId: '',
-        collectionName: '',
-        created: '',
-        email: '',
-        emailVisibility: false,
-        id: '',
-        name: '',
-        description: '',
-        surname: '',
-        rating: 0,
-        updated: '',
-        username: '',
-        verified: false,
-        permission: 0,
-        university: {
-            name: ''
-        }
-    }),
+	user: () => ({
+		avatar: '',
+		collectionId: '',
+		collectionName: '',
+		created: '',
+		email: '',
+		emailVisibility: false,
+		id: '',
+		name: '',
+		description: '',
+		surname: '',
+		rating: 0,
+		updated: '',
+		username: '',
+		verified: false,
+		permission: 0,
+		university: {
+			name: ''
+		}
+	}),
 })
 </script>
 
-<style lang="sass" scoped>
-.user
-    display: flex
-    justify-content: flex-start
-    align-items: center
-    gap: 10px</style>
+<style lang="scss" scoped>
+.user {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+</style>

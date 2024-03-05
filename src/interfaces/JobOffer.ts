@@ -15,6 +15,8 @@ export interface JobOffer {
     deadline: Date
     university: string
     discipline: string
+    executor: string
+    responses: Array<string>
     expand?: {
         creator?: User
     }

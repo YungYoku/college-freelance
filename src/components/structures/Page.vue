@@ -1,17 +1,19 @@
 <template>
-    <div class="page">
-        <slot></slot>
-    </div>
+	<div class="page">
+		<slot/>
+	</div>
 </template>
 
-<style scoped lang="sass">
-.page
-    display: flex
-    flex-direction: column
-    align-items: center
+<style scoped lang="scss">
+.page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    width: 100%
-    max-width: 1920px
-    margin: 0 auto
-    padding: 0 10px
-    gap: 10px</style>
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0 10px;
+    gap: 10px;
+}
+</style>
