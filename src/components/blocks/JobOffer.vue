@@ -4,8 +4,10 @@
 			<div
 				v-if="jobOffer.responses && showResponses"
 				class="job-offer__responses"
+				@click="openResponse"
 			>
 				<Icon
+					color="white"
 					name="comment-dots"
 					size="s"
 				/>
@@ -15,8 +17,10 @@
 			<div
 				v-if="showRemove"
 				class="job-offer__remove"
+				@click="remove"
 			>
 				<Icon
+					color="white"
 					name="trash"
 					size="s"
 				/>
@@ -54,7 +58,7 @@ import { JobOffer } from '@/interfaces/JobOffer'
 import User from '@/components/blocks/User.vue'
 import Icon from '@/components/elements/Icon.vue'
 
-defineProps({
+const props = defineProps({
 	jobOffer: {
 		type: Object as PropType<JobOffer>,
 		required: true
@@ -68,6 +72,12 @@ defineProps({
 		default: false
 	}
 })
+
+const emit = defineEmits(['show-responses', 'remove'])
+
+const openResponse = () => emit('show-responses', props.jobOffer)
+
+const remove = () => emit('remove')
 </script>
 
 <style scoped lang="scss">
@@ -101,13 +111,6 @@ defineProps({
             gap: 5px;
 
             cursor: pointer;
-        }
-
-        .job-offer__responses,
-        .job-offer__remove {
-            .icon {
-                filter: invert(1);
-            }
         }
     }
 

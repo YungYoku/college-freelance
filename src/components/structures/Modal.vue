@@ -1,12 +1,19 @@
 <template>
 	<div
 		class="modal"
-		:style="style"
+		@click.self="close"
 	>
 		<form
 			class="modal__form"
+			:style="style"
 			@submit.prevent
 		>
+			<Icon
+				class="modal__close"
+				color="white"
+				name="close"
+				@click="close"
+			/>
 			<slot/>
 		</form>
 	</div>
@@ -14,6 +21,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import Icon from '@/components/elements/Icon.vue'
 
 const props = defineProps({
 	width: {
@@ -27,27 +35,48 @@ const style = computed(() => {
 		width: `${props.width}px`
 	}
 })
+
+const emit = defineEmits(['close'])
+
+const close = () => emit('close')
 </script>
 
 <style scoped lang="scss">
 .modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
+	width: 100%;
+	height: 100vh;
     padding: 10px;
 
-    background-color: #4b525c;
+	background-color: rgba(26, 26, 26, 0.7);
     border-radius: 5px;
 
     &__form {
+		position: relative;
+
         display: flex;
         justify-content: center;
         align-items: center;
 
         width: 100%;
-        padding: 10px;
+		min-height: 70px;
+        padding: 40px 10px 10px 10px;
+
+		background-color: #1a1a1a;
     }
+
+	&__close {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+	}
 }
 </style>

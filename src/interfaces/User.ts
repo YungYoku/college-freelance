@@ -19,6 +19,14 @@ export interface User {
     }
 }
 
+export interface Users {
+    'page': number,
+    'perPage': number,
+    'totalPages': number,
+    'totalItems': number,
+    items: Array<User>
+}
+
 export interface UserLogin {
     record: User
     token: string

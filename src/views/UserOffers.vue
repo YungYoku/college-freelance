@@ -6,8 +6,38 @@
 			:job-offer="offer"
 			show-responses
 			show-remove
+			@show-responses="openResponses"
+			@remove="remove"
 		/>
 	</Grid>
+
+	<Modal
+		v-if="openedOffer"
+		@close="closeResponses"
+	>
+		<Grid :columns="1">
+			<div
+				v-for="(user) in responses"
+				:key="user.id"
+				class="flex w-full items-center gap-2"
+			>
+				<Avatar
+					size="m"
+					:image="`users/${user.id}/${user.avatar}`"
+				/>
+
+				{{ user.name }}
+
+				<Icon
+					v-if="!openedOffer.executor"
+					class="ml-auto"
+					name="check"
+					color="white"
+					@click="pickExecutor(user)"
+				/>
+			</div>
+		</Grid>
+	</Modal>
 </template>
 
 <script setup lang="ts">
@@ -15,9 +45,13 @@ import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 import http from '@/plugins/http'
+import { Users, User } from '@/interfaces/User.ts'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
 import JobOffer from '@/components/blocks/JobOffer.vue'
 import Grid from '@/components/structures/Grid.vue'
+import Modal from '@/components/structures/Modal.vue'
+import Avatar from '@/components/blocks/Avatar.vue'
+import Icon from '@/components/elements/Icon.vue'
 
 const auth = useAuthStore()
 
@@ -34,6 +68,40 @@ const getUserOffers = async () => {
 }
 
 watch(() => auth.user.id, getUserOffers, { immediate: true })
+
+const openedOffer = ref<IJobOffer | null>(null)
+const responses = ref<Array<User>>([])
+
+const openResponses = async (offer: IJobOffer) => {
+	if (offer.responses.length === 0) return
+
+	openedOffer.value = offer
+
+	let ids = offer.responses.reduce((result, id) => result + `id='${id}' || `, '')
+	ids = ids.slice(0, ids.length - 3)
+	await http
+		.get<Users>(`/collections/users/records?filter=(${ids})`)
+		.then(response => {
+			responses.value = response.items
+		})
+}
+
+const closeResponses = () => {
+	openedOffer.value = null
+	responses.value = []
+}
+
+const pickExecutor = async (user: User) => {
+	if (!openedOffer.value) return
+
+	await http
+		.patch(`/collections/job_offers/records/${openedOffer.value.id}`, {
+			executor: user.id
+		})
+		.then(closeResponses)
+}
+
+const remove = () => {}
 </script>
 
 
