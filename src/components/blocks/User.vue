@@ -33,7 +33,7 @@ withDefaults(defineProps<Props>(), {
 		updated: '',
 		username: '',
 		verified: false,
-		permission: 0,
+		role: 'customer',
 		university: {
 			name: ''
 		}

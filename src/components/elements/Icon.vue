@@ -1,7 +1,7 @@
 <template>
 	<Image
 		class="icon"
-		:class="[`icon_${size}`]"
+		:class="[`icon_${size}`, color]"
 		:src="src"
 		alt="icon"
 		local
@@ -16,6 +16,13 @@ const props = defineProps({
 	name: {
 		type: String,
 		default: ''
+	},
+	color: {
+		type: String,
+		default: 'black',
+		validator: (size: string) => {
+			return ['black', 'white'].includes(size)
+		}
 	},
 	size: {
 		type: String,
@@ -34,6 +41,10 @@ const src = computed(() => {
 <style lang="scss" scoped>
 .icon {
     cursor: pointer;
+
+	&.white {
+		filter: invert(1);
+	}
 
     &_xs {
         max-width: 10px;

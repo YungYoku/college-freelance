@@ -44,9 +44,17 @@ const routes: Array<RouteRecordRaw> = [
 				}
 			},
 			{
-				path: '/user-offers',
-				name: 'UserOffers',
-				component: () => import('@/views/UserOffers.vue'),
+				path: '/made-offers',
+				name: 'MadeOffers',
+				component: () => import('@/views/MadeOffers.vue'),
+				meta: {
+					rules: ['auth']
+				}
+			},
+			{
+				path: '/executing-offers',
+				name: 'ExecutingOffers',
+				component: () => import('@/views/ExecutingOffers.vue'),
 				meta: {
 					rules: ['auth']
 				}
@@ -86,15 +94,14 @@ const router = createRouter({
 
 router.beforeEach((to) => {
 	const authStore = useAuthStore()
-	const token = authStore.token
 	const toRules = to.meta.rules as Array<string> ?? []
 
 	if (toRules.includes('auth')) {
 		if (to.path === '/') return '/main'
-		if (token) return true
+		if (authStore.isLoggedIn) return true
 		return '/login'
 	} else {
-		if (token) return '/main'
+		if (authStore.isLoggedIn) return '/main'
 		return true
 	}
 })

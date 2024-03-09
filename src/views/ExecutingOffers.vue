@@ -4,8 +4,6 @@
 			v-for="offer in offers"
 			:key="offer.id"
 			:job-offer="offer"
-			show-responses
-			show-remove
 		/>
 	</Grid>
 </template>
@@ -27,13 +25,14 @@ const getUserOffers = async () => {
 	if (auth.user.id === '') return
 
 	await http
-		.get<JobOffers>(`/collections/job_offers/records?filter=(creator='${auth.user.id}')`)
+		.get<JobOffers>(`/collections/job_offers/records?filter=(executor='${auth.user.id}')`)
 		.then(response => {
 			offers.value = response.items
 		})
 }
 
 watch(() => auth.user.id, getUserOffers, { immediate: true })
+
 </script>
 
 

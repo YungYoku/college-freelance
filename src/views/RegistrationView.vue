@@ -27,14 +27,22 @@
 						type="password"
 					/>
 
-
-					<div class="flex items-center space-x-2">
-						<Checkbox
-							id="role"
-							v-model="form.permission"
-						/>
-						<Label for="role">Решала</Label>
-					</div>
+					<Select v-model="form.role">
+						<SelectTrigger>
+							<SelectValue placeholder="Выберите роль"/>
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								<SelectLabel>Роль</SelectLabel>
+								<SelectItem value="customer">
+									Заказчик
+								</SelectItem>
+								<SelectItem value="executor">
+									Исполнитель
+								</SelectItem>
+							</SelectGroup>
+						</SelectContent>
+					</Select>
 				</div>
 			</CardContent>
 
@@ -64,9 +72,16 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card/index.ts'
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select/index.ts'
 import { Input } from '@/components/ui/input/index.ts'
-import { Checkbox } from '@/components/ui/checkbox/index.ts'
-import { Label } from '@/components/ui/label/index.ts'
 import { Button } from '@/components/ui/button/index.ts'
 
 const router = useRouter()
@@ -75,16 +90,13 @@ const form = reactive({
 	username: '',
 	password: '',
 	passwordConfirm: '',
-	permission: false
+	role: 'customer'
 })
 
 const register = () => {
 	if (form.password.length >= 8 && form.passwordConfirm === form.password && form.username.length) {
 		http
-			.post('/collections/users/records', {
-				...form,
-				permission: Number(form.permission)
-			})
+			.post('/collections/users/records', { ...form })
 			.then(() => {
 				router.push('/')
 			})

@@ -58,9 +58,14 @@ const menu = [
 		can: auth.isLoggedIn
 	},
 	{
-		text: 'Мои объявления',
-		to: '/user-offers',
-		can: auth.isLoggedIn
+		text: 'Созданные объявления',
+		to: '/made-offers',
+		can: auth.isLoggedIn && (auth.isCustomer || auth.isAdmin)
+	},
+	{
+		text: 'Выполняемые объявления',
+		to: '/executing-offers',
+		can: auth.isLoggedIn && (auth.isExecutor || auth.isAdmin)
 	},
 	{
 		text: 'Создать объявление',

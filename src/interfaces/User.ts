@@ -13,10 +13,18 @@ export interface User {
     updated: string
     username: string
     verified: boolean
-    permission: number
+    role: 'admin' | 'customer' | 'executor'
     university: {
         name: string
     }
+}
+
+export interface Users {
+    'page': number,
+    'perPage': number,
+    'totalPages': number,
+    'totalItems': number,
+    items: Array<User>
 }
 
 export interface UserLogin {
