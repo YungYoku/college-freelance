@@ -28,7 +28,7 @@ export const useAuthStore = defineStore({
 			updated: '',
 			username: '',
 			verified: false,
-			permission: 1,
+			role: 'customer',
 			university: {
 				name: ''
 			}
