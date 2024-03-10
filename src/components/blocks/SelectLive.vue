@@ -7,7 +7,7 @@
 				:aria-expanded="open"
 				class="w-full justify-between"
 			>
-				{{ value?.[typeKey] ?? placeHolder }}
+				{{ value?.[typeKey].length ? value?.[typeKey] : placeHolder }}
 			</Button>
 		</PopoverTrigger>
 		<PopoverContent class="w-full p-0">
