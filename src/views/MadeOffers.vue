@@ -7,6 +7,7 @@
 			show-responses
 			show-remove
 			@show-responses="openResponses"
+			@show-chat="openChat"
 			@remove="remove"
 		/>
 	</Grid>
@@ -17,7 +18,7 @@
 	>
 		<Grid :columns="1">
 			<div
-				v-for="(user) in responses"
+				v-for="(user) in responsesUsers"
 				:key="user.id"
 				class="flex w-full items-center gap-2"
 			>
@@ -38,6 +39,13 @@
 			</div>
 		</Grid>
 	</Modal>
+
+	<Modal
+		v-if="openedChat"
+		@close="closeChat"
+	>
+		<Chat/>
+	</Modal>
 </template>
 
 <script setup lang="ts">
@@ -52,6 +60,7 @@ import Grid from '@/components/structures/Grid.vue'
 import Modal from '@/components/structures/Modal.vue'
 import Avatar from '@/components/blocks/Avatar.vue'
 import Icon from '@/components/elements/Icon.vue'
+import Chat from '@/components/sections/Chat.vue'
 
 const auth = useAuthStore()
 
@@ -70,7 +79,7 @@ const getUserOffers = async () => {
 watch(() => auth.user.id, getUserOffers, { immediate: true })
 
 const openedOffer = ref<IJobOffer | null>(null)
-const responses = ref<Array<User>>([])
+const responsesUsers = ref<Array<User>>([])
 
 const openResponses = async (offer: IJobOffer) => {
 	if (offer.responses.length === 0) return
@@ -82,13 +91,13 @@ const openResponses = async (offer: IJobOffer) => {
 	await http
 		.get<Users>(`/collections/users/records?filter=(${ids})`)
 		.then(response => {
-			responses.value = response.items
+			responsesUsers.value = response.items
 		})
 }
 
 const closeResponses = () => {
 	openedOffer.value = null
-	responses.value = []
+	responsesUsers.value = []
 }
 
 const pickExecutor = async (user: User) => {
@@ -102,6 +111,12 @@ const pickExecutor = async (user: User) => {
 }
 
 const remove = () => {}
+
+
+const openedChat = ref<IJobOffer | null>(null)
+const openChat = (offer: IJobOffer) => openedChat.value = offer
+
+const closeChat = () => openedChat.value = null
 </script>
 
 

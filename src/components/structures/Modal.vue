@@ -66,7 +66,7 @@ const close = () => emit('close')
         justify-content: center;
         align-items: center;
 
-        width: 100%;
+        max-width: 100%;
 		min-height: 70px;
         padding: 40px 10px 10px 10px;
 

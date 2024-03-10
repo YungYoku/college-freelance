@@ -2,13 +2,24 @@
 	<div class="job-offer">
 		<div class="job-offer__actions">
 			<div
-				v-if="jobOffer.responses && showResponses"
+				v-if="jobOffer.executor && showResponses"
+				@click="openChat"
+			>
+				<Icon
+					color="white"
+					name="comment-dots"
+					size="s"
+				/>
+			</div>
+
+			<div
+				v-else-if="jobOffer.responses && showResponses"
 				class="job-offer__responses"
 				@click="openResponse"
 			>
 				<Icon
 					color="white"
-					name="comment-dots"
+					name="user"
 					size="s"
 				/>
 				{{ jobOffer.responses.length }}
@@ -16,7 +27,6 @@
 
 			<div
 				v-if="showRemove"
-				class="job-offer__remove"
 				@click="remove"
 			>
 				<Icon
@@ -73,9 +83,11 @@ const props = defineProps({
 	}
 })
 
-const emit = defineEmits(['show-responses', 'remove'])
+const emit = defineEmits(['show-responses', 'show-chat', 'remove'])
 
 const openResponse = () => emit('show-responses', props.jobOffer)
+
+const openChat = () => emit('show-chat', props.jobOffer)
 
 const remove = () => emit('remove')
 </script>
