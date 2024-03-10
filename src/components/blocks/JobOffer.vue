@@ -89,7 +89,7 @@ const openResponse = () => emit('show-responses', props.jobOffer)
 
 const openChat = () => emit('show-chat', props.jobOffer)
 
-const remove = () => emit('remove')
+const remove = () => emit('remove', props.jobOffer)
 </script>
 
 <style scoped lang="scss">
