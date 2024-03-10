@@ -35,6 +35,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useToast } from '@/components/ui/toast/use-toast'
 
 import http from '@/plugins/http'
 import Avatar from '@/components/blocks/Avatar.vue'
@@ -44,6 +45,8 @@ import { University } from '@/interfaces/University.ts'
 import SelectLive from '@/components/blocks/SelectLive.vue'
 
 const auth = useAuthStore()
+const { toast } = useToast()
+
 const university = ref<University>({
 	collectionId: '',
 	collectionName: '',
@@ -62,10 +65,16 @@ watch(() => auth.user, () => {
 }, { immediate: true })
 
 const save = async () => {
-	await http.patch(`/collections/users/records/${auth.user.id}`, {
-		description: description.value,
-		university: university.value?.id
-	})
+	await http
+		.patch(`/collections/users/records/${auth.user.id}`, {
+			description: description.value,
+			university: university.value?.id
+		})
+		.then(() => {
+			toast({
+				title: 'Сохранено успешно!'
+			})
+		})
 }
 </script>
 
