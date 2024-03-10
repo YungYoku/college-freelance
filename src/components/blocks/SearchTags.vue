@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-import { Badge } from '@/components/ui/badge/index.ts'
+import { Badge } from '@/components/ui/badge'
 
 const emit = defineEmits(['select-tag'])
 

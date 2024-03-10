@@ -1,3 +1,5 @@
+import { University } from '@/interfaces/University.ts'
+
 export interface User {
     avatar: string
     collectionId: string
@@ -14,16 +16,17 @@ export interface User {
     username: string
     verified: boolean
     role: 'admin' | 'customer' | 'executor'
-    university: {
-        name: string
+    university: string,
+    expand?: {
+        university: University
     }
 }
 
 export interface Users {
-    'page': number,
-    'perPage': number,
-    'totalPages': number,
-    'totalItems': number,
+    page: number,
+    perPage: number,
+    totalPages: number,
+    totalItems: number,
     items: Array<User>
 }
 

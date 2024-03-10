@@ -29,9 +29,7 @@ export const useAuthStore = defineStore({
 			username: '',
 			verified: false,
 			role: 'customer',
-			university: {
-				name: ''
-			}
+			university: ''
 		},
 
 		offer: {

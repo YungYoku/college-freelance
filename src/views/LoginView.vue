@@ -44,9 +44,9 @@ import { useAuthStore } from '@/stores/auth.ts'
 import { UserLogin } from '@/interfaces/User.ts'
 import AuthLayout from '@/components/layouts/AuthLayout.vue'
 
-import { Input } from '@/components/ui/input/index.ts'
-import { Button } from '@/components/ui/button/index.ts'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card/index.ts'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 const auth = useAuthStore()
 

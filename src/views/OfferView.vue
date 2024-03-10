@@ -34,7 +34,7 @@ import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
 import { JobOffer } from '@/interfaces/JobOffer.ts'
-import { Button } from '@/components/ui/button/index.ts'
+import { Button } from '@/components/ui/button'
 import PageTitle from '@/components/elements/PageTitle.vue'
 
 const offer = ref<JobOffer>({

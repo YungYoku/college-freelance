@@ -34,9 +34,7 @@ withDefaults(defineProps<Props>(), {
 		username: '',
 		verified: false,
 		role: 'customer',
-		university: {
-			name: ''
-		}
+		university: ''
 	}),
 })
 </script>

@@ -71,7 +71,7 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from '@/components/ui/card/index.ts'
+} from '@/components/ui/card'
 import {
 	Select,
 	SelectContent,
@@ -80,9 +80,9 @@ import {
 	SelectLabel,
 	SelectTrigger,
 	SelectValue,
-} from '@/components/ui/select/index.ts'
-import { Input } from '@/components/ui/input/index.ts'
-import { Button } from '@/components/ui/button/index.ts'
+} from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 const router = useRouter()
 
