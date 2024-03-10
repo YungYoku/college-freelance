@@ -1,5 +1,6 @@
 <template>
 	<router-view/>
+	<Toaster/>
 </template>
 
 <script lang="ts" setup>
@@ -7,6 +8,7 @@ import { useAuthStore } from '@/stores/auth'
 import http from './plugins/http'
 import LocalStorage from '@/plugins/localStorage'
 import { User } from '@/interfaces/User'
+import Toaster from '@/components/ui/toast/Toaster.vue'
 
 const auth = useAuthStore()
 
