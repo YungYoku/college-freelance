@@ -17,6 +17,7 @@ export interface JobOffer {
     discipline: string
     executor: string
     responses: Array<string>
+    type: string
     expand?: {
         creator?: User
     }

@@ -7,7 +7,7 @@
 				:aria-expanded="open"
 				class="w-full justify-between"
 			>
-				{{ value?.[typeKey].length ? value?.[typeKey] : placeHolder }}
+				{{ value?.[typeKey]?.length ? value?.[typeKey] : placeHolder }}
 			</Button>
 		</PopoverTrigger>
 		<PopoverContent class="w-full p-0">
@@ -98,12 +98,12 @@ const handleType = (e: Event) => {
 	loadItems(target.value)
 }
 
-const loadItems = async (university: string) => {
+const loadItems = async (item: string) => {
 	let query = '?sort=name'
-	if (university) {
+	if (item) {
 		query += '&filter=('
 		props.filterFields.forEach(field => {
-			query += `${field}~'${university}' ||`
+			query += `${field}~'${item}' ||`
 		})
 		query = query.slice(0, query.length - 2)
 		query += ')'
