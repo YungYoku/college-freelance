@@ -56,13 +56,26 @@ import {
 	CardTitle
 } from '@/components/ui/card'
 import DatePicker from '@/components/blocks/DatePicker.vue'
+import { JobOffer } from '@/interfaces/JobOffer'
 
 const auth = useAuthStore()
 
-const newOffer = reactive({
+const newOffer = reactive<JobOffer>({
+	collectionId: '',
+	collectionName: '',
+	created: '',
+	creator: '',
+	discipline: '',
+	executor: '',
+	id: '',
+	rating: 0,
+	responses: [],
+	status: 0,
+	university: '',
+	updated: '',
 	title: '',
 	description: '',
-	price: '',
+	price: 0,
 	deadline: new Date()
 })
 
@@ -70,7 +83,7 @@ const router = useRouter()
 
 const createOffer = async () => {
 	await http
-		.post('/collections/job_offers/records/', {
+		.post<JobOffer>('/collections/job_offers/records/', {
 			...newOffer,
 			creator: auth.user.id
 		})
