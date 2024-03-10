@@ -1,27 +1,35 @@
 <template>
-	<div class="profile">
-		<Avatar
-			size="l"
-			editable
-		/>
-		<div class="profile__name-rate">
-			<div>Имя: {{ auth.user.name }}</div>
+	<div class="profile flex max-w-screen-md w-full gap-2">
+		<div class="flex gap-2 items-center">
+			<Avatar
+				size="l"
+				editable
+			/>
+			<div class="profile__name-rate">
+				<div>Имя: {{ auth.user.name }}</div>
 
-			<div>Фамилия: {{ auth.user.surname }}</div>
-                
-			<div>Рейтинг:  {{ auth.user.rating }}</div>
+				<div>Фамилия: {{ auth.user.surname }}</div>
+
+				<div>Рейтинг:  {{ auth.user.rating }}</div>
+			</div>
 		</div>
+
+		<Textarea
+			v-model="description"
+			placeholder="Описание"
+			class="profile__description"
+		/>
+
+		<SelectLive
+			v-model="university"
+			place-holder="Выберите университет..."
+			api="universities"
+		/>
+
+		<Button @click="save">
+			Сохранить
+		</Button>
 	</div>
-
-	<Textarea
-		v-model="description"
-		placeholder="Описание"
-		class="profile__description"
-	/>
-
-	<Button @click="save">
-		Сохранить
-	</Button>
 </template>
 
 <script setup lang="ts">
@@ -30,26 +38,41 @@ import { useAuthStore } from '@/stores/auth'
 
 import http from '@/plugins/http'
 import Avatar from '@/components/blocks/Avatar.vue'
-import { Button } from '@/components/ui/button/index.ts'
-import { Textarea } from '@/components/ui/textarea/index.ts'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { University } from '@/interfaces/University.ts'
+import SelectLive from '@/components/blocks/SelectLive.vue'
 
 const auth = useAuthStore()
+const university = ref<University>({
+	collectionId: '',
+	collectionName: '',
+	created: new Date(),
+	id: '',
+	updated: new Date(),
+	name: ''
+})
 const description = ref('')
 
-watch(() => auth.user.description, () => {
+watch(() => auth.user, () => {
 	description.value = auth.user.description
+	if (auth.user.expand?.university) {
+		university.value = auth.user.expand.university
+	}
 }, { immediate: true })
 
 const save = async () => {
-	await http.patch(`/collections/users/records/${auth.user.id}`, { description: description.value })
+	await http.patch(`/collections/users/records/${auth.user.id}`, {
+		description: description.value,
+		university: university.value?.id
+	})
 }
 </script>
 
 <style scoped lang="scss">
 .profile {
-    display: flex;
+	flex-direction: column;
     align-items: center;
-    gap: 50px;
 
     &__name-rate {
         display: flex;
@@ -59,7 +82,6 @@ const save = async () => {
     }
 
     &__description {
-        width: 50%;
         height: 240px;
 
         resize: none;

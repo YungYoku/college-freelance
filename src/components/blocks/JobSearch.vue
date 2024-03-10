@@ -17,8 +17,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { Input } from '@/components/ui/input/index.ts'
-import { Button } from '@/components/ui/button/index.ts'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 import Grid from '@/components/structures/Grid.vue'
 
 const props = defineProps({

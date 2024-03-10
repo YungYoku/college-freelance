@@ -16,7 +16,7 @@ const loadUserInfo = async () => {
 		if (!userId) return
 
 		http
-			.get<User>('/collections/users/records/' + userId)
+			.get<User>(`/collections/users/records/${userId}?expand=university`)
 			.then((data) => {
 				auth.setUser(data)
 			})

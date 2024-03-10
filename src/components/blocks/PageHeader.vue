@@ -34,7 +34,7 @@
 <script lang="ts" setup>
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
-import { Button } from '@/components/ui/button/index.ts'
+import { Button } from '@/components/ui/button'
 import { computed } from 'vue'
 
 const auth = useAuthStore()
@@ -48,13 +48,8 @@ const menu = [
 		can: auth.isLoggedIn
 	},
 	{
-		text: 'Объявления',
+		text: 'Поиск',
 		to: '/offers',
-		can: auth.isLoggedIn
-	},
-	{
-		text: 'Чат',
-		to: '/',
 		can: auth.isLoggedIn
 	},
 	{
