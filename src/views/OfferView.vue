@@ -52,6 +52,7 @@ const offer = ref<JobOffer>({
 	title: '',
 	university: '',
 	updated: '',
+	type: '',
 	executor: '',
 	responses: []
 })

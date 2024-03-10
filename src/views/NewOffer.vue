@@ -8,6 +8,12 @@
 
 		<CardContent>
 			<div class="grid items-center w-full gap-2">
+				<SelectLive
+					v-model="offerType"
+					place-holder="Выберите тип работы..."
+					api="offer_types"
+				/>
+
 				<Input
 					v-model.trim="newOffer.title"
 					placeholder="Введите название объявления"
@@ -40,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
@@ -57,8 +63,14 @@ import {
 } from '@/components/ui/card'
 import DatePicker from '@/components/blocks/DatePicker.vue'
 import { JobOffer } from '@/interfaces/JobOffer'
+import SelectLive from '@/components/blocks/SelectLive.vue'
 
 const auth = useAuthStore()
+
+const offerType = ref({
+	id: null,
+	name: null
+})
 
 const newOffer = reactive<JobOffer>({
 	collectionId: '',
@@ -75,17 +87,20 @@ const newOffer = reactive<JobOffer>({
 	updated: '',
 	title: '',
 	description: '',
+	type: '',
 	price: 0,
 	deadline: new Date()
 })
 
 const router = useRouter()
 
+watch(() => auth.user.id, () => newOffer.creator = auth.user.id, { immediate: true })
+
 const createOffer = async () => {
 	await http
 		.post<JobOffer>('/collections/job_offers/records/', {
 			...newOffer,
-			creator: auth.user.id
+			type: offerType.value?.id
 		})
 		.then(response => {
 			router.push(`/offer/${response.id}`)
