@@ -92,8 +92,6 @@ const save = async () => {
 
     &__description {
         height: 240px;
-
-        resize: none;
     }
 }
 </style>
