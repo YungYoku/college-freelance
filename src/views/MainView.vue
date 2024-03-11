@@ -3,8 +3,6 @@
 
 	<SearchTags @select-tag="updateSearch"/>
 
-	<SubjectsSlider/>
-
 	<Grid :columns="4">
 		<JobOffer
 			v-for="offer in offers"
@@ -21,7 +19,6 @@ import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
 import JobOffer from '@/components/blocks/JobOffer.vue'
 import JobSearch from '@/components/blocks/JobSearch.vue'
 import SearchTags from '@/components/blocks/SearchTags.vue'
-import SubjectsSlider from '@/components/blocks/SubjectsSlider.vue'
 import Grid from '@/components/structures/Grid.vue'
 
 const search = ref('')
@@ -33,7 +30,7 @@ const updateSearch = (tag: string) => {
 const offers = ref<Array<IJobOffer>>([])
 
 http
-	.get<JobOffers>('/collections/job_offers/records?expand=creator')
+	.get<JobOffers>('/collections/job_offers/records?expand=creator&perPage=12')
 	.then(res => {
 		offers.value = res.items
 	})

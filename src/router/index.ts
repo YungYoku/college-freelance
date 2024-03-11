@@ -16,7 +16,7 @@ const routes: Array<RouteRecordRaw> = [
 				name: 'Main',
 				component: () => import('@/views/MainView.vue'),
 				meta: {
-					rules: ['auth']
+					rules: []
 				},
 			},
 			{
@@ -74,7 +74,7 @@ const routes: Array<RouteRecordRaw> = [
 		name: 'Login',
 		component: () => import('@/views/LoginView.vue'),
 		meta: {
-			rules: []
+			rules: ['no-auth']
 		}
 	},
 	{
@@ -82,7 +82,7 @@ const routes: Array<RouteRecordRaw> = [
 		name: 'Registration',
 		component: () => import('@/views/RegistrationView.vue'),
 		meta: {
-			rules: []
+			rules: ['no-auth']
 		}
 	},
 ]
@@ -96,11 +96,15 @@ router.beforeEach((to) => {
 	const authStore = useAuthStore()
 	const toRules = to.meta.rules as Array<string> ?? []
 
+	if (toRules.length === 0) {
+		return true
+	}
 	if (toRules.includes('auth')) {
 		if (to.path === '/') return '/main'
 		if (authStore.isLoggedIn) return true
 		return '/login'
-	} else {
+	}
+	if (toRules.includes('no-auth')) {
 		if (authStore.isLoggedIn) return '/main'
 		return true
 	}

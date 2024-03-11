@@ -3,7 +3,7 @@
 		<Badge
 			v-for="(item, index) in items"
 			:key="index"
-			class="search-tags__child"
+			class="search-tags__child cursor-pointer"
 			@click="selectTag(item)"
 		>
 			{{ item }}

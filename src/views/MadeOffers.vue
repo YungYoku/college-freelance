@@ -110,8 +110,14 @@ const pickExecutor = async (user: User) => {
 		.then(closeResponses)
 }
 
-const remove = () => {}
+const remove = (offer: IJobOffer) => {
 
+	console.log('offer.id', offer.id)
+	http
+		.delete<IJobOffer>(`/collections/job_offers/records/${offer.id}`)
+		.then(closeResponses)
+
+}
 
 const openedChat = ref<IJobOffer | null>(null)
 const openChat = (offer: IJobOffer) => openedChat.value = offer

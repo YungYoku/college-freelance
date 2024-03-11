@@ -41,11 +41,15 @@
 			:to="`/offer/${jobOffer.id}`"
 			class="job-offer__title"
 		>
-			Заголовок: {{ jobOffer.title }}
+			{{ jobOffer.title }}
 		</router-link>
 
 		<div class="job-offer__description">
 			Описание: {{ jobOffer.description }}
+		</div>
+
+		<div class="job-offer__price">
+			Доход: {{ jobOffer.price }} ₽
 		</div>
 
 		<div class="job-offer__footer">
@@ -55,15 +59,15 @@
 				:user="jobOffer.expand.creator"
 			/>
 
-			<div class="job-offer__price">
-				Цена: {{ jobOffer.price }} ₽
+			<div class="job-offer__deadline">
+				Дедлайн: {{ deadline }}
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import type { PropType } from 'vue'
+import { computed, PropType } from 'vue'
 import { JobOffer } from '@/interfaces/JobOffer'
 import User from '@/components/blocks/User.vue'
 import Icon from '@/components/elements/Icon.vue'
@@ -86,10 +90,12 @@ const props = defineProps({
 const emit = defineEmits(['show-responses', 'show-chat', 'remove'])
 
 const openResponse = () => emit('show-responses', props.jobOffer)
-
 const openChat = () => emit('show-chat', props.jobOffer)
+const remove = () => emit('remove', props.jobOffer)
 
-const remove = () => emit('remove')
+const deadline = computed(() => {
+	return new Date(props.jobOffer?.deadline).toLocaleString()
+})
 </script>
 
 <style scoped lang="scss">
@@ -126,12 +132,16 @@ const remove = () => emit('remove')
         }
     }
 
+	&__title {
+		font-size: 20px;
+	}
+
     &__title,
-    &__description {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+	&__description {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+	}
 
     &__footer {
         display: flex;

@@ -45,6 +45,20 @@ class Http {
 				return res.data
 			})
 	}
+
+	async delete<T>(url: string): Promise<T> {
+		const auth = useAuthStore()
+
+		return axios.delete<T>(this.api + url, {
+			headers: {
+				Authorization: auth.token
+			}
+		})
+			.then((res) => {
+				return res.data
+			})
+	}
+
 }
 
 export default new Http()

@@ -1,12 +1,24 @@
 <template>
-	<header>
+	<header class="header">
 		<router-link
-			v-for="link in filteredMenu"
-			:key="link.text"
-			:to="link.to"
+			to="/"
+			class="header__logo"
 		>
-			{{ link.text }}
+			<img
+				src="@/assets/img/onyx.png"
+				alt=""
+			>
 		</router-link>
+
+		<nav class="header__nav">
+			<router-link
+				v-for="link in filteredMenu"
+				:key="link.text"
+				:to="link.to"
+			>
+				{{ link.text }}
+			</router-link>
+		</nav>
 
 		<Button
 			v-if="auth.isLoggedIn"
@@ -14,28 +26,15 @@
 		>
 			Выйти
 		</Button>
-
-		<router-link
-			v-if="!auth.isLoggedIn"
-			to="/login"
-		>
-			Вход
-		</router-link>
-
-		<router-link
-			v-if="!auth.isLoggedIn"
-			to="/registration"
-		>
-			Регистрация
-		</router-link>
 	</header>
 </template>
 
 <script lang="ts" setup>
-import { useAuthStore } from '@/stores/auth'
-import { useRouter } from 'vue-router'
-import { Button } from '@/components/ui/button'
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+import { Button } from '@/components/ui/button'
 
 const auth = useAuthStore()
 
@@ -43,17 +42,12 @@ const router = useRouter()
 
 const menu = [
 	{
-		text: 'Главная',
-		to: '/',
-		can: auth.isLoggedIn
-	},
-	{
 		text: 'Поиск',
 		to: '/offers',
 		can: auth.isLoggedIn
 	},
 	{
-		text: 'Созданные объявления',
+		text: 'Мои объявления',
 		to: '/made-offers',
 		can: auth.isLoggedIn && (auth.isCustomer || auth.isAdmin)
 	},
@@ -65,12 +59,22 @@ const menu = [
 	{
 		text: 'Создать объявление',
 		to: '/new-offer',
-		can: auth.isLoggedIn
+		can: auth.isLoggedIn && (auth.isCustomer || auth.isAdmin)
 	},
 	{
 		text: 'Профиль',
 		to: '/profile',
 		can: auth.isLoggedIn
+	},
+	{
+		text: 'Вход',
+		to: '/login',
+		can: !auth.isLoggedIn
+	},
+	{
+		text: 'Регистрация',
+		to: '/registration',
+		can: !auth.isLoggedIn
 	},
 ]
 
@@ -84,12 +88,36 @@ const logout = () => {
 </script>
 
 <style scoped lang="scss">
-header {
+.header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 
     width: 100%;
     min-height: 48px;
     gap: 10px;
-}</style>
+
+	padding: 5px 10px;
+
+	&__logo {
+		max-width: 40px;
+		margin-right: 32px;
+		padding: 2px 4px;
+
+		background: #ffffff;
+		border-radius: 5px;
+		
+		img {
+			max-width: 100%;
+		}
+	}
+
+	&__nav {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		gap: 10px;
+	}
+}
+</style>
