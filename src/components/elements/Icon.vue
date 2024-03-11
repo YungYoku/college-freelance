@@ -47,21 +47,25 @@ const src = computed(() => {
 	}
 
     &_xs {
+		width: 10px;
         max-width: 10px;
         max-height: 10px;
     }
 
     &_s {
+		width: 20px;
         max-width: 20px;
         max-height: 20px;
     }
 
     &_m {
+		width: 30px;
         max-width: 30px;
         max-height: 30px;
     }
 
     &_l {
+		width: 40px;
         max-width: 40px;
         max-height: 40px;
     }
