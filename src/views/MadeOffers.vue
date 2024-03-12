@@ -33,7 +33,6 @@
 					v-if="!openedOffer.executor"
 					class="ml-auto"
 					name="check"
-					color="white"
 					@click="pickExecutor(user)"
 				/>
 			</div>

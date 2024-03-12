@@ -17,12 +17,10 @@ const isLight = computed(() => currentTheme.value === 'light')
 				<Icon
 					v-if="isLight"
 					name="sun"
-					:color="isLight ? 'black' : 'white'"
 				/>
 				<Icon
 					v-else
 					name="moon"
-					:color="isLight ? 'black' : 'white'"
 				/>
 				<span class="sr-only">Toggle theme</span>
 			</Button>

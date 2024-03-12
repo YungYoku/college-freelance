@@ -10,7 +10,6 @@
 		>
 			<Icon
 				class="modal__close"
-				color="white"
 				name="close"
 				@click="close"
 			/>

@@ -6,7 +6,6 @@
 				@click="openChat"
 			>
 				<Icon
-					color="white"
 					name="comment-dots"
 					size="s"
 				/>
@@ -18,7 +17,6 @@
 				@click="openResponse"
 			>
 				<Icon
-					color="white"
 					name="user"
 					size="s"
 				/>
@@ -30,7 +28,6 @@
 				@click="remove"
 			>
 				<Icon
-					color="white"
 					name="trash"
 					size="s"
 				/>
