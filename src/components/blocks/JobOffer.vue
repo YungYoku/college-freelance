@@ -1,12 +1,11 @@
 <template>
-	<div class="job-offer">
+	<div class="job-offer bg-primary-foreground">
 		<div class="job-offer__actions">
 			<div
 				v-if="jobOffer.executor && showResponses"
 				@click="openChat"
 			>
 				<Icon
-					color="white"
 					name="comment-dots"
 					size="s"
 				/>
@@ -18,7 +17,6 @@
 				@click="openResponse"
 			>
 				<Icon
-					color="white"
 					name="user"
 					size="s"
 				/>
@@ -30,7 +28,6 @@
 				@click="remove"
 			>
 				<Icon
-					color="white"
 					name="trash"
 					size="s"
 				/>
@@ -45,7 +42,7 @@
 		</router-link>
 
 		<div class="job-offer__description">
-			Описание: {{ jobOffer.description }}
+			{{ jobOffer.description }}
 		</div>
 
 		<div class="job-offer__price">
@@ -109,7 +106,6 @@ const deadline = computed(() => {
     height: 200px;
     padding: 10px;
 
-    background: #1a1a1a;
     border-radius: 5px;
     gap: 5px;
 
@@ -134,6 +130,12 @@ const deadline = computed(() => {
 
 	&__title {
 		font-size: 20px;
+	}
+
+	&__description,
+	&__price,
+	&__deadline {
+		font-size: 14px;
 	}
 
     &__title,

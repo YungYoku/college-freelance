@@ -5,7 +5,7 @@
 			class="header__logo"
 		>
 			<img
-				src="@/assets/img/onyx.png"
+				src="@/assets/img/onyx.webp"
 				alt=""
 			>
 		</router-link>
@@ -18,54 +18,24 @@
 			>
 				{{ link.text }}
 			</router-link>
-		</nav>
+			
+			<ThemeColorToggle/>
 
-		<Button
-			v-if="auth.isLoggedIn"
-			@click="logout"
-		>
-			Выйти
-		</Button>
+			<UserDropdown v-if="auth.isLoggedIn"/>
+		</nav>
 	</header>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
-import { Button } from '@/components/ui/button'
+import ThemeColorToggle from '@/components/blocks/ThemeColorToggle.vue'
+import UserDropdown from '@/components/blocks/UserDropdown.vue'
 
 const auth = useAuthStore()
 
-const router = useRouter()
-
 const menu = [
-	{
-		text: 'Поиск',
-		to: '/offers',
-		can: auth.isLoggedIn
-	},
-	{
-		text: 'Мои объявления',
-		to: '/made-offers',
-		can: auth.isLoggedIn && (auth.isCustomer || auth.isAdmin)
-	},
-	{
-		text: 'Выполняемые объявления',
-		to: '/executing-offers',
-		can: auth.isLoggedIn && (auth.isExecutor || auth.isAdmin)
-	},
-	{
-		text: 'Создать объявление',
-		to: '/new-offer',
-		can: auth.isLoggedIn && (auth.isCustomer || auth.isAdmin)
-	},
-	{
-		text: 'Профиль',
-		to: '/profile',
-		can: auth.isLoggedIn
-	},
 	{
 		text: 'Вход',
 		to: '/login',
@@ -79,12 +49,6 @@ const menu = [
 ]
 
 const filteredMenu = computed(() => menu.filter(item => item.can))
-
-const logout = () => {
-	localStorage.clear()
-	auth.$reset()
-	router.push('/login')
-}
 </script>
 
 <style scoped lang="scss">
@@ -101,7 +65,7 @@ const logout = () => {
 
 	&__logo {
 		max-width: 40px;
-		margin-right: 32px;
+		margin-right: 116px;
 		padding: 2px 4px;
 
 		background: #ffffff;

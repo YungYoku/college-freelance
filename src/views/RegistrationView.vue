@@ -8,7 +8,7 @@
 			</CardHeader>
 
 			<CardContent>
-				<div class="grid items-center w-full gap-4">
+				<div class="grid items-center w-full gap-2">
 					<Input
 						v-model.trim="form.username"
 						placeholder="Имя пользователя"

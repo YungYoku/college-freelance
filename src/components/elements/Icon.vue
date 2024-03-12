@@ -1,7 +1,7 @@
 <template>
 	<Image
 		class="icon"
-		:class="[`icon_${size}`, color]"
+		:class="[`icon_${size}`, colors[currentTheme]]"
 		:src="src"
 		alt="icon"
 		local
@@ -10,19 +10,21 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useColorMode } from '@vueuse/core'
 import Image from '@/components/elements/Image.vue'
+
+const mode = useColorMode({ selector: 'body' })
+const currentTheme = computed(() => mode.state.value)
+
+const colors = {
+	dark: 'light',
+	light: 'dark'
+}
 
 const props = defineProps({
 	name: {
 		type: String,
 		default: ''
-	},
-	color: {
-		type: String,
-		default: 'black',
-		validator: (size: string) => {
-			return ['black', 'white'].includes(size)
-		}
 	},
 	size: {
 		type: String,
@@ -42,7 +44,7 @@ const src = computed(() => {
 .icon {
     cursor: pointer;
 
-	&.white {
+	&.light {
 		filter: invert(1);
 	}
 
