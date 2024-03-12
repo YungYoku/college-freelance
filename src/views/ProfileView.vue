@@ -1,6 +1,6 @@
 <template>
 	<div class="profile flex max-w-screen-md w-full gap-2">
-		<div class="flex gap-2 items-center">
+		<div class="flex gap-4 items-center">
 			<Avatar
 				size="l"
 				editable
@@ -16,7 +16,7 @@
 
 		<Textarea
 			v-model="description"
-			placeholder="Описание"
+			placeholder="О себе"
 			class="profile__description"
 		/>
 

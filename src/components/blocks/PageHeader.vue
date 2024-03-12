@@ -20,12 +20,17 @@
 			</router-link>
 		</nav>
 
-		<Button
-			v-if="auth.isLoggedIn"
-			@click="logout"
-		>
-			Выйти
-		</Button>
+
+		<nav class="header__nav">
+			<ThemeColorToogle/>
+			
+			<Button
+				v-if="auth.isLoggedIn"
+				@click="logout"
+			>
+				Выйти
+			</Button>
+		</nav>
 	</header>
 </template>
 
@@ -35,6 +40,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 import { Button } from '@/components/ui/button'
+import ThemeColorToogle from '@/components/blocks/ThemeColorToogle.vue'
 
 const auth = useAuthStore()
 
@@ -101,7 +107,7 @@ const logout = () => {
 
 	&__logo {
 		max-width: 40px;
-		margin-right: 32px;
+		margin-right: 116px;
 		padding: 2px 4px;
 
 		background: #ffffff;

@@ -1,5 +1,5 @@
 <template>
-	<footer class="footer">
+	<footer class="footer bg-primary-foreground">
 		<div class="footer__content">
 			<div class="footer__column">
 				<div class="footer__column-title">
@@ -69,6 +69,8 @@
 				<span>О нас</span>
 
 				<span>Реферальная программа</span>
+
+				<span>Политика конфиденциальности</span>
 			</div>
 		</div>
 	</footer>
@@ -83,12 +85,10 @@
 	width: 100%;
 	margin-top: auto;
 
-	background: #1a1a1a;
-
 	&__content {
 		display: flex;
 		justify-content: center;
-		gap: 30px;
+		gap: 50px;
 
 		max-width: 1920px;
 		margin: 0 auto;
