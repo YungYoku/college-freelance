@@ -13,10 +13,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useSearchStore } from '@/stores/search.ts'
 
 import { Badge } from '@/components/ui/badge'
-
-const emit = defineEmits(['select-tag'])
 
 const items = ref([
 	'тригонометрия',
@@ -28,12 +27,9 @@ const items = ref([
 	'17 задача по математике ЕГЭ'
 ])
 
-const selectedItem = ref('')
+const searchStore = useSearchStore()
 
-const selectTag = (item: string) => {
-	selectedItem.value = item    
-	emit('select-tag', selectedItem.value)
-}
+const selectTag = (item: string) => searchStore.update(item)
 </script>
 
 <style scoped lang="scss">

@@ -1,7 +1,5 @@
 <template>
-	<JobSearch v-model="search"/>
-
-	<SearchTags @select-tag="updateSearch"/>
+	<SearchTags/>
 
 	<Grid :columns="4">
 		<JobOffer
@@ -17,15 +15,8 @@ import { ref } from 'vue'
 import http from '@/plugins/http'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
 import JobOffer from '@/components/blocks/JobOffer.vue'
-import JobSearch from '@/components/blocks/JobSearch.vue'
 import SearchTags from '@/components/blocks/SearchTags.vue'
 import Grid from '@/components/structures/Grid.vue'
-
-const search = ref('')
-
-const updateSearch = (tag: string) => {
-	search.value = tag
-}
 
 const offers = ref<Array<IJobOffer>>([])
 

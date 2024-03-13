@@ -26,6 +26,13 @@
 			api="universities"
 		/>
 
+		<SelectLive
+			v-model="disciplines"
+			multiple
+			place-holder="Выберите дисциплины..."
+			api="disciplines"
+		/>
+
 		<Button @click="save">
 			Сохранить
 		</Button>
@@ -41,8 +48,9 @@ import http from '@/plugins/http'
 import Avatar from '@/components/blocks/Avatar.vue'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { University } from '@/interfaces/University.ts'
 import SelectLive from '@/components/blocks/SelectLive.vue'
+import { University } from '@/interfaces/University.ts'
+import { Discipline } from '@/interfaces/Discipline.ts'
 
 const auth = useAuthStore()
 const { toast } = useToast()
@@ -55,6 +63,7 @@ const university = ref<University>({
 	updated: new Date(),
 	name: ''
 })
+const disciplines = ref<Array<Discipline>>([])
 const description = ref('')
 
 watch(() => auth.user, () => {
@@ -68,7 +77,8 @@ const save = async () => {
 	await http
 		.patch(`/collections/users/records/${auth.user.id}`, {
 			description: description.value,
-			university: university.value?.id
+			university: university.value?.id,
+			disciplines: disciplines.value.map(item => item.id)
 		})
 		.then(() => {
 			toast({

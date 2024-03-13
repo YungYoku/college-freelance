@@ -7,11 +7,11 @@
 				:aria-expanded="open"
 				class="w-full justify-between"
 			>
-				{{ value?.[typeKey]?.length ? value?.[typeKey] : placeHolder }}
+				{{ showedResult }}
 			</Button>
 		</PopoverTrigger>
 		<PopoverContent class="w-full p-0">
-			<Command v-model="value[typeKey]">
+			<Command v-model="value">
 				<CommandInput
 					:placeholder="placeHolder"
 					@input="handleType"
@@ -56,7 +56,7 @@ interface Items {
 
 const props = defineProps({
 	modelValue: {
-		type: Object,
+		type: [Array, Object],
 		default: () => ({})
 	},
 	typeKey: {
@@ -75,18 +75,43 @@ const props = defineProps({
 	filterFields: {
 		type: Array,
 		default: () => (['id', 'name'])
+	},
+	multiple: {
+		type: Boolean,
+		default: false
 	}
 })
 
 const emit = defineEmits(['update:model-value'])
 
+const showedResult = computed(() => {
+	const _val = value.value
+	if (Array.isArray(_val)) return _val.map(item => item?.[props.typeKey]).join(', ')
+	return _val?.length ? _val : props.placeHolder
+})
+
 const value = computed({
 	get() {
-		loadItems(props.modelValue?.[props.typeKey])
+		const selectedObject = props.modelValue
+		if (props.multiple && Array.isArray(selectedObject)) {
+			// Здесь стоит добавить загрузку элементов по поиску
+			return props.modelValue
+		} else if (typeof selectedObject === 'object' && !Array.isArray(selectedObject)) {
+			const value = selectedObject?.[props.typeKey] ?? ''
+			loadItems(value)
+			return value
+		}
+
 		return props.modelValue
 	},
 	set(value) {
-		emit('update:model-value', value)
+		if (props.multiple && Array.isArray(props.modelValue)) {
+			emit('update:model-value', [...props.modelValue, value])
+		} else {
+			if (typeof value === 'object') { // Костыль
+				emit('update:model-value', value)
+			}
+		}
 	}
 })
 
@@ -117,6 +142,7 @@ const loadItems = async (item: string) => {
 
 const select = (item: Item) => {
 	value.value = item
-	open.value = false
+
+	if (!props.multiple) open.value = false
 }
 </script>
