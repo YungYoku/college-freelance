@@ -16,7 +16,8 @@ export interface User {
     username: string
     verified: boolean
     role: 'admin' | 'customer' | 'executor'
-    university: string,
+    university: string
+    energy: number
     disciplines: Array<string>
     expand?: {
         university: University

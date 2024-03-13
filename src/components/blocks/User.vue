@@ -35,6 +35,7 @@ withDefaults(defineProps<Props>(), {
 		verified: false,
 		role: 'customer',
 		university: '',
+		energy: 0,
 		disciplines: []
 	}),
 })

@@ -20,6 +20,15 @@
 			>
 				{{ link.text }}
 			</router-link>
+
+
+			<Button variant="outline">
+				<Icon
+					name="energy"
+					class="mr-1"
+				/>
+				{{ auth.user.energy }}
+			</Button>
 			
 			<ThemeColorToggle/>
 
@@ -35,6 +44,8 @@ import { useAuthStore } from '@/stores/auth'
 import ThemeColorToggle from '@/components/blocks/ThemeColorToggle.vue'
 import UserDropdown from '@/components/blocks/UserDropdown.vue'
 import JobSearch from '@/components/blocks/JobSearch.vue'
+import { Button } from '@/components/ui/button'
+import Icon from '@/components/elements/Icon.vue'
 
 const auth = useAuthStore()
 
@@ -68,7 +79,7 @@ const filteredMenu = computed(() => menu.filter(item => item.can))
 
 	&__logo {
 		max-width: 40px;
-		margin-right: 78px;
+		margin-right: 200px;
 		padding: 2px 4px;
 
 		background: #ffffff;
@@ -81,8 +92,10 @@ const filteredMenu = computed(() => menu.filter(item => item.can))
 
 	&__nav {
 		display: flex;
-		justify-content: center;
+		justify-content: flex-end;
 		align-items: center;
+
+		width: 240px;
 
 		gap: 10px;
 	}
