@@ -15,29 +15,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useSearchStore } from '@/stores/search.ts'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Grid from '@/components/structures/Grid.vue'
 
-const props = defineProps({
-	modelValue: {
-		type: String,
-		default: ''
-	}
-})
+const value = ref('')
 
-const emit = defineEmits(['update:model-value'])
-
-const value = computed({
-	get() {
-		return props.modelValue
-	},
-	set(value) {
-		emit('update:model-value', value)
-	}
-})
+const searchStore = useSearchStore()
+watch(() => searchStore.search, () => value.value = searchStore.search)
 
 const columns = computed(() => {
 	if (value.value.length) return [4, 1]

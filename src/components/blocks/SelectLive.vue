@@ -56,7 +56,7 @@ interface Items {
 
 const props = defineProps({
 	modelValue: {
-		type: Object,
+		type: [Array, Object],
 		default: () => ({})
 	},
 	typeKey: {
@@ -75,6 +75,10 @@ const props = defineProps({
 	filterFields: {
 		type: Array,
 		default: () => (['id', 'name'])
+	},
+	multiple: {
+		type: Boolean,
+		default: false
 	}
 })
 
@@ -82,11 +86,22 @@ const emit = defineEmits(['update:model-value'])
 
 const value = computed({
 	get() {
-		loadItems(props.modelValue?.[props.typeKey])
+		const selectedObject = props.modelValue
+		if (props.multiple && Array.isArray(selectedObject)) {
+			console.log('Здесь стоит добавить загрузку элементов по поиску')
+		} else if (typeof selectedObject === 'object' && !Array.isArray(selectedObject)) {
+			const value = selectedObject?.[props.typeKey] ?? ''
+			loadItems(value)
+		}
+
 		return props.modelValue
 	},
 	set(value) {
-		emit('update:model-value', value)
+		if (props.multiple && Array.isArray(props.modelValue)) {
+			emit('update:model-value', [...props.modelValue, value])
+		} else {
+			emit('update:model-value', value)
+		}
 	}
 })
 
@@ -117,6 +132,7 @@ const loadItems = async (item: string) => {
 
 const select = (item: Item) => {
 	value.value = item
-	open.value = false
+
+	if (!props.multiple) open.value = false
 }
 </script>

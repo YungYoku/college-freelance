@@ -10,6 +10,8 @@
 			>
 		</router-link>
 
+		<JobSearch/>
+
 		<nav class="header__nav">
 			<router-link
 				v-for="link in filteredMenu"
@@ -32,6 +34,7 @@ import { useAuthStore } from '@/stores/auth'
 
 import ThemeColorToggle from '@/components/blocks/ThemeColorToggle.vue'
 import UserDropdown from '@/components/blocks/UserDropdown.vue'
+import JobSearch from '@/components/blocks/JobSearch.vue'
 
 const auth = useAuthStore()
 
@@ -65,7 +68,7 @@ const filteredMenu = computed(() => menu.filter(item => item.can))
 
 	&__logo {
 		max-width: 40px;
-		margin-right: 116px;
+		margin-right: 78px;
 		padding: 2px 4px;
 
 		background: #ffffff;

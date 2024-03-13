@@ -17,6 +17,7 @@ export interface User {
     verified: boolean
     role: 'admin' | 'customer' | 'executor'
     university: string,
+    disciplines: Array<string>
     expand?: {
         university: University
     }
