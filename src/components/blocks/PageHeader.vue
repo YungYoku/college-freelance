@@ -22,7 +22,10 @@
 			</router-link>
 
 
-			<Button variant="outline">
+			<Button
+				v-if="auth.isLoggedIn"
+				variant="outline"
+			>
 				<Icon
 					name="energy"
 					class="mr-1"
