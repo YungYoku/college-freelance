@@ -30,15 +30,15 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/node": "^20.11.26",
+    "@types/node": "^20.11.30",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vue/eslint-config-typescript": "^13.0.0",
-    "autoprefixer": "^10.4.18",
+    "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
-    "eslint-plugin-vue": "^9.23.0",
+    "eslint-plugin-vue": "^9.24.0",
     "prettier": "^3.2.5",
-    "sass": "1.71.1",
-    "stylelint": "^16.2.1",
+    "sass": "1.72.0",
+    "stylelint": "^16.3.1",
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-recess-order": "^5.0.0",
     "stylelint-config-recommended-vue": "^1.5.0",
@@ -46,12 +46,12 @@
     "stylelint-order": "^6.0.4",
     "stylelint-prettier": "^5.0.0",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.4.2",
-    "vite": "^5.1.6",
+    "typescript": "^5.4.3",
+    "vite": "^5.2.6",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-inspect": "^0.8.3",
-    "vite-plugin-pwa": "^0.19.2",
+    "vite-plugin-pwa": "^0.19.7",
     "vite-plugin-stylelint": "^5.3.1",
-    "vue-tsc": "^2.0.6"
+    "vue-tsc": "^2.0.7"
   }
 }
