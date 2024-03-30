@@ -42,9 +42,11 @@ import { useAuthStore } from '@/stores/auth.ts'
 import http from '@/plugins/http'
 import { JobOffer, JobOfferProposal } from '@/interfaces/JobOffer.ts'
 import { Chat } from '@/interfaces/Chat.ts'
+import { User } from '@/interfaces/User.ts'
 import { Button } from '@/components/ui/button'
 import PageTitle from '@/components/elements/PageTitle.vue'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useToast } from '@/components/ui/toast'
 
 const offer = ref<JobOffer>({
 	collectionId: '',
@@ -88,9 +90,17 @@ const loadOffer = async () => {
 loadOffer()
 
 const authStore = useAuthStore()
+const { toast } = useToast()
 
 const makeProposal = async () => {
 	if (isAlreadyProposed.value) return
+
+	if (authStore.user.energy < 1) {
+		toast({
+			title: 'Недостаточно энергии для отклика'
+		})
+		return
+	}
 
 	loading.value = true
 
@@ -112,6 +122,12 @@ const makeProposal = async () => {
 		.then(response => {
 			offer.value = response
 		})
+
+	await http
+		.patch<User>(`/collections/users/records/${authStore.user.id}`, {
+			energy: authStore.user.energy - 1
+		})
+		.then((user) => authStore.setUser(user))
 
 	loading.value = false
 }

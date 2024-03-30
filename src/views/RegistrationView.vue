@@ -97,7 +97,8 @@ const form = reactive({
 	username: '',
 	password: '',
 	passwordConfirm: '',
-	role: 'customer'
+	role: 'customer',
+	energy: 20
 })
 
 const loading = ref(false)
