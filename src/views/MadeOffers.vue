@@ -4,6 +4,7 @@
 			v-for="offer in offers"
 			:key="offer.id"
 			:job-offer="offer"
+			:loading="loading"
 			show-responses
 			show-remove
 			@show-responses="openResponses"
@@ -63,16 +64,23 @@ import Chat from '@/components/sections/Chat.vue'
 
 const auth = useAuthStore()
 
-const offers = ref<Array<IJobOffer>>([])
+const offers = ref<Array<IJobOffer | {id: number}>>([
+	{ id: 0 }, { id: 1 }, { id: 2 }, { id: 3 }
+])
 
+const loading = ref(true)
 const getUserOffers = async () => {
 	if (auth.user.id === '') return
+
+	loading.value = true
 
 	await http
 		.get<JobOffers>(`/collections/job_offers/records?filter=(creator='${auth.user.id}')&expand=proposals`)
 		.then(response => {
 			offers.value = response.items
 		})
+
+	loading.value = false
 }
 
 watch(() => auth.user.id, getUserOffers, { immediate: true })
