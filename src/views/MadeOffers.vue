@@ -69,7 +69,7 @@ const getUserOffers = async () => {
 	if (auth.user.id === '') return
 
 	await http
-		.get<JobOffers>(`/collections/job_offers/records?filter=(creator='${auth.user.id}')`)
+		.get<JobOffers>(`/collections/job_offers/records?filter=(creator='${auth.user.id}')&expand=proposals`)
 		.then(response => {
 			offers.value = response.items
 		})
@@ -81,11 +81,11 @@ const openedOffer = ref<IJobOffer | null>(null)
 const responsesUsers = ref<Array<User>>([])
 
 const openResponses = async (offer: IJobOffer) => {
-	if (offer.proposals.length === 0) return
+	if (!offer.expand?.proposals || offer.expand?.proposals?.length === 0) return
 
 	openedOffer.value = offer
 
-	let ids = offer.proposals.reduce((result, id) => result + `id='${id}' || `, '')
+	let ids = offer.expand.proposals.reduce((result, proposal) => result + `id='${proposal.user}' || `, '')
 	ids = ids.slice(0, ids.length - 3)
 	await http
 		.get<Users>(`/collections/users/records?filter=(${ids})`)
@@ -101,12 +101,17 @@ const closeResponses = () => {
 
 const pickExecutor = async (user: User) => {
 	if (!openedOffer.value) return
+	const executorChat = openedOffer.value.expand?.proposals?.find(proposal => proposal.user === user.id)?.chat
 
 	await http
 		.patch(`/collections/job_offers/records/${openedOffer.value.id}`, {
-			executor: user.id
+			executor: user.id,
+			chat: executorChat
 		})
-		.then(closeResponses)
+		.then(() => {
+			closeResponses()
+			getUserOffers()
+		})
 }
 
 const remove = async (offer: IJobOffer) => {
