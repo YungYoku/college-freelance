@@ -35,12 +35,6 @@
 						Выполняемые объявления
 					</DropdownMenuItem>
 				</router-link>
-
-				<DropdownMenuSeparator/>
-
-				<DropdownMenuItem disabled>
-					Стоимость
-				</DropdownMenuItem>
 			</DropdownMenuGroup>
 
 			<DropdownMenuSeparator/>
@@ -52,9 +46,6 @@
 					</DropdownMenuSubTrigger>
 					<DropdownMenuPortal>
 						<DropdownMenuSubContent>
-							<DropdownMenuItem disabled>
-								Почта
-							</DropdownMenuItem>
 							<DropdownMenuItem disabled>
 								Сообщение
 							</DropdownMenuItem>

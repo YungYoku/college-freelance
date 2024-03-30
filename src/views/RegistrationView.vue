@@ -47,7 +47,13 @@
 			</CardContent>
 
 			<CardFooter>
+				<Skeleton
+					v-if="loading"
+					class="h-9 w-[100px]"
+				/>
+
 				<Button
+					v-else
 					type="submit"
 					@click="register"
 				>
@@ -59,7 +65,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 import http from '@/plugins/http/index'
@@ -83,6 +89,7 @@ import {
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const router = useRouter()
 
@@ -93,13 +100,23 @@ const form = reactive({
 	role: 'customer'
 })
 
-const register = () => {
-	if (form.password.length >= 8 && form.passwordConfirm === form.password && form.username.length) {
-		http
+const loading = ref(false)
+const register = async () => {
+	if (isRegistrationPossible.value) {
+		loading.value = true
+
+		await http
 			.post('/collections/users/records', { ...form })
 			.then(() => {
 				router.push('/')
 			})
+			.catch(() => {
+				loading.value = false
+			})
 	}
 }
+
+const isRegistrationPossible = computed(() => {
+	return form.password.length >= 8 && form.passwordConfirm === form.password && form.username.length
+})
 </script>

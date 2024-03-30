@@ -24,7 +24,13 @@
 			</CardContent>
 
 			<CardFooter>
+				<Skeleton
+					v-if="loading"
+					class="h-9 w-[100px]"
+				/>
+
 				<Button
+					v-else
 					type="submit"
 					@click="login"
 				>
@@ -36,7 +42,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 import http from '@/plugins/http/index'
@@ -46,6 +52,7 @@ import AuthLayout from '@/components/layouts/AuthLayout.vue'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 const auth = useAuthStore()
@@ -57,15 +64,23 @@ const form = reactive({
 	password: ''
 })
 
-const login = () => {
-	if (form.password.length >= 8 && form.identity.length) {
-		http
+const loading = ref(false)
+const login = async () => {
+	if (isLoginPossible.value) {
+		loading.value = true
+
+		await http
 			.post<UserLogin>('/collections/users/auth-with-password', form)
 			.then((res) => {
 				auth.setToken(res.token)
 				auth.setUser(res.record)
 				router.push('/')
 			})
+			.catch(() => {
+				loading.value = false
+			})
 	}
 }
+
+const isLoginPossible = computed(() => form.password.length >= 8 && form.identity.length)
 </script>
