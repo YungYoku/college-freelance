@@ -17,10 +17,10 @@
 		</div>
 
 		<Button
-			v-if="!loading"
-			:disabled="isResponseButtonDisabled"
+			v-if="!loading && !isItMyOffer"
+			:disabled="isAlreadyProposed"
 			class="ml-auto"
-			@click="leaveResponse"
+			@click="makeProposal"
 		>
 			Откликнуться
 		</Button>
@@ -33,7 +33,8 @@ import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
-import { JobOffer } from '@/interfaces/JobOffer.ts'
+import { JobOffer, JobOfferProposal } from '@/interfaces/JobOffer.ts'
+import { Chat } from '@/interfaces/Chat.ts'
 import { Button } from '@/components/ui/button'
 import PageTitle from '@/components/elements/PageTitle.vue'
 
@@ -54,7 +55,11 @@ const offer = ref<JobOffer>({
 	updated: '',
 	type: '',
 	executor: '',
-	responses: []
+	chat: '',
+	proposals: [],
+	expand: {
+		proposals: []
+	}
 })
 
 const route = useRoute()
@@ -65,7 +70,7 @@ const loadOffer = async () => {
 	if (!id) return
 
 	await http
-		.get<JobOffer>(`/collections/job_offers/records/${id}`)
+		.get<JobOffer>(`/collections/job_offers/records/${id}?expand=proposals`)
 		.then(response => {
 			offer.value = response
 		})
@@ -75,18 +80,35 @@ const loadOffer = async () => {
 loadOffer()
 
 const authStore = useAuthStore()
-const leaveResponse = async () => {
-	if (isResponseButtonDisabled.value) return
+
+const makeProposal = async () => {
+	if (isAlreadyProposed.value) return
+
+	const chatId = await http
+		.post<Chat>('/collections/chats/records')
+		.then(({ id }) => id)
+
+	const proposalId = await http
+		.post<JobOfferProposal>('/collections/job_offer_proposals/records', {
+			chat: chatId,
+			user: authStore.user.id
+		})
+		.then(({ id }) => id)
 
 	await http
-		.patch<JobOffer>(`/collections/job_offers/records/${id}`, {
-			responses: [...offer.value.responses, authStore.user.id]
+		.patch<JobOffer>(`/collections/job_offers/records/${offer.value.id}`, {
+			proposals: [...offer.value.proposals, proposalId]
+		})
+		.then(response => {
+			offer.value = response
 		})
 }
 
-const isResponseButtonDisabled = computed(() => {
-	const isAlreadyResponded = !offer.value.responses.includes(authStore.user.id)
-	const isItMyOffer = offer.value.creator === authStore.user.id
-	return isAlreadyResponded || isItMyOffer || loading.value
+const isItMyOffer = computed(() => offer.value.creator === authStore.user.id)
+const isAlreadyProposed = computed(() => {
+	const proposals = offer.value.expand?.proposals ?? []
+	const proposal = proposals.find(proposal => proposal.user === authStore.user.id)
+
+	return proposal ?? null
 })
 </script>
