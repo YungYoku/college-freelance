@@ -64,8 +64,28 @@ import Chat from '@/components/sections/Chat.vue'
 
 const auth = useAuthStore()
 
-const offers = ref<Array<IJobOffer | {id: number}>>([
-	{ id: 0 }, { id: 1 }, { id: 2 }, { id: 3 }
+const emptyOffer: IJobOffer = {
+	chat: '',
+	collectionId: '',
+	collectionName: '',
+	created: '',
+	creator: '',
+	deadline: new Date(),
+	discipline: '',
+	executor: '',
+	id: '',
+	proposals: [],
+	rating: 0,
+	status: 0,
+	type: '',
+	university: '',
+	updated: '',
+	title: '',
+	description: '',
+	price: 0
+}
+const offers = ref<Array<IJobOffer>>([
+	emptyOffer, emptyOffer, emptyOffer, emptyOffer
 ])
 
 const loading = ref(true)
