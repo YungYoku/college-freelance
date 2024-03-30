@@ -1,62 +1,114 @@
 <template>
 	<div class="job-offer bg-primary-foreground">
 		<div class="job-offer__actions">
-			<div
-				v-if="jobOffer.executor && showResponses"
-				@click="openChat"
-			>
-				<Icon
-					name="comment-dots"
-					size="s"
+			<template v-if="jobOffer.executor && showResponses">
+				<Skeleton
+					v-if="loading"
+					class="h-6 w-[24px]"
 				/>
-			</div>
+				<div
+					v-else
+					@click="openChat"
+				>
+					<Icon
+						name="comment-dots"
+						size="s"
+					/>
+				</div>
+			</template>
 
-			<div
-				v-else-if="jobOffer.proposals && showResponses"
-				class="job-offer__responses"
-				@click="openResponse"
-			>
-				<Icon
-					name="user"
-					size="s"
+			<template v-else-if="jobOffer.proposals && showResponses">
+				<Skeleton
+					v-if="loading"
+					class="h-6 w-[24px]"
 				/>
-				{{ jobOffer.proposals.length }}
-			</div>
+				<div
+					v-else
+					class="job-offer__responses"
+					@click="openResponse"
+				>
+					<Icon
+						name="user"
+						size="s"
+					/>
+					{{ jobOffer.proposals.length }}
+				</div>
+			</template>
 
-			<div
-				v-if="showRemove"
-				@click="remove"
-			>
-				<Icon
-					name="trash"
-					size="s"
+			<template v-if="showRemove">
+				<Skeleton
+					v-if="loading"
+					class="h-6 w-[24px]"
 				/>
-			</div>
+				<div
+					v-else
+					@click="remove"
+				>
+					<Icon
+						name="trash"
+						size="s"
+					/>
+				</div>
+			</template>
 		</div>
 
+
+		<Skeleton
+			v-if="loading"
+			class="h-6 w-[200px]"
+		/>
 		<router-link
+			v-else
 			:to="`/offer/${jobOffer.id}`"
 			class="job-offer__title"
 		>
 			{{ jobOffer.title }}
 		</router-link>
 
-		<div class="job-offer__description">
+
+		<Skeleton
+			v-if="loading"
+			class="h-4 w-[140px]"
+		/>
+		<div
+			v-else
+			class="job-offer__description"
+		>
 			{{ jobOffer.description }}
 		</div>
 
-		<div class="job-offer__price">
+
+		<Skeleton
+			v-if="loading"
+			class="h-4 w-[100px]"
+		/>
+		<div
+			v-else
+			class="job-offer__price"
+		>
 			Доход: {{ jobOffer.price }} ₽
 		</div>
 
+
 		<div class="job-offer__footer">
+			<Skeleton
+				v-if="loading"
+				class="h-6 w-[200px]"
+			/>
 			<User
-				v-if="jobOffer?.expand?.creator"
+				v-else-if="jobOffer?.expand?.creator"
 				class="job-offer__user"
 				:user="jobOffer.expand.creator"
 			/>
 
-			<div class="job-offer__deadline">
+			<Skeleton
+				v-if="loading"
+				class="h-6 w-[200px]"
+			/>
+			<div
+				v-else
+				class="job-offer__deadline"
+			>
 				Дедлайн: {{ deadline }}
 			</div>
 		</div>
@@ -65,9 +117,11 @@
 
 <script setup lang="ts">
 import { computed, PropType } from 'vue'
+
 import { JobOffer } from '@/interfaces/JobOffer'
 import User from '@/components/blocks/User.vue'
 import Icon from '@/components/elements/Icon.vue'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const props = defineProps({
 	jobOffer: {
@@ -79,6 +133,10 @@ const props = defineProps({
 		default: false
 	},
 	showRemove: {
+		type: Boolean,
+		default: false
+	},
+	loading: {
 		type: Boolean,
 		default: false
 	}
