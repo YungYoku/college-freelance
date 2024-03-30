@@ -16,14 +16,21 @@
 			Рейтинг: {{ offer.rating }}
 		</div>
 
-		<Button
-			v-if="!loading && !isItMyOffer"
-			:disabled="isAlreadyProposed"
-			class="ml-auto"
-			@click="makeProposal"
-		>
-			Откликнуться
-		</Button>
+		<template v-if="!isItMyOffer">
+			<Skeleton
+				v-if="loading"
+				class="h-9 w-[119px] ml-auto"
+			/>
+
+			<Button
+				v-else
+				:disabled="isAlreadyProposed"
+				class="ml-auto"
+				@click="makeProposal"
+			>
+				Откликнуться
+			</Button>
+		</template>
 	</div>
 </template>
 
@@ -37,6 +44,7 @@ import { JobOffer, JobOfferProposal } from '@/interfaces/JobOffer.ts'
 import { Chat } from '@/interfaces/Chat.ts'
 import { Button } from '@/components/ui/button'
 import PageTitle from '@/components/elements/PageTitle.vue'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const offer = ref<JobOffer>({
 	collectionId: '',
@@ -84,6 +92,8 @@ const authStore = useAuthStore()
 const makeProposal = async () => {
 	if (isAlreadyProposed.value) return
 
+	loading.value = true
+
 	const chatId = await http
 		.post<Chat>('/collections/chats/records')
 		.then(({ id }) => id)
@@ -96,12 +106,14 @@ const makeProposal = async () => {
 		.then(({ id }) => id)
 
 	await http
-		.patch<JobOffer>(`/collections/job_offers/records/${offer.value.id}`, {
+		.patch<JobOffer>(`/collections/job_offers/records/${offer.value.id}?expand=proposals`, {
 			proposals: [...offer.value.proposals, proposalId]
 		})
 		.then(response => {
 			offer.value = response
 		})
+
+	loading.value = false
 }
 
 const isItMyOffer = computed(() => offer.value.creator === authStore.user.id)
