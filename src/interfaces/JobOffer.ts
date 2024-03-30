@@ -1,4 +1,5 @@
 import { User } from '@/interfaces/User.ts'
+import { Chat } from '@/interfaces/Chat.ts'
 
 export interface JobOffer {
     id: string
@@ -16,10 +17,27 @@ export interface JobOffer {
     university: string
     discipline: string
     executor: string
-    responses: Array<string>
+    proposals: Array<string>
+    chat: string
     type: string
     expand?: {
         creator?: User
+        chat?: Chat,
+        proposals?: Array<JobOfferProposal>
+    }
+}
+
+export interface JobOfferProposal {
+    id: string
+    collectionId: string
+    collectionName: string
+    created: string
+    updated: string
+    user: string
+    chat: string
+    expand?: {
+        user?: User
+        chat?: Chat
     }
 }
 

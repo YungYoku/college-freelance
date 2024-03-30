@@ -12,7 +12,7 @@
 			</div>
 
 			<div
-				v-else-if="jobOffer.responses && showResponses"
+				v-else-if="jobOffer.proposals && showResponses"
 				class="job-offer__responses"
 				@click="openResponse"
 			>
@@ -20,7 +20,7 @@
 					name="user"
 					size="s"
 				/>
-				{{ jobOffer.responses.length }}
+				{{ jobOffer.proposals.length }}
 			</div>
 
 			<div

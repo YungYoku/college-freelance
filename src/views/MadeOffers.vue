@@ -43,7 +43,7 @@
 		v-if="openedChat"
 		@close="closeChat"
 	>
-		<Chat/>
+		<Chat :id="openedChat.chat"/>
 	</Modal>
 </template>
 
@@ -81,11 +81,11 @@ const openedOffer = ref<IJobOffer | null>(null)
 const responsesUsers = ref<Array<User>>([])
 
 const openResponses = async (offer: IJobOffer) => {
-	if (offer.responses.length === 0) return
+	if (offer.proposals.length === 0) return
 
 	openedOffer.value = offer
 
-	let ids = offer.responses.reduce((result, id) => result + `id='${id}' || `, '')
+	let ids = offer.proposals.reduce((result, id) => result + `id='${id}' || `, '')
 	ids = ids.slice(0, ids.length - 3)
 	await http
 		.get<Users>(`/collections/users/records?filter=(${ids})`)

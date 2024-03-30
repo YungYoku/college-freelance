@@ -73,6 +73,7 @@ const offerType = ref({
 })
 
 const newOffer = reactive<JobOffer>({
+	chat: '',
 	collectionId: '',
 	collectionName: '',
 	created: '',
@@ -81,7 +82,7 @@ const newOffer = reactive<JobOffer>({
 	executor: '',
 	id: '',
 	rating: 0,
-	responses: [],
+	proposals: [],
 	status: 0,
 	university: '',
 	updated: '',
