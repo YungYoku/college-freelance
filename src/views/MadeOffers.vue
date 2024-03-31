@@ -42,6 +42,7 @@
 
 	<Modal
 		v-if="openedChat"
+		:width="600"
 		@close="closeChat"
 	>
 		<Chat :id="openedChat.chat"/>
