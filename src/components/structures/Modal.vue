@@ -56,7 +56,6 @@ const close = () => emit('close')
     padding: 10px;
 
 	background-color: rgba(26, 26, 26, 0.7);
-    border-radius: 5px;
 
     &__form {
 		position: relative;

@@ -6,5 +6,8 @@ export interface Chat {
 	collectionName: string
 	created: string
 	updated: string
-	messages: Array<Message>
+	messages: Array<string>,
+	expand: {
+		messages?: Array<Message>
+	}
 }
