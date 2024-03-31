@@ -25,6 +25,11 @@
 							:value="item.name"
 							@select="select(item)"
 						>
+							<Checkbox
+								v-if="multiple"
+								class="mr-1"
+							/>
+
 							{{ item.name }}
 						</CommandItem>
 					</CommandGroup>
@@ -40,6 +45,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import http from '@/plugins/http'
+import { Checkbox } from '@/components/ui/checkbox'
 
 interface Item {
 	id: string
@@ -56,7 +62,7 @@ interface Items {
 
 const props = defineProps({
 	modelValue: {
-		type: [Array, Object],
+		type: [Array<object>, Object],
 		default: () => ({})
 	},
 	typeKey: {
@@ -86,18 +92,20 @@ const emit = defineEmits(['update:model-value'])
 
 const showedResult = computed(() => {
 	const _val = value.value
-	if (Array.isArray(_val)) return _val.map(item => item?.[props.typeKey]).join(', ')
+
+	if (Array.isArray(_val)) return `Выбрано ${_val.length} элементов`
 	return _val?.length ? _val : props.placeHolder
 })
 
 const value = computed({
 	get() {
-		const selectedObject = props.modelValue
-		if (props.multiple && Array.isArray(selectedObject)) {
+		const selectedValue = props.modelValue
+		if (props.multiple && Array.isArray(selectedValue)) {
 			// Здесь стоит добавить загрузку элементов по поиску
+			loadItems(selectedValue)
 			return props.modelValue
-		} else if (typeof selectedObject === 'object' && !Array.isArray(selectedObject)) {
-			const value = selectedObject?.[props.typeKey] ?? ''
+		} else if (typeof selectedValue === 'object' && !Array.isArray(selectedValue)) {
+			const value = selectedValue?.[props.typeKey] ?? ''
 			loadItems(value)
 			return value
 		}
@@ -123,14 +131,25 @@ const handleType = (e: Event) => {
 	loadItems(target.value)
 }
 
-const loadItems = async (item: string) => {
+const loadItems = async (item: string | Array<object>) => { // Проблема с символами в строке (меняются на что то)
+	if (!item) return
+
 	let query = '?sort=name'
-	if (item) {
+	if (typeof item === 'string') {
 		query += '&filter=('
 		props.filterFields.forEach(field => {
-			query += `${field}~'${item}' ||`
+			query += `${field}~'${item}' || `
 		})
-		query = query.slice(0, query.length - 2)
+		query = query.slice(0, query.length - 3)
+		query += ')'
+	} else if (item.length) {
+		query += '&filter=('
+		item.forEach(value => {
+			props.filterFields.forEach(field => {
+				query += `${field}~'${value}' || `
+			})
+		})
+		query = query.slice(0, query.length - 3)
 		query += ')'
 	}
 
