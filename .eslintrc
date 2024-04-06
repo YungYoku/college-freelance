@@ -1,91 +1,94 @@
 {
-  "root": true,
-  "env": {
-    "node": true,
-    "browser": true,
-    "es6": true,
-    "vue/setup-compiler-macros": true
-  },
-  "parserOptions": {
-    "ecmaVersion": "latest"
-  },
-  "extends": [
-    "plugin:vue/vue3-recommended",
-    "eslint:recommended",
-    "@vue/eslint-config-typescript/recommended"
-  ],
-  "ignorePatterns": ["**/ui/**/*.vue", "**/ui/**/*.ts", "**/lib/utils.ts"],
-  "rules": {
-    "vue/multi-word-component-names": "off",
-    "vue/no-reserved-component-names": "off",
-    "vue/no-v-html": "off",
-    "vue/html-indent": [
-      "warn",
-      "tab"
-    ],
-    "vue/html-closing-bracket-spacing": ["error", {
-      "startTag": "never",
-      "endTag": "never",
-      "selfClosingTag": "never"
-    }],
-    "indent": [
-      "warn",
-      "tab"
-    ],
-    "semi": [
-      "warn",
-      "never"
-    ],
-    "quotes": [
-      "warn",
-      "single"
-    ],
-    "no-multi-spaces": [
-      "warn"
-    ],
-    "object-curly-spacing": [
-      "warn",
-      "always"
-    ],
-    "keyword-spacing": [
-      "warn",
-      {
-        "after": true,
-        "before": true
-      }
-    ],
-    "comma-spacing": [
-      "warn",
-      {
-        "after": true,
-        "before": false
-      }
-    ],
-    "key-spacing": [
-      "warn",
-      {
-        "beforeColon": false,
-        "afterColon": true
-      }
-    ],
-    "no-console": [
-      "warn",
-      {
-        "allow": ["warn", "error"]
-      }
-    ],
-    "arrow-spacing": [
-      "warn",
-      {
-        "before": true,
-        "after": true
-      }
-    ],
-    "space-infix-ops": [
-      "warn",
-      {
-        "int32Hint": false
-      }
-    ]
-  }
+	"root": true,
+	"env": {
+		"node": true,
+		"browser": true,
+		"es6": true,
+		"vue/setup-compiler-macros": true
+	},
+	"parserOptions": {
+		"ecmaVersion": "latest"
+	},
+	"extends": [
+		"plugin:vue/vue3-recommended",
+		"eslint:recommended",
+		"@vue/eslint-config-typescript/recommended"
+	],
+	"plugins": [
+		"@stylistic/js"
+	],
+	"ignorePatterns": ["**/ui/**/*.vue", "**/ui/**/*.ts", "**/lib/utils.ts"],
+	"rules": {
+		"no-console": [
+			"warn",
+			{
+				"allow": ["warn", "error"]
+			}
+		],
+		"vue/multi-word-component-names": "off",
+		"vue/no-reserved-component-names": "off",
+		"vue/no-v-html": "off",
+		"vue/html-indent": [
+			"warn",
+			"tab"
+		],
+		"vue/html-closing-bracket-spacing": ["error", {
+			"startTag": "never",
+			"endTag": "never",
+			"selfClosingTag": "never"
+		}],
+		"@stylistic/js/indent": [
+			"warn",
+			"tab"
+		],
+		"@stylistic/js/semi": [
+			"warn",
+			"never"
+		],
+		"@stylistic/js/quotes": [
+			"warn",
+			"single"
+		],
+		"@stylistic/js/no-multi-spaces": [
+			"warn"
+		],
+		"@stylistic/js/object-curly-spacing": [
+			"warn",
+			"always"
+		],
+		"@stylistic/js/keyword-spacing": [
+			"warn",
+			{
+				"after": true,
+				"before": true
+			}
+		],
+		"@stylistic/js/comma-spacing": [
+			"warn",
+			{
+				"after": true,
+				"before": false
+			}
+		],
+		"@stylistic/js/key-spacing": [
+			"warn",
+			{
+				"beforeColon": false,
+				"afterColon": true
+			}
+		],
+		"@stylistic/js/arrow-spacing": [
+			"warn",
+			{
+				"before": true,
+				"after": true
+			}
+		],
+		"@stylistic/js/space-infix-ops": [
+			"warn",
+			{
+				"int32Hint": false
+			}
+		]
+	}
 }
