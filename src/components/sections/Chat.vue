@@ -2,7 +2,7 @@
 	<Grid class="chat">
 		<div class="chat__messages">
 			<div
-				v-for="message in chat.expand.messages"
+				v-for="message in chat.expand?.messages ?? []"
 				:key="message.id"
 				class="chat__message flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm"
 				:class="{
