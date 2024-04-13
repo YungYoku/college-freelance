@@ -4,7 +4,7 @@
 		@click.self="close"
 	>
 		<form
-			class="modal__form"
+			class="modal__form rounded-xl border bg-card text-card-foreground shadow"
 			:style="style"
 			@submit.prevent
 		>
@@ -67,8 +67,6 @@ const close = () => emit('close')
         max-width: 100%;
 		min-height: 70px;
         padding: 40px 10px 10px 10px;
-
-		background-color: #1a1a1a;
     }
 
 	&__close {
