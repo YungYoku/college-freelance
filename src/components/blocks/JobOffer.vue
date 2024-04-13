@@ -1,7 +1,7 @@
 <template>
 	<div class="job-offer bg-primary-foreground">
 		<div class="job-offer__actions">
-			<template v-if="jobOffer.executor && showResponses">
+			<template v-if="jobOffer.executor && showChat">
 				<Skeleton
 					v-if="loading"
 					class="h-6 w-[24px]"
@@ -129,6 +129,10 @@ const props = defineProps({
 		required: true
 	},
 	showResponses: {
+		type: Boolean,
+		default: false
+	},
+	showChat: {
 		type: Boolean,
 		default: false
 	},

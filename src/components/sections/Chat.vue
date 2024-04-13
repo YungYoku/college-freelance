@@ -2,9 +2,16 @@
 	<Grid class="chat">
 		<div class="chat__messages">
 			<div
-				v-for="message in chat.expand.messages"
+				v-for="message in chat.expand?.messages ?? []"
 				:key="message.id"
-				class="chat__message"
+				class="chat__message flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm"
+				:class="{
+					'text-primary-foreground': message.user === auth.user.id,
+					'bg-primary': message.user === auth.user.id,
+					'bg-muted': message.user !== auth.user.id,
+					'ml-auto': message.user === auth.user.id,
+					'mr-auto': message.user !== auth.user.id
+				}"
 			>
 				{{ message.text }}
 			</div>
@@ -69,6 +76,7 @@ const loadChat = async () => {
 		.get<Chat>(`/collections/chats/records/${props.id}?expand=messages`)
 		.then(response => {
 			chat.value = response
+			console.log(response)
 		})
 
 	loading.value = false
@@ -107,7 +115,11 @@ const sendMessage = async () => {
 <style scoped lang="scss">
 .chat {
 	&__messages {
+		display: flex;
+		flex-direction: column;
+
 		min-height: 300px;
+		gap: 10px;
 	}
 }
 </style>

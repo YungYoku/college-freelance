@@ -27,6 +27,7 @@
 						>
 							<Checkbox
 								v-if="multiple"
+								:checked="selectedItems.some(i => i.id === item.id)"
 								class="mr-1"
 							/>
 
@@ -97,12 +98,17 @@ const showedResult = computed(() => {
 	return _val?.length ? _val : props.placeHolder
 })
 
+const open = ref(false)
+const items = ref<Array<Item>>([])
+
 const value = computed({
 	get() {
 		const selectedValue = props.modelValue
 		if (props.multiple && Array.isArray(selectedValue)) {
 			// Здесь стоит добавить загрузку элементов по поиску
-			loadItems(selectedValue)
+			if (items.value.length === 0) {
+				loadItems(selectedValue)
+			}
 			return props.modelValue
 		} else if (typeof selectedValue === 'object' && !Array.isArray(selectedValue)) {
 			const value = selectedValue?.[props.typeKey] ?? ''
@@ -113,18 +119,13 @@ const value = computed({
 		return props.modelValue
 	},
 	set(value) {
-		if (props.multiple && Array.isArray(props.modelValue)) {
-			emit('update:model-value', [...props.modelValue, value])
-		} else {
-			if (typeof value === 'object') { // Костыль
-				emit('update:model-value', value)
-			}
+		if (props.multiple && Array.isArray(props.modelValue) && Array.isArray(value)) {
+			emit('update:model-value', [...value])
+		} else if (typeof value === 'object') {
+			emit('update:model-value', value)
 		}
 	}
 })
-
-const open = ref(false)
-const items = ref<Array<Item>>([])
 
 const handleType = (e: Event) => {
 	const target = e.target as HTMLInputElement
@@ -159,9 +160,20 @@ const loadItems = async (item: string | Array<object>) => { // Проблема 
 		})
 }
 
-const select = (item: Item) => {
-	value.value = item
+const selectedItems = ref<Array<Item>>([])
 
-	if (!props.multiple) open.value = false
+const select = (item: Item) => {
+	if (props.multiple && Array.isArray(value.value)) {
+		if (value.value.some(i => i.id === item.id)) {
+			value.value = value.value.filter(i => i.id !== item.id)
+			selectedItems.value = selectedItems.value.filter(i => i.id !== item.id)
+		} else {
+			value.value = [...value.value, item]
+			selectedItems.value.push(item)
+		}
+	} else {
+		value.value = item
+		open.value = false
+	}
 }
 </script>

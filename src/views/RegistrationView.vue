@@ -16,6 +16,18 @@
 					/>
 
 					<Input
+						v-model.trim="form.name"
+						placeholder="Имя"
+						type="text"
+					/>
+
+					<Input
+						v-model.trim="form.surname"
+						placeholder="Фамилия"
+						type="text"
+					/>
+
+					<Input
 						v-model.trim="form.password"
 						placeholder="Пароль"
 						type="password"
@@ -95,10 +107,12 @@ const router = useRouter()
 
 const form = reactive({
 	username: '',
+	name: '',
+	surname: '',
 	password: '',
 	passwordConfirm: '',
 	role: 'customer',
-	energy: 20
+	energy: 100
 })
 
 const loading = ref(false)

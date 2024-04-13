@@ -6,6 +6,7 @@
 			:job-offer="offer"
 			:loading="loading"
 			show-responses
+			show-chat
 			show-remove
 			@show-responses="openResponses"
 			@show-chat="openChat"
