@@ -5,6 +5,7 @@ export interface Message {
 	created: string
 	updated: string
 	text: string
+	file: File
 	user: string
 }
 

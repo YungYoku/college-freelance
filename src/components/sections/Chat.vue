@@ -4,7 +4,7 @@
 			<div
 				v-for="message in chat.expand?.messages ?? []"
 				:key="message.id"
-				class="chat__message flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm"
+				class="chat__message flex w-max max-w-[75%] flex-col gap-1 rounded-lg px-3 py-2"
 				:class="{
 					'text-primary-foreground': message.user === auth.user.id,
 					'bg-primary': message.user === auth.user.id,
@@ -13,13 +13,27 @@
 					'mr-auto': message.user !== auth.user.id
 				}"
 			>
-				{{ message.text }}
+				<span class="text-sm">{{ message.text }}</span>
+
+				<File
+					v-if="message.file"
+					:src="`${message.collectionId}/${message.id}/${message.file}`"
+				/>
+
+				<span class="text-xs">{{ message.created }}</span>
 			</div>
 		</div>
 
 		<Input
 			v-model="newMessage"
+			:disabled="loading"
 			placeholder="Введите сообщение..."
+		/>
+
+		<Input
+			:disabled="loading"
+			type="file"
+			@input="updateFile"
 		/>
 
 		<Skeleton
@@ -45,6 +59,7 @@ import { Chat } from '@/interfaces/Chat.ts'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Grid from '@/components/structures/Grid.vue'
+import File from '@/components/elements/File.vue'
 import { Message } from '@/interfaces/Message.ts'
 import { Skeleton } from '@/components/ui/skeleton'
 
@@ -76,7 +91,6 @@ const loadChat = async () => {
 		.get<Chat>(`/collections/chats/records/${props.id}?expand=messages`)
 		.then(response => {
 			chat.value = response
-			console.log(response)
 		})
 
 	loading.value = false
@@ -87,17 +101,20 @@ watch(() => props.id, loadChat, { immediate: true })
 const auth = useAuthStore()
 
 const newMessage = ref('')
-
+const file = ref<File | null>(null)
 const sendMessage = async () => {
 	if (newMessage.value.length === 0) return
 
 	loading.value = true
 
+	const formData = new FormData()
+
+	formData.append('text', newMessage.value)
+	formData.append('user', auth.user.id)
+	formData.append('file', file.value ?? '')
+
 	const messageId = await http
-		.post<Message>('/collections/messages/records', {
-			text: newMessage.value,
-			user: auth.user.id
-		})
+		.post<Message>('/collections/messages/records', formData)
 		.then(({ id }) => id)
 
 	await http
@@ -108,7 +125,15 @@ const sendMessage = async () => {
 	await loadChat()
 
 	newMessage.value = ''
+	file.value = null
 	loading.value = false
+}
+
+const updateFile = (event: Event) => {
+	const target = event.target as HTMLInputElement
+	if (target.files) {
+		file.value = target.files[0]
+	}
 }
 </script>
 
