@@ -47,8 +47,18 @@ const loading = ref(true)
 const loadOffers = async () => {
 	loading.value = true
 
+	const year = new Date().getFullYear()
+	const month = new Date().getMonth() + 1
+	const getFormattedMonth = (month: number) => month < 10 ? '0' + month : month
+	const day = new Date().getDate()
+	const getFormattedDay = (day: number) => day < 10 ? '0' + day : day
+	const today = `${year}-${getFormattedMonth(month)}-${getFormattedDay(day)}`
+
+	const filter = `(status='created' && deadline>='${today}')`
+	const encodedFilter = encodeURIComponent(filter)
+
 	await http
-		.get<JobOffers>('/collections/job_offers/records?filter=(status=\'created\')&expand=creator&perPage=12')
+		.get<JobOffers>(`/collections/job_offers/records?filter=${encodedFilter}&expand=creator&perPage=12`)
 		.then(res => {
 			offers.value = res.items
 		})

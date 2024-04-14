@@ -60,7 +60,7 @@
 		<router-link
 			v-else
 			:to="`/offer/${jobOffer.id}`"
-			class="job-offer__title"
+			class="job-offer__title text-2xl"
 		>
 			{{ jobOffer.title }}
 		</router-link>
@@ -72,7 +72,7 @@
 		/>
 		<div
 			v-else
-			class="job-offer__description"
+			class="job-offer__description text-sm"
 		>
 			{{ jobOffer.description }}
 		</div>
@@ -84,7 +84,7 @@
 		/>
 		<div
 			v-else
-			class="job-offer__price"
+			class="job-offer__price text-sm"
 		>
 			Доход: {{ jobOffer.price }} ₽
 		</div>
@@ -107,7 +107,7 @@
 			/>
 			<div
 				v-else
-				class="job-offer__deadline"
+				class="job-offer__deadline text-xs"
 			>
 				Дедлайн: {{ deadline }}
 			</div>
@@ -189,16 +189,6 @@ const deadline = computed(() => {
             cursor: pointer;
         }
     }
-
-	&__title {
-		font-size: 20px;
-	}
-
-	&__description,
-	&__price,
-	&__deadline {
-		font-size: 14px;
-	}
 
     &__title,
 	&__description {
