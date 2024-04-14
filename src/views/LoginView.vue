@@ -1,6 +1,6 @@
 <template>
 	<AuthLayout>
-		<Card>
+		<Card class="w-[300px]">
 			<CardHeader>
 				<CardTitle>
 					Вход
@@ -20,23 +20,31 @@
 						placeholder="Пароль"
 						type="password"
 					/>
+
+					<Skeleton
+						v-if="loading"
+						class="h-9"
+					/>
+
+					<Button
+						v-else
+						type="submit"
+						@click="login"
+					>
+						Войти
+					</Button>
+
+					<div class="mt-2 text-center text-sm">
+						Нет аккаунта?
+						<router-link
+							to="/registration"
+							class="underline"
+						>
+							Зарегистрироваться
+						</router-link>
+					</div>
 				</div>
 			</CardContent>
-
-			<CardFooter>
-				<Skeleton
-					v-if="loading"
-					class="h-9 w-[100px]"
-				/>
-
-				<Button
-					v-else
-					type="submit"
-					@click="login"
-				>
-					Отправить
-				</Button>
-			</CardFooter>
 		</Card>
 	</AuthLayout>
 </template>
@@ -53,7 +61,7 @@ import AuthLayout from '@/components/layouts/AuthLayout.vue'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 const auth = useAuthStore()
 

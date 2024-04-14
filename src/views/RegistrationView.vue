@@ -1,6 +1,6 @@
 <template>
 	<AuthLayout>
-		<Card>
+		<Card class="w-[300px]">
 			<CardHeader>
 				<CardTitle>
 					Регистрация
@@ -9,6 +9,12 @@
 
 			<CardContent>
 				<div class="grid items-center w-full gap-2">
+					<Input
+						v-model.trim="form.email"
+						placeholder="Почта"
+						type="text"
+					/>
+
 					<Input
 						v-model.trim="form.username"
 						placeholder="Имя пользователя"
@@ -39,6 +45,12 @@
 						type="password"
 					/>
 
+					<Input
+						v-model.trim="form.passwordConfirm"
+						placeholder="Реферальный код"
+						type="password"
+					/>
+
 					<Select v-model="form.role">
 						<SelectTrigger>
 							<SelectValue placeholder="Выберите роль"/>
@@ -55,23 +67,31 @@
 							</SelectGroup>
 						</SelectContent>
 					</Select>
+
+					<Skeleton
+						v-if="loading"
+						class="h-9"
+					/>
+
+					<Button
+						v-else
+						type="submit"
+						@click="register"
+					>
+						Зарегистрироваться
+					</Button>
+
+					<div class="mt-2 text-center text-sm">
+						Есть аккаунт?
+						<router-link
+							to="/login"
+							class="underline"
+						>
+							Войти
+						</router-link>
+					</div>
 				</div>
 			</CardContent>
-
-			<CardFooter>
-				<Skeleton
-					v-if="loading"
-					class="h-9 w-[100px]"
-				/>
-
-				<Button
-					v-else
-					type="submit"
-					@click="register"
-				>
-					Отправить
-				</Button>
-			</CardFooter>
 		</Card>
 	</AuthLayout>
 </template>
@@ -86,7 +106,6 @@ import AuthLayout from '@/components/layouts/AuthLayout.vue'
 import {
 	Card,
 	CardContent,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
@@ -106,6 +125,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 const router = useRouter()
 
 const form = reactive({
+	email: '',
 	username: '',
 	name: '',
 	surname: '',
