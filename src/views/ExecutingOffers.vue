@@ -44,7 +44,7 @@ const emptyOffer: IJobOffer = {
 	id: '',
 	proposals: [],
 	rating: 0,
-	status: 0,
+	status: 'in_progress',
 	type: '',
 	university: '',
 	updated: '',
@@ -75,7 +75,6 @@ watch(() => auth.user.id, getUserOffers, { immediate: true })
 
 const openedChat = ref<IJobOffer | null>(null)
 const openChat = (offer: IJobOffer) => {
-	console.log(offer)
 	openedChat.value = offer
 }
 

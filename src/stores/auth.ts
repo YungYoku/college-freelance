@@ -1,11 +1,9 @@
 import { defineStore } from 'pinia'
 import { User } from '@/interfaces/User'
-import { JobOffer } from '@/interfaces/JobOffer'
 import LocalStorage from '@/plugins/localStorage'
 
 export interface State {
     user: User;
-    offer: JobOffer;
     token: string;
 }
 
@@ -30,23 +28,6 @@ export const useAuthStore = defineStore({
 			verified: false,
 			role: 'customer',
 			university: ''
-		},
-
-		offer: {
-			id: '',
-			collectionId: '',
-			collectionName: '',
-			created: '',
-			updated: '',
-			title: '',
-			description: '',
-			price: 0,
-			creator: '',
-			status: 0,
-			rating: 0,
-			university: '',
-			deadline: new Date(),
-			discipline: ''
 		},
 
 		token: localStorage.token ? JSON.parse(localStorage.token) : '',

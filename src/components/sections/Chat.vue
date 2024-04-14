@@ -143,7 +143,9 @@ const updateFile = (event: Event) => {
 		display: flex;
 		flex-direction: column;
 
-		min-height: 300px;
+		min-height: 400px;
+		max-height: 400px;
+		overflow: auto;
 		gap: 10px;
 	}
 }

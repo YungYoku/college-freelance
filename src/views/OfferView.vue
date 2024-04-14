@@ -16,7 +16,7 @@
 			Рейтинг: {{ offer.rating }}
 		</div>
 
-		<template v-if="!isItMyOffer">
+		<template v-if="!isItMyOffer && authStore.isExecutor">
 			<Skeleton
 				v-if="loading"
 				class="h-9 w-[119px] ml-auto"
@@ -59,7 +59,7 @@ const offer = ref<JobOffer>({
 	id: '',
 	price: 0,
 	rating: 0,
-	status: 0,
+	status: 'created',
 	title: '',
 	university: '',
 	updated: '',
