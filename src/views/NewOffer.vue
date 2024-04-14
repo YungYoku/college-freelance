@@ -83,7 +83,7 @@ const newOffer = reactive<JobOffer>({
 	id: '',
 	rating: 0,
 	proposals: [],
-	status: 0,
+	status: 'created',
 	university: '',
 	updated: '',
 	title: '',

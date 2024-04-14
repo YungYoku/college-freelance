@@ -78,7 +78,7 @@ const emptyOffer: IJobOffer = {
 	id: '',
 	proposals: [],
 	rating: 0,
-	status: 0,
+	status: 'created',
 	type: '',
 	university: '',
 	updated: '',
@@ -136,6 +136,7 @@ const pickExecutor = async (user: User) => {
 	await http
 		.patch(`/collections/job_offers/records/${openedOffer.value.id}`, {
 			executor: user.id,
+			status: 'in_progress',
 			chat: executorChat
 		})
 		.then(() => {

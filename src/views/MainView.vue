@@ -31,7 +31,7 @@ const emptyOffer: IJobOffer = {
 	id: '',
 	proposals: [],
 	rating: 0,
-	status: 0,
+	status: 'created',
 	type: '',
 	university: '',
 	updated: '',
@@ -48,7 +48,7 @@ const loadOffers = async () => {
 	loading.value = true
 
 	await http
-		.get<JobOffers>('/collections/job_offers/records?expand=creator&perPage=12')
+		.get<JobOffers>('/collections/job_offers/records?filter=(status=\'created\')&expand=creator&perPage=12')
 		.then(res => {
 			offers.value = res.items
 		})

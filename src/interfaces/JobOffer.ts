@@ -11,7 +11,7 @@ export interface JobOffer {
     description: string
     price: number
     creator: string
-    status: number
+    status: 'created' | 'in_progress' | 'completed'
     rating: number
     deadline: Date
     university: string
