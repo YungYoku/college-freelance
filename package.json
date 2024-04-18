@@ -25,7 +25,7 @@
     "v-calendar": "^3.1.2",
     "vee-validate": "^4.12.5",
     "vue": "^3.4.23",
-    "vue-router": "^4.3.0",
+    "vue-router": "^4.3.2",
     "vue-sonner": "^1.0.3",
     "zod": "^3.22.4"
   },
