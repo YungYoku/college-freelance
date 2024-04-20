@@ -133,17 +133,15 @@ const handleType = (e: Event) => {
 }
 
 const loadItems = async (item: string | Array<object>) => { // Проблема с символами в строке (меняются на что то)
-	if (!item) return
-
 	let query = '?sort=name'
-	if (typeof item === 'string') {
+	if (typeof item === 'string' && item.length) {
 		query += '&filter=('
 		props.filterFields.forEach(field => {
 			query += `${field}~'${item}' || `
 		})
 		query = query.slice(0, query.length - 3)
 		query += ')'
-	} else if (item.length) {
+	} else if (Array.isArray(item) && item.length) {
 		query += '&filter=('
 		item.forEach(value => {
 			props.filterFields.forEach(field => {

@@ -24,7 +24,17 @@ export interface JobOffer {
         creator?: User
         chat?: Chat,
         proposals?: Array<JobOfferProposal>
+        type?: JobOfferType
     }
+}
+
+interface JobOfferType {
+    collectionId: string
+    collectionName: string
+    created: string
+    id: string
+    name: string
+    updated: string
 }
 
 export interface JobOfferProposal {

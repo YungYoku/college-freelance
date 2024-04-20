@@ -43,6 +43,13 @@
 							Зарегистрироваться
 						</router-link>
 					</div>
+
+					<router-link
+						class="text-center text-sm underline"
+						to="/login"
+					>
+						Забыли пароль?
+					</router-link>
 				</div>
 			</CardContent>
 		</Card>
@@ -62,6 +69,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useToast } from '@/components/ui/toast'
 
 const auth = useAuthStore()
 
@@ -71,6 +79,8 @@ const form = reactive({
 	identity: '',
 	password: ''
 })
+
+const { toast } = useToast()
 
 const loading = ref(false)
 const login = async () => {
@@ -85,8 +95,12 @@ const login = async () => {
 				router.push('/')
 			})
 			.catch(() => {
-				loading.value = false
+				toast({
+					title: 'Ошибка авторизации'
+				})
 			})
+
+		loading.value = false
 	}
 }
 

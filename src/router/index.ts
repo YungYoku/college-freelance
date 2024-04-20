@@ -60,6 +60,14 @@ const routes: Array<RouteRecordRaw> = [
 				}
 			},
 			{
+				path: '/users/:id',
+				name: 'User',
+				component: () => import('@/views/UserView.vue'),
+				meta: {
+					rules: ['auth']
+				}
+			},
+			{
 				path: '/profile',
 				name: 'Profile',
 				component: () => import('@/views/ProfileView.vue'),
