@@ -98,6 +98,8 @@ const router = useRouter()
 watch(() => auth.user.id, () => newOffer.creator = auth.user.id, { immediate: true })
 
 const createOffer = async () => {
+	if (!offerType.value?.id) return
+
 	await http
 		.post<JobOffer>('/collections/job_offers/records/', {
 			...newOffer,

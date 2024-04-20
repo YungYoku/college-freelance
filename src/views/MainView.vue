@@ -1,7 +1,10 @@
 <template>
 	<SearchTags/>
 
-	<Grid :columns="4">
+	<Grid
+		v-if="offers.length"
+		:columns="4"
+	>
 		<JobOffer
 			v-for="offer in offers"
 			:key="offer.id"
@@ -9,6 +12,8 @@
 			:loading="loading"
 		/>
 	</Grid>
+
+	<span v-else>Нет доступных объявлений.</span>
 </template>
 
 <script lang="ts" setup>
@@ -58,7 +63,7 @@ const loadOffers = async () => {
 	const encodedFilter = encodeURIComponent(filter)
 
 	await http
-		.get<JobOffers>(`/collections/job_offers/records?filter=${encodedFilter}&expand=creator&perPage=12`)
+		.get<JobOffers>(`/collections/job_offers/records?filter=${encodedFilter}&expand=creator,type&perPage=12`)
 		.then(res => {
 			offers.value = res.items
 		})

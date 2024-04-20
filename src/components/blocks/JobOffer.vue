@@ -90,6 +90,11 @@
 		</div>
 
 
+		<Badge v-if="jobOffer.expand?.type?.name">
+			{{ jobOffer.expand.type.name }}
+		</Badge>
+
+
 		<div class="job-offer__footer">
 			<Skeleton
 				v-if="loading"
@@ -98,6 +103,7 @@
 			<User
 				v-else-if="jobOffer?.expand?.creator"
 				class="job-offer__user"
+				link
 				:user="jobOffer.expand.creator"
 			/>
 
@@ -122,6 +128,7 @@ import { JobOffer } from '@/interfaces/JobOffer'
 import User from '@/components/blocks/User.vue'
 import Icon from '@/components/elements/Icon.vue'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Badge } from '@/components/ui/badge'
 
 const props = defineProps({
 	jobOffer: {
@@ -163,6 +170,7 @@ const deadline = computed(() => {
 
     display: flex;
     flex-direction: column;
+	align-items: flex-start;
 
     max-width: 100%;
     height: 200px;
@@ -202,6 +210,7 @@ const deadline = computed(() => {
         justify-content: space-between;
         align-items: center;
 
+		width: 100%;
         margin: auto 0 0 0;
     }
 }

@@ -1,11 +1,11 @@
 <template>
-	<div class="profile flex max-w-screen-md w-full gap-2">
+	<div class="flex max-w-screen-md w-full gap-2 align-center flex-col">
 		<div class="flex gap-4 items-center">
 			<Avatar
 				size="l"
 				editable
 			/>
-			<div class="profile__name-rate">
+			<div class="flex flex-col align-center gap-4">
 				<div>Имя: {{ auth.user.name }}</div>
 
 				<div>Фамилия: {{ auth.user.surname }}</div>
@@ -17,7 +17,7 @@
 		<Textarea
 			v-model="description"
 			placeholder="О себе"
-			class="profile__description"
+			class="h-[240px]"
 		/>
 
 		<SelectLive
@@ -33,7 +33,14 @@
 			api="disciplines"
 		/>
 
-		<Button @click="save">
+		<Skeleton
+			v-if="loading"
+			class="h-9"
+		/>
+		<Button
+			v-else
+			@click="save"
+		>
 			Сохранить
 		</Button>
 	</div>
@@ -51,6 +58,7 @@ import { Textarea } from '@/components/ui/textarea'
 import SelectLive from '@/components/blocks/SelectLive.vue'
 import { University } from '@/interfaces/University.ts'
 import { Discipline } from '@/interfaces/Discipline.ts'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const auth = useAuthStore()
 const { toast } = useToast()
@@ -73,7 +81,11 @@ watch(() => auth.user, () => {
 	}
 }, { immediate: true })
 
+const loading = ref(false)
+
 const save = async () => {
+	loading.value = true
+
 	await http
 		.patch(`/collections/users/records/${auth.user.id}`, {
 			description: description.value,
@@ -85,23 +97,7 @@ const save = async () => {
 				title: 'Сохранено успешно!'
 			})
 		})
+
+	loading.value = false
 }
 </script>
-
-<style scoped lang="scss">
-.profile {
-	flex-direction: column;
-    align-items: center;
-
-    &__name-rate {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    &__description {
-        height: 240px;
-    }
-}
-</style>

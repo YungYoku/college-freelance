@@ -1,11 +1,18 @@
 <template>
-	<div class="user">
+	<component
+		:is="link ? 'router-link' : 'div'"
+		class="user"
+		:class="{
+			'cursor-pointer': link,
+		}"
+		:to="`/users/${user.id}`"
+	>
 		<Avatar
 			size="s"
 			:image="`users/${user.id}/${user.avatar}`"
 		/>
 		{{ user.name }}
-	</div>
+	</component>
 </template>
 
 
@@ -14,7 +21,8 @@ import { User } from '@/interfaces/User'
 import Avatar from '@/components/blocks/Avatar.vue'
 
 interface Props {
-    user: User
+    user: User,
+	link: boolean
 }
 
 withDefaults(defineProps<Props>(), {
@@ -38,6 +46,7 @@ withDefaults(defineProps<Props>(), {
 		energy: 0,
 		disciplines: []
 	}),
+	link: false
 })
 </script>
 
