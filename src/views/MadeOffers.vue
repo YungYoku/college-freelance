@@ -46,7 +46,10 @@
 		:width="600"
 		@close="closeChat"
 	>
-		<Chat :id="openedChat.chat"/>
+		<Chat
+			:id="openedChat.chat"
+			:status="openedChat.status"
+		/>
 	</Modal>
 </template>
 

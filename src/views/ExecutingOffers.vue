@@ -15,7 +15,11 @@
 		:width="600"
 		@close="closeChat"
 	>
-		<Chat :id="openedChat.chat"/>
+		<Chat
+			:id="openedChat.chat"
+			:status="openedChat.status"
+			@send-to-review="sendToReview"
+		/>
 	</Modal>
 </template>
 
@@ -80,8 +84,21 @@ const openChat = (offer: IJobOffer) => {
 
 const closeChat = () => openedChat.value = null
 
-</script>
+const sendToReview = async () => {
+	if (!openedChat.value) return
 
+	await http
+		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
+			...openedChat.value,
+			status: 'on_review'
+		})
+		.then((response) => {
+			if (openedChat.value) {
+				openedChat.value.status = response.status
+			}
+		})
+}
+</script>
 
 <style scoped lang="scss">
 .offer-wrapper {

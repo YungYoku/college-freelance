@@ -40,18 +40,36 @@
 			v-if="loading"
 			class="h-9 w-[580px]"
 		/>
-
 		<Button
 			v-else
 			@click="sendMessage"
 		>
-			Отправить
+			Отправить сообщение
 		</Button>
+
+		<template v-if="auth.isExecutor">
+			<Skeleton
+				v-if="loading"
+				class="h-9 w-[580px]"
+			/>
+			<Button
+				v-else-if="status === 'in_progress'"
+				@click="sendToReview"
+			>
+				Отправить на проверку
+			</Button>
+			<span
+				v-else
+				class="text-xs text-center"
+			>
+				На проверке
+			</span>
+		</template>
 	</Grid>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { PropType, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
@@ -62,11 +80,16 @@ import Grid from '@/components/structures/Grid.vue'
 import File from '@/components/elements/File.vue'
 import { Message } from '@/interfaces/Message.ts'
 import { Skeleton } from '@/components/ui/skeleton'
+import type { JobOfferStatus } from '@/interfaces/JobOffer.ts'
 
 const props = defineProps({
 	id: {
 		type: String,
 		required: true
+	},
+	status: {
+		type: String as PropType<JobOfferStatus>,
+		default: 'created'
 	}
 })
 
@@ -97,6 +120,7 @@ const loadChat = async () => {
 }
 
 watch(() => props.id, loadChat, { immediate: true })
+watch(() => props.status, () => { loading.value = false })
 
 const auth = useAuthStore()
 
@@ -134,6 +158,14 @@ const updateFile = (event: Event) => {
 	if (target.files) {
 		file.value = target.files[0]
 	}
+}
+
+const emit = defineEmits(['send-to-review'])
+
+const sendToReview = () => {
+	loading.value = true
+
+	emit('send-to-review')
 }
 </script>
 
