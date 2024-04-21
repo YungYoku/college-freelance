@@ -35,7 +35,7 @@ const columns = computed(() => {
 
 <style scoped lang="scss">
 .job-search {
-    width: 720px;
+    width: 768px;
     min-width: 320px;
     max-width: 100%;
 }</style>
