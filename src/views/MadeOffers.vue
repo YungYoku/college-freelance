@@ -49,6 +49,8 @@
 		<Chat
 			:id="openedChat.chat"
 			:status="openedChat.status"
+			@approve-review="approveReview"
+			@send-paying-to-review="sendPayingToReview"
 		/>
 	</Modal>
 </template>
@@ -160,6 +162,37 @@ const openedChat = ref<IJobOffer | null>(null)
 const openChat = (offer: IJobOffer) => openedChat.value = offer
 
 const closeChat = () => openedChat.value = null
+
+
+const approveReview = async () => {
+	if (!openedChat.value) return
+
+	await http
+		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
+			...openedChat.value,
+			status: 'reviewed'
+		})
+		.then((response) => {
+			if (openedChat.value) {
+				openedChat.value.status = response.status
+			}
+		})
+}
+
+const sendPayingToReview = async () => {
+	if (!openedChat.value) return
+
+	await http
+		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
+			...openedChat.value,
+			status: 'paid'
+		})
+		.then((response) => {
+			if (openedChat.value) {
+				openedChat.value.status = response.status
+			}
+		})
+}
 </script>
 
 
