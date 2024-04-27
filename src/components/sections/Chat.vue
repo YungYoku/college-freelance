@@ -26,12 +26,12 @@
 
 		<Input
 			v-model="newMessage"
-			:disabled="loading"
+			:disabled="loading || status === 'ended'"
 			placeholder="Введите сообщение..."
 		/>
 
 		<Input
-			:disabled="loading"
+			:disabled="loading || status === 'ended'"
 			type="file"
 			@input="updateFile"
 		/>
@@ -42,6 +42,7 @@
 		/>
 		<Button
 			v-else
+			:disabled="status === 'ended'"
 			@click="sendMessage"
 		>
 			Отправить сообщение
@@ -59,10 +60,66 @@
 				Отправить на проверку
 			</Button>
 			<span
-				v-else
+				v-else-if="status === 'on_review'"
 				class="text-xs text-center"
 			>
 				На проверке
+			</span>
+			<Button
+				v-else-if="status === 'reviewed'"
+			>
+				Пожаловаться на обман
+			</Button>
+			<template v-else-if="status === 'paid'">
+				<Button>
+					Пожаловаться на обман
+				</Button>
+				<Button
+					@click="approvePaying"
+				>
+					Подтвердить оплату
+				</Button>
+			</template>
+			<span
+				v-else-if="status === 'ended'"
+				class="text-xs text-center"
+			>
+				Объявление завершено
+			</span>
+		</template>
+
+		<template v-if="auth.isCustomer">
+			<Skeleton
+				v-if="loading"
+				class="h-9 w-[580px]"
+			/>
+			<Button
+				v-else-if="status === 'on_review'"
+				@click="approveReview"
+			>
+				Подтвердить выполнение
+			</Button>
+			<template v-else-if="status === 'reviewed'">
+				<Button
+					@click="sendPayingToReview"
+				>
+					Подтвердить оплату
+				</Button>
+				<span class="text-xs text-center">
+					Оплатите работу по номеру карты: {{ '0000 0000 0000 0000' }}
+				</span>
+			</template>
+			<span
+				v-else-if="status === 'paid'"
+				class="text-xs text-center"
+			>
+				Ожидайте подтверждения
+			</span>
+			<span
+				v-else-if="status === 'ended'"
+				class="text-xs text-center"
+			>
+				Объявление завершено
 			</span>
 		</template>
 	</Grid>
@@ -160,12 +217,30 @@ const updateFile = (event: Event) => {
 	}
 }
 
-const emit = defineEmits(['send-to-review'])
+const emit = defineEmits(['send-to-review', 'approve-review', 'send-paying-to-review', 'approve-paying'])
 
 const sendToReview = () => {
 	loading.value = true
 
 	emit('send-to-review')
+}
+
+const approveReview = () => {
+	loading.value = true
+
+	emit('approve-review')
+}
+
+const sendPayingToReview = () => {
+	loading.value = true
+
+	emit('send-paying-to-review')
+}
+
+const approvePaying = () => {
+	loading.value = true
+
+	emit('approve-paying')
 }
 </script>
 

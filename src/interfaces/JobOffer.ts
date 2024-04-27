@@ -1,7 +1,7 @@
 import { User } from '@/interfaces/User.ts'
 import { Chat } from '@/interfaces/Chat.ts'
 
-export type JobOfferStatus = 'created' | 'in_progress' | 'on_review' | 'reviewed' | 'completed'
+export type JobOfferStatus = 'created' | 'in_progress' | 'on_review' | 'reviewed' | 'paid' | 'ended'
 
 export interface JobOffer {
     id: string
