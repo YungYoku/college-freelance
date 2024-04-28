@@ -75,6 +75,14 @@ const routes: Array<RouteRecordRaw> = [
 					rules: ['auth']
 				}
 			},
+			{
+				path: '/search',
+				name: 'Search',
+				component: () => import('@/views/SearchView.vue'),
+				meta: {
+					rules: ['auth']
+				}
+			},
 		],
 	},
 	{

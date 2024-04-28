@@ -38,7 +38,15 @@
 		</CardContent>
 
 		<CardFooter>
-			<Button @click="createOffer">
+			<Skeleton
+				v-if="loading"
+				class="h-9 w-[180px]"
+			/>
+			<Button
+				v-else
+				class="w-[180px]"
+				@click="createOffer"
+			>
 				Создать объявление
 			</Button>
 		</CardFooter>
@@ -64,6 +72,7 @@ import {
 import DatePicker from '@/components/blocks/DatePicker.vue'
 import { JobOffer } from '@/interfaces/JobOffer'
 import SelectLive from '@/components/blocks/SelectLive.vue'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const auth = useAuthStore()
 
@@ -97,8 +106,10 @@ const router = useRouter()
 
 watch(() => auth.user.id, () => newOffer.creator = auth.user.id, { immediate: true })
 
+const loading = ref(false)
 const createOffer = async () => {
 	if (!offerType.value?.id) return
+	loading.value = true
 
 	await http
 		.post<JobOffer>('/collections/job_offers/records/', {
@@ -111,6 +122,8 @@ const createOffer = async () => {
 		.catch(error => {
 			console.error(error)
 		})
+
+	loading.value = false
 }
 </script>
 

@@ -55,7 +55,7 @@
 
 		<Skeleton
 			v-if="loading"
-			class="h-6 w-[200px]"
+			class="h-8 w-[200px]"
 		/>
 		<router-link
 			v-else
@@ -90,7 +90,7 @@
 		</div>
 
 
-		<Badge v-if="jobOffer.expand?.type?.name">
+		<Badge v-if="!loading && jobOffer.expand?.type?.name">
 			{{ jobOffer.expand.type.name }}
 		</Badge>
 
