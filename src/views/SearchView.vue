@@ -69,7 +69,7 @@ const loadOffers = async () => {
 		})
 
 	loading.value = false
-	searchStore.endLoading()
+	searchStore.setLoading(false)
 }
 
 watch(() => searchStore.search, () => loadOffers(), { immediate: true })
