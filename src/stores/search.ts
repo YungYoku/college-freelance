@@ -19,11 +19,10 @@ export const useSearchStore = defineStore({
 	actions: {
 		update(value: string) {
 			this.search = value
-			this.loading = true
 		},
 
-		endLoading() {
-			this.loading = false
+		setLoading(value: boolean) {
+			this.loading = value
 		}
 	},
 })

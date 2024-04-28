@@ -47,6 +47,7 @@ const columns = computed(() => {
 const router = useRouter()
 const search = () => {
 	searchStore.update(value.value)
+	searchStore.setLoading(true)
 	router.push('/search')
 }
 </script>
