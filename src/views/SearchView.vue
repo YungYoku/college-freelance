@@ -1,52 +1,72 @@
 <template>
+	<Grid :columns="4">
+		<SelectLive
+			v-model="university"
+			place-holder="Выберите университет..."
+			api="universities"
+		/>
+
+		<Skeleton
+			v-if="loading"
+			class="h-9"
+		/>
+		<Button
+			v-else
+			@click="loadOffers"
+		>
+			Поиск
+		</Button>
+	</Grid>
+
 	<Grid
-		v-if="offers.length"
+		v-if="offers.length || loading"
 		:columns="4"
 	>
-		<JobOffer
-			v-for="offer in offers"
-			:key="offer.id"
-			:job-offer="offer"
-			:loading="loading"
-		/>
+		<template v-if="loading">
+			<EmptyJobOffer
+				v-for="i in 8"
+				:key="i"
+			/>
+		</template>
+		<template v-else>
+			<JobOffer
+				v-for="offer in offers"
+				:key="offer.id"
+				:job-offer="offer"
+				:loading="loading"
+			/>
+		</template>
 	</Grid>
 
 	<span v-else>Нет доступных объявлений.</span>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import http from '@/plugins/http'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
+import EmptyJobOffer from '@/components/blocks/EmptyJobOffer.vue'
 import JobOffer from '@/components/blocks/JobOffer.vue'
 import Grid from '@/components/structures/Grid.vue'
 import { useSearchStore } from '@/stores/search.ts'
+import SelectLive from '@/components/blocks/SelectLive.vue'
+import { University } from '@/interfaces/University.ts'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Button } from '@/components/ui/button'
 
-const emptyOffer: IJobOffer = {
-	chat: '',
-	collectionId: '',
-	collectionName: '',
-	created: '',
-	creator: '',
-	deadline: new Date(),
-	discipline: '',
-	executor: '',
-	id: '',
-	proposals: [],
-	rating: 0,
-	status: 'created',
-	type: '',
-	university: '',
-	updated: '',
-	title: '',
-	description: '',
-	price: 0
-}
-const offers = ref<Array<IJobOffer>>([
-	emptyOffer, emptyOffer, emptyOffer, emptyOffer
-])
+
+const offers = ref<Array<IJobOffer>>([])
 
 const searchStore = useSearchStore()
+
+const university = ref<University>({
+	collectionId: '',
+	collectionName: '',
+	created: new Date(),
+	id: '',
+	updated: new Date(),
+	name: ''
+})
 
 const loading = ref(true)
 const loadOffers = async () => {
@@ -59,8 +79,12 @@ const loadOffers = async () => {
 	const getFormattedDay = (day: number) => day < 10 ? '0' + day : day
 	const today = `${year}-${getFormattedMonth(month)}-${getFormattedDay(day)}`
 
-	const filter = `(status='created' && deadline>='${today}' && title~'${searchStore.search}')`
-	const encodedFilter = encodeURIComponent(filter)
+	const titleFilter = searchStore.search ? `&& title~'${searchStore.search}'` : ''
+
+	const universityFilter = university.value.id ? `&& university='${university.value.id}'` : ''
+
+	const filter = `(status='created' && deadline>='${today}' ${titleFilter} ${universityFilter})`
+	const encodedFilter = encodeURIComponent(filter.trim())
 
 	await http
 		.get<JobOffers>(`/collections/job_offers/records?filter=${encodedFilter}&expand=creator,type&perPage=12`)
@@ -71,6 +95,5 @@ const loadOffers = async () => {
 	loading.value = false
 	searchStore.setLoading(false)
 }
-
-watch(() => searchStore.search, () => loadOffers(), { immediate: true })
+loadOffers()
 </script>

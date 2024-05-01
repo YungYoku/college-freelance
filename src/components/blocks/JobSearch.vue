@@ -6,9 +6,10 @@
 		<Input
 			v-model="value"
 			placeholder="Поиск"
+			@update:model-value="updateSearch"
 		/>
 
-		<template v-if="value">
+		<template v-if="value && !isSearchPage">
 			<Skeleton
 				v-if="searchStore.loading"
 				class="h-9"
@@ -34,17 +35,21 @@ import { Button } from '@/components/ui/button'
 import Grid from '@/components/structures/Grid.vue'
 import { Skeleton } from '@/components/ui/skeleton'
 
-const value = ref('')
-
 const searchStore = useSearchStore()
+
+const value = ref(searchStore.search)
 watch(() => searchStore.search, () => value.value = searchStore.search)
 
+const updateSearch = (value: string | number) => searchStore.update(value.toString())
+
+const router = useRouter()
+const isSearchPage = computed(() => router.currentRoute.value.path === '/search')
+
 const columns = computed(() => {
-	if (value.value.length) return [4, 1]
+	if (value.value.length && !isSearchPage.value) return [4, 1]
 	return 1
 })
 
-const router = useRouter()
 const search = () => {
 	searchStore.update(value.value)
 	searchStore.setLoading(true)
