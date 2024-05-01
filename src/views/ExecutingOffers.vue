@@ -1,13 +1,21 @@
 <template>
 	<Grid :columns="4">
-		<JobOffer
-			v-for="offer in offers"
-			:key="offer.id"
-			:job-offer="offer"
-			:loading="loading"
-			show-chat
-			@show-chat="openChat"
-		/>
+		<template v-if="loading">
+			<EmptyJobOffer
+				v-for="i in 8"
+				:key="i"
+			/>
+		</template>
+		<template v-else>
+			<JobOffer
+				v-for="offer in offers"
+				:key="offer.id"
+				:job-offer="offer"
+				:loading="loading"
+				show-chat
+				@show-chat="openChat"
+			/>
+		</template>
 	</Grid>
 
 	<Modal
@@ -30,36 +38,16 @@ import { useAuthStore } from '@/stores/auth'
 
 import http from '@/plugins/http'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
+import EmptyJobOffer from '@/components/blocks/EmptyJobOffer.vue'
 import JobOffer from '@/components/blocks/JobOffer.vue'
 import Grid from '@/components/structures/Grid.vue'
 import Modal from '@/components/structures/Modal.vue'
 import Chat from '@/components/sections/Chat.vue'
 
+
 const auth = useAuthStore()
 
-const emptyOffer: IJobOffer = {
-	chat: '',
-	collectionId: '',
-	collectionName: '',
-	created: '',
-	creator: '',
-	deadline: new Date(),
-	discipline: '',
-	executor: '',
-	id: '',
-	proposals: [],
-	rating: 0,
-	status: 'in_progress',
-	type: '',
-	university: '',
-	updated: '',
-	title: '',
-	description: '',
-	price: 0
-}
-const offers = ref<Array<IJobOffer>>([
-	emptyOffer, emptyOffer, emptyOffer, emptyOffer
-])
+const offers = ref<Array<IJobOffer>>([])
 
 const loading = ref(true)
 const getUserOffers = async () => {
