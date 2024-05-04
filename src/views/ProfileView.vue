@@ -87,6 +87,9 @@ watch(() => auth.user, () => {
 	if (auth.user.expand?.university) {
 		university.value = auth.user.expand.university
 	}
+	if (auth.user.expand?.disciplines) {
+		disciplines.value = auth.user.expand.disciplines
+	}
 }, { immediate: true })
 
 const loading = ref(false)
