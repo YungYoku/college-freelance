@@ -1,4 +1,5 @@
 import { University } from '@/interfaces/University.ts'
+import { Discipline } from '@/interfaces/Discipline.ts'
 
 export interface User {
     avatar: string
@@ -22,6 +23,7 @@ export interface User {
     card: string
     expand?: {
         university: University
+        disciplines: Array<Discipline>
     }
 }
 

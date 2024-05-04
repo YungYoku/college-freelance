@@ -51,6 +51,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 interface Item {
 	id: string
 	name: string
+	[key: string]: unknown
 }
 
 interface Items {
@@ -63,7 +64,7 @@ interface Items {
 
 const props = defineProps({
 	modelValue: {
-		type: [Array<object>, Object],
+		type: [Array<Item>, Object],
 		default: () => ({})
 	},
 	typeKey: {
@@ -80,7 +81,7 @@ const props = defineProps({
 		required: true
 	},
 	filterFields: {
-		type: Array,
+		type: Array<string>,
 		default: () => (['id', 'name'])
 	},
 	multiple: {
@@ -106,9 +107,8 @@ const value = computed({
 		const selectedValue = props.modelValue
 		if (props.multiple && Array.isArray(selectedValue)) {
 			// Здесь стоит добавить загрузку элементов по поиску
-			if (items.value.length === 0) {
-				loadItems(selectedValue)
-			}
+			console.log(selectedValue)
+			loadItems('', selectedValue)
 			return props.modelValue
 		} else if (typeof selectedValue === 'object' && !Array.isArray(selectedValue)) {
 			const value = selectedValue?.[props.typeKey] ?? ''
@@ -132,30 +132,66 @@ const handleType = (e: Event) => {
 	loadItems(target.value)
 }
 
-const loadItems = async (item: string | Array<object>) => { // Проблема с символами в строке (меняются на что то)
-	let query = '?sort=name'
-	if (typeof item === 'string' && item.length) {
-		query += '&filter=('
-		props.filterFields.forEach(field => {
-			query += `${field}~'${item}' || `
-		})
-		query = query.slice(0, query.length - 3)
-		query += ')'
-	} else if (Array.isArray(item) && item.length) {
-		query += '&filter=('
-		item.forEach(value => {
+const getQuery = (entity: string | Array<Item>, isIncluded: boolean = false) => {
+	let query = ''
+	const sign = isIncluded ? '=' : '~'
+	if (typeof entity === 'string' && entity.length) {
+		query += '?sort=name&filter=('
+
+		if (isIncluded) query += `id='${entity}'`
+		else {
 			props.filterFields.forEach(field => {
-				query += `${field}~'${value}' || `
+				query += `${field}${sign}'${entity}' || `
 			})
+			query = query.slice(0, query.length - 3)
+		}
+
+		query += ')'
+	} else if (Array.isArray(entity) && entity.length) {
+		query += '?sort=name&filter=('
+		
+		entity.forEach(item => {
+			if (isIncluded) query += `id='${item.id}' || `
+			else {
+				props.filterFields.forEach((field: string) => {
+					const value = item?.[field] ?? null
+					if (value) query += `${field}${sign}'${value}' || `
+				})
+			}
 		})
+
 		query = query.slice(0, query.length - 3)
 		query += ')'
 	}
+	return query
+}
 
-	await http.get<Items>(`/collections/${props.api}/records${query}`)
-		.then(response => {
-			items.value = response.items
-		})
+const loadItems = async (item: string | Array<Item>, include?: string | Array<Item>) => { // Проблема с символами в строке (меняются на что то)
+	let _defaultItems: Array<Item> = []
+	let _extraItems: Array<Item> = []
+
+	const loadDefaultItems = async () => {
+		await http.get<Items>(`/collections/${props.api}/records${getQuery(item)}`)
+			.then(response => {
+				_defaultItems = response.items
+			})
+	}
+	const loadExtraItems = async () => {
+		if (include && include.length) {
+			await http.get<Items>(`/collections/${props.api}/records${getQuery(include, true)}`)
+				.then(response => {
+					_extraItems = response.items
+					_extraItems.forEach(item => {
+						selectedItems.value.push(item)
+					})
+				})
+		}
+	}
+
+	await Promise.all([loadDefaultItems(), loadExtraItems()])
+
+	_defaultItems = _defaultItems.filter(defaultItem => !_extraItems.some(extraItem => extraItem.id === defaultItem.id))
+	items.value = [..._extraItems, ..._defaultItems]
 }
 
 const selectedItems = ref<Array<Item>>([])
