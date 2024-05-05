@@ -12,7 +12,7 @@ export interface User {
     name: string
     description: string
     surname: string
-    rating: number
+    rating: number | null
     updated: string
     username: string
     verified: boolean

@@ -55,6 +55,10 @@ export const useAuthStore = defineStore({
 				id: user.id,
 				name: user.name
 			})
+		},
+
+		setRating(rating: number) {
+			this.user.rating = rating
 		}
 	},
 })

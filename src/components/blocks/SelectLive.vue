@@ -107,7 +107,6 @@ const value = computed({
 		const selectedValue = props.modelValue
 		if (props.multiple && Array.isArray(selectedValue)) {
 			// Здесь стоит добавить загрузку элементов по поиску
-			console.log(selectedValue)
 			loadItems('', selectedValue)
 			return props.modelValue
 		} else if (typeof selectedValue === 'object' && !Array.isArray(selectedValue)) {

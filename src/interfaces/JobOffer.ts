@@ -14,7 +14,8 @@ export interface JobOffer {
     price: number
     creator: string
     status: JobOfferStatus
-    rating: number
+    ratingCreator: number
+    ratingExecutor: number
     deadline: Date
     university: string
     discipline: string

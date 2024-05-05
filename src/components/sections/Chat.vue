@@ -25,28 +25,49 @@
 		</div>
 
 		<Input
+			v-if="status !== 'ended'"
 			v-model="newMessage"
-			:disabled="loading || status === 'ended'"
+			:disabled="loading"
 			placeholder="Введите сообщение..."
 		/>
 
 		<Input
-			:disabled="loading || status === 'ended'"
+			v-if="status !== 'ended'"
+			:disabled="loading"
 			type="file"
 			@input="updateFile"
 		/>
 
-		<Skeleton
-			v-if="loading"
-			class="h-9 w-[580px]"
-		/>
-		<Button
-			v-else
-			:disabled="status === 'ended'"
-			@click="sendMessage"
-		>
-			Отправить сообщение
-		</Button>
+		<template v-if="status !== 'ended'">
+			<Skeleton
+				v-if="loading"
+				class="h-9 w-[580px]"
+			/>
+			<Button
+				v-else
+				@click="sendMessage"
+			>
+				Отправить сообщение
+			</Button>
+		</template>
+
+		<template v-else>
+			<Input
+				v-model.number="newRating"
+				:disabled="loading"
+				placeholder="Поставьте оценку (1-5)"
+			/>
+			<Skeleton
+				v-if="loading"
+				class="h-9 w-[580px]"
+			/>
+			<Button
+				v-else
+				@click="sendRating"
+			>
+				Отправить
+			</Button>
+		</template>
 
 		<template v-if="auth.isExecutor">
 			<Skeleton
@@ -147,6 +168,10 @@ const props = defineProps({
 	status: {
 		type: String as PropType<JobOfferStatus>,
 		default: 'created'
+	},
+	rating: {
+		type: Number,
+		default: 0
 	}
 })
 
@@ -217,7 +242,7 @@ const updateFile = (event: Event) => {
 	}
 }
 
-const emit = defineEmits(['send-to-review', 'approve-review', 'send-paying-to-review', 'approve-paying'])
+const emit = defineEmits(['send-to-review', 'approve-review', 'send-paying-to-review', 'approve-paying', 'send-rating'])
 
 const sendToReview = () => {
 	loading.value = true
@@ -242,6 +267,10 @@ const approvePaying = () => {
 
 	emit('approve-paying')
 }
+
+const newRating = ref<number>()
+watch(() => props.rating, () => { newRating.value = props.rating }, { immediate: true })
+const sendRating = () => emit('send-rating', newRating.value)
 </script>
 
 <style scoped lang="scss">
