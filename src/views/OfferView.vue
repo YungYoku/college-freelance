@@ -12,10 +12,6 @@
 			Цена: {{ offer.price }} ₽
 		</div>
 
-		<div class="offer__rating">
-			Рейтинг: {{ offer.rating }}
-		</div>
-
 		<template v-if="!isItMyOffer && authStore.isExecutor">
 			<Skeleton
 				v-if="loading"
@@ -58,7 +54,8 @@ const offer = ref<JobOffer>({
 	discipline: '',
 	id: '',
 	price: 0,
-	rating: 0,
+	ratingCreator: 0,
+	ratingExecutor: 0,
 	status: 'created',
 	title: '',
 	university: '',

@@ -26,8 +26,10 @@
 		<Chat
 			:id="openedChat.chat"
 			:status="openedChat.status"
+			:rating="openedChat.ratingCreator"
 			@send-to-review="sendToReview"
 			@approve-paying="approvePaying"
+			@send-rating="sendRating"
 		/>
 	</Modal>
 </template>
@@ -99,6 +101,21 @@ const approvePaying = async () => {
 		.then((response) => {
 			if (openedChat.value) {
 				openedChat.value.status = response.status
+			}
+		})
+}
+
+const sendRating = async (rating: number) => {
+	if (!openedChat.value) return
+
+	await http
+		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
+			...openedChat.value,
+			ratingCreator: rating
+		})
+		.then((response) => {
+			if (openedChat.value) {
+				openedChat.value.ratingCreator = response.ratingCreator
 			}
 		})
 }
