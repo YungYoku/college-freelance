@@ -1,7 +1,10 @@
 <template>
 	<div class="flex max-w-screen-md w-full gap-2 align-center flex-col">
 		<div class="flex gap-4 items-center">
-			<Avatar size="l"/>
+			<Avatar
+				size="l"
+				:image="`users/${user?.id}/${user?.avatar}`"
+			/>
 
 			<div class="flex flex-col align-center gap-4">
 				<Skeleton
