@@ -28,37 +28,40 @@
 				<div class="offer__info-header">
 					Информация о заказе
 				</div>
-				<div class="grid items-center w-full gap-10">
-					<div>
+				<div class="grid items-center w-full gap-3">
+					<div class="offer__info-item">
 						Создано: {{ offer.created }}
 					</div>
-					<div>
+					<div class="offer__info-item">
 						Дедлайн: {{ offer.deadline }}
 					</div>
-					<div>
+					<div class="offer__info-item">
 						Дисциплина: {{ offer.discipline ? offer.discipline : 'Не указана' }}
 					</div>
-					<div>
+					<div
+						class="offer__info-item"
+						:class="{'executor': !authStore.isExecutor}"
+					>
 						Университет: {{ offer.university ? offer.university : 'Не указан' }}
 					</div>
+					<template v-if="!isItMyOffer && authStore.isExecutor">
+						<Skeleton
+							v-if="loading"
+							class="h-9 w-[119px] ml-auto"
+						/>
+
+						<Button
+							v-else
+							:disabled="isAlreadyProposed"
+							class="ml-auto"
+							@click="makeProposal"
+						>
+							Откликнуться
+						</Button>
+					</template>
 				</div>
 			</div>
 		</Grid>
-		<template v-if="!isItMyOffer && authStore.isExecutor">
-			<Skeleton
-				v-if="loading"
-				class="h-9 w-[119px] ml-auto"
-			/>
-
-			<Button
-				v-else
-				:disabled="isAlreadyProposed"
-				class="ml-auto"
-				@click="makeProposal"
-			>
-				Откликнуться
-			</Button>
-		</template>
 	</div>
 </template>
 
@@ -102,7 +105,6 @@ const offer = ref<JobOffer>({
 		proposals: []
 	}
 })
-console.log(offer)
 const route = useRoute()
 const { id } = route.params
 
@@ -202,9 +204,16 @@ const isAlreadyProposed = computed(() => {
         font-size: 1.5rem;
         font-weight: 600;
         margin-bottom: 1rem;
+    }
+    &__info-item {
+        height: 30px;
+        border-bottom: 1px solid #eee;
 
+        &.executor {
+            border-bottom: none;
+        }
     }
 
-
 }
+
 </style>
