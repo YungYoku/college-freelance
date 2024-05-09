@@ -1,17 +1,49 @@
 <template>
-	<div class="grid items-center w-full gap-4">
-		<PageTitle size="l">
-			{{ offer.title }}
-		</PageTitle>
+	<div class="grid items-center w-full gap-4 offer-view">
+		<Grid
+			:columns="2"
+			class="offer__header"
+		>
+			<PageTitle size="l">
+				{{ offer.title }}
+			</PageTitle>
 
-		<div class="offer__description">
-			Описание: {{ offer.description }}
-		</div>
+			<PageTitle
+				size="m"
+				class="offer__price"
+			>
+				Цена: {{ offer.price }}
+			</PageTitle>
+		</Grid>
 
-		<div class="offer__price">
-			Цена: {{ offer.price }} ₽
-		</div>
+		<Grid
+			class="offer__data"
+			:columns="2"
+		>
+			<div class="offer__description">
+				Описание: {{ offer.description }}
+			</div>
 
+			<div class="offer__info">
+				<div class="offer__info-header">
+					Информация о заказе
+				</div>
+				<div class="grid items-center w-full gap-10">
+					<div>
+						Создано: {{ offer.created }}
+					</div>
+					<div>
+						Дедлайн: {{ offer.deadline }}
+					</div>
+					<div>
+						Дисциплина: {{ offer.discipline ? offer.discipline : 'Не указана' }}
+					</div>
+					<div>
+						Университет: {{ offer.university ? offer.university : 'Не указан' }}
+					</div>
+				</div>
+			</div>
+		</Grid>
 		<template v-if="!isItMyOffer && authStore.isExecutor">
 			<Skeleton
 				v-if="loading"
@@ -43,6 +75,8 @@ import { Button } from '@/components/ui/button'
 import PageTitle from '@/components/elements/PageTitle.vue'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/toast'
+import Grid from '@/components/structures/Grid.vue'
+
 
 const offer = ref<JobOffer>({
 	collectionId: '',
@@ -68,7 +102,7 @@ const offer = ref<JobOffer>({
 		proposals: []
 	}
 })
-
+console.log(offer)
 const route = useRoute()
 const { id } = route.params
 
@@ -137,3 +171,40 @@ const isAlreadyProposed = computed(() => {
 	return proposal ?? null
 })
 </script>
+
+<style lang="scss" scoped>
+.offer {
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__info {
+        min-width: 300px;
+        width: 100%;
+        padding: 15px;
+        box-shadow: 0 3px 5px 0 rgba(209, 209, 209, 0.5);
+    }
+
+    &__data {
+        justify-items: center;
+    }
+
+    &__description {
+        min-width: 300px;
+        width: 100%;
+        padding: 15px;
+        box-shadow: 0 3px 5px 0 rgba(209, 209, 209, 0.5);
+    }
+
+    &__info-header {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+
+    }
+
+
+}
+</style>
