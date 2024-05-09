@@ -33,11 +33,6 @@
 			api="disciplines"
 		/>
 
-		<Input
-			v-model="card"
-			placeholder="Номер карты"
-		/>
-
 		<Skeleton
 			v-if="loading"
 			class="h-9"
@@ -64,7 +59,6 @@ import SelectLive from '@/components/blocks/SelectLive.vue'
 import { University } from '@/interfaces/University.ts'
 import { Discipline } from '@/interfaces/Discipline.ts'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Input } from '@/components/ui/input'
 
 const auth = useAuthStore()
 const { toast } = useToast()
@@ -79,11 +73,9 @@ const university = ref<University>({
 })
 const disciplines = ref<Array<Discipline>>([])
 const description = ref('')
-const card = ref('')
 
 watch(() => auth.user, () => {
 	description.value = auth.user.description
-	card.value = auth.user.card
 	if (auth.user.expand?.university) {
 		university.value = auth.user.expand.university
 	}
@@ -101,8 +93,7 @@ const save = async () => {
 		.patch(`/collections/users/records/${auth.user.id}`, {
 			description: description.value,
 			university: university.value?.id,
-			disciplines: disciplines.value.map(item => item.id),
-			card: card.value
+			disciplines: disciplines.value.map(item => item.id)
 		})
 		.then(() => {
 			toast({

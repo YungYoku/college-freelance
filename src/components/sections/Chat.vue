@@ -24,19 +24,19 @@
 			</div>
 		</div>
 
-		<Input
-			v-if="status !== 'ended'"
-			v-model="newMessage"
-			:disabled="loading"
-			placeholder="Введите сообщение..."
-		/>
+		<template v-if="chatOpened">
+			<Input
+				v-model="newMessage"
+				:disabled="loading"
+				placeholder="Введите сообщение..."
+			/>
 
-		<Input
-			v-if="status !== 'ended'"
-			:disabled="loading"
-			type="file"
-			@input="updateFile"
-		/>
+			<Input
+				:disabled="loading"
+				type="file"
+				@input="updateFile"
+			/>
+		</template>
 
 		<template v-if="status !== 'ended'">
 			<Skeleton
@@ -65,7 +65,7 @@
 				v-else
 				@click="sendRating"
 			>
-				Отправить
+				Поставить рейтинг
 			</Button>
 		</template>
 
@@ -86,21 +86,6 @@
 			>
 				На проверке
 			</span>
-			<Button
-				v-else-if="status === 'reviewed'"
-			>
-				Пожаловаться на обман
-			</Button>
-			<template v-else-if="status === 'paid'">
-				<Button>
-					Пожаловаться на обман
-				</Button>
-				<Button
-					@click="approvePaying"
-				>
-					Подтвердить оплату
-				</Button>
-			</template>
 			<span
 				v-else-if="status === 'ended'"
 				class="text-xs text-center"
@@ -114,28 +99,14 @@
 				v-if="loading"
 				class="h-9 w-[580px]"
 			/>
-			<Button
-				v-else-if="status === 'on_review'"
-				@click="approveReview"
-			>
-				Подтвердить выполнение
-			</Button>
-			<template v-else-if="status === 'reviewed'">
-				<Button
-					@click="sendPayingToReview"
-				>
-					Подтвердить оплату
+			<template v-else-if="status === 'on_review'">
+				<Button @click="approveReview">
+					Подтвердить выполнение
 				</Button>
-				<span class="text-xs text-center">
-					Оплатите работу по номеру карты: {{ '0000 0000 0000 0000' }}
-				</span>
+				<Button @click="declineReview">
+					Отказ
+				</Button>
 			</template>
-			<span
-				v-else-if="status === 'paid'"
-				class="text-xs text-center"
-			>
-				Ожидайте подтверждения
-			</span>
 			<span
 				v-else-if="status === 'ended'"
 				class="text-xs text-center"
@@ -186,6 +157,7 @@ const chat = ref<Chat>({
 		messages: []
 	}
 })
+const chatOpened = ref(true)
 
 const loading = ref(true)
 
@@ -196,6 +168,11 @@ const loadChat = async () => {
 		.get<Chat>(`/collections/chats/records/${props.id}?expand=messages`)
 		.then(response => {
 			chat.value = response
+
+			const today = new Date()
+			today.setDate(today.getDate() - 1)
+			const chatExpired = today > new Date(response.updated)
+			chatOpened.value = !chatExpired || props.status !== 'ended'
 		})
 
 	loading.value = false
@@ -242,7 +219,7 @@ const updateFile = (event: Event) => {
 	}
 }
 
-const emit = defineEmits(['send-to-review', 'approve-review', 'send-paying-to-review', 'approve-paying', 'send-rating'])
+const emit = defineEmits(['send-to-review', 'approve-review', 'decline-review', 'send-rating'])
 
 const sendToReview = () => {
 	loading.value = true
@@ -256,16 +233,10 @@ const approveReview = () => {
 	emit('approve-review')
 }
 
-const sendPayingToReview = () => {
+const declineReview = () => {
 	loading.value = true
 
-	emit('send-paying-to-review')
-}
-
-const approvePaying = () => {
-	loading.value = true
-
-	emit('approve-paying')
+	emit('decline-review')
 }
 
 const newRating = ref<number>()

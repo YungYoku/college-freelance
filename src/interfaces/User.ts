@@ -20,7 +20,6 @@ export interface User {
     university: string
     energy: number
     disciplines: Array<string>
-    card: string
     expand?: {
         university: University
         disciplines: Array<Discipline>
