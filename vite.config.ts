@@ -6,24 +6,24 @@ import tailwind from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
 
 export default defineConfig({
-    css: {
-        postcss: {
-            plugins: [tailwind(), autoprefixer()],
-        },
-    },
+	css: {
+		postcss: {
+			plugins: [tailwind(), autoprefixer()],
+		},
+	},
 
-    plugins: [
-        vue(),
-        eslint()
-    ],
+	plugins: [
+		vue(),
+		eslint()
+	],
 
-    resolve: {
-        alias: {
-            '@': path.resolve(__dirname, './src'),
-        }
-    },
+	resolve: {
+		alias: {
+			'@': path.resolve(__dirname, './src'),
+		}
+	},
 
-    esbuild: {
-        drop: ['console', 'debugger']
-    },
+	esbuild: {
+		drop: ['console', 'debugger']
+	},
 })

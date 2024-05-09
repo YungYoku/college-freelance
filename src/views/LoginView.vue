@@ -11,7 +11,7 @@
 				<div class="grid items-center w-full gap-2">
 					<Input
 						v-model.trim="form.identity"
-						placeholder="Имя пользователя"
+						placeholder="Логин или почта"
 						type="text"
 					/>
 
