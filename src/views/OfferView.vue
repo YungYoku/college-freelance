@@ -8,11 +8,8 @@
 				{{ offer.title }}
 			</PageTitle>
 
-			<PageTitle
-				size="m"
-				class="offer__price"
-			>
-				Цена: {{ offer.price }}
+			<PageTitle size="m">
+				{{ offer.price }}
 			</PageTitle>
 		</Grid>
 
@@ -60,6 +57,11 @@
 						</Button>
 					</template>
 				</div>
+				<UserCard
+					class="job-offer__user"
+					link
+					:user="offer.expand?.creator"
+				/>
 			</div>
 		</Grid>
 	</div>
@@ -79,6 +81,7 @@ import PageTitle from '@/components/elements/PageTitle.vue'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/toast'
 import Grid from '@/components/structures/Grid.vue'
+import UserCard from '@/components/blocks/User.vue'
 
 
 const offer = ref<JobOffer>({
@@ -102,6 +105,7 @@ const offer = ref<JobOffer>({
 	chat: '',
 	proposals: [],
 	expand: {
+		creator: undefined,
 		proposals: []
 	}
 })
@@ -113,7 +117,7 @@ const loadOffer = async () => {
 	if (!id) return
 
 	await http
-		.get<JobOffer>(`/collections/job_offers/records/${id}?expand=proposals`)
+		.get<JobOffer>(`/collections/job_offers/records/${id}?expand=creator,proposals`)
 		.then(response => {
 			offer.value = response
 		})
@@ -164,7 +168,7 @@ const makeProposal = async () => {
 
 	loading.value = false
 }
-
+console.log(offer.value)
 const isItMyOffer = computed(() => offer.value.creator === authStore.user.id)
 const isAlreadyProposed = computed(() => {
 	const proposals = offer.value.expand?.proposals ?? []
