@@ -28,7 +28,6 @@
 			:status="openedChat.status"
 			:rating="openedChat.ratingCreator"
 			@send-to-review="sendToReview"
-			@approve-paying="approvePaying"
 			@send-rating="sendRating"
 		/>
 	</Modal>
@@ -82,21 +81,6 @@ const sendToReview = async () => {
 		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
 			...openedChat.value,
 			status: 'on_review'
-		})
-		.then((response) => {
-			if (openedChat.value) {
-				openedChat.value.status = response.status
-			}
-		})
-}
-
-const approvePaying = async () => {
-	if (!openedChat.value) return
-
-	await http
-		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
-			...openedChat.value,
-			status: 'ended'
 		})
 		.then((response) => {
 			if (openedChat.value) {

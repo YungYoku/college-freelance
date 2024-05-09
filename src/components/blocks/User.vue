@@ -44,8 +44,7 @@ withDefaults(defineProps<Props>(), {
 		role: 'customer',
 		university: '',
 		energy: 0,
-		disciplines: [],
-		card: ''
+		disciplines: []
 	}),
 	link: false
 })

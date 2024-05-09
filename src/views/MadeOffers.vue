@@ -59,7 +59,7 @@
 			:status="openedChat.status"
 			:rating="openedChat.ratingExecutor"
 			@approve-review="approveReview"
-			@send-paying-to-review="sendPayingToReview"
+			@decline-review="declineReview"
 			@send-rating="sendRating"
 		/>
 	</Modal>
@@ -160,7 +160,7 @@ const approveReview = async () => {
 	await http
 		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
 			...openedChat.value,
-			status: 'reviewed'
+			status: 'ended'
 		})
 		.then((response) => {
 			if (openedChat.value) {
@@ -169,13 +169,13 @@ const approveReview = async () => {
 		})
 }
 
-const sendPayingToReview = async () => {
+const declineReview = async () => {
 	if (!openedChat.value) return
 
 	await http
 		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
 			...openedChat.value,
-			status: 'paid'
+			status: 'in_progress'
 		})
 		.then((response) => {
 			if (openedChat.value) {
