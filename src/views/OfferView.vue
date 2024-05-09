@@ -14,6 +14,12 @@
 			>
 				Цена: {{ offer.price }}₽
 			</PageTitle>
+			<Button
+				v-if="authStore.isAdmin || isItMyOffer"
+				@click="remove"
+			>
+				DELETE
+			</Button>
 		</Grid>
 
 		<Grid
@@ -78,11 +84,11 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
-import { JobOffer, JobOfferProposal } from '@/interfaces/JobOffer.ts'
+import { JobOffer as IJobOffer, JobOffer, JobOfferProposal } from '@/interfaces/JobOffer.ts'
 import { Chat } from '@/interfaces/Chat.ts'
 import { User } from '@/interfaces/User.ts'
 import { Button } from '@/components/ui/button'
@@ -92,6 +98,7 @@ import { useToast } from '@/components/ui/toast'
 import Grid from '@/components/structures/Grid.vue'
 import UserCard from '@/components/blocks/User.vue'
 
+const router = useRouter()
 
 const offer = ref<JobOffer>({
 	collectionId: '',
@@ -134,6 +141,14 @@ const loadOffer = async () => {
 	loading.value = false
 }
 loadOffer()
+
+const remove = async () => {
+	await http
+		.delete<IJobOffer>(`/collections/job_offers/records/${offer.value.id}`)
+		.then(() => {
+			router.push('/')
+		})
+}
 
 const authStore = useAuthStore()
 const { toast } = useToast()
