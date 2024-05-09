@@ -8,8 +8,11 @@
 				{{ offer.title }}
 			</PageTitle>
 
-			<PageTitle size="m">
-				{{ offer.price }}
+			<PageTitle
+				size="m"
+				class="offer__price"
+			>
+				Цена: {{ offer.price }}₽
 			</PageTitle>
 		</Grid>
 
@@ -27,10 +30,16 @@
 				</div>
 				<div class="grid items-center w-full gap-3">
 					<div class="offer__info-item">
-						Создано: {{ offer.created }}
+						Цена: {{ offer.price }}
 					</div>
 					<div class="offer__info-item">
-						Дедлайн: {{ offer.deadline }}
+						Срок сдачи: {{ offer.deadline }}
+					</div>
+					<div class="offer__info-item">
+						Варианты оплаты:
+					</div>
+					<div class="offer__info-item">
+						Создано: {{ offer.created }}
 					</div>
 					<div class="offer__info-item">
 						Дисциплина: {{ offer.discipline ? offer.discipline : 'Не указана' }}
@@ -168,7 +177,7 @@ const makeProposal = async () => {
 
 	loading.value = false
 }
-console.log(offer.value)
+
 const isItMyOffer = computed(() => offer.value.creator === authStore.user.id)
 const isAlreadyProposed = computed(() => {
 	const proposals = offer.value.expand?.proposals ?? []
@@ -182,9 +191,15 @@ const isAlreadyProposed = computed(() => {
 .offer {
     &__header {
         display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        justify-content: space-around;
+		align-items: flex-end;
+	}
+
+	&__price {
+
+		padding: 0;
+		margin-left: 50px;
+	}
 
     &__info {
         width: 100%;
