@@ -182,14 +182,15 @@ const isAlreadyProposed = computed(() => {
 .offer {
     &__header {
         display: flex;
-        align-items: center;
         justify-content: center;
+        align-items: center;
     }
 
     &__info {
-        min-width: 300px;
         width: 100%;
+        min-width: 300px;
         padding: 15px;
+
         box-shadow: 0 3px 5px 0 rgba(209, 209, 209, 0.5);
     }
 
@@ -198,19 +199,22 @@ const isAlreadyProposed = computed(() => {
     }
 
     &__description {
-        min-width: 300px;
         width: 100%;
+        min-width: 300px;
         padding: 15px;
+
         box-shadow: 0 3px 5px 0 rgba(209, 209, 209, 0.5);
     }
 
     &__info-header {
+        margin-bottom: 1rem;
+
         font-size: 1.5rem;
         font-weight: 600;
-        margin-bottom: 1rem;
     }
     &__info-item {
         height: 30px;
+
         border-bottom: 1px solid #eee;
 
         &.executor {
