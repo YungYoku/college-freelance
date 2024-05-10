@@ -71,6 +71,8 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { useToast } from '@/components/ui/toast/use-toast'
+
 import { useAuthStore } from '@/stores/auth.ts'
 import { Button } from '@/components/ui/button'
 import {
@@ -90,9 +92,13 @@ import Icon from '@/components/elements/Icon.vue'
 
 const auth = useAuthStore()
 const router = useRouter()
+const { toast } = useToast()
 
 const copyRefLink = () => {
 	navigator.clipboard.writeText(`${window.location.origin}/registration?ref=${auth.user.id}`)
+	toast({
+		title: 'Ссылка скопирована!'
+	})
 }
 
 const logout = () => {
