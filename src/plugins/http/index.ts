@@ -59,11 +59,7 @@ class Http {
 			method: 'DELETE',
 			headers: this.getHeaders(auth.token)
 		})
-			.then((res) => {
-				return res
-			})
 	}
-
 }
 
 export default new Http()
