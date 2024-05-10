@@ -52,11 +52,8 @@
 		</template>
 
 		<template v-else>
-			<Input
-				v-model.number="newRating"
-				:disabled="loading"
-				placeholder="Поставьте оценку (1-5)"
-			/>
+			<Rating v-model="newRating"/>
+
 			<Skeleton
 				v-if="loading"
 				class="h-9 w-[580px]"
@@ -65,7 +62,7 @@
 				v-else
 				@click="sendRating"
 			>
-				Поставить рейтинг
+				Оценить работу
 			</Button>
 		</template>
 
@@ -130,6 +127,7 @@ import File from '@/components/elements/File.vue'
 import { Message } from '@/interfaces/Message.ts'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { JobOfferStatus } from '@/interfaces/JobOffer.ts'
+import Rating from '@/components/blocks/Rating.vue'
 
 const props = defineProps({
 	id: {
@@ -157,7 +155,7 @@ const chat = ref<Chat>({
 		messages: []
 	}
 })
-const chatOpened = ref(true)
+const chatOpened = ref(false)
 
 const loading = ref(true)
 
