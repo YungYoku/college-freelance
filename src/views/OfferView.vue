@@ -88,7 +88,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
-import { JobOffer as IJobOffer, JobOffer, JobOfferProposal } from '@/interfaces/JobOffer.ts'
+import { JobOffer, JobOfferProposal } from '@/interfaces/JobOffer.ts'
 import { Chat } from '@/interfaces/Chat.ts'
 import { User } from '@/interfaces/User.ts'
 import { Button } from '@/components/ui/button'
@@ -144,7 +144,7 @@ loadOffer()
 
 const remove = async () => {
 	await http
-		.delete<IJobOffer>(`/collections/job_offers/records/${offer.value.id}`)
+		.delete(`/collections/job_offers/records/${offer.value.id}`)
 		.then(() => {
 			router.push('/')
 		})
@@ -211,9 +211,8 @@ const isAlreadyProposed = computed(() => {
 	}
 
 	&__price {
-
-		padding: 0;
 		margin-left: 50px;
+		padding: 0;
 	}
 
     &__info {

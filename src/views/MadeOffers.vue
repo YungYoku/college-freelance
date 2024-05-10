@@ -142,7 +142,7 @@ const pickExecutor = async (user: User) => {
 
 const remove = async (offer: IJobOffer) => {
 	await http
-		.delete<IJobOffer>(`/collections/job_offers/records/${offer.id}`)
+		.delete(`/collections/job_offers/records/${offer.id}`)
 		.then(() => {
 			offers.value = offers.value.filter((item) => item.id !== offer.id)
 		})
