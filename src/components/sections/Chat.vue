@@ -52,18 +52,15 @@
 		</template>
 
 		<template v-else>
-			<Rating v-model="newRating"/>
-
 			<Skeleton
 				v-if="loading"
 				class="h-9 w-[580px]"
 			/>
-			<Button
+			<Rating
 				v-else
-				@click="sendRating"
-			>
-				Оценить работу
-			</Button>
+				v-model="newRating"
+				@update:model-value="sendRating"
+			/>
 		</template>
 
 		<template v-if="auth.isExecutor">
