@@ -102,7 +102,7 @@ const loadOffers = async () => {
 	}
 
 	await http
-		.get<JobOffers>(`/collections/job_offers/records?${encodedFilter}expand=creator,type&perPage=12`)
+		.get<JobOffers>(`/collections/job_offers/records?${encodedFilter}expand=creator,type,discipline&perPage=12`)
 		.then(res => {
 			offers.value = res.items
 		})

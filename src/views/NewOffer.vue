@@ -14,6 +14,12 @@
 					api="offer_types"
 				/>
 
+				<SelectLive
+					v-model="offerDisciplines"
+					place-holder="Выберите дисциплину..."
+					api="disciplines"
+				/>
+
 				<Input
 					v-model.trim="newOffer.title"
 					placeholder="Введите название объявления"
@@ -80,6 +86,10 @@ const offerType = ref({
 	id: null,
 	name: null
 })
+const offerDisciplines = ref({
+	id: null,
+	name: null
+})
 
 const newOffer = reactive<JobOffer>({
 	chat: '',
@@ -115,7 +125,8 @@ const createOffer = async () => {
 	await http
 		.post<JobOffer>('/collections/job_offers/records/', {
 			...newOffer,
-			type: offerType.value?.id
+			type: offerType.value?.id,
+			discipline: offerDisciplines.value?.id
 		})
 		.then(response => {
 			router.push(`/offer/${response.id}`)

@@ -1,5 +1,6 @@
 import { User } from '@/interfaces/User.ts'
 import { Chat } from '@/interfaces/Chat.ts'
+import { Discipline } from '@/interfaces/Discipline.ts'
 
 export type JobOfferStatus = 'created' | 'in_progress' | 'on_review' | 'ended'
 
@@ -25,9 +26,10 @@ export interface JobOffer {
     type: string
     expand?: {
         creator?: User
-        chat?: Chat,
+        chat?: Chat
         proposals?: Array<JobOfferProposal>
         type?: JobOfferType
+        discipline?: Discipline
     }
 }
 

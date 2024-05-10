@@ -92,7 +92,7 @@ const getUserOffers = async () => {
 	loading.value = true
 
 	await http
-		.get<JobOffers>(`/collections/job_offers/records?filter=(creator='${auth.user.id}')&expand=proposals`)
+		.get<JobOffers>(`/collections/job_offers/records?filter=(creator='${auth.user.id}')&expand=proposals,type,discipline`)
 		.then(response => {
 			offers.value = response.items
 		})

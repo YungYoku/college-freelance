@@ -90,9 +90,14 @@
 		</div>
 
 
-		<Badge v-if="!loading && jobOffer.expand?.type?.name">
-			{{ jobOffer.expand.type.name }}
-		</Badge>
+		<div class="flex flex-wrap gap-2">
+			<Badge v-if="!loading && jobOffer.expand?.type?.name">
+				{{ jobOffer.expand.type.name }}
+			</Badge>
+			<Badge v-if="!loading && jobOffer.expand?.discipline?.name">
+				{{ jobOffer.expand.discipline.name }}
+			</Badge>
+		</div>
 
 
 		<div class="job-offer__footer">
