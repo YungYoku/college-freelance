@@ -46,8 +46,8 @@
 					</DropdownMenuSubTrigger>
 					<DropdownMenuPortal>
 						<DropdownMenuSubContent>
-							<DropdownMenuItem disabled>
-								Сообщение
+							<DropdownMenuItem @click="copyRefLink">
+								Ссылкка
 							</DropdownMenuItem>
 						</DropdownMenuSubContent>
 					</DropdownMenuPortal>
@@ -90,6 +90,10 @@ import Icon from '@/components/elements/Icon.vue'
 
 const auth = useAuthStore()
 const router = useRouter()
+
+const copyRefLink = () => {
+	navigator.clipboard.writeText(`${window.location.origin}/registration?ref=${auth.user.id}`)
+}
 
 const logout = () => {
 	localStorage.clear()
