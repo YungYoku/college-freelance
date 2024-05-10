@@ -6,6 +6,18 @@
 			api="universities"
 		/>
 
+		<SelectLive
+			v-model="offerType"
+			place-holder="Выберите тип работы..."
+			api="offer_types"
+		/>
+
+		<SelectLive
+			v-model="offerDisciplines"
+			place-holder="Выберите дисциплину..."
+			api="disciplines"
+		/>
+
 		<Skeleton
 			v-if="loading"
 			class="h-9"
@@ -71,6 +83,14 @@ const university = ref<University>({
 	updated: new Date(),
 	name: ''
 })
+const offerType = ref({
+	id: null,
+	name: null
+})
+const offerDisciplines = ref({
+	id: null,
+	name: null
+})
 
 const loading = ref(true)
 const loadOffers = async () => {
@@ -90,12 +110,11 @@ const loadOffers = async () => {
 	if (!authStore.isAdmin) filters.push(`status='created' && deadline>='${today}'`)
 	if (searchStore.search) filters.push(`title~'${searchStore.search}'`)
 	if (university.value.id) filters.push(`university='${university.value.id}'`)
+	if (offerType.value.id) filters.push(`type='${offerType.value.id}'`)
+	if (offerDisciplines.value.id) filters.push(`discipline='${offerDisciplines.value.id}'`)
 	if (filters.length) {
-		if (filters.length === 1) {
-			filter = filters[0]
-		} else {
-			filter = filters.reduce((acc, filter) => filter ? `${acc} && ${filter}` : acc, '')
-		}
+		filter = filters.reduce((acc, filter) => filter ? `${acc} && ${filter}` : acc, '')
+		filter = filter.slice(4)
 
 		encodedFilter = encodeURIComponent(filter)
 		encodedFilter = `filter=(${encodedFilter})&`
