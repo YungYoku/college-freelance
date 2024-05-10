@@ -52,13 +52,9 @@
 		</template>
 
 		<template v-else>
-			<Skeleton
-				v-if="loading"
-				class="h-9 w-[580px]"
-			/>
 			<Rating
-				v-else
 				v-model="newRating"
+				:loading="loading"
 				@update:model-value="sendRating"
 			/>
 		</template>
