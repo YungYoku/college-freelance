@@ -106,7 +106,7 @@
 			</template>
 			<span
 				v-else-if="status === 'ended'"
-				class="text-xs text-center"
+				class="h-9 text-xs text-center content-center"
 			>
 				Объявление завершено
 			</span>
