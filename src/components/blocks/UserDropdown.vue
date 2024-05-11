@@ -95,7 +95,7 @@ const router = useRouter()
 const { toast } = useToast()
 
 const copyRefLink = () => {
-	navigator.clipboard.writeText(`${window.location.origin}/registration?ref=${auth.user.id}`)
+	navigator.clipboard.writeText(`${window.location.origin}/registration?ref=${auth.user.referral_code}`)
 	toast({
 		title: 'Ссылка скопирована!'
 	})

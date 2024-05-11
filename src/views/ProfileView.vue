@@ -10,7 +10,7 @@
 
 				<div>Фамилия: {{ auth.user.surname }}</div>
 
-				<div>Рейтинг:  {{ auth.user.rating }}</div>
+				<div>Рейтинг: {{ auth.user.rating }}</div>
 			</div>
 		</div>
 
@@ -31,6 +31,12 @@
 			multiple
 			place-holder="Выберите дисциплины..."
 			api="disciplines"
+		/>
+
+		<Input
+			v-model="auth.user.referral_code"
+			disabled
+			placeholder="Реферальный код"
 		/>
 
 		<Skeleton
@@ -59,6 +65,7 @@ import SelectLive from '@/components/blocks/SelectLive.vue'
 import { University } from '@/interfaces/University.ts'
 import { Discipline } from '@/interfaces/Discipline.ts'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Input } from '@/components/ui/input'
 
 const auth = useAuthStore()
 const { toast } = useToast()
