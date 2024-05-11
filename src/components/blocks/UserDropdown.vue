@@ -9,7 +9,7 @@
 		</DropdownMenuTrigger>
 		<DropdownMenuContent class="w-56">
 			<DropdownMenuGroup>
-				<router-link to="/profile">
+				<router-link :to="`/users/${auth.user.id}`">
 					<DropdownMenuItem>
 						Профиль
 					</DropdownMenuItem>
