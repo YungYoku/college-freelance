@@ -88,14 +88,38 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import Icon from '@/components/elements/Icon.vue'
+import http from '@/plugins/http'
+import { ReferralCode } from '@/interfaces/ReferralCode.ts'
+import { User } from '@/interfaces/User.ts'
 
 
 const auth = useAuthStore()
 const router = useRouter()
 const { toast } = useToast()
 
-const copyRefLink = () => {
-	navigator.clipboard.writeText(`${window.location.origin}/registration?ref=${auth.user.referral_code}`)
+const generateRefCode = async () => {
+	let referral_code = ''
+	await http
+		.post<ReferralCode>('/collections/referral_codes/records')
+		.then((res) => {
+			referral_code = res.id
+		})
+
+	await http
+		.patch<User>(`/collections/users/records/${auth.user.id}`, {
+			referral_code
+		})
+		.then((res) => {
+			auth.setUser(res)
+		})
+}
+
+const copyRefLink = async () => {
+	if (auth.user.referral_code?.length === 0) {
+		await generateRefCode()
+	}
+
+	await navigator.clipboard.writeText(`${window.location.origin}/registration?ref=${auth.user.referral_code}`)
 	toast({
 		title: 'Ссылка скопирована!'
 	})
