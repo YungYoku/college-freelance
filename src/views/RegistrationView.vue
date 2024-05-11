@@ -120,8 +120,11 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { User } from '@/interfaces/User.ts'
 
 const router = useRouter()
+
+const loading = ref(false)
 
 const form = reactive({
 	email: '',
@@ -133,16 +136,16 @@ const form = reactive({
 	role: 'customer',
 	energy: 100
 })
+
 const refCode = ref('')
 refCode.value = router.currentRoute.value.query.ref as string
 
-const loading = ref(false)
 const register = async () => {
 	if (isRegistrationPossible.value) {
 		loading.value = true
 
 		await http
-			.post('/collections/users/records', { ...form })
+			.post<User>('/collections/users/records', { ...form })
 			.then(() => {
 				router.push('/')
 			})
