@@ -46,9 +46,8 @@
 					/>
 
 					<Input
-						v-model.trim="form.passwordConfirm"
+						v-model.trim="refCode"
 						placeholder="Реферальный код"
-						type="password"
 					/>
 
 					<Select v-model="form.role">
@@ -134,6 +133,8 @@ const form = reactive({
 	role: 'customer',
 	energy: 100
 })
+const refCode = ref('')
+refCode.value = router.currentRoute.value.query.ref as string
 
 const loading = ref(false)
 const register = async () => {
