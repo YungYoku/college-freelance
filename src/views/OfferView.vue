@@ -220,7 +220,7 @@ const isAlreadyProposed = computed(() => {
         min-width: 300px;
         padding: 15px;
 
-        box-shadow: 0 3px 5px 0 rgba(209, 209, 209, 0.5);
+        box-shadow: 0 4px 6px 0 rgba(214, 211, 209, 0.5);
     }
 
     &__data {
@@ -232,7 +232,7 @@ const isAlreadyProposed = computed(() => {
         min-width: 300px;
         padding: 15px;
 
-        box-shadow: 0 3px 5px 0 rgba(209, 209, 209, 0.5);
+        box-shadow: 0 4px 6px 0 rgba(214, 211, 209, 0.5);
     }
 
     &__info-header {
