@@ -98,9 +98,8 @@ const login = async () => {
 				toast({
 					title: 'Ошибка авторизации'
 				})
+				loading.value = false
 			})
-
-		loading.value = false
 	}
 }
 
