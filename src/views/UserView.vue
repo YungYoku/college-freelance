@@ -1,12 +1,12 @@
 <template>
-	<div class="flex max-w-screen-md w-full gap-2 align-center flex-col">
+	<div class="flex relative max-w-screen-md w-full gap-2 align-center flex-col">
 		<Button
 			v-if="auth.isAdmin || isItMyProfile"
+			class="absolute right-0 top-10"
 			@click="router.push(`/profile`)"
 		>
 			Изменить
 		</Button>
-		
 		<div class="flex gap-4 items-center">
 			<Avatar
 				size="l"
