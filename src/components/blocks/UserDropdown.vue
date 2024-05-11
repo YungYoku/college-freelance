@@ -56,12 +56,6 @@
 
 			<DropdownMenuSeparator/>
 
-			<DropdownMenuItem disabled>
-				Поддержка
-			</DropdownMenuItem>
-
-			<DropdownMenuSeparator/>
-
 			<DropdownMenuItem @click="logout">
 				Выйти
 			</DropdownMenuItem>
