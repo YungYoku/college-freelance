@@ -2,7 +2,7 @@
 	<div class="flex relative max-w-screen-lg w-full gap-2 align-center flex-col">
 		<Button
 			v-if="auth.isAdmin || isItMyProfile"
-			class="absolute right-0 top-10"
+			class="absolute right-0 top-0"
 			@click="router.push(`/profile`)"
 		>
 			Изменить
@@ -80,7 +80,19 @@
 			v-if="loading"
 			class="h-9"
 		/>
-		<div v-else>
+		<div
+			v-else
+			class="w-full min-h-1 shadow-md shadow-gray-300"
+		/>
+			
+		<div
+			class="text-3xl py-5 pl-10"
+		>
+			Обо мне
+		</div>
+		<div
+			class="text-base pl-5 min-h-20"
+		>
 			{{ user?.description }}
 		</div>
 	</div>
