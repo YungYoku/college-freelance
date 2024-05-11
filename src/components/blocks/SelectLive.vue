@@ -96,6 +96,8 @@ const showedResult = computed(() => {
 	const _val = value.value
 
 	if (Array.isArray(_val)) {
+		if (_val.length === 0) return 'Выбрано 0 элементов.'
+
 		const items = _val.length > 7 ? _val.slice(0, 7) : _val
 		const result = items.reduce((acc, item) => `${acc}, ${item.name.trim()}`, '').slice(2)
 		const extra = _val.length > 7 ? `, ... (${_val.length})` : ` (${_val.length})`
