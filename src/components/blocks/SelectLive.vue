@@ -147,7 +147,7 @@ const getPayload = (entity: string | Array<Item>, isIncluded: boolean = false) =
 	const sign = isIncluded ? '=' : '~'
 	if (typeof entity === 'string' && entity.length) {
 		payload.sort = 'name'
-		payload.filter = 'filter=('
+		payload.filter = '('
 
 		if (isIncluded) payload.filter += `id='${entity}'`
 		else {
@@ -160,7 +160,7 @@ const getPayload = (entity: string | Array<Item>, isIncluded: boolean = false) =
 		payload.filter += ')'
 	} else if (Array.isArray(entity) && entity.length) {
 		payload.sort = 'name'
-		payload.filter = 'filter=('
+		payload.filter = '('
 
 		entity.forEach(item => {
 			if (isIncluded) payload.filter += `id='${item.id}' || `
