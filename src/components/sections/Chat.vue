@@ -52,21 +52,11 @@
 		</template>
 
 		<template v-else>
-			<Input
-				v-model.number="newRating"
-				:disabled="loading"
-				placeholder="Поставьте оценку (1-5)"
+			<Rating
+				v-model="newRating"
+				:loading="loading"
+				@update:model-value="sendRating"
 			/>
-			<Skeleton
-				v-if="loading"
-				class="h-9 w-[580px]"
-			/>
-			<Button
-				v-else
-				@click="sendRating"
-			>
-				Поставить рейтинг
-			</Button>
 		</template>
 
 		<template v-if="auth.isExecutor">
@@ -109,7 +99,7 @@
 			</template>
 			<span
 				v-else-if="status === 'ended'"
-				class="text-xs text-center"
+				class="h-9 text-xs text-center content-center"
 			>
 				Объявление завершено
 			</span>
@@ -130,6 +120,7 @@ import File from '@/components/elements/File.vue'
 import { Message } from '@/interfaces/Message.ts'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { JobOfferStatus } from '@/interfaces/JobOffer.ts'
+import Rating from '@/components/blocks/Rating.vue'
 
 const props = defineProps({
 	id: {
@@ -157,7 +148,7 @@ const chat = ref<Chat>({
 		messages: []
 	}
 })
-const chatOpened = ref(true)
+const chatOpened = ref(false)
 
 const loading = ref(true)
 

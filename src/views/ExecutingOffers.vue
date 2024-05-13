@@ -57,7 +57,7 @@ const getUserOffers = async () => {
 	loading.value = true
 
 	await http
-		.get<JobOffers>(`/collections/job_offers/records?filter=(executor='${auth.user.id}')`)
+		.get<JobOffers>(`/collections/job_offers/records?filter=(executor='${auth.user.id}')&expand=type,discipline`)
 		.then(response => {
 			offers.value = response.items
 		})

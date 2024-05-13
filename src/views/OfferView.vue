@@ -1,38 +1,91 @@
 <template>
-	<div class="grid items-center w-full gap-4">
+	<Grid :columns="[1, '140px']">
 		<PageTitle size="l">
 			{{ offer.title }}
 		</PageTitle>
 
-		<div class="offer__description">
-			Описание: {{ offer.description }}
-		</div>
+		<Button
+			v-if="authStore.isAdmin || isItMyOffer"
+			@click="remove"
+		>
+			Удалить
+		</Button>
+	</Grid>
 
-		<div class="offer__price">
-			Цена: {{ offer.price }} ₽
-		</div>
-
-		<template v-if="!isItMyOffer && authStore.isExecutor">
-			<Skeleton
-				v-if="loading"
-				class="h-9 w-[119px] ml-auto"
-			/>
-
-			<Button
-				v-else
-				:disabled="isAlreadyProposed"
-				class="ml-auto"
-				@click="makeProposal"
+	<Grid
+		:columns="2"
+		class="mt-4"
+	>
+		<Island class="w-full">
+			<PageTitle
+				size="s"
+				class="mb-2"
 			>
-				Откликнуться
-			</Button>
-		</template>
-	</div>
+				Информация о заказе
+			</PageTitle>
+
+			<div class="grid items-center w-full gap-2">
+				<div>
+					Цена: {{ offer.price }}₽
+				</div>
+				<div>
+					Варианты оплаты:
+				</div>
+
+				<div class="mt-4">
+					Дисциплина: {{ offer.discipline ? offer.discipline : 'Не указана' }}
+				</div>
+				<div>
+					Университет: {{ offer.university ? offer.university : 'Не указан' }}
+				</div>
+
+				<div class="mt-4">
+					Создано: {{ offer.created }}
+				</div>
+				<div>
+					Срок сдачи: {{ offer.deadline }}
+				</div>
+
+				<template v-if="!isItMyOffer && authStore.isExecutor">
+					<Skeleton
+						v-if="loading"
+						class="h-9 w-[119px] ml-auto"
+					/>
+
+					<Button
+						v-else
+						:disabled="isAlreadyProposed"
+						class="ml-auto"
+						@click="makeProposal"
+					>
+						Откликнуться
+					</Button>
+				</template>
+			</div>
+
+			<UserCard
+				class="mt-4"
+				link
+				:user="offer.expand?.creator"
+			/>
+		</Island>
+
+		<Island>
+			<PageTitle
+				size="s"
+				class="mb-2"
+			>
+				Описание
+			</PageTitle>
+
+			{{ offer.description }}
+		</Island>
+	</Grid>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
@@ -43,6 +96,11 @@ import { Button } from '@/components/ui/button'
 import PageTitle from '@/components/elements/PageTitle.vue'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/toast'
+import Grid from '@/components/structures/Grid.vue'
+import UserCard from '@/components/blocks/User.vue'
+import Island from '@/components/structures/Island.vue'
+
+const router = useRouter()
 
 const offer = ref<JobOffer>({
 	collectionId: '',
@@ -65,10 +123,10 @@ const offer = ref<JobOffer>({
 	chat: '',
 	proposals: [],
 	expand: {
+		creator: undefined,
 		proposals: []
 	}
 })
-
 const route = useRoute()
 const { id } = route.params
 
@@ -77,7 +135,7 @@ const loadOffer = async () => {
 	if (!id) return
 
 	await http
-		.get<JobOffer>(`/collections/job_offers/records/${id}?expand=proposals`)
+		.get<JobOffer>(`/collections/job_offers/records/${id}?expand=creator,proposals`)
 		.then(response => {
 			offer.value = response
 		})
@@ -85,6 +143,14 @@ const loadOffer = async () => {
 	loading.value = false
 }
 loadOffer()
+
+const remove = async () => {
+	await http
+		.delete(`/collections/job_offers/records/${offer.value.id}`)
+		.then(() => {
+			router.push('/')
+		})
+}
 
 const authStore = useAuthStore()
 const { toast } = useToast()

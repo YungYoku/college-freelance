@@ -9,7 +9,7 @@
 		</DropdownMenuTrigger>
 		<DropdownMenuContent class="w-56">
 			<DropdownMenuGroup>
-				<router-link to="/profile">
+				<router-link :to="`/users/${auth.user.id}`">
 					<DropdownMenuItem>
 						Профиль
 					</DropdownMenuItem>
@@ -46,19 +46,13 @@
 					</DropdownMenuSubTrigger>
 					<DropdownMenuPortal>
 						<DropdownMenuSubContent>
-							<DropdownMenuItem disabled>
-								Сообщение
+							<DropdownMenuItem @click="copyRefLink">
+								Ссылкка
 							</DropdownMenuItem>
 						</DropdownMenuSubContent>
 					</DropdownMenuPortal>
 				</DropdownMenuSub>
 			</DropdownMenuGroup>
-
-			<DropdownMenuSeparator/>
-
-			<DropdownMenuItem disabled>
-				Поддержка
-			</DropdownMenuItem>
 
 			<DropdownMenuSeparator/>
 
@@ -71,6 +65,8 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { useToast } from '@/components/ui/toast/use-toast'
+
 import { useAuthStore } from '@/stores/auth.ts'
 import { Button } from '@/components/ui/button'
 import {
@@ -86,10 +82,42 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import Icon from '@/components/elements/Icon.vue'
+import http from '@/plugins/http'
+import { ReferralCode } from '@/interfaces/ReferralCode.ts'
+import { User } from '@/interfaces/User.ts'
 
 
 const auth = useAuthStore()
 const router = useRouter()
+const { toast } = useToast()
+
+const generateRefCode = async () => {
+	let referral_code = ''
+	await http
+		.post<ReferralCode>('/collections/referral_codes/records')
+		.then((res) => {
+			referral_code = res.id
+		})
+
+	await http
+		.patch<User>(`/collections/users/records/${auth.user.id}`, {
+			referral_code
+		})
+		.then((res) => {
+			auth.setUser(res)
+		})
+}
+
+const copyRefLink = async () => {
+	if (auth.user.referral_code?.length === 0) {
+		await generateRefCode()
+	}
+
+	await navigator.clipboard.writeText(`${window.location.origin}/registration?ref=${auth.user.referral_code}`)
+	toast({
+		title: 'Ссылка скопирована!'
+	})
+}
 
 const logout = () => {
 	localStorage.clear()

@@ -1,5 +1,5 @@
 <template>
-	<div class="job-offer bg-primary-foreground">
+	<Island class="job-offer bg-primary-foreground">
 		<div class="job-offer__actions">
 			<template v-if="jobOffer.executor && showChat">
 				<Skeleton
@@ -90,9 +90,14 @@
 		</div>
 
 
-		<Badge v-if="!loading && jobOffer.expand?.type?.name">
-			{{ jobOffer.expand.type.name }}
-		</Badge>
+		<div class="flex flex-wrap gap-2">
+			<Badge v-if="!loading && jobOffer.expand?.type?.name">
+				{{ jobOffer.expand.type.name }}
+			</Badge>
+			<Badge v-if="!loading && jobOffer.expand?.discipline?.name">
+				{{ jobOffer.expand.discipline.name }}
+			</Badge>
+		</div>
 
 
 		<div class="job-offer__footer">
@@ -118,7 +123,7 @@
 				Дедлайн: {{ deadline }}
 			</div>
 		</div>
-	</div>
+	</Island>
 </template>
 
 <script setup lang="ts">
@@ -129,6 +134,7 @@ import User from '@/components/blocks/User.vue'
 import Icon from '@/components/elements/Icon.vue'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
+import Island from '@/components/structures/Island.vue'
 
 const props = defineProps({
 	jobOffer: {
@@ -174,9 +180,7 @@ const deadline = computed(() => {
 
     max-width: 100%;
     height: 200px;
-    padding: 10px;
 
-    border-radius: 5px;
     gap: 5px;
 
     &__actions {

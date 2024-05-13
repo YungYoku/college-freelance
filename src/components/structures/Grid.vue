@@ -29,8 +29,13 @@ const style = computed(() => {
 		}
 	}
 
+	const columns = [...props.columns as Array<string | number>]
 	return {
-		gridTemplateColumns: [...props.columns].reduce((str: string, item) => str + item + 'fr ', '').trim()
+		gridTemplateColumns: columns.reduce((result: string, column: string | number) => {
+			if (typeof column === 'string') return `${result} ${column} `
+			if (typeof column === 'number') return `${result} ${column}fr `
+			return result
+		}, '').trim()
 	}
 })
 

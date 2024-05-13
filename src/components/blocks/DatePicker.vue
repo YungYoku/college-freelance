@@ -8,7 +8,7 @@
 					!value && 'text-muted-foreground',
 				)"
 			>
-				<span>{{ value ? format(value, "PPP") : "Pick a date" }}</span>
+				<span>{{ value ? format(value, "PPP") : "Выберите дату" }}</span>
 			</Button>
 		</PopoverTrigger>
 		<PopoverContent class="w-auto p-0">

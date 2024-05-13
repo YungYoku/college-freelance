@@ -10,7 +10,7 @@
 
 				<div>Фамилия: {{ auth.user.surname }}</div>
 
-				<div>Рейтинг:  {{ auth.user.rating }}</div>
+				<div>Рейтинг: {{ auth.user.rating }}</div>
 			</div>
 		</div>
 
@@ -32,6 +32,27 @@
 			place-holder="Выберите дисциплины..."
 			api="disciplines"
 		/>
+
+		<Grid :columns="auth.user.referral_code?.length === 0 ? [3, 1] : 1">
+			<Input
+				v-model="auth.user.referral_code"
+				disabled
+				placeholder="Реферальный код"
+			/>
+			<template v-if="auth.user.referral_code?.length === 0">
+				<Skeleton
+					v-if="loading"
+					class="h-9"
+				/>
+				<Button
+					v-else
+					@click="generateRefCode"
+				>
+					Создать
+				</Button>
+			</template>
+		</Grid>
+
 
 		<Skeleton
 			v-if="loading"
@@ -59,6 +80,10 @@ import SelectLive from '@/components/blocks/SelectLive.vue'
 import { University } from '@/interfaces/University.ts'
 import { Discipline } from '@/interfaces/Discipline.ts'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Input } from '@/components/ui/input'
+import { ReferralCode } from '@/interfaces/ReferralCode.ts'
+import Grid from '@/components/structures/Grid.vue'
+import { User } from '@/interfaces/User.ts'
 
 const auth = useAuthStore()
 const { toast } = useToast()
@@ -86,16 +111,38 @@ watch(() => auth.user, () => {
 
 const loading = ref(false)
 
+const generateRefCode = async () => {
+	loading.value = true
+
+	let referral_code = ''
+	await http
+		.post<ReferralCode>('/collections/referral_codes/records')
+		.then((res) => {
+			referral_code = res.id
+		})
+
+	await http
+		.patch<User>(`/collections/users/records/${auth.user.id}`, {
+			referral_code
+		})
+		.then((res) => {
+			auth.setUser(res)
+		})
+
+	loading.value = false
+}
+
 const save = async () => {
 	loading.value = true
 
 	await http
-		.patch(`/collections/users/records/${auth.user.id}`, {
+		.patch<User>(`/collections/users/records/${auth.user.id}`, {
 			description: description.value,
 			university: university.value?.id,
 			disciplines: disciplines.value.map(item => item.id)
 		})
-		.then(() => {
+		.then((res) => {
+			auth.setUser(res)
 			toast({
 				title: 'Сохранено успешно!'
 			})

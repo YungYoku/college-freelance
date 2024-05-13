@@ -1,43 +1,42 @@
 <template>
-	<Card class="new-offer">
-		<CardHeader>
-			<CardTitle>
-				Создание объявления
-			</CardTitle>
-		</CardHeader>
+	<Card
+		width="300px"
+		title="Создание объявления"
+	>
+		<SelectLive
+			v-model="offerType"
+			place-holder="Выберите тип работы..."
+			api="offer_types"
+		/>
 
-		<CardContent>
-			<div class="grid items-center w-full gap-2">
-				<SelectLive
-					v-model="offerType"
-					place-holder="Выберите тип работы..."
-					api="offer_types"
-				/>
+		<SelectLive
+			v-model="offerDisciplines"
+			place-holder="Выберите дисциплину..."
+			api="disciplines"
+		/>
 
-				<Input
-					v-model.trim="newOffer.title"
-					placeholder="Введите название объявления"
-					type="text"
-				/>
+		<Input
+			v-model.trim="newOffer.title"
+			placeholder="Введите название объявления"
+			type="text"
+		/>
 
-				<Textarea
-					v-model.trim="newOffer.description"
-					class="new-offer__description"
-					placeholder="Описание"
-				/>
+		<Textarea
+			v-model.trim="newOffer.description"
+			class="h-[200px]"
+			placeholder="Описание"
+		/>
 
-				<Input
-					v-model.trim="newOffer.price"
-					placeholder="Предложите цену, ₽"
-				/>
+		<Input
+			v-model.trim="newOffer.price"
+			placeholder="Предложите цену, ₽"
+		/>
 
-				<DatePicker
-					v-model="newOffer.deadline"
-				/>
-			</div>
-		</CardContent>
+		<DatePicker
+			v-model="newOffer.deadline"
+		/>
 
-		<CardFooter>
+		<template #footer>
 			<Skeleton
 				v-if="loading"
 				class="h-9 w-[180px]"
@@ -49,7 +48,7 @@
 			>
 				Создать объявление
 			</Button>
-		</CardFooter>
+		</template>
 	</Card>
 </template>
 
@@ -62,13 +61,7 @@ import http from '@/plugins/http'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
-import {
-	Card,
-	CardContent,
-	CardFooter,
-	CardHeader,
-	CardTitle
-} from '@/components/ui/card'
+import Card from '@/components/structures/Card.vue'
 import DatePicker from '@/components/blocks/DatePicker.vue'
 import { JobOffer } from '@/interfaces/JobOffer'
 import SelectLive from '@/components/blocks/SelectLive.vue'
@@ -77,6 +70,10 @@ import { Skeleton } from '@/components/ui/skeleton'
 const auth = useAuthStore()
 
 const offerType = ref({
+	id: null,
+	name: null
+})
+const offerDisciplines = ref({
 	id: null,
 	name: null
 })
@@ -115,7 +112,8 @@ const createOffer = async () => {
 	await http
 		.post<JobOffer>('/collections/job_offers/records/', {
 			...newOffer,
-			type: offerType.value?.id
+			type: offerType.value?.id,
+			discipline: offerDisciplines.value?.id
 		})
 		.then(response => {
 			router.push(`/offer/${response.id}`)
@@ -127,15 +125,3 @@ const createOffer = async () => {
 	loading.value = false
 }
 </script>
-
-<style scoped lang="scss">
-.new-offer {
-    min-width: 320px;
-
-    &__description {
-        height: 200px;
-    }
-}
-</style>
-
-

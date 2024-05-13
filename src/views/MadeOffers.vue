@@ -92,7 +92,7 @@ const getUserOffers = async () => {
 	loading.value = true
 
 	await http
-		.get<JobOffers>(`/collections/job_offers/records?filter=(creator='${auth.user.id}')&expand=proposals`)
+		.get<JobOffers>(`/collections/job_offers/records?filter=(creator='${auth.user.id}')&expand=proposals,type,discipline`)
 		.then(response => {
 			offers.value = response.items
 		})
@@ -142,7 +142,7 @@ const pickExecutor = async (user: User) => {
 
 const remove = async (offer: IJobOffer) => {
 	await http
-		.delete<IJobOffer>(`/collections/job_offers/records/${offer.id}`)
+		.delete(`/collections/job_offers/records/${offer.id}`)
 		.then(() => {
 			offers.value = offers.value.filter((item) => item.id !== offer.id)
 		})

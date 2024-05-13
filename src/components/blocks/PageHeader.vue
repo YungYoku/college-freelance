@@ -78,7 +78,7 @@ const filteredMenu = computed(() => menu.filter(item => item.can))
     min-height: 48px;
     gap: 10px;
 
-	padding: 5px 10px;
+	padding: 5px 0;
 
 	&__logo {
 		max-width: 40px;
