@@ -11,11 +11,15 @@
 				<slot/>
 			</div>
 		</CardContent>
+
+		<CardFooter v-if="$slots.footer">
+			<slot name="footer"/>
+		</CardFooter>
 	</Card>
 </template>
 
 <script setup lang="ts">
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
 
 defineProps({
 	width: {
