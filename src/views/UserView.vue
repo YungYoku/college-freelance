@@ -7,6 +7,7 @@
 		>
 			Изменить
 		</Button>
+
 		<div class="flex gap-4 items-center">
 			<Avatar
 				size="l"
@@ -43,7 +44,7 @@
 						v-else
 						class="ml-10"
 					>
-						Отзывы:  нихуя / дохуя
+						Отзывы:
 					</div>
 
 					<Skeleton
@@ -54,7 +55,7 @@
 						v-else
 						class="ml-10"
 					>
-						Выполненных заданий:  нихуя
+						Выполненных заданий:
 					</div>
 				</div>
 
@@ -76,23 +77,10 @@
 			</div>
 		</div>
 
-		<Skeleton
-			v-if="loading"
-			class="h-9"
-		/>
-		<div
-			v-else
-			class="w-full min-h-1 shadow-md shadow-gray-300"
-		/>
-			
-		<div
-			class="text-3xl py-5 pl-10"
-		>
+		<div class="text-3xl pt-8 pb-2">
 			Обо мне
 		</div>
-		<div
-			class="text-base pl-5 min-h-20"
-		>
+		<div class="text-base">
 			{{ user?.description }}
 		</div>
 	</div>
