@@ -12,10 +12,7 @@
 		</Button>
 	</Grid>
 
-	<Grid
-		class="offer__data"
-		:columns="2"
-	>
+	<Grid :columns="2">
 		<Island class="w-full">
 			<PageTitle
 				size="s"
@@ -25,27 +22,27 @@
 			</PageTitle>
 
 			<div class="grid items-center w-full gap-2">
-				<div class="offer__info-item">
+				<div>
 					Цена: {{ offer.price }}₽
 				</div>
-				<div class="offer__info-item">
+				<div>
 					Варианты оплаты:
 				</div>
-				<div class="offer__info-item mt-4">
+
+				<div class="mt-4">
 					Дисциплина: {{ offer.discipline ? offer.discipline : 'Не указана' }}
 				</div>
-				<div
-					class="offer__info-item"
-					:class="{'executor': !authStore.isExecutor}"
-				>
+				<div>
 					Университет: {{ offer.university ? offer.university : 'Не указан' }}
 				</div>
-				<div class="offer__info-item mt-4">
+
+				<div class="mt-4">
 					Создано: {{ offer.created }}
 				</div>
-				<div class="offer__info-item">
+				<div>
 					Срок сдачи: {{ offer.deadline }}
 				</div>
+
 				<template v-if="!isItMyOffer && authStore.isExecutor">
 					<Skeleton
 						v-if="loading"
@@ -62,14 +59,15 @@
 					</Button>
 				</template>
 			</div>
+
 			<UserCard
-				class="job-offer__user mt-4"
+				class="mt-4"
 				link
 				:user="offer.expand?.creator"
 			/>
 		</Island>
 
-		<Island class="offer__description">
+		<Island>
 			<PageTitle
 				size="s"
 				class="mb-2"
