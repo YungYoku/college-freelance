@@ -77,9 +77,12 @@
 			</div>
 		</div>
 
-		<div class="text-3xl pt-8 pb-2">
+		<PageTitle
+			size="m"
+			class="mt-8"
+		>
 			Обо мне
-		</div>
+		</PageTitle>
 		<div class="text-base">
 			{{ user?.description }}
 		</div>
@@ -98,6 +101,7 @@ import Avatar from '@/components/blocks/Avatar.vue'
 import { User } from '@/interfaces/User.ts'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
+import PageTitle from '@/components/elements/PageTitle.vue'
 
 const route = useRoute()
 const router = useRouter()
