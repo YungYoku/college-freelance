@@ -12,7 +12,10 @@
 		</Button>
 	</Grid>
 
-	<Grid :columns="2">
+	<Grid
+		:columns="2"
+		class="mt-4"
+	>
 		<Island class="w-full">
 			<PageTitle
 				size="s"
