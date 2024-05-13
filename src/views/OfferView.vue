@@ -26,11 +26,7 @@
 			class="offer__data"
 			:columns="2"
 		>
-			<div class="offer__description">
-				Описание: {{ offer.description }}
-			</div>
-
-			<div class="offer__info">
+			<Island class="offer__info">
 				<div class="offer__info-header">
 					Информация о заказе
 				</div>
@@ -77,7 +73,11 @@
 					link
 					:user="offer.expand?.creator"
 				/>
-			</div>
+			</Island>
+
+			<Island class="offer__description">
+				Описание: {{ offer.description }}
+			</Island>
 		</Grid>
 	</div>
 </template>
@@ -97,6 +97,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/toast'
 import Grid from '@/components/structures/Grid.vue'
 import UserCard from '@/components/blocks/User.vue'
+import Island from "@/components/structures/Island.vue";
 
 const router = useRouter()
 
@@ -219,8 +220,6 @@ const isAlreadyProposed = computed(() => {
         width: 100%;
         min-width: 300px;
         padding: 15px;
-
-        box-shadow: 0 4px 6px 0 rgba(214, 211, 209, 0.5);
     }
 
     &__data {
@@ -231,8 +230,6 @@ const isAlreadyProposed = computed(() => {
         width: 100%;
         min-width: 300px;
         padding: 15px;
-
-        box-shadow: 0 4px 6px 0 rgba(214, 211, 209, 0.5);
     }
 
     &__info-header {
@@ -250,7 +247,5 @@ const isAlreadyProposed = computed(() => {
             border-bottom: none;
         }
     }
-
 }
-
 </style>

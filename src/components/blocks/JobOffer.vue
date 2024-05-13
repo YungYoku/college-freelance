@@ -1,5 +1,5 @@
 <template>
-	<div class="job-offer bg-primary-foreground">
+	<Island class="job-offer bg-primary-foreground">
 		<div class="job-offer__actions">
 			<template v-if="jobOffer.executor && showChat">
 				<Skeleton
@@ -123,7 +123,7 @@
 				Дедлайн: {{ deadline }}
 			</div>
 		</div>
-	</div>
+	</Island>
 </template>
 
 <script setup lang="ts">
@@ -134,6 +134,7 @@ import User from '@/components/blocks/User.vue'
 import Icon from '@/components/elements/Icon.vue'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
+import Island from "@/components/structures/Island.vue";
 
 const props = defineProps({
 	jobOffer: {
@@ -181,7 +182,6 @@ const deadline = computed(() => {
     height: 200px;
     padding: 10px;
 
-    border-radius: 5px;
     gap: 5px;
 
     &__actions {
