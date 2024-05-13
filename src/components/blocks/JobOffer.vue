@@ -134,7 +134,7 @@ import User from '@/components/blocks/User.vue'
 import Icon from '@/components/elements/Icon.vue'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
-import Island from "@/components/structures/Island.vue";
+import Island from '@/components/structures/Island.vue'
 
 const props = defineProps({
 	jobOffer: {
@@ -180,7 +180,6 @@ const deadline = computed(() => {
 
     max-width: 100%;
     height: 200px;
-    padding: 10px;
 
     gap: 5px;
 

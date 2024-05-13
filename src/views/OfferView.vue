@@ -1,78 +1,85 @@
 <template>
-	<div class="grid items-center w-full gap-4 offer-view">
-		<Grid
-			:columns="[1, '140px']"
+	<Grid :columns="[1, '140px']">
+		<PageTitle size="l">
+			{{ offer.title }}
+		</PageTitle>
+
+		<Button
+			v-if="authStore.isAdmin || isItMyOffer"
+			@click="remove"
 		>
-			<PageTitle size="l">
-				{{ offer.title }}
+			Удалить
+		</Button>
+	</Grid>
+
+	<Grid
+		class="offer__data"
+		:columns="2"
+	>
+		<Island class="w-full">
+			<PageTitle
+				size="s"
+				class="mb-2"
+			>
+				Информация о заказе
 			</PageTitle>
 
-			<Button
-				v-if="authStore.isAdmin || isItMyOffer"
-				@click="remove"
-			>
-				Удалить
-			</Button>
-		</Grid>
-
-		<Grid
-			class="offer__data"
-			:columns="2"
-		>
-			<Island class="offer__info">
-				<div class="offer__info-header">
-					Информация о заказе
+			<div class="grid items-center w-full gap-2">
+				<div class="offer__info-item">
+					Цена: {{ offer.price }}₽
 				</div>
-				<div class="grid items-center w-full gap-2">
-					<div class="offer__info-item">
-						Цена: {{ offer.price }}₽
-					</div>
-					<div class="offer__info-item">
-						Варианты оплаты:
-					</div>
-					<div class="offer__info-item mt-4">
-						Дисциплина: {{ offer.discipline ? offer.discipline : 'Не указана' }}
-					</div>
-					<div
-						class="offer__info-item"
-						:class="{'executor': !authStore.isExecutor}"
+				<div class="offer__info-item">
+					Варианты оплаты:
+				</div>
+				<div class="offer__info-item mt-4">
+					Дисциплина: {{ offer.discipline ? offer.discipline : 'Не указана' }}
+				</div>
+				<div
+					class="offer__info-item"
+					:class="{'executor': !authStore.isExecutor}"
+				>
+					Университет: {{ offer.university ? offer.university : 'Не указан' }}
+				</div>
+				<div class="offer__info-item mt-4">
+					Создано: {{ offer.created }}
+				</div>
+				<div class="offer__info-item">
+					Срок сдачи: {{ offer.deadline }}
+				</div>
+				<template v-if="!isItMyOffer && authStore.isExecutor">
+					<Skeleton
+						v-if="loading"
+						class="h-9 w-[119px] ml-auto"
+					/>
+
+					<Button
+						v-else
+						:disabled="isAlreadyProposed"
+						class="ml-auto"
+						@click="makeProposal"
 					>
-						Университет: {{ offer.university ? offer.university : 'Не указан' }}
-					</div>
-					<div class="offer__info-item mt-4">
-						Создано: {{ offer.created }}
-					</div>
-					<div class="offer__info-item">
-						Срок сдачи: {{ offer.deadline }}
-					</div>
-					<template v-if="!isItMyOffer && authStore.isExecutor">
-						<Skeleton
-							v-if="loading"
-							class="h-9 w-[119px] ml-auto"
-						/>
+						Откликнуться
+					</Button>
+				</template>
+			</div>
+			<UserCard
+				class="job-offer__user mt-4"
+				link
+				:user="offer.expand?.creator"
+			/>
+		</Island>
 
-						<Button
-							v-else
-							:disabled="isAlreadyProposed"
-							class="ml-auto"
-							@click="makeProposal"
-						>
-							Откликнуться
-						</Button>
-					</template>
-				</div>
-				<UserCard
-					class="job-offer__user mt-4"
-					link
-					:user="offer.expand?.creator"
-				/>
-			</Island>
+		<Island class="offer__description">
+			<PageTitle
+				size="s"
+				class="mb-2"
+			>
+				Описание
+			</PageTitle>
 
-			<Island class="offer__description">
-				Описание: {{ offer.description }}
-			</Island>
-		</Grid>
-	</div>
+			{{ offer.description }}
+		</Island>
+	</Grid>
 </template>
 
 <script setup lang="ts">
@@ -90,7 +97,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/toast'
 import Grid from '@/components/structures/Grid.vue'
 import UserCard from '@/components/blocks/User.vue'
-import Island from "@/components/structures/Island.vue";
+import Island from '@/components/structures/Island.vue'
 
 const router = useRouter()
 
@@ -195,42 +202,3 @@ const isAlreadyProposed = computed(() => {
 	return proposal ?? null
 })
 </script>
-
-<style lang="scss" scoped>
-.offer {
-	&__price {
-		margin-left: 50px;
-		padding: 0;
-	}
-
-    &__info {
-        width: 100%;
-        min-width: 300px;
-        padding: 15px;
-    }
-
-    &__data {
-        justify-items: center;
-    }
-
-    &__description {
-        width: 100%;
-        min-width: 300px;
-        padding: 15px;
-    }
-
-    &__info-header {
-        margin-bottom: 1rem;
-
-        font-size: 1.5rem;
-        font-weight: 600;
-    }
-    &__info-item {
-        height: 30px;
-
-        &.executor {
-            border-bottom: none;
-        }
-    }
-}
-</style>
