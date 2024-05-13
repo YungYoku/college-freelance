@@ -24,9 +24,6 @@
 					class="flex items-end text-4xl"
 				>
 					{{ user?.name }} {{ user?.surname }}
-					<div class="ml-5 opacity-50 text-2xl">
-						@{{ user?.username }}
-					</div>
 				</div>
 				<div class="flex justify-between">
 					<Skeleton
