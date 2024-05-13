@@ -1,24 +1,17 @@
 <template>
 	<div class="grid items-center w-full gap-4 offer-view">
 		<Grid
-			:columns="2"
-			class="offer__header"
+			:columns="[1, '140px']"
 		>
 			<PageTitle size="l">
 				{{ offer.title }}
 			</PageTitle>
 
-			<PageTitle
-				size="m"
-				class="offer__price"
-			>
-				Цена: {{ offer.price }}₽
-			</PageTitle>
 			<Button
 				v-if="authStore.isAdmin || isItMyOffer"
 				@click="remove"
 			>
-				DELETE
+				Удалить
 			</Button>
 		</Grid>
 
@@ -30,20 +23,14 @@
 				<div class="offer__info-header">
 					Информация о заказе
 				</div>
-				<div class="grid items-center w-full gap-3">
+				<div class="grid items-center w-full gap-2">
 					<div class="offer__info-item">
-						Цена: {{ offer.price }}
-					</div>
-					<div class="offer__info-item">
-						Срок сдачи: {{ offer.deadline }}
+						Цена: {{ offer.price }}₽
 					</div>
 					<div class="offer__info-item">
 						Варианты оплаты:
 					</div>
-					<div class="offer__info-item">
-						Создано: {{ offer.created }}
-					</div>
-					<div class="offer__info-item">
+					<div class="offer__info-item mt-4">
 						Дисциплина: {{ offer.discipline ? offer.discipline : 'Не указана' }}
 					</div>
 					<div
@@ -51,6 +38,12 @@
 						:class="{'executor': !authStore.isExecutor}"
 					>
 						Университет: {{ offer.university ? offer.university : 'Не указан' }}
+					</div>
+					<div class="offer__info-item mt-4">
+						Создано: {{ offer.created }}
+					</div>
+					<div class="offer__info-item">
+						Срок сдачи: {{ offer.deadline }}
 					</div>
 					<template v-if="!isItMyOffer && authStore.isExecutor">
 						<Skeleton
@@ -69,7 +62,7 @@
 					</template>
 				</div>
 				<UserCard
-					class="job-offer__user"
+					class="job-offer__user mt-4"
 					link
 					:user="offer.expand?.creator"
 				/>
@@ -205,12 +198,6 @@ const isAlreadyProposed = computed(() => {
 
 <style lang="scss" scoped>
 .offer {
-    &__header {
-        display: flex;
-        justify-content: space-around;
-		align-items: flex-end;
-	}
-
 	&__price {
 		margin-left: 50px;
 		padding: 0;
@@ -240,8 +227,6 @@ const isAlreadyProposed = computed(() => {
     }
     &__info-item {
         height: 30px;
-
-        border-bottom: 1px solid #eee;
 
         &.executor {
             border-bottom: none;
