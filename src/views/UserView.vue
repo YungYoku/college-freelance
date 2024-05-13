@@ -113,7 +113,9 @@ const auth = useAuthStore()
 //const isItMyProfile = computed(() => offer.value.creator === authStore.user.id)
 const loadUser = async () => {
 	await http
-		.get<User>(`/collections/users/records/${route.params.id}?expand=university,disciplines`)
+		.get<User>(`/collections/users/records/${route.params.id}`, {
+			expand: ['university', 'disciplines']
+		})
 		.then(res => {
 			user.value = res
 			disciplineNames.value = res.expand?.disciplines?.map(d => d.name).join(', ')

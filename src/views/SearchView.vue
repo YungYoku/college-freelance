@@ -117,11 +117,14 @@ const loadOffers = async () => {
 		filter = filter.slice(4)
 
 		encodedFilter = encodeURIComponent(filter)
-		encodedFilter = `filter=(${encodedFilter})&`
 	}
 
 	await http
-		.get<JobOffers>(`/collections/job_offers/records?${encodedFilter}expand=creator,type,discipline&perPage=12`)
+		.get<JobOffers>('/collections/job_offers/records', {
+			filter: encodedFilter,
+			expand: ['creator', 'type', 'discipline'],
+			perPage: 12
+		})
 		.then(res => {
 			offers.value = res.items
 		})

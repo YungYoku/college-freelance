@@ -1,5 +1,12 @@
 import { useAuthStore } from '@/stores/auth'
 
+interface BodyGet {
+	filter?: string
+	expand?: Array<string>
+	perPage?: number
+	sort?: string
+}
+
 class Http {
 	api = import.meta.env.VITE_API
 
@@ -14,10 +21,28 @@ class Http {
 		}
 	}
 
-	async get<T>(url: string): Promise<T> {
+	async get<T>(url: string, body?: BodyGet): Promise<T> {
 		const auth = useAuthStore()
 
-		return fetch(this.api + url, {
+		let resultUrl = url
+		if (body) {
+			resultUrl += '?'
+			if (body.filter) {
+				resultUrl += 'filter=' + body.filter + '&'
+			}
+			if (body.expand) {
+				resultUrl += 'expand=' + body.expand.join(',') + '&'
+			}
+			if (body.perPage) {
+				resultUrl += 'perPage=' + body.perPage + '&'
+			}
+			if (body.sort) {
+				resultUrl += 'sort=' + body.sort + '&'
+			}
+			resultUrl = resultUrl.slice(0, -1)
+		}
+
+		return fetch(this.api + resultUrl, {
 			method: 'GET',
 			headers: this.getHeaders(auth.token)
 		})

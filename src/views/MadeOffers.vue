@@ -92,7 +92,10 @@ const getUserOffers = async () => {
 	loading.value = true
 
 	await http
-		.get<JobOffers>(`/collections/job_offers/records?filter=(creator='${auth.user.id}')&expand=proposals,type,discipline`)
+		.get<JobOffers>('/collections/job_offers/records', {
+			filter: `(creator='${auth.user.id}')`,
+			expand: ['proposals', 'type', 'discipline']
+		})
 		.then(response => {
 			offers.value = response.items
 		})
@@ -113,7 +116,9 @@ const openResponses = async (offer: IJobOffer) => {
 	let ids = offer.expand.proposals.reduce((result, proposal) => result + `id='${proposal.user}' || `, '')
 	ids = ids.slice(0, ids.length - 3)
 	await http
-		.get<Users>(`/collections/users/records?filter=(${ids})`)
+		.get<Users>('/collections/users/records', {
+			filter: `(${ids})`
+		})
 		.then(response => {
 			responsesUsers.value = response.items
 		})

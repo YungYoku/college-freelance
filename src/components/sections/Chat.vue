@@ -156,7 +156,9 @@ const loadChat = async () => {
 	loading.value = true
 
 	await http
-		.get<Chat>(`/collections/chats/records/${props.id}?expand=messages`)
+		.get<Chat>(`/collections/chats/records/${props.id}`, {
+			expand: ['messages']
+		})
 		.then(response => {
 			chat.value = response
 

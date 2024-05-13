@@ -135,7 +135,9 @@ const loadOffer = async () => {
 	if (!id) return
 
 	await http
-		.get<JobOffer>(`/collections/job_offers/records/${id}?expand=creator,proposals`)
+		.get<JobOffer>(`/collections/job_offers/records/${id}`, {
+			expand: ['creator', 'proposals']
+		})
 		.then(response => {
 			offer.value = response
 		})
