@@ -135,7 +135,9 @@ const loadOffer = async () => {
 	if (!id) return
 
 	await http
-		.get<JobOffer>(`/collections/job_offers/records/${id}?expand=creator,proposals`)
+		.get<JobOffer>(`/collections/job_offers/records/${id}`, {
+			expand: ['creator', 'proposals']
+		})
 		.then(response => {
 			offer.value = response
 		})
@@ -179,7 +181,8 @@ const makeProposal = async () => {
 		.then(({ id }) => id)
 
 	await http
-		.patch<JobOffer>(`/collections/job_offers/records/${offer.value.id}?expand=proposals`, {
+		.patch<JobOffer>(`/collections/job_offers/records/${offer.value.id}`, {
+			expand: ['proposals'],
 			proposals: [...offer.value.proposals, proposalId]
 		})
 		.then(response => {

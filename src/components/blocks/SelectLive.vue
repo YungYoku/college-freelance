@@ -138,53 +138,66 @@ const handleType = (e: Event) => {
 	loadItems(target.value)
 }
 
-const getQuery = (entity: string | Array<Item>, isIncluded: boolean = false) => {
-	let query = ''
+const getPayload = (entity: string | Array<Item>, isIncluded: boolean = false) => {
+	const payload: {
+		sort?: string,
+		filter?: string
+	} = {}
+
 	const sign = isIncluded ? '=' : '~'
 	if (typeof entity === 'string' && entity.length) {
-		query += '?sort=name&filter=('
+		payload.sort = 'name'
+		payload.filter = '('
 
-		if (isIncluded) query += `id='${entity}'`
+		if (isIncluded) payload.filter += `id='${entity}'`
 		else {
 			props.filterFields.forEach(field => {
-				query += `${field}${sign}'${entity}' || `
+				payload.filter += `${field}${sign}'${entity}' || `
 			})
-			query = query.slice(0, query.length - 3)
+			payload.filter = payload.filter.slice(0, payload.filter.length - 3).trim()
 		}
 
-		query += ')'
+		payload.filter += ')'
 	} else if (Array.isArray(entity) && entity.length) {
-		query += '?sort=name&filter=('
-		
+		payload.sort = 'name'
+		payload.filter = '('
+
 		entity.forEach(item => {
-			if (isIncluded) query += `id='${item.id}' || `
+			if (isIncluded) payload.filter += `id='${item.id}' || `
 			else {
 				props.filterFields.forEach((field: string) => {
 					const value = item?.[field] ?? null
-					if (value) query += `${field}${sign}'${value}' || `
+					if (value) payload.filter += `${field}${sign}'${value}' || `
 				})
 			}
 		})
 
-		query = query.slice(0, query.length - 3)
-		query += ')'
+		payload.filter += payload.filter.slice(0, payload.filter.length - 3).trim()
+		payload.filter += ')'
 	}
-	return query
+
+	if (Object.keys(payload).length > 0) return payload
+	return null
 }
 
 const loadItems = async (item: string | Array<Item>, include?: string | Array<Item>) => { // Проблема с символами в строке (меняются на что то)
 	let _defaultItems: Array<Item> = []
 	let _extraItems: Array<Item> = []
 
+	console.log(getPayload(item))
 	const loadDefaultItems = async () => {
-		await http.get<Items>(`/collections/${props.api}/records${getQuery(item)}`)
+		await http.get<Items>(`/collections/${props.api}/records`, {
+			...getPayload(item)
+		})
 			.then(response => {
 				_defaultItems = response.items
 			})
 	}
 	const loadExtraItems = async () => {
 		if (include && include.length) {
-			await http.get<Items>(`/collections/${props.api}/records${getQuery(include, true)}`)
+			await http.get<Items>(`/collections/${props.api}/records`, {
+				...getPayload(item, true)
+			})
 				.then(response => {
 					_extraItems = response.items
 					_extraItems.forEach(item => {

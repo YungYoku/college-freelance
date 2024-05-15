@@ -1,23 +1,51 @@
 import { useAuthStore } from '@/stores/auth'
 
+interface BodyGet {
+	filter?: string
+	expand?: Array<string>
+	perPage?: number
+	sort?: string
+}
+
 class Http {
 	api = import.meta.env.VITE_API
 
 	constructor() {
 	}
 
-	getHeaders(token: string) {
-		return {
+	getHeaders(token: string, isFormData = false) {
+		const headers: { [key: string]: string } = {
 			Accept: 'application/json',
-			'Content-Type': 'application/json',
 			Authorization: token
 		}
+		if (!isFormData) {
+			headers['Content-Type'] = 'application/json'
+		}
+		return headers
 	}
 
-	async get<T>(url: string): Promise<T> {
+	async get<T>(url: string, body?: BodyGet): Promise<T> {
 		const auth = useAuthStore()
 
-		return fetch(this.api + url, {
+		let resultUrl = url
+		if (body) {
+			resultUrl += '?'
+			if (body.filter) {
+				resultUrl += 'filter=' + body.filter + '&'
+			}
+			if (body.expand) {
+				resultUrl += 'expand=' + body.expand.join(',') + '&'
+			}
+			if (body.perPage) {
+				resultUrl += 'perPage=' + body.perPage + '&'
+			}
+			if (body.sort) {
+				resultUrl += 'sort=' + body.sort + '&'
+			}
+			resultUrl = resultUrl.slice(0, -1)
+		}
+
+		return fetch(this.api + resultUrl, {
 			method: 'GET',
 			headers: this.getHeaders(auth.token)
 		})
@@ -26,13 +54,15 @@ class Http {
 			})
 	}
 
-	async post<T>(url: string, body: object = {}): Promise<T> {
+	async post<T>(url: string, _body: object | FormData = {}): Promise<T> {
 		const auth = useAuthStore()
+
+		const body = _body instanceof FormData ? _body : JSON.stringify(_body)
 
 		return fetch(this.api + url, {
 			method: 'POST',
-			headers: this.getHeaders(auth.token),
-			body: JSON.stringify(body)
+			headers: this.getHeaders(auth.token, _body instanceof FormData),
+			body
 		})
 			.then((res) => {
 				return res.json()
