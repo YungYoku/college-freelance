@@ -13,12 +13,15 @@ class Http {
 	constructor() {
 	}
 
-	getHeaders(token: string) {
-		return {
+	getHeaders(token: string, isFormData = false) {
+		const headers: { [key: string]: string } = {
 			Accept: 'application/json',
-			'Content-Type': 'application/json',
 			Authorization: token
 		}
+		if (!isFormData) {
+			headers['Content-Type'] = 'application/json'
+		}
+		return headers
 	}
 
 	async get<T>(url: string, body?: BodyGet): Promise<T> {
@@ -51,13 +54,15 @@ class Http {
 			})
 	}
 
-	async post<T>(url: string, body: object = {}): Promise<T> {
+	async post<T>(url: string, _body: object | FormData = {}): Promise<T> {
 		const auth = useAuthStore()
+
+		const body = _body instanceof FormData ? _body : JSON.stringify(_body)
 
 		return fetch(this.api + url, {
 			method: 'POST',
-			headers: this.getHeaders(auth.token),
-			body: JSON.stringify(body)
+			headers: this.getHeaders(auth.token, _body instanceof FormData),
+			body
 		})
 			.then((res) => {
 				return res.json()
