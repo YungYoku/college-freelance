@@ -60,6 +60,14 @@ const routes: Array<RouteRecordRaw> = [
 				}
 			},
 			{
+				path: '/favorite',
+				name: 'Favorite',
+				component: () => import('@/views/FavoriteView.vue'),
+				meta: {
+					rules: ['auth']
+				}
+			},
+			{
 				path: '/users/:id',
 				name: 'User',
 				component: () => import('@/views/UserView.vue'),

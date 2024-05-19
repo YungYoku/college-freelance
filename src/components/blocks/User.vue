@@ -45,6 +45,7 @@ withDefaults(defineProps<Props>(), {
 		university: '',
 		energy: 0,
 		disciplines: [],
+		favorite: [],
 		referral_code: ''
 	}),
 	link: false

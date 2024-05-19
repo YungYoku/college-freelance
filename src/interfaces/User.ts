@@ -1,6 +1,7 @@
 import { University } from '@/interfaces/University.ts'
 import { Discipline } from '@/interfaces/Discipline.ts'
 import { ReferralCode } from '@/interfaces/ReferralCode.ts'
+import { JobOffer } from '@/interfaces/JobOffer.ts'
 
 export interface User {
     avatar: string
@@ -22,10 +23,12 @@ export interface User {
     energy: number
     disciplines: Array<string>
     referral_code: string
+    favorite: Array<string>
     expand?: {
         university?: University
         disciplines?: Array<Discipline>
         referral_code?: ReferralCode
+        favorite: Array<JobOffer>
     }
 }
 
