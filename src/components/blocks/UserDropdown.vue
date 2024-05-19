@@ -20,19 +20,36 @@
 
 				<DropdownMenuSeparator/>
 
-				<router-link to="/made-offers">
-					<DropdownMenuItem v-if="auth.isLoggedIn && (auth.isCustomer || auth.isAdmin)">
+				<router-link
+					v-if="auth.isLoggedIn && (auth.isCustomer || auth.isAdmin)"
+					to="/made-offers"
+				>
+					<DropdownMenuItem>
 						Мои объявления
 					</DropdownMenuItem>
 				</router-link>
-				<router-link to="/new-offer">
-					<DropdownMenuItem v-if="auth.isLoggedIn && (auth.isCustomer || auth.isAdmin)">
+				<router-link
+					v-if="auth.isLoggedIn && (auth.isCustomer || auth.isAdmin)"
+					to="/new-offer"
+				>
+					<DropdownMenuItem>
 						Создать объявление
 					</DropdownMenuItem>
 				</router-link>
-				<router-link to="/executing-offers">
-					<DropdownMenuItem v-if="auth.isLoggedIn && (auth.isExecutor || auth.isAdmin)">
+				<router-link
+					v-if="auth.isLoggedIn && (auth.isExecutor || auth.isAdmin)"
+					to="/executing-offers"
+				>
+					<DropdownMenuItem>
 						Выполняемые объявления
+					</DropdownMenuItem>
+				</router-link>
+				<router-link
+					v-if="auth.isLoggedIn && auth.isExecutor"
+					to="/favorite"
+				>
+					<DropdownMenuItem>
+						Избранное
 					</DropdownMenuItem>
 				</router-link>
 			</DropdownMenuGroup>

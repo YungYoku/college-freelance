@@ -35,6 +35,22 @@
 				</div>
 			</template>
 
+			<template v-if="authStore.isExecutor">
+				<Skeleton
+					v-if="loading"
+					class="h-6 w-[24px]"
+				/>
+				<div
+					v-else
+					@click="addToFavorite"
+				>
+					<Icon
+						:name="authStore.user.favorite.includes(jobOffer.id) ? 'heart-active' : 'heart'"
+						size="s"
+					/>
+				</div>
+			</template>
+
 			<template v-if="showRemove">
 				<Skeleton
 					v-if="loading"
@@ -135,6 +151,8 @@ import Icon from '@/components/elements/Icon.vue'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
 import Island from '@/components/structures/Island.vue'
+import { useAuthStore } from '@/stores/auth.ts'
+import http from '@/plugins/http'
 
 const props = defineProps({
 	jobOffer: {
@@ -159,10 +177,23 @@ const props = defineProps({
 	}
 })
 
-const emit = defineEmits(['show-responses', 'show-chat', 'remove'])
+const authStore = useAuthStore()
+
+const emit = defineEmits(['show-responses', 'show-chat', 'add-to-favorite', 'remove'])
 
 const openResponse = () => emit('show-responses', props.jobOffer)
 const openChat = () => emit('show-chat', props.jobOffer)
+const addToFavorite = async () => {
+	const newFavorite = authStore.user.favorite.includes(props.jobOffer.id)
+		? authStore.user.favorite.filter(id => id !== props.jobOffer.id)
+		: [...authStore.user.favorite, props.jobOffer.id]
+
+	await http
+		.patch(`/collections/users/records/${authStore.user.id}`, {
+			favorite: newFavorite
+		})
+		.then(() => authStore.setUser({ ...authStore.user, favorite: newFavorite }))
+}
 const remove = () => emit('remove', props.jobOffer)
 
 const deadline = computed(() => {
