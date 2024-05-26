@@ -30,9 +30,9 @@ import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSearchStore } from '@/stores/search.ts'
 
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
 import Grid from '@/components/structures/Grid.vue'
+import Input from '@/components/blocks/Input.vue'
+import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 
 const searchStore = useSearchStore()

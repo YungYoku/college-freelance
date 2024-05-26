@@ -1,5 +1,9 @@
 <template>
-	<Card :class="`w-[${width}]`">
+	<Card
+		:style="{
+			width
+		}"
+	>
 		<CardHeader v-if="title">
 			<CardTitle>
 				{{ title }}

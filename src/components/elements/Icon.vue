@@ -1,7 +1,7 @@
 <template>
 	<Image
 		class="icon"
-		:class="[`icon_${size}`, colors[currentTheme]]"
+		:class="[`icon_${size}`, currentColor]"
 		:src="src"
 		alt="icon"
 		local
@@ -12,14 +12,6 @@
 import { computed } from 'vue'
 import { useColorMode } from '@vueuse/core'
 import Image from '@/components/elements/Image.vue'
-
-const mode = useColorMode({ selector: 'body' })
-const currentTheme = computed(() => mode.state.value)
-
-const colors = {
-	dark: 'light',
-	light: 'dark'
-}
 
 const props = defineProps({
 	name: {
@@ -32,7 +24,23 @@ const props = defineProps({
 		validator: (size: string) => {
 			return ['xs', 's', 'm', 'l'].includes(size)
 		}
+	},
+	invertedColor: {
+		type: Boolean,
+		default: true
 	}
+})
+
+const mode = useColorMode({ selector: 'body' })
+const currentTheme = computed(() => mode.state.value)
+
+const colors = {
+	dark: 'light',
+	light: 'dark'
+}
+
+const currentColor = computed(() => {
+	return props.invertedColor ? colors[currentTheme.value] : currentTheme.value
 })
 
 const src = computed(() => {
