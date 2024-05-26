@@ -184,7 +184,6 @@ const loadItems = async (item: string | Array<Item>, include?: string | Array<It
 	let _defaultItems: Array<Item> = []
 	let _extraItems: Array<Item> = []
 
-	console.log(getPayload(item))
 	const loadDefaultItems = async () => {
 		await http.get<Items>(`/collections/${props.api}/records`, {
 			...getPayload(item)

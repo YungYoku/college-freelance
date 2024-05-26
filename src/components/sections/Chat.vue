@@ -113,7 +113,7 @@ import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
 import { Chat } from '@/interfaces/Chat.ts'
-import { Input } from '@/components/ui/input'
+import Input from '@/components/blocks/Input.vue'
 import { Button } from '@/components/ui/button'
 import Grid from '@/components/structures/Grid.vue'
 import File from '@/components/elements/File.vue'
@@ -179,7 +179,7 @@ const auth = useAuthStore()
 const newMessage = ref('')
 const file = ref<File | null>(null)
 const sendMessage = async () => {
-	if (newMessage.value.length === 0) return
+	if (newMessage.value.length === 0 && file.value === null) return
 
 	loading.value = true
 

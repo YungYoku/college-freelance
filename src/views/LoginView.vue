@@ -58,7 +58,7 @@ import { useAuthStore } from '@/stores/auth.ts'
 import { UserLogin } from '@/interfaces/User.ts'
 import AuthLayout from '@/components/layouts/AuthLayout.vue'
 
-import { Input } from '@/components/ui/input'
+import Input from '@/components/blocks/Input.vue'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import Card from '@/components/structures/Card.vue'

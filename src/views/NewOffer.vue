@@ -1,6 +1,6 @@
 <template>
 	<Card
-		width="300px"
+		width="400px"
 		title="Создание объявления"
 	>
 		<SelectLive
@@ -58,7 +58,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 import http from '@/plugins/http'
-import { Input } from '@/components/ui/input'
+import Input from '@/components/blocks/Input.vue'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import Card from '@/components/structures/Card.vue'
@@ -66,6 +66,7 @@ import DatePicker from '@/components/blocks/DatePicker.vue'
 import { JobOffer } from '@/interfaces/JobOffer'
 import SelectLive from '@/components/blocks/SelectLive.vue'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useToast } from '@/components/ui/toast'
 
 const auth = useAuthStore()
 
@@ -101,12 +102,12 @@ const newOffer = reactive<JobOffer>({
 })
 
 const router = useRouter()
+const { toast } = useToast()
 
 watch(() => auth.user.id, () => newOffer.creator = auth.user.id, { immediate: true })
 
 const loading = ref(false)
 const createOffer = async () => {
-	if (!offerType.value?.id) return
 	loading.value = true
 
 	await http
@@ -118,8 +119,10 @@ const createOffer = async () => {
 		.then(response => {
 			router.push(`/offer/${response.id}`)
 		})
-		.catch(error => {
-			console.error(error)
+		.catch(() => {
+			toast({
+				title: 'Ошибка при создании объявления',
+			})
 		})
 
 	loading.value = false

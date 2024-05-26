@@ -52,6 +52,9 @@ class Http {
 			.then((res) => {
 				return res.json()
 			})
+			.catch((err) => {
+				throw err
+			})
 	}
 
 	async post<T>(url: string, _body: object | FormData = {}): Promise<T> {
@@ -65,7 +68,13 @@ class Http {
 			body
 		})
 			.then((res) => {
+				if (res.status === 400) {
+					throw res
+				}
 				return res.json()
+			})
+			.catch((err) => {
+				throw err
 			})
 	}
 
@@ -80,6 +89,9 @@ class Http {
 			.then((res) => {
 				return res.json()
 			})
+			.catch((err) => {
+				throw err
+			})
 	}
 
 	async delete(url: string): Promise<Response> {
@@ -89,6 +101,9 @@ class Http {
 			method: 'DELETE',
 			headers: this.getHeaders(auth.token)
 		})
+			.catch((err) => {
+				throw err
+			})
 	}
 }
 
