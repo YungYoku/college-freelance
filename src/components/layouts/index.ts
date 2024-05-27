@@ -1,7 +1,5 @@
-import { defineAsyncComponent } from 'vue'
-
-const AuthLayout = defineAsyncComponent(() => import('./AuthLayout.vue'))
-const DefaultLayout = defineAsyncComponent(() => import('./DefaultLayout.vue'))
+import AuthLayout from './AuthLayout.vue'
+import DefaultLayout from './DefaultLayout.vue'
 
 export {
 	AuthLayout,
