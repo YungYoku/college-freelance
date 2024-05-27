@@ -5,7 +5,7 @@
 			class="header__logo"
 		>
 			<img
-				src="@/assets/img/onyx.webp"
+				src="../../assets/img/onyx.webp"
 				alt=""
 			>
 		</router-link>
@@ -42,13 +42,10 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth.ts'
 
-import ThemeColorToggle from '@/components/blocks/ThemeColorToggle.vue'
-import UserDropdown from '@/components/blocks/UserDropdown.vue'
-import JobSearch from '@/components/blocks/JobSearch.vue'
-import Button from '@/components/blocks/Button.vue'
-import Icon from '@/components/elements/Icon.vue'
+import { ThemeColorToggle, UserDropdown, JobSearch, Button } from '@/components/blocks'
+import { Icon } from '@/components/elements'
 
 const auth = useAuthStore()
 

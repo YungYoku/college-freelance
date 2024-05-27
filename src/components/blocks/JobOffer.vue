@@ -145,14 +145,14 @@
 <script setup lang="ts">
 import { computed, PropType } from 'vue'
 
-import { JobOffer } from '@/interfaces/JobOffer'
-import User from '@/components/blocks/User.vue'
-import Icon from '@/components/elements/Icon.vue'
+import { Island } from '@/components/structures'
+import User from './User.vue'
+import { Icon } from '@/components/elements'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
-import Island from '@/components/structures/Island.vue'
-import { useAuthStore } from '@/stores/auth.ts'
 import http from '@/plugins/http'
+import { useAuthStore } from '@/stores/auth.ts'
+import { JobOffer } from '@/interfaces/JobOffer'
 
 const props = defineProps({
 	jobOffer: {

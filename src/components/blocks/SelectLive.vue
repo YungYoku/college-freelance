@@ -54,10 +54,11 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+
+import { Button } from '@/components/blocks'
+import http from '@/plugins/http'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import Button from '@/components/blocks/Button.vue'
-import http from '@/plugins/http'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 

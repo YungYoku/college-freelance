@@ -56,13 +56,10 @@ import { useSearchStore } from '@/stores/search.ts'
 
 import http from '@/plugins/http'
 
-import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
-import EmptyJobOffer from '@/components/blocks/EmptyJobOffer.vue'
-import JobOffer from '@/components/blocks/JobOffer.vue'
-import Grid from '@/components/structures/Grid.vue'
-import SelectLive from '@/components/blocks/SelectLive.vue'
+import { Grid } from '@/components/structures'
+import { EmptyJobOffer, JobOffer, SelectLive, Button } from '@/components/blocks'
 import { University } from '@/interfaces/University.ts'
-import Button from '@/components/blocks/Button.vue'
+import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
 
 
 const offers = ref<Array<IJobOffer>>([])

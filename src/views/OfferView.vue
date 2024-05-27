@@ -87,12 +87,10 @@ import http from '@/plugins/http'
 import { JobOffer, JobOfferProposal } from '@/interfaces/JobOffer.ts'
 import { Chat } from '@/interfaces/Chat.ts'
 import { User } from '@/interfaces/User.ts'
-import Button from '@/components/blocks/Button.vue'
-import PageTitle from '@/components/elements/PageTitle.vue'
+import { Grid, Island } from '@/components/structures'
+import { Button, User as UserCard } from '@/components/blocks'
+import { PageTitle } from '@/components/elements'
 import { useToast } from '@/components/ui/toast'
-import Grid from '@/components/structures/Grid.vue'
-import UserCard from '@/components/blocks/User.vue'
-import Island from '@/components/structures/Island.vue'
 
 const router = useRouter()
 

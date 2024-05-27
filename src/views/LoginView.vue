@@ -52,10 +52,8 @@ import http from '@/plugins/http/index'
 import { useAuthStore } from '@/stores/auth.ts'
 import { UserLogin } from '@/interfaces/User.ts'
 import AuthLayout from '@/components/layouts/AuthLayout.vue'
-
-import Input from '@/components/blocks/Input.vue'
-import Button from '@/components/blocks/Button.vue'
-import Card from '@/components/structures/Card.vue'
+import { Card } from '@/components/structures'
+import { Input, Button } from '@/components/blocks'
 import { useToast } from '@/components/ui/toast'
 
 const auth = useAuthStore()

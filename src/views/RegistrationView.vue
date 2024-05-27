@@ -78,11 +78,8 @@ import { useRouter } from 'vue-router'
 
 import http from '@/plugins/http/index'
 import AuthLayout from '@/components/layouts/AuthLayout.vue'
-
-import Card from '@/components/structures/Card.vue'
-import Select from '@/components/blocks/Select.vue'
-import Input from '@/components/blocks/Input.vue'
-import Button from '@/components/blocks/Button.vue'
+import { Card } from '@/components/structures'
+import { Select, Input, Button } from '@/components/blocks'
 import { User } from '@/interfaces/User.ts'
 
 const router = useRouter()

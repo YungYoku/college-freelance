@@ -11,7 +11,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useColorMode } from '@vueuse/core'
-import Image from '@/components/elements/Image.vue'
+
+import Image from './Image.vue'
 
 const props = defineProps({
 	name: {

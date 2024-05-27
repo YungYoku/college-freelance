@@ -65,15 +65,11 @@ import { useAuthStore } from '@/stores/auth'
 import { useToast } from '@/components/ui/toast/use-toast'
 
 import http from '@/plugins/http'
-import Avatar from '@/components/blocks/Avatar.vue'
-import Button from '@/components/blocks/Button.vue'
-import Textarea from '@/components/blocks/Textarea.vue'
-import SelectLive from '@/components/blocks/SelectLive.vue'
+import { Grid } from '@/components/structures'
+import { Avatar, Button, Textarea, SelectLive, Input } from '@/components/blocks'
 import { University } from '@/interfaces/University.ts'
 import { Discipline } from '@/interfaces/Discipline.ts'
-import Input from '@/components/blocks/Input.vue'
 import { ReferralCode } from '@/interfaces/ReferralCode.ts'
-import Grid from '@/components/structures/Grid.vue'
 import { User } from '@/interfaces/User.ts'
 
 const auth = useAuthStore()

@@ -53,15 +53,11 @@ import { ref, reactive, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
-import http from '@/plugins/http'
-import Input from '@/components/blocks/Input.vue'
-import Textarea from '@/components/blocks/Textarea.vue'
-import Button from '@/components/blocks/Button.vue'
-import Card from '@/components/structures/Card.vue'
-import DatePicker from '@/components/blocks/DatePicker.vue'
-import { JobOffer } from '@/interfaces/JobOffer'
-import SelectLive from '@/components/blocks/SelectLive.vue'
+import { Card } from '@/components/structures'
+import { Input, Textarea, Button, DatePicker, SelectLive } from '@/components/blocks'
 import { useToast } from '@/components/ui/toast'
+import { JobOffer } from '@/interfaces/JobOffer'
+import http from '@/plugins/http'
 
 const auth = useAuthStore()
 

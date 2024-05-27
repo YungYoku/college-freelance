@@ -85,7 +85,8 @@ import { useRouter } from 'vue-router'
 import { useToast } from '@/components/ui/toast/use-toast'
 
 import { useAuthStore } from '@/stores/auth.ts'
-import Button from '@/components/blocks/Button.vue'
+import { Button } from '@/components/blocks'
+import { Icon } from '@/components/elements'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -98,7 +99,6 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import Icon from '@/components/elements/Icon.vue'
 import http from '@/plugins/http'
 import { ReferralCode } from '@/interfaces/ReferralCode.ts'
 import { User } from '@/interfaces/User.ts'

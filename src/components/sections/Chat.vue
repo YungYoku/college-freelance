@@ -108,13 +108,11 @@ import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
 import { Chat } from '@/interfaces/Chat.ts'
-import Input from '@/components/blocks/Input.vue'
-import Button from '@/components/blocks/Button.vue'
-import Grid from '@/components/structures/Grid.vue'
-import File from '@/components/elements/File.vue'
+import { Grid } from '@/components/structures'
+import { Input, Button, Rating } from '@/components/blocks'
+import { File } from '@/components/elements'
 import { Message } from '@/interfaces/Message.ts'
 import type { JobOfferStatus } from '@/interfaces/JobOffer.ts'
-import Rating from '@/components/blocks/Rating.vue'
 
 const props = defineProps({
 	id: {

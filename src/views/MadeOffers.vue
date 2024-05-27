@@ -72,13 +72,10 @@ import { useAuthStore } from '@/stores/auth'
 import http from '@/plugins/http'
 import { Users, User } from '@/interfaces/User.ts'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
-import EmptyJobOffer from '@/components/blocks/EmptyJobOffer.vue'
-import JobOffer from '@/components/blocks/JobOffer.vue'
-import Grid from '@/components/structures/Grid.vue'
-import Modal from '@/components/structures/Modal.vue'
-import Avatar from '@/components/blocks/Avatar.vue'
-import Icon from '@/components/elements/Icon.vue'
-import Chat from '@/components/sections/Chat.vue'
+import { Grid, Modal } from '@/components/structures'
+import { Chat } from '@/components/sections'
+import { EmptyJobOffer, JobOffer, Avatar } from '@/components/blocks'
+import { Icon } from '@/components/elements'
 
 
 const auth = useAuthStore()
