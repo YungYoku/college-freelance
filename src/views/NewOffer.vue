@@ -11,8 +11,8 @@
 
 		<Textarea
 			v-model.trim="newOffer.description"
-			class="h-[200px]"
-			placeholder="Описание"
+			height="200px"
+			label="Описание"
 		/>
 
 		<SelectLive
@@ -55,7 +55,7 @@ import { useAuthStore } from '@/stores/auth'
 
 import http from '@/plugins/http'
 import Input from '@/components/blocks/Input.vue'
-import { Textarea } from '@/components/ui/textarea'
+import Textarea from '@/components/blocks/Textarea.vue'
 import Button from '@/components/blocks/Button.vue'
 import Card from '@/components/structures/Card.vue'
 import DatePicker from '@/components/blocks/DatePicker.vue'

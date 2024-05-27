@@ -16,8 +16,8 @@
 
 		<Textarea
 			v-model="description"
-			placeholder="О себе"
-			class="h-[240px]"
+			label="О себе"
+			height="240px"
 		/>
 
 		<SelectLive
@@ -67,7 +67,7 @@ import { useToast } from '@/components/ui/toast/use-toast'
 import http from '@/plugins/http'
 import Avatar from '@/components/blocks/Avatar.vue'
 import Button from '@/components/blocks/Button.vue'
-import { Textarea } from '@/components/ui/textarea'
+import Textarea from '@/components/blocks/Textarea.vue'
 import SelectLive from '@/components/blocks/SelectLive.vue'
 import { University } from '@/interfaces/University.ts'
 import { Discipline } from '@/interfaces/Discipline.ts'
