@@ -28,7 +28,7 @@
 			<Input
 				v-model="newMessage"
 				:disabled="loading"
-				placeholder="Введите сообщение..."
+				label="Введите сообщение..."
 			/>
 
 			<Input

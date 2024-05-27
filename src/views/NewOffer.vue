@@ -17,7 +17,7 @@
 
 		<Input
 			v-model.trim="newOffer.title"
-			placeholder="Введите название объявления"
+			label="Введите название объявления"
 			type="text"
 		/>
 
@@ -29,7 +29,7 @@
 
 		<Input
 			v-model.trim="newOffer.price"
-			placeholder="Предложите цену, ₽"
+			label="Предложите цену, ₽"
 		/>
 
 		<DatePicker

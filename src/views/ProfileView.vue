@@ -37,7 +37,7 @@
 			<Input
 				v-model="auth.user.referral_code"
 				disabled
-				placeholder="Реферальный код"
+				label="Реферальный код"
 			/>
 			<template v-if="auth.user.referral_code?.length === 0">
 				<Skeleton

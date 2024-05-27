@@ -5,7 +5,7 @@
 	>
 		<Input
 			v-model="value"
-			placeholder="Поиск"
+			label="Поиск"
 			@update:model-value="updateSearch"
 		/>
 

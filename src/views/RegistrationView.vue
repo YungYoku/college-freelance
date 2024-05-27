@@ -6,43 +6,43 @@
 		>
 			<Input
 				v-model.trim="form.email"
-				placeholder="Почта"
+				label="Почта"
 				type="text"
 			/>
 
 			<Input
 				v-model.trim="form.username"
-				placeholder="Имя пользователя"
+				label="Имя пользователя"
 				type="text"
 			/>
 
 			<Input
 				v-model.trim="form.name"
-				placeholder="Имя"
+				label="Имя"
 				type="text"
 			/>
 
 			<Input
 				v-model.trim="form.surname"
-				placeholder="Фамилия"
+				label="Фамилия"
 				type="text"
 			/>
 
 			<Input
 				v-model.trim="form.password"
-				placeholder="Пароль"
+				label="Пароль"
 				type="password"
 			/>
 
 			<Input
 				v-model.trim="form.passwordConfirm"
-				placeholder="Повторите пароль"
+				label="Повторите пароль"
 				type="password"
 			/>
 
 			<Input
 				v-model.trim="refCode"
-				placeholder="Реферальный код"
+				label="Реферальный код"
 			/>
 
 			<Select v-model="form.role">

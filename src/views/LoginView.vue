@@ -6,13 +6,13 @@
 		>
 			<Input
 				v-model.trim="form.identity"
-				placeholder="Логин или почта"
+				label="Логин или почта"
 				type="text"
 			/>
 
 			<Input
 				v-model.trim="form.password"
-				placeholder="Пароль"
+				label="Пароль"
 				type="password"
 			/>
 
