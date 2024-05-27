@@ -16,13 +16,8 @@
 				type="password"
 			/>
 
-			<Skeleton
-				v-if="loading"
-				class="h-9"
-			/>
-
 			<Button
-				v-else
+				:loading="loading"
 				type="submit"
 				@click="login"
 			>
@@ -59,8 +54,7 @@ import { UserLogin } from '@/interfaces/User.ts'
 import AuthLayout from '@/components/layouts/AuthLayout.vue'
 
 import Input from '@/components/blocks/Input.vue'
-import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
+import Button from '@/components/blocks/Button.vue'
 import Card from '@/components/structures/Card.vue'
 import { useToast } from '@/components/ui/toast'
 

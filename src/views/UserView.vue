@@ -97,7 +97,7 @@ import Avatar from '@/components/blocks/Avatar.vue'
 
 import { User } from '@/interfaces/User.ts'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Button } from '@/components/ui/button'
+import Button from '@/components/blocks/Button.vue'
 import PageTitle from '@/components/elements/PageTitle.vue'
 
 const route = useRoute()

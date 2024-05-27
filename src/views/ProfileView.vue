@@ -22,14 +22,14 @@
 
 		<SelectLive
 			v-model="university"
-			place-holder="Выберите университет..."
+			place-holder="Университет"
 			api="universities"
 		/>
 
 		<SelectLive
 			v-model="disciplines"
 			multiple
-			place-holder="Выберите дисциплины..."
+			place-holder="Дисциплины"
 			api="disciplines"
 		/>
 
@@ -40,12 +40,8 @@
 				label="Реферальный код"
 			/>
 			<template v-if="auth.user.referral_code?.length === 0">
-				<Skeleton
-					v-if="loading"
-					class="h-9"
-				/>
 				<Button
-					v-else
+					:loading="loading"
 					@click="generateRefCode"
 				>
 					Создать
@@ -54,12 +50,8 @@
 		</Grid>
 
 
-		<Skeleton
-			v-if="loading"
-			class="h-9"
-		/>
 		<Button
-			v-else
+			:loading="loading"
 			@click="save"
 		>
 			Сохранить
@@ -74,12 +66,11 @@ import { useToast } from '@/components/ui/toast/use-toast'
 
 import http from '@/plugins/http'
 import Avatar from '@/components/blocks/Avatar.vue'
-import { Button } from '@/components/ui/button'
+import Button from '@/components/blocks/Button.vue'
 import { Textarea } from '@/components/ui/textarea'
 import SelectLive from '@/components/blocks/SelectLive.vue'
 import { University } from '@/interfaces/University.ts'
 import { Discipline } from '@/interfaces/Discipline.ts'
-import { Skeleton } from '@/components/ui/skeleton'
 import Input from '@/components/blocks/Input.vue'
 import { ReferralCode } from '@/interfaces/ReferralCode.ts'
 import Grid from '@/components/structures/Grid.vue'

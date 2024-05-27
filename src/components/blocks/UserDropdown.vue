@@ -85,7 +85,7 @@ import { useRouter } from 'vue-router'
 import { useToast } from '@/components/ui/toast/use-toast'
 
 import { useAuthStore } from '@/stores/auth.ts'
-import { Button } from '@/components/ui/button'
+import Button from '@/components/blocks/Button.vue'
 import {
 	DropdownMenu,
 	DropdownMenuContent,

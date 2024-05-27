@@ -3,21 +3,9 @@
 		width="400px"
 		title="Создание объявления"
 	>
-		<SelectLive
-			v-model="offerType"
-			place-holder="Выберите тип работы..."
-			api="offer_types"
-		/>
-
-		<SelectLive
-			v-model="offerDisciplines"
-			place-holder="Выберите дисциплину..."
-			api="disciplines"
-		/>
-
 		<Input
 			v-model.trim="newOffer.title"
-			label="Введите название объявления"
+			label="Название"
 			type="text"
 		/>
 
@@ -27,9 +15,21 @@
 			placeholder="Описание"
 		/>
 
+		<SelectLive
+			v-model="offerType"
+			place-holder="Тип работы"
+			api="offer_types"
+		/>
+
+		<SelectLive
+			v-model="offerDisciplines"
+			place-holder="Дисциплина"
+			api="disciplines"
+		/>
+
 		<Input
 			v-model.trim="newOffer.price"
-			label="Предложите цену, ₽"
+			label="Цена"
 		/>
 
 		<DatePicker
@@ -37,12 +37,8 @@
 		/>
 
 		<template #footer>
-			<Skeleton
-				v-if="loading"
-				class="h-9 w-[180px]"
-			/>
 			<Button
-				v-else
+				:loading="loading"
 				class="w-[180px]"
 				@click="createOffer"
 			>
@@ -60,12 +56,11 @@ import { useAuthStore } from '@/stores/auth'
 import http from '@/plugins/http'
 import Input from '@/components/blocks/Input.vue'
 import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
+import Button from '@/components/blocks/Button.vue'
 import Card from '@/components/structures/Card.vue'
 import DatePicker from '@/components/blocks/DatePicker.vue'
 import { JobOffer } from '@/interfaces/JobOffer'
 import SelectLive from '@/components/blocks/SelectLive.vue'
-import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/toast'
 
 const auth = useAuthStore()

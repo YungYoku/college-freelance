@@ -18,12 +18,8 @@
 			api="disciplines"
 		/>
 
-		<Skeleton
-			v-if="loading"
-			class="h-9"
-		/>
 		<Button
-			v-else
+			:loading="loading"
 			@click="loadOffers"
 		>
 			Поиск
@@ -66,8 +62,7 @@ import JobOffer from '@/components/blocks/JobOffer.vue'
 import Grid from '@/components/structures/Grid.vue'
 import SelectLive from '@/components/blocks/SelectLive.vue'
 import { University } from '@/interfaces/University.ts'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Button } from '@/components/ui/button'
+import Button from '@/components/blocks/Button.vue'
 
 
 const offers = ref<Array<IJobOffer>>([])

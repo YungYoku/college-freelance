@@ -10,13 +10,8 @@
 		/>
 
 		<template v-if="value && !isSearchPage">
-			<Skeleton
-				v-if="searchStore.loading"
-				class="h-9"
-			/>
-
 			<Button
-				v-else
+				:loading="searchStore.loading"
 				@click="search"
 			>
 				Поиск
@@ -32,8 +27,7 @@ import { useSearchStore } from '@/stores/search.ts'
 
 import Grid from '@/components/structures/Grid.vue'
 import Input from '@/components/blocks/Input.vue'
-import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
+import Button from '@/components/blocks/Button.vue'
 
 const searchStore = useSearchStore()
 

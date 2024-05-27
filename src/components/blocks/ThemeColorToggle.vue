@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useColorMode } from '@vueuse/core'
-import { Button } from '@/components/ui/button'
+import Button from '@/components/blocks/Button.vue'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import Icon from '@/components/elements/Icon.vue'
 

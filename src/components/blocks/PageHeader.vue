@@ -47,7 +47,7 @@ import { useAuthStore } from '@/stores/auth'
 import ThemeColorToggle from '@/components/blocks/ThemeColorToggle.vue'
 import UserDropdown from '@/components/blocks/UserDropdown.vue'
 import JobSearch from '@/components/blocks/JobSearch.vue'
-import { Button } from '@/components/ui/button'
+import Button from '@/components/blocks/Button.vue'
 import Icon from '@/components/elements/Icon.vue'
 
 const auth = useAuthStore()

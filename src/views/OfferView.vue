@@ -47,13 +47,8 @@
 				</div>
 
 				<template v-if="!isItMyOffer && authStore.isExecutor">
-					<Skeleton
-						v-if="loading"
-						class="h-9 w-[119px] ml-auto"
-					/>
-
 					<Button
-						v-else
+						:loading="loading"
 						:disabled="isAlreadyProposed"
 						class="ml-auto"
 						@click="makeProposal"
@@ -92,7 +87,7 @@ import http from '@/plugins/http'
 import { JobOffer, JobOfferProposal } from '@/interfaces/JobOffer.ts'
 import { Chat } from '@/interfaces/Chat.ts'
 import { User } from '@/interfaces/User.ts'
-import { Button } from '@/components/ui/button'
+import Button from '@/components/blocks/Button.vue'
 import PageTitle from '@/components/elements/PageTitle.vue'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/toast'
@@ -203,6 +198,6 @@ const isAlreadyProposed = computed(() => {
 	const proposals = offer.value.expand?.proposals ?? []
 	const proposal = proposals.find(proposal => proposal.user === authStore.user.id)
 
-	return proposal ?? null
+	return proposal !== undefined ?? true
 })
 </script>

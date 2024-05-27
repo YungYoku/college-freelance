@@ -39,12 +39,8 @@
 		</template>
 
 		<template v-if="status !== 'ended'">
-			<Skeleton
-				v-if="loading"
-				class="h-9 w-[580px]"
-			/>
 			<Button
-				v-else
+				:loading="loading"
 				@click="sendMessage"
 			>
 				Отправить сообщение
@@ -60,12 +56,9 @@
 		</template>
 
 		<template v-if="auth.isExecutor">
-			<Skeleton
-				v-if="loading"
-				class="h-9 w-[580px]"
-			/>
 			<Button
-				v-else-if="status === 'in_progress'"
+				v-if="status === 'in_progress'"
+				:loading="loading"
 				@click="sendToReview"
 			>
 				Отправить на проверку
@@ -85,15 +78,17 @@
 		</template>
 
 		<template v-if="auth.isCustomer">
-			<Skeleton
-				v-if="loading"
-				class="h-9 w-[580px]"
-			/>
-			<template v-else-if="status === 'on_review'">
-				<Button @click="approveReview">
+			<template v-if="status === 'on_review'">
+				<Button
+					:loading="loading"
+					@click="approveReview"
+				>
 					Подтвердить выполнение
 				</Button>
-				<Button @click="declineReview">
+				<Button
+					:loading="loading"
+					@click="declineReview"
+				>
 					Отказ
 				</Button>
 			</template>
@@ -114,11 +109,10 @@ import { useAuthStore } from '@/stores/auth.ts'
 import http from '@/plugins/http'
 import { Chat } from '@/interfaces/Chat.ts'
 import Input from '@/components/blocks/Input.vue'
-import { Button } from '@/components/ui/button'
+import Button from '@/components/blocks/Button.vue'
 import Grid from '@/components/structures/Grid.vue'
 import File from '@/components/elements/File.vue'
 import { Message } from '@/interfaces/Message.ts'
-import { Skeleton } from '@/components/ui/skeleton'
 import type { JobOfferStatus } from '@/interfaces/JobOffer.ts'
 import Rating from '@/components/blocks/Rating.vue'
 

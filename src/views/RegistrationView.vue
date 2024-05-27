@@ -45,30 +45,14 @@
 				label="Реферальный код"
 			/>
 
-			<Select v-model="form.role">
-				<SelectTrigger>
-					<SelectValue placeholder="Выберите роль"/>
-				</SelectTrigger>
-				<SelectContent>
-					<SelectGroup>
-						<SelectLabel>Роль</SelectLabel>
-						<SelectItem value="customer">
-							Заказчик
-						</SelectItem>
-						<SelectItem value="executor">
-							Исполнитель
-						</SelectItem>
-					</SelectGroup>
-				</SelectContent>
-			</Select>
-
-			<Skeleton
-				v-if="loading"
-				class="h-9"
+			<Select
+				v-model="form.role"
+				:items="roleItems"
+				label="Выберите роль"
 			/>
 
 			<Button
-				v-else
+				:loading="loading"
 				type="submit"
 				@click="register"
 			>
@@ -96,18 +80,9 @@ import http from '@/plugins/http/index'
 import AuthLayout from '@/components/layouts/AuthLayout.vue'
 
 import Card from '@/components/structures/Card.vue'
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectLabel,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/ui/select'
+import Select from '@/components/blocks/Select.vue'
 import Input from '@/components/blocks/Input.vue'
-import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
+import Button from '@/components/blocks/Button.vue'
 import { User } from '@/interfaces/User.ts'
 
 const router = useRouter()
@@ -124,6 +99,11 @@ const form = reactive({
 	role: 'customer',
 	energy: 100
 })
+
+const roleItems = [
+	{ value: 'customer', text: 'Заказчик' },
+	{ value: 'executor', text: 'Исполнитель' }
+]
 
 const refCode = ref('')
 refCode.value = router.currentRoute.value.query.ref as string
