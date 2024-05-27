@@ -1,6 +1,8 @@
-import Chat from './Chat.vue'
-import Footer from './Footer.vue'
-import Header from './Header.vue'
+import { defineAsyncComponent } from 'vue'
+
+const Chat = defineAsyncComponent(() => import('./Chat.vue'))
+const Footer = defineAsyncComponent(() => import('./Footer.vue'))
+const Header = defineAsyncComponent(() => import('./Header.vue'))
 
 export {
 	Chat,

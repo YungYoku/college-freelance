@@ -2,19 +2,19 @@
 	<Grid :columns="4">
 		<SelectLive
 			v-model="university"
-			place-holder="Выберите университет..."
+			place-holder="Университет"
 			api="universities"
 		/>
 
 		<SelectLive
 			v-model="offerType"
-			place-holder="Выберите тип работы..."
+			place-holder="Тип работы"
 			api="offer_types"
 		/>
 
 		<SelectLive
 			v-model="offerDisciplines"
-			place-holder="Выберите дисциплину..."
+			place-holder="Дисциплина"
 			api="disciplines"
 		/>
 

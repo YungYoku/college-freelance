@@ -45,7 +45,7 @@ const currentColor = computed(() => {
 })
 
 const src = computed(() => {
-	return new URL(`../icons/${props.name}.svg`, import.meta.url).href
+	return new URL(`./icons/${props.name}.svg`, import.meta.url).href
 })
 </script>
 

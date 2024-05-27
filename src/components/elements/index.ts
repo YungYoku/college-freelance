@@ -1,7 +1,9 @@
-import File from './File.vue'
-import Icon from './Icon.vue'
-import Image from './Image.vue'
-import PageTitle from './PageTitle.vue'
+import { defineAsyncComponent } from 'vue'
+
+const File = defineAsyncComponent(() => import('./File.vue'))
+const Icon = defineAsyncComponent(() => import('./Icon.vue'))
+const Image = defineAsyncComponent(() => import('./Image.vue'))
+const PageTitle = defineAsyncComponent(() => import('./PageTitle.vue'))
 
 export {
 	File,

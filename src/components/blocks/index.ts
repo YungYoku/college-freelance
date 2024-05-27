@@ -1,18 +1,20 @@
-import Avatar from './Avatar.vue'
-import Button from './Button.vue'
-import DatePicker from './DatePicker.vue'
-import EmptyJobOffer from './EmptyJobOffer.vue'
-import Input from './Input.vue'
-import JobOffer from './JobOffer.vue'
-import JobSearch from './JobSearch.vue'
-import Rating from './Rating.vue'
-import SearchTags from './SearchTags.vue'
-import Select from './Select.vue'
-import SelectLive from './SelectLive.vue'
-import Textarea from './Textarea.vue'
-import ThemeColorToggle from './ThemeColorToggle.vue'
-import User from './User.vue'
-import UserDropdown from './UserDropdown.vue'
+import { defineAsyncComponent } from 'vue'
+
+const Avatar = defineAsyncComponent(() => import('./Avatar.vue'))
+const Button = defineAsyncComponent(() => import('./Button.vue'))
+const DatePicker = defineAsyncComponent(() => import('./DatePicker.vue'))
+const EmptyJobOffer = defineAsyncComponent(() => import('./EmptyJobOffer.vue'))
+const Input = defineAsyncComponent(() => import('./Input.vue'))
+const JobOffer = defineAsyncComponent(() => import('./JobOffer.vue'))
+const JobSearch = defineAsyncComponent(() => import('./JobSearch.vue'))
+const Rating = defineAsyncComponent(() => import('./Rating.vue'))
+const SearchTags = defineAsyncComponent(() => import('./SearchTags.vue'))
+const Select = defineAsyncComponent(() => import('./Select.vue'))
+const SelectLive = defineAsyncComponent(() => import('./SelectLive.vue'))
+const Textarea = defineAsyncComponent(() => import('./Textarea.vue'))
+const ThemeColorToggle = defineAsyncComponent(() => import('./ThemeColorToggle.vue'))
+const User = defineAsyncComponent(() => import('./User.vue'))
+const UserDropdown = defineAsyncComponent(() => import('./UserDropdown.vue'))
 
 
 export {

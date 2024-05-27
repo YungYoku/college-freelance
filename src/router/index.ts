@@ -1,12 +1,14 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
+
+import { DefaultLayout } from '@/components/layouts'
 import { useAuthStore } from '@/stores/auth.ts'
 
 const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
 		name: 'DefaultLayout',
-		component: () => import('@/components/layouts/DefaultLayout.vue'),
+		component: DefaultLayout,
 		meta: {
 			rules: ['auth']
 		},
