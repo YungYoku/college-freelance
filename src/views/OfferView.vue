@@ -1,11 +1,15 @@
 <template>
 	<Grid :columns="[1, '140px']">
-		<PageTitle size="l">
+		<PageTitle
+			size="l"
+			:loading="loading"
+		>
 			{{ offer.title }}
 		</PageTitle>
 
 		<Button
 			v-if="authStore.isAdmin || isItMyOffer"
+			:loading="loading"
 			@click="remove"
 		>
 			Удалить
@@ -139,6 +143,8 @@ const loadOffer = async () => {
 loadOffer()
 
 const remove = async () => {
+	if (loading.value) return
+
 	await http
 		.delete(`/collections/job_offers/records/${offer.value.id}`)
 		.then(() => {

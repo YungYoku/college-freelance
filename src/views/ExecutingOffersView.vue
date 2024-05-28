@@ -1,5 +1,14 @@
 <template>
-	<Grid :columns="4">
+	<Grid :columns="1">
+		<PageTitle size="l">
+			Выполняемые объявления
+		</PageTitle>
+	</Grid>
+
+	<Grid
+		class="mt-4"
+		:columns="4"
+	>
 		<template v-if="loading">
 			<EmptyJobOffer
 				v-for="i in 8"
@@ -43,6 +52,7 @@ import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
 import { Grid, Modal } from '@/components/structures'
 import { Chat } from '@/components/sections'
 import { EmptyJobOffer, JobOffer } from '@/components/blocks'
+import { PageTitle } from '@/components/elements'
 
 
 const auth = useAuthStore()

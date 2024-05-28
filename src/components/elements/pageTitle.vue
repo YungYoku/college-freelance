@@ -1,6 +1,17 @@
 <template>
+	<Skeleton
+		v-if="loading"
+		class="w-[400px] max-w-[100%]"
+		:class="{
+			'h-12': size === 'l',
+			'h-10': size === 'm',
+			'h-8': size === 's',
+			'h-6': size === 'xs'
+		}"
+	/>
+
 	<h1
-		v-if="size === 'l'"
+		v-else-if="size === 'l'"
 		class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl"
 	>
 		<slot/>
@@ -29,6 +40,8 @@
 </template>
 
 <script setup lang="ts">
+import { Skeleton } from '@/components/ui/skeleton'
+
 defineProps({
 	size: {
 		type: String,
@@ -36,6 +49,10 @@ defineProps({
 		validator: (val: string) => {
 			return ['xs', 's', 'm', 'l'].includes(val)
 		}
+	},
+	loading: {
+		type: Boolean,
+		default: false
 	}
 })
 </script>
