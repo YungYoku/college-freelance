@@ -37,7 +37,7 @@
 				</div>
 
 				<div class="mt-4">
-					Дисциплина: {{ offer.discipline ? offer.discipline : 'Не указана' }}
+					Дисциплина: {{ offer.expand?.discipline?.name ?? 'Не указана' }}
 				</div>
 				<div>
 					Университет: {{ offer.university ? offer.university : 'Не указан' }}
@@ -120,7 +120,8 @@ const offer = ref<JobOffer>({
 	proposals: [],
 	expand: {
 		creator: undefined,
-		proposals: []
+		proposals: [],
+		discipline: undefined
 	}
 })
 const route = useRoute()
@@ -132,7 +133,7 @@ const loadOffer = async () => {
 
 	await http
 		.get<JobOffer>(`/collections/job_offers/records/${id}`, {
-			expand: ['creator', 'proposals']
+			expand: ['creator', 'proposals', 'discipline']
 		})
 		.then(response => {
 			offer.value = response
