@@ -14,10 +14,11 @@
 						Профиль
 					</DropdownMenuItem>
 				</router-link>
-				<DropdownMenuItem disabled>
-					Настройки
-				</DropdownMenuItem>
-
+				<router-link to="/profile">
+					<DropdownMenuItem>
+						Настройки
+					</DropdownMenuItem>
+				</router-link>
 				<DropdownMenuSeparator/>
 
 				<router-link
