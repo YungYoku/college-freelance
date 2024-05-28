@@ -16,6 +16,7 @@
 					class="w-full justify-between pl-3"
 					:class="{
 						'pt-4': filled,
+						'text-muted-foreground': !filled
 					}"
 				>
 					{{ showedResult }}
