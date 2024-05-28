@@ -16,6 +16,7 @@
 				:job-offer="offer"
 				:loading="loading"
 				show-remove
+				show-status
 				@remove="remove"
 			/>
 		</template>
@@ -34,9 +35,8 @@ import { useAuthStore } from '@/stores/auth'
 
 import http from '@/plugins/http'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
-import EmptyJobOffer from '@/components/blocks/EmptyJobOffer.vue'
-import JobOffer from '@/components/blocks/JobOffer.vue'
-import Grid from '@/components/structures/Grid.vue'
+import { Grid } from '@/components/structures'
+import { EmptyJobOffer, JobOffer } from '@/components/blocks'
 
 
 const auth = useAuthStore()

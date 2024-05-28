@@ -1,0 +1,60 @@
+<template>
+	<Select v-model="value">
+		<SelectTrigger class="h-12">
+			<SelectValue :placeholder="label"/>
+		</SelectTrigger>
+		<SelectContent>
+			<SelectGroup>
+				<SelectLabel>{{ label }}</SelectLabel>
+				<SelectItem
+					v-for="item in items"
+					:key="item.value"
+					:value="item.value"
+				>
+					{{ item.text }}
+				</SelectItem>
+			</SelectGroup>
+		</SelectContent>
+	</Select>
+</template>
+
+<script setup lang="ts">
+import { computed, PropType } from 'vue'
+
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue
+} from '@/components/ui/select'
+
+interface Item {
+	value: string
+	text: string
+}
+
+const props = defineProps({
+	modelValue: {
+		type: String,
+		default: ''
+	},
+	label: {
+		type: String,
+		default: ''
+	},
+	items: {
+		type: Array as PropType<Array<Item>>,
+		default: () => ([])
+	}
+})
+
+const emit = defineEmits(['update:model-value'])
+
+const value = computed({
+	get: () => props.modelValue,
+	set: (val) => emit('update:model-value', val)
+})
+</script>

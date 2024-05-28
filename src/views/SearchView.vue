@@ -2,28 +2,24 @@
 	<Grid :columns="4">
 		<SelectLive
 			v-model="university"
-			place-holder="Выберите университет..."
+			place-holder="Университет"
 			api="universities"
 		/>
 
 		<SelectLive
 			v-model="offerType"
-			place-holder="Выберите тип работы..."
+			place-holder="Тип работы"
 			api="offer_types"
 		/>
 
 		<SelectLive
 			v-model="offerDisciplines"
-			place-holder="Выберите дисциплину..."
+			place-holder="Дисциплина"
 			api="disciplines"
 		/>
 
-		<Skeleton
-			v-if="loading"
-			class="h-9"
-		/>
 		<Button
-			v-else
+			:loading="loading"
 			@click="loadOffers"
 		>
 			Поиск
@@ -60,14 +56,10 @@ import { useSearchStore } from '@/stores/search.ts'
 
 import http from '@/plugins/http'
 
-import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
-import EmptyJobOffer from '@/components/blocks/EmptyJobOffer.vue'
-import JobOffer from '@/components/blocks/JobOffer.vue'
-import Grid from '@/components/structures/Grid.vue'
-import SelectLive from '@/components/blocks/SelectLive.vue'
+import { Grid } from '@/components/structures'
+import { EmptyJobOffer, JobOffer, SelectLive, Button } from '@/components/blocks'
 import { University } from '@/interfaces/University.ts'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Button } from '@/components/ui/button'
+import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
 
 
 const offers = ref<Array<IJobOffer>>([])

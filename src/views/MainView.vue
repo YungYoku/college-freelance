@@ -25,12 +25,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import http from '@/plugins/http'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
-import EmptyJobOffer from '@/components/blocks/EmptyJobOffer.vue'
-import JobOffer from '@/components/blocks/JobOffer.vue'
-import SearchTags from '@/components/blocks/SearchTags.vue'
-import Grid from '@/components/structures/Grid.vue'
+import { Grid } from '@/components/structures'
+import { EmptyJobOffer, JobOffer, SearchTags } from '@/components/blocks'
 
 
 const offers = ref<Array<IJobOffer>>([])

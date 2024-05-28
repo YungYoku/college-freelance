@@ -1,11 +1,15 @@
 <template>
 	<Grid :columns="[1, '140px']">
-		<PageTitle size="l">
+		<PageTitle
+			size="l"
+			:loading="loading"
+		>
 			{{ offer.title }}
 		</PageTitle>
 
 		<Button
 			v-if="authStore.isAdmin || isItMyOffer"
+			:loading="loading"
 			@click="remove"
 		>
 			Удалить
@@ -33,7 +37,7 @@
 				</div>
 
 				<div class="mt-4">
-					Дисциплина: {{ offer.discipline ? offer.discipline : 'Не указана' }}
+					Дисциплина: {{ offer.expand?.discipline?.name ?? 'Не указана' }}
 				</div>
 				<div>
 					Университет: {{ offer.university ? offer.university : 'Не указан' }}
@@ -47,13 +51,8 @@
 				</div>
 
 				<template v-if="!isItMyOffer && authStore.isExecutor">
-					<Skeleton
-						v-if="loading"
-						class="h-9 w-[119px] ml-auto"
-					/>
-
 					<Button
-						v-else
+						:loading="loading"
 						:disabled="isAlreadyProposed"
 						class="ml-auto"
 						@click="makeProposal"
@@ -92,13 +91,10 @@ import http from '@/plugins/http'
 import { JobOffer, JobOfferProposal } from '@/interfaces/JobOffer.ts'
 import { Chat } from '@/interfaces/Chat.ts'
 import { User } from '@/interfaces/User.ts'
-import { Button } from '@/components/ui/button'
-import PageTitle from '@/components/elements/PageTitle.vue'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Grid, Island } from '@/components/structures'
+import { Button, User as UserCard } from '@/components/blocks'
+import { PageTitle } from '@/components/elements'
 import { useToast } from '@/components/ui/toast'
-import Grid from '@/components/structures/Grid.vue'
-import UserCard from '@/components/blocks/User.vue'
-import Island from '@/components/structures/Island.vue'
 
 const router = useRouter()
 
@@ -124,7 +120,8 @@ const offer = ref<JobOffer>({
 	proposals: [],
 	expand: {
 		creator: undefined,
-		proposals: []
+		proposals: [],
+		discipline: undefined
 	}
 })
 const route = useRoute()
@@ -136,7 +133,7 @@ const loadOffer = async () => {
 
 	await http
 		.get<JobOffer>(`/collections/job_offers/records/${id}`, {
-			expand: ['creator', 'proposals']
+			expand: ['creator', 'proposals', 'discipline']
 		})
 		.then(response => {
 			offer.value = response
@@ -147,6 +144,8 @@ const loadOffer = async () => {
 loadOffer()
 
 const remove = async () => {
+	if (loading.value) return
+
 	await http
 		.delete(`/collections/job_offers/records/${offer.value.id}`)
 		.then(() => {
@@ -203,6 +202,6 @@ const isAlreadyProposed = computed(() => {
 	const proposals = offer.value.expand?.proposals ?? []
 	const proposal = proposals.find(proposal => proposal.user === authStore.user.id)
 
-	return proposal ?? null
+	return proposal !== undefined
 })
 </script>

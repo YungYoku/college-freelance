@@ -5,18 +5,13 @@
 	>
 		<Input
 			v-model="value"
-			placeholder="Поиск"
+			label="Поиск"
 			@update:model-value="updateSearch"
 		/>
 
 		<template v-if="value && !isSearchPage">
-			<Skeleton
-				v-if="searchStore.loading"
-				class="h-9"
-			/>
-
 			<Button
-				v-else
+				:loading="searchStore.loading"
 				@click="search"
 			>
 				Поиск
@@ -30,10 +25,8 @@ import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSearchStore } from '@/stores/search.ts'
 
-import Grid from '@/components/structures/Grid.vue'
-import Input from '@/components/blocks/Input.vue'
-import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Grid } from '@/components/structures'
+import { Button, Input } from '@/components/blocks'
 
 const searchStore = useSearchStore()
 

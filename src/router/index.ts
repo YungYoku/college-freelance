@@ -1,12 +1,14 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
+
+import { DefaultLayout } from '@/components/layouts'
 import { useAuthStore } from '@/stores/auth.ts'
 
 const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
 		name: 'DefaultLayout',
-		component: () => import('@/components/layouts/DefaultLayout.vue'),
+		component: DefaultLayout,
 		meta: {
 			rules: ['auth']
 		},
@@ -46,7 +48,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/made-offers',
 				name: 'MadeOffers',
-				component: () => import('@/views/MadeOffers.vue'),
+				component: () => import('@/views/MadeOffersView.vue'),
 				meta: {
 					rules: ['auth']
 				}
@@ -54,7 +56,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/executing-offers',
 				name: 'ExecutingOffers',
-				component: () => import('@/views/ExecutingOffers.vue'),
+				component: () => import('@/views/ExecutingOffersView.vue'),
 				meta: {
 					rules: ['auth']
 				}

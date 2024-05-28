@@ -1,14 +1,27 @@
 <template>
 	<Popover v-model:open="open">
 		<PopoverTrigger as-child>
-			<Button
-				variant="outline"
-				role="combobox"
-				:aria-expanded="open"
-				class="w-full justify-between"
-			>
-				{{ showedResult }}
-			</Button>
+			<div class="relative">
+				<Label
+					v-if="filled"
+					class="absolute left-3 top-1 text-xs text-muted-foreground font-extralight"
+				>
+					{{ placeHolder }}
+				</Label>
+
+				<Button
+					variant="outline"
+					role="combobox"
+					:aria-expanded="open"
+					class=""
+					:class="['w-full', 'justify-between', 'pl-3',{
+						'pt-4': filled,
+						'text-muted-foreground': !filled
+					}]"
+				>
+					{{ showedResult }}
+				</Button>
+			</div>
 		</PopoverTrigger>
 		<PopoverContent class="w-full p-0">
 			<Command v-model="value">
@@ -42,11 +55,13 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+
+import { Button } from '@/components/blocks'
+import http from '@/plugins/http'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Button } from '@/components/ui/button'
-import http from '@/plugins/http'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
 
 interface Item {
 	id: string
@@ -105,6 +120,8 @@ const showedResult = computed(() => {
 	}
 	return _val?.length ? _val : props.placeHolder
 })
+
+const filled = computed(() => value.value.length > 0)
 
 const open = ref(false)
 const items = ref<Array<Item>>([])
@@ -172,7 +189,7 @@ const getPayload = (entity: string | Array<Item>, isIncluded: boolean = false) =
 			}
 		})
 
-		payload.filter += payload.filter.slice(0, payload.filter.length - 3).trim()
+		payload.filter = payload.filter.slice(0, payload.filter.length - 3).trim()
 		payload.filter += ')'
 	}
 
@@ -180,7 +197,7 @@ const getPayload = (entity: string | Array<Item>, isIncluded: boolean = false) =
 	return null
 }
 
-const loadItems = async (item: string | Array<Item>, include?: string | Array<Item>) => { // Проблема с символами в строке (меняются на что то)
+const loadItems = async (item: string | Array<Item>, include?: string | Array<Item>) => {
 	let _defaultItems: Array<Item> = []
 	let _extraItems: Array<Item> = []
 
@@ -195,7 +212,7 @@ const loadItems = async (item: string | Array<Item>, include?: string | Array<It
 	const loadExtraItems = async () => {
 		if (include && include.length) {
 			await http.get<Items>(`/collections/${props.api}/records`, {
-				...getPayload(item, true)
+				...getPayload(include, true)
 			})
 				.then(response => {
 					_extraItems = response.items

@@ -3,26 +3,22 @@
 		<Card
 			width="300px"
 			title="Вход"
+			@keyup.enter="login"
 		>
 			<Input
 				v-model.trim="form.identity"
-				placeholder="Логин или почта"
+				label="Логин или почта"
 				type="text"
 			/>
 
 			<Input
 				v-model.trim="form.password"
-				placeholder="Пароль"
+				label="Пароль"
 				type="password"
 			/>
 
-			<Skeleton
-				v-if="loading"
-				class="h-9"
-			/>
-
 			<Button
-				v-else
+				:loading="loading"
 				type="submit"
 				@click="login"
 			>
@@ -56,12 +52,9 @@ import { useRouter } from 'vue-router'
 import http from '@/plugins/http/index'
 import { useAuthStore } from '@/stores/auth.ts'
 import { UserLogin } from '@/interfaces/User.ts'
-import AuthLayout from '@/components/layouts/AuthLayout.vue'
-
-import Input from '@/components/blocks/Input.vue'
-import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
-import Card from '@/components/structures/Card.vue'
+import { AuthLayout } from '@/components/layouts'
+import { Card } from '@/components/structures'
+import { Input, Button } from '@/components/blocks'
 import { useToast } from '@/components/ui/toast'
 
 const auth = useAuthStore()
@@ -96,5 +89,5 @@ const login = async () => {
 	}
 }
 
-const isLoginPossible = computed(() => form.password.length >= 8 && form.identity.length)
+const isLoginPossible = computed(() => form.password.length >= 0 && form.identity.length > 0)
 </script>

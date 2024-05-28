@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
-import Icon from '@/components/elements/Icon.vue'
+import { Icon } from '@/components/elements'
 import { Skeleton } from '@/components/ui/skeleton'
 
 const props = defineProps({

@@ -38,11 +38,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { Image, Icon } from '@/components/elements'
 import { useAuthStore } from '@/stores/auth'
 import { User } from '@/interfaces/User.ts'
 import http from '@/plugins/http'
-import Image from '@/components/elements/Image.vue'
-import Icon from '@/components/elements/Icon.vue'
 
 const props = defineProps({
 	image: {

@@ -88,17 +88,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
-import { useRouter } from 'vue-router'
 
 import http from '@/plugins/http'
-import Avatar from '@/components/blocks/Avatar.vue'
-
+import { Avatar, Button } from '@/components/blocks'
+import { PageTitle } from '@/components/elements'
 import { User } from '@/interfaces/User.ts'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Button } from '@/components/ui/button'
-import PageTitle from '@/components/elements/PageTitle.vue'
 
 const route = useRoute()
 const router = useRouter()

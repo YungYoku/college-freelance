@@ -11,12 +11,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useColorMode } from '@vueuse/core'
-import Image from '@/components/elements/Image.vue'
+
+import Image from './image.vue'
 
 const props = defineProps({
 	name: {
 		type: String,
-		default: ''
+		default: 'file'
 	},
 	size: {
 		type: String,
@@ -44,7 +45,7 @@ const currentColor = computed(() => {
 })
 
 const src = computed(() => {
-	return new URL(`../icons/${props.name}.svg`, import.meta.url).href
+	return new URL(`./icons/${props.name}.svg`, import.meta.url).href
 })
 </script>
 

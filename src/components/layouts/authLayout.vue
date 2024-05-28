@@ -1,19 +1,18 @@
 <template>
 	<div class="auth-layout">
 		<Page>
-			<PageHeader/>
+			<Header/>
 
 			<slot/>
 		</Page>
 
-		<PageFooter/>
+		<Footer/>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import Page from '@/components/structures/Page.vue'
-import PageHeader from '@/components/blocks/PageHeader.vue'
-import PageFooter from '@/components/blocks/PageFooter.vue'
+import { Page } from '@/components/structures'
+import { Header, Footer } from '@/components/sections'
 </script>
 
 <style scoped lang="scss">

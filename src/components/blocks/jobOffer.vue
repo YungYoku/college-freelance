@@ -106,12 +106,18 @@
 		</div>
 
 
-		<div class="flex flex-wrap gap-2">
-			<Badge v-if="!loading && jobOffer.expand?.type?.name">
+		<div
+			v-if="!loading"
+			class="flex flex-wrap gap-2"
+		>
+			<Badge v-if="jobOffer.expand?.type?.name">
 				{{ jobOffer.expand.type.name }}
 			</Badge>
-			<Badge v-if="!loading && jobOffer.expand?.discipline?.name">
+			<Badge v-if="jobOffer.expand?.discipline?.name">
 				{{ jobOffer.expand.discipline.name }}
+			</Badge>
+			<Badge v-if="showStatus && status">
+				{{ status }}
 			</Badge>
 		</div>
 
@@ -119,7 +125,7 @@
 		<div class="job-offer__footer">
 			<Skeleton
 				v-if="loading"
-				class="h-6 w-[200px]"
+				class="h-6 w-[100px]"
 			/>
 			<User
 				v-else-if="jobOffer?.expand?.creator"
@@ -130,7 +136,7 @@
 
 			<Skeleton
 				v-if="loading"
-				class="h-6 w-[200px]"
+				class="h-6 w-[100px]"
 			/>
 			<div
 				v-else
@@ -145,14 +151,14 @@
 <script setup lang="ts">
 import { computed, PropType } from 'vue'
 
-import { JobOffer } from '@/interfaces/JobOffer'
-import User from '@/components/blocks/User.vue'
-import Icon from '@/components/elements/Icon.vue'
+import { Island } from '@/components/structures'
+import User from './user.vue'
+import { Icon } from '@/components/elements'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
-import Island from '@/components/structures/Island.vue'
-import { useAuthStore } from '@/stores/auth.ts'
 import http from '@/plugins/http'
+import { useAuthStore } from '@/stores/auth.ts'
+import { JobOffer } from '@/interfaces/JobOffer'
 
 const props = defineProps({
 	jobOffer: {
@@ -168,6 +174,10 @@ const props = defineProps({
 		default: false
 	},
 	showRemove: {
+		type: Boolean,
+		default: false
+	},
+	showStatus: {
 		type: Boolean,
 		default: false
 	},
@@ -195,6 +205,16 @@ const addToFavorite = async () => {
 		.then(() => authStore.setUser({ ...authStore.user, favorite: newFavorite }))
 }
 const remove = () => emit('remove', props.jobOffer)
+
+const status = computed(() => {
+	switch (props.jobOffer?.status) {
+	case 'created': return 'Создано'
+	case 'in_progress': return 'В работе'
+	case 'on_review': return 'На проверке'
+	case 'ended': return 'Завершено'
+	default: return null
+	}
+})
 
 const deadline = computed(() => {
 	return new Date(props.jobOffer?.deadline).toLocaleString()

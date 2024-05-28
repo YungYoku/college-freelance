@@ -2,34 +2,35 @@
 	<Card
 		width="400px"
 		title="Создание объявления"
+		@keyup.enter="createOffer"
 	>
-		<SelectLive
-			v-model="offerType"
-			place-holder="Выберите тип работы..."
-			api="offer_types"
-		/>
-
-		<SelectLive
-			v-model="offerDisciplines"
-			place-holder="Выберите дисциплину..."
-			api="disciplines"
-		/>
-
 		<Input
 			v-model.trim="newOffer.title"
-			placeholder="Введите название объявления"
+			label="Название"
 			type="text"
 		/>
 
 		<Textarea
 			v-model.trim="newOffer.description"
-			class="h-[200px]"
-			placeholder="Описание"
+			height="200px"
+			label="Описание"
+		/>
+
+		<SelectLive
+			v-model="offerType"
+			place-holder="Тип работы"
+			api="offer_types"
+		/>
+
+		<SelectLive
+			v-model="offerDisciplines"
+			place-holder="Дисциплина"
+			api="disciplines"
 		/>
 
 		<Input
 			v-model.trim="newOffer.price"
-			placeholder="Предложите цену, ₽"
+			label="Цена"
 		/>
 
 		<DatePicker
@@ -37,12 +38,8 @@
 		/>
 
 		<template #footer>
-			<Skeleton
-				v-if="loading"
-				class="h-9 w-[180px]"
-			/>
 			<Button
-				v-else
+				:loading="loading"
 				class="w-[180px]"
 				@click="createOffer"
 			>
@@ -57,16 +54,11 @@ import { ref, reactive, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
-import http from '@/plugins/http'
-import Input from '@/components/blocks/Input.vue'
-import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
-import Card from '@/components/structures/Card.vue'
-import DatePicker from '@/components/blocks/DatePicker.vue'
-import { JobOffer } from '@/interfaces/JobOffer'
-import SelectLive from '@/components/blocks/SelectLive.vue'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Card } from '@/components/structures'
+import { Input, Textarea, Button, DatePicker, SelectLive } from '@/components/blocks'
 import { useToast } from '@/components/ui/toast'
+import { JobOffer } from '@/interfaces/JobOffer'
+import http from '@/plugins/http'
 
 const auth = useAuthStore()
 

@@ -1,71 +1,42 @@
 <template>
 	<Grid class="chat">
 		<div class="chat__messages">
-			<div
+			<Message
 				v-for="message in chat.expand?.messages ?? []"
 				:key="message.id"
-				class="chat__message flex w-max max-w-[75%] flex-col gap-1 rounded-lg px-3 py-2"
-				:class="{
-					'text-primary-foreground': message.user === auth.user.id,
-					'bg-primary': message.user === auth.user.id,
-					'bg-muted': message.user !== auth.user.id,
-					'ml-auto': message.user === auth.user.id,
-					'mr-auto': message.user !== auth.user.id
-				}"
-			>
-				<span class="text-sm">{{ message.text }}</span>
-
-				<File
-					v-if="message.file"
-					:src="`${message.collectionId}/${message.id}/${message.file}`"
-				/>
-
-				<span class="text-xs">{{ message.created }}</span>
-			</div>
+				:message="message"
+				:self="message.user === auth.user.id"
+			/>
 		</div>
 
 		<template v-if="chatOpened">
-			<Input
-				v-model="newMessage"
-				:disabled="loading"
-				placeholder="Введите сообщение..."
-			/>
-
 			<Input
 				:disabled="loading"
 				type="file"
 				@input="updateFile"
 			/>
-		</template>
 
-		<template v-if="status !== 'ended'">
-			<Skeleton
-				v-if="loading"
-				class="h-9 w-[580px]"
-			/>
-			<Button
-				v-else
-				@click="sendMessage"
-			>
-				Отправить сообщение
-			</Button>
-		</template>
-
-		<template v-else>
-			<Rating
-				v-model="newRating"
-				:loading="loading"
-				@update:model-value="sendRating"
+			<Input
+				v-model="newMessage"
+				:disabled="loading"
+				label="Cообщение"
+				icon="send"
+				@action="sendMessage"
+				@keyup.enter="sendMessage"
 			/>
 		</template>
+
+		<Rating
+			v-if="status === 'ended'"
+			v-model="newRating"
+			:loading="loading"
+			@update:model-value="sendRating"
+		/>
 
 		<template v-if="auth.isExecutor">
-			<Skeleton
-				v-if="loading"
-				class="h-9 w-[580px]"
-			/>
 			<Button
-				v-else-if="status === 'in_progress'"
+				v-if="status === 'in_progress'"
+				:loading="loading"
 				@click="sendToReview"
 			>
 				Отправить на проверку
@@ -85,15 +56,17 @@
 		</template>
 
 		<template v-if="auth.isCustomer">
-			<Skeleton
-				v-if="loading"
-				class="h-9 w-[580px]"
-			/>
-			<template v-else-if="status === 'on_review'">
-				<Button @click="approveReview">
+			<template v-if="status === 'on_review'">
+				<Button
+					:loading="loading"
+					@click="approveReview"
+				>
 					Подтвердить выполнение
 				</Button>
-				<Button @click="declineReview">
+				<Button
+					:loading="loading"
+					@click="declineReview"
+				>
 					Отказ
 				</Button>
 			</template>
@@ -113,14 +86,10 @@ import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
 import { Chat } from '@/interfaces/Chat.ts'
-import Input from '@/components/blocks/Input.vue'
-import { Button } from '@/components/ui/button'
-import Grid from '@/components/structures/Grid.vue'
-import File from '@/components/elements/File.vue'
-import { Message } from '@/interfaces/Message.ts'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Grid } from '@/components/structures'
+import { Input, Button, Rating, Message } from '@/components/blocks'
+import { Message as IMessage } from '@/interfaces/Message.ts'
 import type { JobOfferStatus } from '@/interfaces/JobOffer.ts'
-import Rating from '@/components/blocks/Rating.vue'
 
 const props = defineProps({
 	id: {
@@ -179,6 +148,7 @@ const auth = useAuthStore()
 const newMessage = ref('')
 const file = ref<File | null>(null)
 const sendMessage = async () => {
+	if (loading.value) return
 	if (newMessage.value.length === 0 && file.value === null) return
 
 	loading.value = true
@@ -190,7 +160,7 @@ const sendMessage = async () => {
 	formData.append('file', file.value ?? '')
 
 	const messageId = await http
-		.post<Message>('/collections/messages/records', formData)
+		.post<IMessage>('/collections/messages/records', formData)
 		.then(({ id }) => id)
 
 	await http
@@ -247,6 +217,8 @@ const sendRating = () => emit('send-rating', newRating.value)
 		max-height: 400px;
 		overflow: auto;
 		gap: 10px;
+
+		padding: 0 10px;
 	}
 }
 </style>
