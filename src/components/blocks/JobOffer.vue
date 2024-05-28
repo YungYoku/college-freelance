@@ -125,7 +125,7 @@
 		<div class="job-offer__footer">
 			<Skeleton
 				v-if="loading"
-				class="h-6 w-[200px]"
+				class="h-6 w-[100px]"
 			/>
 			<User
 				v-else-if="jobOffer?.expand?.creator"
@@ -136,7 +136,7 @@
 
 			<Skeleton
 				v-if="loading"
-				class="h-6 w-[200px]"
+				class="h-6 w-[100px]"
 			/>
 			<div
 				v-else
