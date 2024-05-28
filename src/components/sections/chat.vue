@@ -26,13 +26,12 @@
 			/>
 		</template>
 
-		<template v-else>
-			<Rating
-				v-model="newRating"
-				:loading="loading"
-				@update:model-value="sendRating"
-			/>
-		</template>
+		<Rating
+			v-if="status === 'ended'"
+			v-model="newRating"
+			:loading="loading"
+			@update:model-value="sendRating"
+		/>
 
 		<template v-if="auth.isExecutor">
 			<Button
