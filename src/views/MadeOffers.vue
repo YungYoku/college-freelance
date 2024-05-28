@@ -15,6 +15,7 @@
 				show-responses
 				show-chat
 				show-remove
+				show-status
 				@show-responses="openResponses"
 				@show-chat="openChat"
 				@remove="remove"

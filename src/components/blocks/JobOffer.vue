@@ -106,12 +106,18 @@
 		</div>
 
 
-		<div class="flex flex-wrap gap-2">
-			<Badge v-if="!loading && jobOffer.expand?.type?.name">
+		<div
+			v-if="!loading"
+			class="flex flex-wrap gap-2"
+		>
+			<Badge v-if="jobOffer.expand?.type?.name">
 				{{ jobOffer.expand.type.name }}
 			</Badge>
-			<Badge v-if="!loading && jobOffer.expand?.discipline?.name">
+			<Badge v-if="jobOffer.expand?.discipline?.name">
 				{{ jobOffer.expand.discipline.name }}
+			</Badge>
+			<Badge v-if="showStatus && status">
+				{{ status }}
 			</Badge>
 		</div>
 
@@ -171,6 +177,10 @@ const props = defineProps({
 		type: Boolean,
 		default: false
 	},
+	showStatus: {
+		type: Boolean,
+		default: false
+	},
 	loading: {
 		type: Boolean,
 		default: false
@@ -195,6 +205,16 @@ const addToFavorite = async () => {
 		.then(() => authStore.setUser({ ...authStore.user, favorite: newFavorite }))
 }
 const remove = () => emit('remove', props.jobOffer)
+
+const status = computed(() => {
+	switch (props.jobOffer?.status) {
+	case 'created': return 'Создано'
+	case 'in_progress': return 'В работе'
+	case 'on_review': return 'На проверке'
+	case 'ended': return 'Завершено'
+	default: return null
+	}
+})
 
 const deadline = computed(() => {
 	return new Date(props.jobOffer?.deadline).toLocaleString()

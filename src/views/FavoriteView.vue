@@ -16,6 +16,7 @@
 				:job-offer="offer"
 				:loading="loading"
 				show-remove
+				show-status
 				@remove="remove"
 			/>
 		</template>

@@ -13,6 +13,7 @@
 				:job-offer="offer"
 				:loading="loading"
 				show-chat
+				show-status
 				@show-chat="openChat"
 			/>
 		</template>
