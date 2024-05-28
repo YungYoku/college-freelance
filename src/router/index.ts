@@ -48,7 +48,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/made-offers',
 				name: 'MadeOffers',
-				component: () => import('@/views/MadeOffers.vue'),
+				component: () => import('@/views/MadeOffersView.vue'),
 				meta: {
 					rules: ['auth']
 				}
@@ -56,7 +56,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/executing-offers',
 				name: 'ExecutingOffers',
-				component: () => import('@/views/ExecutingOffers.vue'),
+				component: () => import('@/views/ExecutingOffersView.vue'),
 				meta: {
 					rules: ['auth']
 				}
