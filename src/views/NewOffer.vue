@@ -2,6 +2,7 @@
 	<Card
 		width="400px"
 		title="Создание объявления"
+		@keyup.enter="createOffer"
 	>
 		<Input
 			v-model.trim="newOffer.title"
