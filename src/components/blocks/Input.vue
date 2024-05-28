@@ -17,12 +17,20 @@
 			:type="type"
 			@input="onInput"
 		/>
+
+		<Icon
+			v-if="icon"
+			class="absolute right-3 top-3.5 cursor-pointer"
+			:name="icon"
+			@click="action"
+		/>
 	</div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { Icon } from '@/components/elements'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
@@ -42,11 +50,16 @@ const props = defineProps({
 	type: {
 		type: String,
 		default: 'text'
+	},
+	icon: {
+		type: String,
+		default: null
 	}
 })
 
-const emit = defineEmits(['update:model-value', 'input'])
+const emit = defineEmits(['update:model-value', 'input', 'action'])
 const onInput = (event: InputEvent) => emit('input', event)
+const action = () => emit('action')
 
 const value = computed({
 	get: () => props.modelValue,

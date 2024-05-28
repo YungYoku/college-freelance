@@ -17,7 +17,7 @@ import Image from './Image.vue'
 const props = defineProps({
 	name: {
 		type: String,
-		default: ''
+		default: 'file'
 	},
 	size: {
 		type: String,

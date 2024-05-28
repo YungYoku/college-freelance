@@ -28,7 +28,10 @@
 			<Input
 				v-model="newMessage"
 				:disabled="loading"
-				label="Введите сообщение..."
+				label="Cообщение"
+				icon="send"
+				@action="sendMessage"
+				@keyup.enter="sendMessage"
 			/>
 
 			<Input
@@ -36,15 +39,6 @@
 				type="file"
 				@input="updateFile"
 			/>
-		</template>
-
-		<template v-if="status !== 'ended'">
-			<Button
-				:loading="loading"
-				@click="sendMessage"
-			>
-				Отправить сообщение
-			</Button>
 		</template>
 
 		<template v-else>
@@ -171,6 +165,7 @@ const auth = useAuthStore()
 const newMessage = ref('')
 const file = ref<File | null>(null)
 const sendMessage = async () => {
+	if (loading.value) return
 	if (newMessage.value.length === 0 && file.value === null) return
 
 	loading.value = true
@@ -239,6 +234,8 @@ const sendRating = () => emit('send-rating', newRating.value)
 		max-height: 400px;
 		overflow: auto;
 		gap: 10px;
+
+		padding: 0 10px;
 	}
 }
 </style>

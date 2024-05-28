@@ -3,6 +3,7 @@
 		<Card
 			width="300px"
 			title="Регистрация"
+			@keyup.enter="register"
 		>
 			<Input
 				v-model.trim="form.email"
@@ -121,6 +122,6 @@ const register = async () => {
 }
 
 const isRegistrationPossible = computed(() => {
-	return form.password.length >= 8 && form.passwordConfirm === form.password && form.username.length
+	return form.password.length > 0 && form.passwordConfirm > 0 && form.password > 0 && form.username.length > 0
 })
 </script>

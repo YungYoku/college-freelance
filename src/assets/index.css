@@ -77,6 +77,12 @@
   }
 }
 
+@supports (scrollbar-width: thin) {
+  * {
+    scrollbar-width: thin;
+  }
+}
+
 textarea {
   resize: none;
 }

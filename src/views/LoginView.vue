@@ -3,6 +3,7 @@
 		<Card
 			width="300px"
 			title="Вход"
+			@keyup.enter="login"
 		>
 			<Input
 				v-model.trim="form.identity"
@@ -88,5 +89,5 @@ const login = async () => {
 	}
 }
 
-const isLoginPossible = computed(() => form.password.length >= 8 && form.identity.length)
+const isLoginPossible = computed(() => form.password.length >= 0 && form.identity.length > 0)
 </script>
