@@ -189,7 +189,7 @@ const getPayload = (entity: string | Array<Item>, isIncluded: boolean = false) =
 			}
 		})
 
-		payload.filter += payload.filter.slice(0, payload.filter.length - 3).trim()
+		payload.filter = payload.filter.slice(0, payload.filter.length - 3).trim()
 		payload.filter += ')'
 	}
 
@@ -197,7 +197,7 @@ const getPayload = (entity: string | Array<Item>, isIncluded: boolean = false) =
 	return null
 }
 
-const loadItems = async (item: string | Array<Item>, include?: string | Array<Item>) => { // Проблема с символами в строке (меняются на что то)
+const loadItems = async (item: string | Array<Item>, include?: string | Array<Item>) => {
 	let _defaultItems: Array<Item> = []
 	let _extraItems: Array<Item> = []
 
@@ -212,7 +212,7 @@ const loadItems = async (item: string | Array<Item>, include?: string | Array<It
 	const loadExtraItems = async () => {
 		if (include && include.length) {
 			await http.get<Items>(`/collections/${props.api}/records`, {
-				...getPayload(item, true)
+				...getPayload(include, true)
 			})
 				.then(response => {
 					_extraItems = response.items
