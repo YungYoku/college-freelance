@@ -11,18 +11,18 @@
 
 		<template v-if="chatOpened">
 			<Input
+				:disabled="loading"
+				type="file"
+				@input="updateFile"
+			/>
+
+			<Input
 				v-model="newMessage"
 				:disabled="loading"
 				label="Cообщение"
 				icon="send"
 				@action="sendMessage"
 				@keyup.enter="sendMessage"
-			/>
-
-			<Input
-				:disabled="loading"
-				type="file"
-				@input="updateFile"
 			/>
 		</template>
 

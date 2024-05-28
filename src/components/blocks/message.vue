@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="chat__message flex w-max max-w-[75%] flex-col gap-1 rounded-lg px-3 py-2"
+		class="chat__message flex w-max max-w-[50%] flex-col gap-1 rounded-lg px-3 py-2"
 		:class="{
 			'text-primary-foreground': self,
 			'bg-primary': self,
