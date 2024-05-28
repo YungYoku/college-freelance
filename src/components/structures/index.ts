@@ -1,10 +1,10 @@
 import { defineAsyncComponent } from 'vue'
 
-const Card = defineAsyncComponent(() => import('./Card.vue'))
-const Grid = defineAsyncComponent(() => import('./Grid.vue'))
-const Island = defineAsyncComponent(() => import('./Island.vue'))
-const Modal = defineAsyncComponent(() => import('./Modal.vue'))
-const Page = defineAsyncComponent(() => import('./Page.vue'))
+const Card = defineAsyncComponent(() => import('./card.vue'))
+const Grid = defineAsyncComponent(() => import('./grid.vue'))
+const Island = defineAsyncComponent(() => import('./island.vue'))
+const Modal = defineAsyncComponent(() => import('./modal.vue'))
+const Page = defineAsyncComponent(() => import('./page.vue'))
 
 export {
 	Card,

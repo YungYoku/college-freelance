@@ -27,7 +27,7 @@ type Variant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | '
 
 const props = defineProps({
 	class: {
-		type: String,
+		type: [String, Array, Object],
 		default: ''
 	},
 	loading: {

@@ -12,7 +12,7 @@
 import { computed } from 'vue'
 import { useColorMode } from '@vueuse/core'
 
-import Image from './Image.vue'
+import Image from './image.vue'
 
 const props = defineProps({
 	name: {

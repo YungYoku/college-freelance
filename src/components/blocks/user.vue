@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { User } from '@/interfaces/User'
-import Avatar from './Avatar.vue'
+import Avatar from './avatar.vue'
 
 interface Props {
     user: User,

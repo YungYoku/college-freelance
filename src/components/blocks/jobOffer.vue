@@ -152,7 +152,7 @@
 import { computed, PropType } from 'vue'
 
 import { Island } from '@/components/structures'
-import User from './User.vue'
+import User from './user.vue'
 import { Icon } from '@/components/elements'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'

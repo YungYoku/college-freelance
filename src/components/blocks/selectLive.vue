@@ -13,11 +13,11 @@
 					variant="outline"
 					role="combobox"
 					:aria-expanded="open"
-					class="w-full justify-between pl-3"
-					:class="{
+					class=""
+					:class="['w-full', 'justify-between', 'pl-3',{
 						'pt-4': filled,
 						'text-muted-foreground': !filled
-					}"
+					}]"
 				>
 					{{ showedResult }}
 				</Button>

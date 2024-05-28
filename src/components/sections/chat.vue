@@ -1,27 +1,12 @@
 <template>
 	<Grid class="chat">
 		<div class="chat__messages">
-			<div
+			<Message
 				v-for="message in chat.expand?.messages ?? []"
 				:key="message.id"
-				class="chat__message flex w-max max-w-[75%] flex-col gap-1 rounded-lg px-3 py-2"
-				:class="{
-					'text-primary-foreground': message.user === auth.user.id,
-					'bg-primary': message.user === auth.user.id,
-					'bg-muted': message.user !== auth.user.id,
-					'ml-auto': message.user === auth.user.id,
-					'mr-auto': message.user !== auth.user.id
-				}"
-			>
-				<span class="text-sm">{{ message.text }}</span>
-
-				<File
-					v-if="message.file"
-					:src="`${message.collectionId}/${message.id}/${message.file}`"
-				/>
-
-				<span class="text-xs">{{ message.created }}</span>
-			</div>
+				:message="message"
+				:self="message.user === auth.user.id"
+			/>
 		</div>
 
 		<template v-if="chatOpened">
@@ -103,9 +88,8 @@ import { useAuthStore } from '@/stores/auth.ts'
 import http from '@/plugins/http'
 import { Chat } from '@/interfaces/Chat.ts'
 import { Grid } from '@/components/structures'
-import { Input, Button, Rating } from '@/components/blocks'
-import { File } from '@/components/elements'
-import { Message } from '@/interfaces/Message.ts'
+import { Input, Button, Rating, Message } from '@/components/blocks'
+import { Message as IMessage } from '@/interfaces/Message.ts'
 import type { JobOfferStatus } from '@/interfaces/JobOffer.ts'
 
 const props = defineProps({
@@ -177,7 +161,7 @@ const sendMessage = async () => {
 	formData.append('file', file.value ?? '')
 
 	const messageId = await http
-		.post<Message>('/collections/messages/records', formData)
+		.post<IMessage>('/collections/messages/records', formData)
 		.then(({ id }) => id)
 
 	await http

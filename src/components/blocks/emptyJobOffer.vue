@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import JobOffer from './JobOffer.vue'
+import JobOffer from './jobOffer.vue'
 import { JobOffer as IJobOffer } from '@/interfaces/JobOffer.ts'
 
 const emptyOffer: IJobOffer = {

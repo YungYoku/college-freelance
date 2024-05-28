@@ -122,6 +122,6 @@ const register = async () => {
 }
 
 const isRegistrationPossible = computed(() => {
-	return form.password.length > 0 && form.passwordConfirm > 0 && form.password > 0 && form.username.length > 0
+	return form.password.length > 0 && form.passwordConfirm.length > 0 && form.password.length > 0 && form.username.length > 0
 })
 </script>

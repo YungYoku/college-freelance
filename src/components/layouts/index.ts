@@ -1,5 +1,5 @@
-import AuthLayout from './AuthLayout.vue'
-import DefaultLayout from './DefaultLayout.vue'
+import AuthLayout from './authLayout.vue'
+import DefaultLayout from './defaultLayout.vue'
 
 export {
 	AuthLayout,

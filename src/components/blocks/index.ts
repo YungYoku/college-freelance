@@ -1,20 +1,21 @@
 import { defineAsyncComponent } from 'vue'
 
-const Avatar = defineAsyncComponent(() => import('./Avatar.vue'))
-const Button = defineAsyncComponent(() => import('./Button.vue'))
-const DatePicker = defineAsyncComponent(() => import('./DatePicker.vue'))
-const EmptyJobOffer = defineAsyncComponent(() => import('./EmptyJobOffer.vue'))
-const Input = defineAsyncComponent(() => import('./Input.vue'))
-const JobOffer = defineAsyncComponent(() => import('./JobOffer.vue'))
-const JobSearch = defineAsyncComponent(() => import('./JobSearch.vue'))
-const Rating = defineAsyncComponent(() => import('./Rating.vue'))
-const SearchTags = defineAsyncComponent(() => import('./SearchTags.vue'))
-const Select = defineAsyncComponent(() => import('./Select.vue'))
-const SelectLive = defineAsyncComponent(() => import('./SelectLive.vue'))
-const Textarea = defineAsyncComponent(() => import('./Textarea.vue'))
-const ThemeColorToggle = defineAsyncComponent(() => import('./ThemeColorToggle.vue'))
-const User = defineAsyncComponent(() => import('./User.vue'))
-const UserDropdown = defineAsyncComponent(() => import('./UserDropdown.vue'))
+const Avatar = defineAsyncComponent(() => import('./avatar.vue'))
+const Button = defineAsyncComponent(() => import('./button.vue'))
+const DatePicker = defineAsyncComponent(() => import('./datePicker.vue'))
+const EmptyJobOffer = defineAsyncComponent(() => import('./emptyJobOffer.vue'))
+const Input = defineAsyncComponent(() => import('./input.vue'))
+const JobOffer = defineAsyncComponent(() => import('./jobOffer.vue'))
+const JobSearch = defineAsyncComponent(() => import('./jobSearch.vue'))
+const Message = defineAsyncComponent(() => import('./message.vue'))
+const Rating = defineAsyncComponent(() => import('./rating.vue'))
+const SearchTags = defineAsyncComponent(() => import('./searchTags.vue'))
+const Select = defineAsyncComponent(() => import('./select.vue'))
+const SelectLive = defineAsyncComponent(() => import('./selectLive.vue'))
+const Textarea = defineAsyncComponent(() => import('./textarea.vue'))
+const ThemeColorToggle = defineAsyncComponent(() => import('./themeColorToggle.vue'))
+const User = defineAsyncComponent(() => import('./user.vue'))
+const UserDropdown = defineAsyncComponent(() => import('./userDropdown.vue'))
 
 
 export {
@@ -25,6 +26,7 @@ export {
 	Input,
 	JobOffer,
 	JobSearch,
+	Message,
 	Rating,
 	SearchTags,
 	Select,
