@@ -1,6 +1,9 @@
 <template>
 	<Grid class="chat">
-		<div class="chat__messages">
+		<div
+			ref="messagesRef"
+			class="chat__messages"
+		>
 			<Message
 				v-for="message in chat.expand?.messages ?? []"
 				:key="message.id"
@@ -81,7 +84,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, ref, watch } from 'vue'
+import { nextTick, PropType, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
@@ -106,6 +109,7 @@ const props = defineProps({
 	}
 })
 
+const messagesRef = ref<HTMLInputElement | null>(null)
 const chat = ref<Chat>({
 	created: '',
 	id: '',
@@ -119,25 +123,29 @@ const chat = ref<Chat>({
 })
 const chatOpened = ref(false)
 
-const loading = ref(true)
+const loading = ref(false)
 
 const loadChat = async () => {
-	loading.value = true
-
-	await http
-		.get<Chat>(`/collections/chats/records/${props.id}`, {
-			expand: ['messages']
-		})
-		.then(response => {
+	await http.connect<Chat>({
+		collection: 'chats',
+		id: props.id,
+		expand: ['messages'],
+		cb: (response: Chat) => {
 			chat.value = response
 
 			const today = new Date()
 			today.setDate(today.getDate() - 1)
 			const chatExpired = today > new Date(response.updated)
 			chatOpened.value = !chatExpired || props.status !== 'ended'
-		})
 
-	loading.value = false
+			nextTick(() => {
+				if (messagesRef.value) {
+					const messagesRefScrollHeight = messagesRef.value.scrollHeight ?? 0
+					messagesRef.value?.scrollTo(0, messagesRefScrollHeight) // Не всегда срабатывает с первого раза
+				}
+			})
+		}
+	})
 }
 
 watch(() => props.id, loadChat, { immediate: true })
@@ -215,10 +223,9 @@ const sendRating = () => emit('send-rating', newRating.value)
 
 		min-height: 400px;
 		max-height: 400px;
+		padding: 0 10px;
 		overflow: auto;
 		gap: 10px;
-
-		padding: 0 10px;
 	}
 }
 </style>
