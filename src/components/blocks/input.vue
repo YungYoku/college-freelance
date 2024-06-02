@@ -1,29 +1,36 @@
 <template>
 	<div class="relative">
-		<Label
-			v-if="!placeholder"
-			class="absolute left-3 top-1 text-xs text-muted-foreground font-extralight"
-		>
-			{{ label }}
-		</Label>
-
-		<Input
-			v-model="value"
-			:class="['h-12', {
-				'pt-4': !placeholder,
-			}]"
-			:placeholder="placeholder"
-			:disabled="disabled"
-			:type="type"
-			@input="onInput"
+		<Skeleton
+			v-if="loading"
+			class="h-12"
 		/>
 
-		<Icon
-			v-if="icon"
-			class="absolute right-3 top-3.5 cursor-pointer"
-			:name="icon"
-			@click="action"
-		/>
+		<template v-else>
+			<Label
+				v-if="!placeholder"
+				class="absolute left-3 top-1 text-xs text-muted-foreground font-extralight"
+			>
+				{{ label }}
+			</Label>
+
+			<Input
+				v-model="value"
+				:class="['h-12', {
+					'pt-4': !placeholder,
+				}]"
+				:placeholder="placeholder"
+				:disabled="disabled"
+				:type="type"
+				@input="onInput"
+			/>
+
+			<Icon
+				v-if="icon"
+				class="absolute right-3 top-3.5 cursor-pointer"
+				:name="icon"
+				@click="action"
+			/>
+		</template>
 	</div>
 </template>
 
@@ -33,11 +40,16 @@ import { computed } from 'vue'
 import { Icon } from '@/components/elements'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const props = defineProps({
 	modelValue: {
 		type: [String, Number],
 		default: ''
+	},
+	loading: {
+		type: Boolean,
+		default: false
 	},
 	label: {
 		type: String,

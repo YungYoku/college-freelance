@@ -18,12 +18,6 @@
 				>
 					onyxmetaverse@yandex.ru
 				</a>
-				<a
-					href="mailto:business.different999@gmail.com"
-					target="_blank"
-				>
-					business.different999@gmail.com
-				</a>
 			</div>
 
 			<div class="footer__column">
@@ -31,34 +25,30 @@
 					Сообщество
 				</div>
 
-				<a
-					href="https://vk.com"
-					target="_blank"
-				>
-					Вконтакте
-				</a>
-				<a
-					href="https://telegram.org"
-					target="_blank"
-				>
-					Телеграм
-				</a>
-				<a
-					href="https://instagram.com"
-					target="_blank"
-				>
-					Инстаграм
-				</a>
+				<!--				<a-->
+				<!--					href="https://vk.com"-->
+				<!--					target="_blank"-->
+				<!--				>-->
+				<!--					Вконтакте-->
+				<!--				</a>-->
+				<!--				<a-->
+				<!--					href="https://telegram.org"-->
+				<!--					target="_blank"-->
+				<!--				>-->
+				<!--					Телеграм-->
+				<!--				</a>-->
+				<!--				<a-->
+				<!--					href="https://instagram.com"-->
+				<!--					target="_blank"-->
+				<!--				>-->
+				<!--					Инстаграм-->
+				<!--				</a>-->
 			</div>
 
 			<div class="footer__column">
 				<div class="footer__column-title">
 					Наши продукты
 				</div>
-
-				<span>
-					Zargee
-				</span>
 			</div>
 
 			<div class="footer__column">
@@ -66,11 +56,11 @@
 					Информация
 				</div>
 
-				<span>О нас</span>
+				<!--				<span>О нас</span>-->
 
-				<span>Реферальная программа</span>
+				<!--				<span>Реферальная программа</span>-->
 
-				<span>Политика конфиденциальности</span>
+				<!--				<span>Политика конфиденциальности</span>-->
 			</div>
 		</div>
 	</footer>

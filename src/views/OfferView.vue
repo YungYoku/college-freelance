@@ -44,10 +44,10 @@
 				</div>
 
 				<div class="mt-4">
-					Создано: {{ offer.created }}
+					Создано: {{ created }}
 				</div>
 				<div>
-					Срок сдачи: {{ offer.deadline }}
+					Срок сдачи: {{ deadline }}
 				</div>
 
 				<template v-if="!isItMyOffer && authStore.isExecutor">
@@ -204,4 +204,7 @@ const isAlreadyProposed = computed(() => {
 
 	return proposal !== undefined
 })
+
+const created = computed(() => new Date(offer.value.created).toLocaleString())
+const deadline = computed(() => new Date(offer.value.deadline).toLocaleString())
 </script>

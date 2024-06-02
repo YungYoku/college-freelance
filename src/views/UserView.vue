@@ -17,7 +17,7 @@
 			<div class="flex flex-col align-center gap-4">
 				<Skeleton
 					v-if="loading"
-					class="h-9"
+					class="h-10 w-[340px]"
 				/>
 				<div
 					v-else
@@ -25,40 +25,35 @@
 				>
 					{{ user?.name }} {{ user?.surname }}
 				</div>
-				<div class="flex justify-between">
+				<div class="flex justify-between gap-4">
 					<Skeleton
 						v-if="loading"
-						class="h-9"
+						class="h-6 w-[100px]"
 					/>
 					<div v-else>
 						Рейтинг: {{ user?.rating }}
 					</div>
+
 					<Skeleton
 						v-if="loading"
-						class="h-9"
+						class="h-6 w-[100px]"
 					/>
-					<div
-						v-else
-						class="ml-10"
-					>
+					<div v-else>
 						Отзывы:
 					</div>
 
 					<Skeleton
 						v-if="loading"
-						class="h-9"
+						class="h-6 w-[100px]"
 					/>
-					<div
-						v-else
-						class="ml-10"
-					>
+					<div v-else>
 						Выполненных заданий:
 					</div>
 				</div>
 
 				<Skeleton
 					v-if="loading"
-					class="h-9"
+					class="h-6"
 				/>
 				<div v-else>
 					{{ universityName }}
@@ -66,7 +61,7 @@
 
 				<Skeleton
 					v-if="loading"
-					class="h-9"
+					class="h-6"
 				/>
 				<div v-else>
 					Дисциплины: {{ disciplineNames }}
@@ -75,12 +70,20 @@
 		</div>
 
 		<PageTitle
+			:loading="loading"
 			size="m"
 			class="mt-8"
 		>
 			Обо мне
 		</PageTitle>
-		<div class="text-base">
+		<Skeleton
+			v-if="loading"
+			class="h-6"
+		/>
+		<div
+			v-else
+			class="text-base"
+		>
 			{{ user?.description }}
 		</div>
 	</div>
@@ -107,8 +110,9 @@ const user = ref<User | null>(null)
 const isItMyProfile = ref(false)
 const auth = useAuthStore()
 
-//const isItMyProfile = computed(() => offer.value.creator === authStore.user.id)
 const loadUser = async () => {
+	loading.value = true
+
 	await http
 		.get<User>(`/collections/users/records/${route.params.id}`, {
 			expand: ['university', 'disciplines']

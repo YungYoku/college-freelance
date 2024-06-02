@@ -7,20 +7,39 @@ interface BodyGet {
 	sort?: string
 }
 
+interface HeadersOptions {
+	isFormData?: boolean
+	isSSE?: boolean
+}
+
+interface ConnectOptions<T> {
+	collection: string
+	id: string
+	expand: Array<string>,
+	cb: (response: T) => void
+}
+
 class Http {
 	api = import.meta.env.VITE_API
 
 	constructor() {
 	}
 
-	getHeaders(token: string, isFormData = false) {
+	getHeaders(token: string, options: HeadersOptions = {
+		isFormData: false,
+		isSSE: false
+	}) {
 		const headers: { [key: string]: string } = {
 			Accept: 'application/json',
 			Authorization: token
 		}
-		if (!isFormData) {
+		if (!options.isFormData) {
 			headers['Content-Type'] = 'application/json'
 		}
+		if (options.isSSE) {
+			headers['Content-Type'] = 'text/event-stream'
+		}
+
 		return headers
 	}
 
@@ -64,7 +83,9 @@ class Http {
 
 		return fetch(this.api + url, {
 			method: 'POST',
-			headers: this.getHeaders(auth.token, _body instanceof FormData),
+			headers: this.getHeaders(auth.token, {
+				isFormData: _body instanceof FormData
+			}),
 			body
 		})
 			.then((res) => {
@@ -104,6 +125,45 @@ class Http {
 			.catch((err) => {
 				throw err
 			})
+	}
+
+	setSubscription(url: string, clientId: string): Promise<Response> {
+		const auth = useAuthStore()
+
+		const body = JSON.stringify({
+			clientId,
+			subscriptions: [url]
+		})
+
+		return fetch(this.api + '/realtime', {
+			method: 'POST',
+			headers: this.getHeaders(auth.token),
+			body
+		})
+	}
+
+	async connect<T>(options: ConnectOptions<T> = {
+		collection: '',
+		id: '',
+		expand: [],
+		cb: () => {}
+	}): Promise<void> {
+		const url = `${options.collection}/${options.id}`
+
+		const request = async () => {
+			return await this.get<T>(`/collections/${options.collection}/records/${options.id}`, {
+				expand: options.expand
+			})
+		}
+
+		const eventSource = new EventSource(this.api + '/realtime')
+		eventSource.addEventListener('PB_CONNECT', (event: MessageEvent) => {
+			const data = JSON.parse(event.data)
+			this.setSubscription(url, data.clientId)
+		}, { once: true })
+
+		options.cb(await request())
+		eventSource.addEventListener(url, async () => options.cb(await request()))
 	}
 }
 

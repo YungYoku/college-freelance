@@ -2,9 +2,11 @@
 	<Grid
 		class="job-search"
 		:columns="columns"
+		@keyup.enter="search"
 	>
 		<Input
 			v-model="value"
+			:disabled="searchStore.loading"
 			label="Поиск"
 			@update:model-value="updateSearch"
 		/>

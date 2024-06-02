@@ -10,11 +10,11 @@ const routes: Array<RouteRecordRaw> = [
 		name: 'DefaultLayout',
 		component: DefaultLayout,
 		meta: {
-			rules: ['auth']
+			rules: []
 		},
 		children: [
 			{
-				path: '/main',
+				path: '/',
 				name: 'Main',
 				component: () => import('@/views/MainView.vue'),
 				meta: {
@@ -42,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
 				name: 'NewOffer',
 				component: () => import('@/views/NewOffer.vue'),
 				meta: {
-					rules: ['auth']
+					rules: ['auth', 'customer']
 				}
 			},
 			{
@@ -50,7 +50,7 @@ const routes: Array<RouteRecordRaw> = [
 				name: 'MadeOffers',
 				component: () => import('@/views/MadeOffersView.vue'),
 				meta: {
-					rules: ['auth']
+					rules: ['auth', 'customer']
 				}
 			},
 			{
@@ -58,7 +58,7 @@ const routes: Array<RouteRecordRaw> = [
 				name: 'ExecutingOffers',
 				component: () => import('@/views/ExecutingOffersView.vue'),
 				meta: {
-					rules: ['auth']
+					rules: ['auth', 'executor']
 				}
 			},
 			{
@@ -66,7 +66,7 @@ const routes: Array<RouteRecordRaw> = [
 				name: 'Favorite',
 				component: () => import('@/views/FavoriteView.vue'),
 				meta: {
-					rules: ['auth']
+					rules: ['auth', 'executor']
 				}
 			},
 			{
@@ -126,12 +126,21 @@ router.beforeEach((to) => {
 		return true
 	}
 	if (toRules.includes('auth')) {
-		if (to.path === '/') return '/main'
-		if (authStore.isLoggedIn) return true
-		return '/login'
-	}
-	if (toRules.includes('no-auth')) {
-		if (authStore.isLoggedIn) return '/main'
+		if (!authStore.isLoggedIn) return '/login'
+
+		if (toRules.includes('customer')) {
+			if (authStore.isCustomer || authStore.isAdmin) return true
+			return '/'
+		}
+		if (toRules.includes('executor')) {
+			if (authStore.isExecutor || authStore.isAdmin) return true
+			return '/'
+		}
+
+		return true
+	} else if (toRules.includes('no-auth')) {
+		if (authStore.isLoggedIn) return '/'
+
 		return true
 	}
 })

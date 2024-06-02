@@ -216,9 +216,7 @@ const status = computed(() => {
 	}
 })
 
-const deadline = computed(() => {
-	return new Date(props.jobOffer?.deadline).toLocaleString()
-})
+const deadline = computed(() => new Date(props.jobOffer?.deadline).toLocaleString())
 </script>
 
 <style scoped lang="scss">

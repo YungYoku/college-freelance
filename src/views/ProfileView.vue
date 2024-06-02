@@ -5,17 +5,29 @@
 				size="l"
 				editable
 			/>
-			<div class="flex flex-col align-center gap-4">
-				<div>Имя: {{ auth.user.name }}</div>
-
-				<div>Фамилия: {{ auth.user.surname }}</div>
-
-				<div>Рейтинг: {{ auth.user.rating }}</div>
-			</div>
 		</div>
+
+		<Input
+			v-model="name"
+			:disabled="loading"
+			label="Имя"
+		/>
+
+		<Input
+			v-model="surname"
+			:disabled="loading"
+			label="Фамилия"
+		/>
+
+		<Input
+			v-model="email"
+			:disabled="loading"
+			label="Почта"
+		/>
 
 		<Textarea
 			v-model="description"
+			:disabled="loading"
 			label="О себе"
 			height="240px"
 		/>
@@ -83,10 +95,16 @@ const university = ref<University>({
 	updated: new Date(),
 	name: ''
 })
+const name = ref('')
+const surname = ref('')
+const email = ref(auth.user.email)
 const disciplines = ref<Array<Discipline>>([])
 const description = ref('')
 
 watch(() => auth.user, () => {
+	name.value = auth.user.name
+	surname.value = auth.user.surname
+	email.value = auth.user.email
 	description.value = auth.user.description
 	if (auth.user.expand?.university) {
 		university.value = auth.user.expand.university
@@ -124,6 +142,9 @@ const save = async () => {
 
 	await http
 		.patch<User>(`/collections/users/records/${auth.user.id}`, {
+			name: name.value,
+			surname: surname.value,
+			email: email.value,
 			description: description.value,
 			university: university.value?.id,
 			disciplines: disciplines.value.map(item => item.id)

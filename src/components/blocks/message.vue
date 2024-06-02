@@ -14,6 +14,7 @@
 		<File
 			v-if="message.file"
 			:src="`${message.collectionId}/${message.id}/${message.file}`"
+			:inverted-color="!self"
 		/>
 
 		<span class="text-xs">{{ message.created }}</span>
