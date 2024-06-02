@@ -9,21 +9,25 @@
 
 		<Input
 			v-model="name"
+			:disabled="loading"
 			label="Имя"
 		/>
 
 		<Input
 			v-model="surname"
+			:disabled="loading"
 			label="Фамилия"
 		/>
 
 		<Input
 			v-model="email"
+			:disabled="loading"
 			label="Почта"
 		/>
 
 		<Textarea
 			v-model="description"
+			:disabled="loading"
 			label="О себе"
 			height="240px"
 		/>

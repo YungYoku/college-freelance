@@ -16,6 +16,7 @@
 			:style="{
 				height
 			}"
+			:disabled="disabled"
 		/>
 		<div class="relative"/>
 	</div>
@@ -39,6 +40,10 @@ const props = defineProps({
 	height: {
 		type: String,
 		default: '200px'
+	},
+	disabled: {
+		type: Boolean,
+		default: false
 	}
 })
 
