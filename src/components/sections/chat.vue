@@ -12,22 +12,22 @@
 			/>
 		</div>
 
-		<template v-if="chatOpened">
-			<Input
-				:disabled="loading"
-				type="file"
-				@input="updateFile"
-			/>
+		<Input
+			:disabled="loading"
+			:loading="loading"
+			type="file"
+			@input="updateFile"
+		/>
 
-			<Input
-				v-model="newMessage"
-				:disabled="loading"
-				label="Cообщение"
-				icon="send"
-				@action="sendMessage"
-				@keyup.enter="sendMessage"
-			/>
-		</template>
+		<Input
+			v-model="newMessage"
+			:disabled="loading"
+			:loading="loading"
+			label="Cообщение"
+			icon="send"
+			@action="sendMessage"
+			@keyup.enter="sendMessage"
+		/>
 
 		<Rating
 			v-if="status === 'ended'"
@@ -121,7 +121,6 @@ const chat = ref<Chat>({
 		messages: []
 	}
 })
-const chatOpened = ref(false)
 
 const loading = ref(true)
 
@@ -132,11 +131,6 @@ const loadChat = async () => {
 		expand: ['messages'],
 		cb: (response: Chat) => {
 			chat.value = response
-
-			const today = new Date()
-			today.setDate(today.getDate() - 1)
-			const chatExpired = today > new Date(response.updated)
-			chatOpened.value = !chatExpired || props.status !== 'ended'
 
 			nextTick(() => {
 				if (messagesRef.value) {
