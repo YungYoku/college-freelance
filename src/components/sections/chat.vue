@@ -123,7 +123,7 @@ const chat = ref<Chat>({
 })
 const chatOpened = ref(false)
 
-const loading = ref(false)
+const loading = ref(true)
 
 const loadChat = async () => {
 	await http.connect<Chat>({
@@ -143,6 +143,8 @@ const loadChat = async () => {
 					const messagesRefScrollHeight = messagesRef.value.scrollHeight ?? 0
 					messagesRef.value?.scrollTo(0, messagesRefScrollHeight) // Не всегда срабатывает с первого раза
 				}
+
+				loading.value = false
 			})
 		}
 	})

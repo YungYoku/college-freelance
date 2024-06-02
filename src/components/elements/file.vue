@@ -6,7 +6,7 @@
 	>
 		<Icon
 			name="file"
-			:inverted-color="false"
+			:inverted-color="invertedColor"
 		/>
 		Скачать файл
 	</a>
@@ -21,6 +21,10 @@ const props = defineProps({
 	src: {
 		type: String,
 		default: ''
+	},
+	invertedColor: {
+		type: Boolean,
+		default: false
 	}
 })
 
