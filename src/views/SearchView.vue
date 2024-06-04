@@ -1,5 +1,8 @@
 <template>
-	<Grid :columns="4">
+	<Grid
+		:columns-l="4"
+		:columns-m="4"
+	>
 		<SelectLive
 			v-model="university"
 			place-holder="Университет"
@@ -28,7 +31,8 @@
 
 	<Grid
 		v-if="offers.length || loading"
-		:columns="4"
+		:columns-l="4"
+		:columns-m="4"
 	>
 		<template v-if="loading">
 			<EmptyJobOffer

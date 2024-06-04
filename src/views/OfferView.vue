@@ -1,5 +1,8 @@
 <template>
-	<Grid :columns="[1, '140px']">
+	<Grid
+		:columns-l="[1, '140px']"
+		:columns-m="[1, '140px']"
+	>
 		<PageTitle
 			size="l"
 			:loading="loading"
@@ -17,7 +20,8 @@
 	</Grid>
 
 	<Grid
-		:columns="2"
+		:columns-l="2"
+		:columns-m="1"
 		class="mt-4"
 	>
 		<Island class="w-full">

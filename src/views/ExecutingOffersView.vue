@@ -1,5 +1,8 @@
 <template>
-	<Grid :columns="1">
+	<Grid
+		:columns-l="1"
+		:columns-m="1"
+	>
 		<PageTitle size="l">
 			Выполняемые объявления
 		</PageTitle>
@@ -7,7 +10,8 @@
 
 	<Grid
 		class="mt-4"
-		:columns="4"
+		:columns-l="4"
+		:columns-m="4"
 	>
 		<template v-if="loading">
 			<EmptyJobOffer

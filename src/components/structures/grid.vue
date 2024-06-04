@@ -9,29 +9,51 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
 const props = defineProps({
 	vertical: {
 		type: Boolean,
 		default: false  
 	},
-	columns: {
-		type: [Number, Array],
+	columnsL: {
+		type: [Number, Array<number | string>],
+		default: 1
+	},
+	columnsM: {
+		type: [Number, Array<number | string>],
 		default: 1
 	}
 })
 
+const columns = ref<Array<number | string> | number>(1)
+const updateActiveColumns = () => {
+	if (window.innerWidth < 1280) {
+		columns.value = props.columnsM
+	}
+
+	if (window.innerWidth >= 1280) {
+		columns.value = props.columnsL
+	}
+}
+onMounted(() => {
+	updateActiveColumns()
+	window.addEventListener('resize', updateActiveColumns)
+})
+onBeforeUnmount(() => {
+	window.removeEventListener('resize', updateActiveColumns)
+})
+
 const style = computed(() => {
-	if (typeof props.columns === 'number') {
+	if (typeof columns.value === 'number') {
 		return {
-			gridTemplateColumns: `repeat(${props.columns}, 1fr)`
+			gridTemplateColumns: `repeat(${columns.value}, 1fr)`
 		}
 	}
 
-	const columns = [...props.columns as Array<string | number>]
+	const _columns = [...columns.value as Array<string | number>]
 	return {
-		gridTemplateColumns: columns.reduce((result: string, column: string | number) => {
+		gridTemplateColumns: _columns.reduce((result: string, column: string | number) => {
 			if (typeof column === 'string') return `${result} ${column} `
 			if (typeof column === 'number') return `${result} ${column}fr `
 			return result

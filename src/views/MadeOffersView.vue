@@ -1,5 +1,8 @@
 <template>
-	<Grid :columns="1">
+	<Grid
+		:columns-l="1"
+		:columns-m="1"
+	>
 		<PageTitle size="l">
 			Мои объявления
 		</PageTitle>
@@ -7,7 +10,8 @@
 
 	<Grid
 		class="mt-4"
-		:columns="4"
+		:columns-l="4"
+		:columns-m="4"
 	>
 		<template v-if="loading">
 			<EmptyJobOffer
@@ -36,7 +40,10 @@
 		v-if="openedOffer"
 		@close="closeResponses"
 	>
-		<Grid :columns="1">
+		<Grid
+			:columns-l="1"
+			:columns-m="1"
+		>
 			<div
 				v-for="(user) in responsesUsers"
 				:key="user.id"
