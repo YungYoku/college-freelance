@@ -78,19 +78,33 @@
 	&__content {
 		display: flex;
 		justify-content: center;
-		gap: 50px;
+		gap: 20px;
+		flex-wrap: wrap;
 
-		max-width: 1920px;
+		max-width: 1024px;
 		margin: 0 auto;
 		padding: 10px;
+
+		@media (max-width: 1024px) {
+
+		}
 	}
 
 	&__column {
+		width: calc(25% - 15px);
 		display: flex;
 		flex-direction: column;
 		gap: 5px;
 
 		font-size: 13px;
+
+		@media (max-width: 1024px) {
+			width: calc(50% - 10px);
+		}
+
+		@media (max-width: 768px) {
+			width: 100%;
+		}
 
 		&-title {
 			font-size: 16px;

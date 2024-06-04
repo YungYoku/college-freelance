@@ -1,14 +1,6 @@
 <template>
 	<header class="header">
-		<router-link
-			to="/"
-			class="header__logo"
-		>
-			<img
-				src="../../assets/img/onyx.webp"
-				alt=""
-			>
-		</router-link>
+		<Logo class="header__logo"/>
 
 		<JobSearch/>
 
@@ -45,7 +37,7 @@ import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import { ThemeColorToggle, UserDropdown, JobSearch, Button } from '@/components/blocks'
-import { Icon } from '@/components/elements'
+import { Logo, Icon } from '@/components/elements'
 
 const auth = useAuthStore()
 
@@ -78,16 +70,7 @@ const filteredMenu = computed(() => menu.filter(item => item.can))
 	padding: 5px 0;
 
 	&__logo {
-		max-width: 40px;
 		margin-right: 200px;
-		padding: 2px 4px;
-
-		background: #ffffff;
-		border-radius: 5px;
-		
-		img {
-			max-width: 100%;
-		}
 	}
 
 	&__nav {
