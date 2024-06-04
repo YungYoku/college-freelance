@@ -44,7 +44,7 @@
 			>
 				<Avatar
 					size="m"
-					:image="`users/${user.id}/${user.avatar}`"
+					:image="`${user.id}/${user.avatar}`"
 				/>
 
 				{{ user.name }}
