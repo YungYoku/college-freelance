@@ -57,4 +57,11 @@ const search = () => {
     width: 768px;
     min-width: 320px;
     max-width: 100%;
+
+	@media (max-width: 1280px) {
+		width: 480px;
+	}
+	@media (max-width: 1024px) {
+		width: 400px;
+	}
 }</style>
