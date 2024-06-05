@@ -12,12 +12,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useSearchStore } from '@/stores/search.ts'
 
 import { Badge } from '@/components/ui/badge'
 
-const items = ref([
+const items = [
 	'тригонометрия',
 	'сочинение ОГЭ',
 	'преобразование тригонометрических выражений',
@@ -25,7 +24,7 @@ const items = ref([
 	'перпендикуляр в простанстве',
 	'биохимические формулы',
 	'17 задача по математике ЕГЭ'
-])
+]
 
 const searchStore = useSearchStore()
 

@@ -93,6 +93,7 @@ const offerDisciplines = ref({
 const loading = ref(true)
 const loadOffers = async () => {
 	loading.value = true
+	searchStore.setLoading(true)
 
 	const filters = []
 	let filter = ''

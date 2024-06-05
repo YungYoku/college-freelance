@@ -1,24 +1,18 @@
 <template>
 	<Grid
 		class="job-search"
-		:columns="columns"
+		:columns="1"
 		@keyup.enter="search"
 	>
 		<Input
 			v-model="value"
 			:disabled="searchStore.loading"
 			label="Поиск"
+			:icon="isSearchPage ? null : 'search'"
 			@update:model-value="updateSearch"
+			@action="search"
+			@keyup.enter="search"
 		/>
-
-		<template v-if="value && !isSearchPage">
-			<Button
-				:loading="searchStore.loading"
-				@click="search"
-			>
-				Поиск
-			</Button>
-		</template>
 	</Grid>
 </template>
 
@@ -28,7 +22,7 @@ import { useRouter } from 'vue-router'
 import { useSearchStore } from '@/stores/search.ts'
 
 import { Grid } from '@/components/structures'
-import { Button, Input } from '@/components/blocks'
+import { Input } from '@/components/blocks'
 
 const searchStore = useSearchStore()
 
@@ -40,15 +34,13 @@ const updateSearch = (value: string | number) => searchStore.update(value.toStri
 const router = useRouter()
 const isSearchPage = computed(() => router.currentRoute.value.path === '/search')
 
-const columns = computed(() => {
-	if (value.value.length && !isSearchPage.value) return [4, 1]
-	return 1
-})
-
 const search = () => {
-	searchStore.update(value.value)
-	searchStore.setLoading(true)
-	router.push('/search')
+	if (value.value.length === 0) return
+
+	if (!isSearchPage.value) {
+		router.push('/search')
+		searchStore.setLoading(true)
+	}
 }
 </script>
 
