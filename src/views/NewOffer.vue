@@ -33,6 +33,11 @@
 			label="Цена"
 		/>
 
+		<InputFile
+			v-model="newOffer.file"
+			:loading="loading"
+		/>
+
 		<DatePicker
 			v-model="newOffer.deadline"
 		/>
@@ -55,7 +60,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 import { Card } from '@/components/structures'
-import { Input, Textarea, Button, DatePicker, SelectLive } from '@/components/blocks'
+import { Input, Textarea, Button, DatePicker, SelectLive, InputFile } from '@/components/blocks'
 import { useToast } from '@/components/ui/toast'
 import { JobOffer } from '@/interfaces/JobOffer'
 import http from '@/plugins/http'
@@ -90,6 +95,7 @@ const newOffer = reactive<JobOffer>({
 	description: '',
 	type: '',
 	price: 0,
+	file: null,
 	deadline: new Date()
 })
 

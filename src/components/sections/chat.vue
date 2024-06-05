@@ -12,11 +12,9 @@
 			/>
 		</div>
 
-		<Input
-			:disabled="loading"
+		<InputFile
+			v-model="file"
 			:loading="loading"
-			type="file"
-			@input="updateFile"
 		/>
 
 		<Input
@@ -90,7 +88,7 @@ import { useAuthStore } from '@/stores/auth.ts'
 import http from '@/plugins/http'
 import { Chat } from '@/interfaces/Chat.ts'
 import { Grid } from '@/components/structures'
-import { Input, Button, Rating, Message } from '@/components/blocks'
+import { Input, Button, Rating, Message, InputFile } from '@/components/blocks'
 import { Message as IMessage } from '@/interfaces/Message.ts'
 import type { JobOfferStatus } from '@/interfaces/JobOffer.ts'
 
@@ -150,21 +148,19 @@ watch(() => props.status, () => { loading.value = false })
 const auth = useAuthStore()
 
 const newMessage = ref('')
-const file = ref<File | null>(null)
+const file = ref<string | null>(null)
 const sendMessage = async () => {
 	if (loading.value) return
 	if (newMessage.value.length === 0 && file.value === null) return
 
 	loading.value = true
 
-	const formData = new FormData()
-
-	formData.append('text', newMessage.value)
-	formData.append('user', auth.user.id)
-	formData.append('file', file.value ?? '')
-
 	const messageId = await http
-		.post<IMessage>('/collections/messages/records', formData)
+		.post<IMessage>('/collections/messages/records', {
+			text: newMessage.value,
+			file: file.value,
+			user: auth.user.id
+		})
 		.then(({ id }) => id)
 
 	await http
@@ -177,13 +173,6 @@ const sendMessage = async () => {
 	newMessage.value = ''
 	file.value = null
 	loading.value = false
-}
-
-const updateFile = (event: Event) => {
-	const target = event.target as HTMLInputElement
-	if (target.files) {
-		file.value = target.files[0]
-	}
 }
 
 const emit = defineEmits(['send-to-review', 'approve-review', 'decline-review', 'send-rating'])

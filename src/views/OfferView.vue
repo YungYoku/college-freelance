@@ -120,6 +120,7 @@ const offer = ref<JobOffer>({
 	executor: '',
 	chat: '',
 	proposals: [],
+	file: null,
 	expand: {
 		creator: undefined,
 		proposals: [],

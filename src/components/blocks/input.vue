@@ -42,31 +42,22 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
 
-const props = defineProps({
-	modelValue: {
-		type: [String, Number],
-		default: ''
-	},
-	loading: {
-		type: Boolean,
-		default: false
-	},
-	label: {
-		type: String,
-		default: ''
-	},
-	disabled: {
-		type: Boolean,
-		default: false
-	},
-	type: {
-		type: String,
-		default: 'text'
-	},
-	icon: {
-		type: [String, null],
-		default: null
-	}
+interface Props {
+	modelValue: string | number
+	loading: boolean
+	label: string
+	disabled: boolean
+	type: string
+	icon: string | null
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	modelValue: '',
+	loading: false,
+	label: '',
+	disabled: false,
+	type: 'text',
+	icon: null
 })
 
 const emit = defineEmits(['update:model-value', 'input', 'action'])
