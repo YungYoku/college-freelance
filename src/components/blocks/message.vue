@@ -12,8 +12,8 @@
 		<span class="text-sm">{{ message.text }}</span>
 
 		<File
-			v-if="message.file"
-			:src="`${message.collectionId}/${message.id}/${message.file}`"
+			v-if="message.expand?.file.file"
+			:src="`${message.expand?.file.collectionId}/${message.expand?.file.id}/${message.expand?.file.file}`"
 			:inverted-color="!self"
 		/>
 

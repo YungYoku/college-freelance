@@ -126,7 +126,7 @@ const loadChat = async () => {
 	await http.connect<Chat>({
 		collection: 'chats',
 		id: props.id,
-		expand: ['messages'],
+		expand: ['messages', 'messages.file'],
 		cb: (response: Chat) => {
 			chat.value = response
 
