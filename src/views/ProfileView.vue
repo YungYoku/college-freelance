@@ -46,8 +46,7 @@
 		/>
 
 		<Grid
-			:columns-l="auth.user.referral_code?.length === 0 ? [3, 1] : 1"
-			:columns-m="auth.user.referral_code?.length === 0 ? [3, 1] : 1"
+			:columns="auth.user.referral_code?.length === 0 ? [3, 1] : 1"
 		>
 			<Input
 				v-model="auth.user.referral_code"

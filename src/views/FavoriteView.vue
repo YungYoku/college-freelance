@@ -1,8 +1,15 @@
 <template>
+	<Grid :columns="1">
+		<PageTitle size="l">
+			Избранное
+		</PageTitle>
+	</Grid>
+
 	<Grid
 		v-if="loading || offers.length"
 		:columns-l="4"
-		:columns-m="4"
+		:columns-m="3"
+		:columns-s="2"
 	>
 		<template v-if="loading">
 			<EmptyJobOffer
@@ -38,6 +45,7 @@ import http from '@/plugins/http'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
 import { Grid } from '@/components/structures'
 import { EmptyJobOffer, JobOffer } from '@/components/blocks'
+import { PageTitle } from '@/components/elements'
 
 
 const auth = useAuthStore()

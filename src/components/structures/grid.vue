@@ -11,29 +11,45 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
-const props = defineProps({
-	vertical: {
-		type: Boolean,
-		default: false  
-	},
-	columnsL: {
-		type: [Number, Array<number | string>],
-		default: 1
-	},
-	columnsM: {
-		type: [Number, Array<number | string>],
-		default: 1
-	}
+type Columns = number | Array<number | string> | null
+
+interface Props {
+	vertical: boolean
+	columns: Columns
+	columnsL: Columns
+	columnsM: Columns
+	columnsS: Columns
+	columnsXs: Columns
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	vertical: false,
+	columns: null,
+	columnsL: null,
+	columnsM: null,
+	columnsS: null,
+	columnsXs: null
 })
 
-const columns = ref<Array<number | string> | number>(1)
+const activeColumns = ref<Array<number | string> | number | null>(1)
 const updateActiveColumns = () => {
-	if (window.innerWidth < 1280) {
-		columns.value = props.columnsM
+	if (props.columns) {
+		activeColumns.value = props.columns
 	}
 
-	if (window.innerWidth >= 1280) {
-		columns.value = props.columnsL
+	const columnsL = props.columnsL
+	const columnsM = props.columnsM
+	const columnsS = props.columnsS
+	const columnsXs = props.columnsXs
+
+	if (window.innerWidth < 768 && columnsXs) {
+		activeColumns.value = columnsXs
+	} else if (window.innerWidth < 1024 && columnsS) {
+		activeColumns.value = columnsS
+	} else if (window.innerWidth < 1280 && columnsM) {
+		activeColumns.value = columnsM
+	} else if (columnsL) {
+		activeColumns.value = columnsL
 	}
 }
 onMounted(() => {
@@ -45,13 +61,13 @@ onBeforeUnmount(() => {
 })
 
 const style = computed(() => {
-	if (typeof columns.value === 'number') {
+	if (typeof activeColumns.value === 'number') {
 		return {
-			gridTemplateColumns: `repeat(${columns.value}, 1fr)`
+			gridTemplateColumns: `repeat(${activeColumns.value}, 1fr)`
 		}
 	}
 
-	const _columns = [...columns.value as Array<string | number>]
+	const _columns = [...activeColumns.value as Array<string | number>]
 	return {
 		gridTemplateColumns: _columns.reduce((result: string, column: string | number) => {
 			if (typeof column === 'string') return `${result} ${column} `

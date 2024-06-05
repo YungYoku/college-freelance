@@ -4,7 +4,8 @@
 	<Grid
 		v-if="offers.length || loading"
 		:columns-l="4"
-		:columns-m="4"
+		:columns-m="3"
+		:columns-s="2"
 	>
 		<template v-if="loading">
 			<EmptyJobOffer

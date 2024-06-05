@@ -1,8 +1,7 @@
 <template>
 	<Grid
 		class="job-search"
-		:columns-l="columns"
-		:columns-m="columns"
+		:columns="columns"
 		@keyup.enter="search"
 	>
 		<Input
