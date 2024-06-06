@@ -7,7 +7,10 @@
 
 	<Grid
 		class="mt-4"
-		:columns="4"
+		:columns-l="4"
+		:columns-m="3"
+		:columns-s="2"
+		:columns-xs="1"
 	>
 		<template v-if="loading">
 			<EmptyJobOffer

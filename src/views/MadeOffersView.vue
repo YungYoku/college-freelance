@@ -7,7 +7,10 @@
 
 	<Grid
 		class="mt-4"
-		:columns="4"
+		:columns-l="4"
+		:columns-m="3"
+		:columns-s="2"
+		:columns-xs="1"
 	>
 		<template v-if="loading">
 			<EmptyJobOffer
@@ -44,7 +47,7 @@
 			>
 				<Avatar
 					size="m"
-					:image="`users/${user.id}/${user.avatar}`"
+					:image="`${user.id}/${user.avatar}`"
 				/>
 
 				{{ user.name }}

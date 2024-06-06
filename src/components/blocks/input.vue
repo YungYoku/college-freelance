@@ -16,13 +16,20 @@
 			<Input
 				v-model="value"
 				:class="['h-12', {
-					'pt-4': !placeholder,
+					'pt-4': !placeholder
 				}]"
 				:placeholder="placeholder"
 				:disabled="disabled"
 				:type="type"
 				@input="onInput"
 			/>
+
+			<span
+				v-if="error"
+				class="pl-3 text-xs text-destructive font-extralight"
+			>
+				{{ error }}
+			</span>
 
 			<Icon
 				v-if="icon"
@@ -42,31 +49,24 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
 
-const props = defineProps({
-	modelValue: {
-		type: [String, Number],
-		default: ''
-	},
-	loading: {
-		type: Boolean,
-		default: false
-	},
-	label: {
-		type: String,
-		default: ''
-	},
-	disabled: {
-		type: Boolean,
-		default: false
-	},
-	type: {
-		type: String,
-		default: 'text'
-	},
-	icon: {
-		type: String,
-		default: null
-	}
+interface Props {
+	modelValue: string | number
+	error?: string | null
+	loading?: boolean
+	label: string
+	disabled?: boolean
+	type?: string
+	icon?: string | null
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	modelValue: '',
+	error: null,
+	loading: false,
+	label: '',
+	disabled: false,
+	type: 'text',
+	icon: null
 })
 
 const emit = defineEmits(['update:model-value', 'input', 'action'])

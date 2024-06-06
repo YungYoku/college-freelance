@@ -1,5 +1,10 @@
 <template>
-	<Grid :columns="4">
+	<Grid
+		:columns-l="4"
+		:columns-m="3"
+		:columns-s="2"
+		:columns-xs="1"
+	>
 		<SelectLive
 			v-model="university"
 			place-holder="Университет"
@@ -28,7 +33,10 @@
 
 	<Grid
 		v-if="offers.length || loading"
-		:columns="4"
+		:columns-l="4"
+		:columns-m="3"
+		:columns-s="2"
+		:columns-xs="1"
 	>
 		<template v-if="loading">
 			<EmptyJobOffer
@@ -76,17 +84,18 @@ const university = ref<University>({
 	name: ''
 })
 const offerType = ref({
-	id: null,
-	name: null
+	id: '',
+	name: ''
 })
 const offerDisciplines = ref({
-	id: null,
-	name: null
+	id: '',
+	name: ''
 })
 
 const loading = ref(true)
 const loadOffers = async () => {
 	loading.value = true
+	searchStore.setLoading(true)
 
 	const filters = []
 	let filter = ''

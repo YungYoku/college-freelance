@@ -12,19 +12,21 @@
 		<span class="text-sm">{{ message.text }}</span>
 
 		<File
-			v-if="message.file"
-			:src="`${message.collectionId}/${message.id}/${message.file}`"
+			v-if="message.expand?.file.file"
+			:src="`${message.expand?.file.collectionId}/${message.expand?.file.id}/${message.expand?.file.file}`"
 			:inverted-color="!self"
 		/>
 
-		<span class="text-xs">{{ message.created }}</span>
+		<span class="text-xs">{{ created }}</span>
 	</div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+
 import { File } from '@/components/elements'
 
-defineProps({
+const props = defineProps({
 	message: {
 		type: Object,
 		default: () => ({})
@@ -34,4 +36,6 @@ defineProps({
 		default: false
 	}
 })
+
+const created = computed(() => new Date(props.message?.created).toLocaleString())
 </script>

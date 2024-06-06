@@ -9,7 +9,7 @@
 	>
 		<Avatar
 			size="s"
-			:image="`users/${user.id}/${user.avatar}`"
+			:image="`${user.id}/${user.avatar}`"
 		/>
 		{{ user.name }}
 	</component>

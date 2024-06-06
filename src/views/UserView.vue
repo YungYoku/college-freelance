@@ -11,7 +11,7 @@
 		<div class="flex gap-4 items-center">
 			<Avatar
 				size="l"
-				:image="`users/${user?.id}/${user?.avatar}`"
+				:image="`${user?.id}/${user?.avatar}`"
 			/>
 
 			<div class="flex flex-col align-center gap-4">

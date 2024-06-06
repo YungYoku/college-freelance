@@ -24,12 +24,16 @@ export interface JobOffer {
     proposals: Array<string>
     chat: string
     type: string
+    file: string | null
     expand?: {
         creator?: User
         chat?: Chat
         proposals?: Array<JobOfferProposal>
         type?: JobOfferType
-        discipline?: Discipline
+        discipline?: Discipline,
+        file?: {
+            value: File
+        }
     }
 }
 

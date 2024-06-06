@@ -18,7 +18,13 @@
 			}"
 			:disabled="disabled"
 		/>
-		<div class="relative"/>
+
+		<span
+			v-if="error"
+			class="pl-3 text-xs text-destructive font-extralight"
+		>
+			{{ error }}
+		</span>
 	</div>
 </template>
 
@@ -28,23 +34,20 @@ import { computed } from 'vue'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 
-const props = defineProps({
-	modelValue: {
-		type: String,
-		default: ''
-	},
-	label: {
-		type: String,
-		default: ''
-	},
-	height: {
-		type: String,
-		default: '200px'
-	},
-	disabled: {
-		type: Boolean,
-		default: false
-	}
+interface Props {
+	modelValue: string
+	error?: string | null
+	label: string
+	height?: string
+	disabled?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	modelValue: '',
+	error: null,
+	label: '',
+	height: '200px',
+	disabled: false
 })
 
 const emit = defineEmits(['update:model-value'])

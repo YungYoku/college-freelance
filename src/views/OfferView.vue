@@ -17,7 +17,9 @@
 	</Grid>
 
 	<Grid
-		:columns="2"
+		:columns-l="2"
+		:columns-m="1"
+		:columns-s="1"
 		class="mt-4"
 	>
 		<Island class="w-full">
@@ -118,6 +120,7 @@ const offer = ref<JobOffer>({
 	executor: '',
 	chat: '',
 	proposals: [],
+	file: null,
 	expand: {
 		creator: undefined,
 		proposals: [],

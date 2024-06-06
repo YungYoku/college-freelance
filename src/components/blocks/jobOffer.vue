@@ -228,7 +228,7 @@ const deadline = computed(() => new Date(props.jobOffer?.deadline).toLocaleStrin
 	align-items: flex-start;
 
     max-width: 100%;
-    height: 200px;
+    height: 240px;
 
     gap: 5px;
 

@@ -5,6 +5,7 @@ const Button = defineAsyncComponent(() => import('./button.vue'))
 const DatePicker = defineAsyncComponent(() => import('./datePicker.vue'))
 const EmptyJobOffer = defineAsyncComponent(() => import('./emptyJobOffer.vue'))
 const Input = defineAsyncComponent(() => import('./input.vue'))
+const InputFile = defineAsyncComponent(() => import('./inputFile.vue'))
 const JobOffer = defineAsyncComponent(() => import('./jobOffer.vue'))
 const JobSearch = defineAsyncComponent(() => import('./jobSearch.vue'))
 const Message = defineAsyncComponent(() => import('./message.vue'))
@@ -24,6 +25,7 @@ export {
 	DatePicker,
 	EmptyJobOffer,
 	Input,
+	InputFile,
 	JobOffer,
 	JobSearch,
 	Message,

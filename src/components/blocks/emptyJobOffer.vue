@@ -28,6 +28,7 @@ const emptyOffer: IJobOffer = {
 	updated: '',
 	title: '',
 	description: '',
+	file: null,
 	price: 0
 }
 </script>
