@@ -16,13 +16,20 @@
 			<Input
 				v-model="value"
 				:class="['h-12', {
-					'pt-4': !placeholder,
+					'pt-4': !placeholder
 				}]"
 				:placeholder="placeholder"
 				:disabled="disabled"
 				:type="type"
 				@input="onInput"
 			/>
+
+			<span
+				v-if="error"
+				class="pl-3 text-xs text-destructive font-extralight"
+			>
+				{{ error }}
+			</span>
 
 			<Icon
 				v-if="icon"
@@ -44,6 +51,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 interface Props {
 	modelValue: string | number
+	error?: string | null
 	loading?: boolean
 	label: string
 	disabled?: boolean
@@ -53,6 +61,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
 	modelValue: '',
+	error: null,
 	loading: false,
 	label: '',
 	disabled: false,

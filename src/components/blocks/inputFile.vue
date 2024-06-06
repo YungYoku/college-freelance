@@ -1,6 +1,7 @@
 <template>
 	<Input
 		:disabled="loading"
+		:error="error"
 		type="file"
 		@input="updateFile"
 	/>
@@ -14,11 +15,13 @@ import http from '@/plugins/http'
 
 interface Props {
 	modelValue: string | null
-	loading: boolean
+	error?: string | null
+	loading?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
 	modelValue: null,
+	error: null,
 	loading: false,
 	columnsL: null,
 	columnsM: null,

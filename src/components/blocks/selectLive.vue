@@ -21,6 +21,13 @@
 				>
 					{{ showedResult }}
 				</Button>
+
+				<span
+					v-if="error"
+					class="pl-3 text-xs text-destructive font-extralight"
+				>
+					{{ error }}
+				</span>
 			</div>
 		</PopoverTrigger>
 		<PopoverContent class="w-full p-0">
@@ -77,32 +84,24 @@ interface Items {
 	items: Array<Item>
 }
 
-const props = defineProps({
-	modelValue: {
-		type: [Array<Item>, Object],
-		default: () => ({})
-	},
-	typeKey: {
-		type: String,
-		default: 'name'
-	},
-	placeHolder: {
-		type: String,
-		default: 'Выберите значение...'
-	},
-	api: {
-		type: String,
-		default: '',
-		required: true
-	},
-	filterFields: {
-		type: Array<string>,
-		default: () => (['id', 'name'])
-	},
-	multiple: {
-		type: Boolean,
-		default: false
-	}
+interface Props {
+	modelValue: Array<Item> | Item
+	error?: string | null
+	typeKey?: string
+	placeHolder?: string,
+	api: string,
+	filterFields?: Array<string>,
+	multiple?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	modelValue: () => ([]),
+	error: null,
+	typeKey: 'name',
+	placeHolder: 'Значение',
+	api: '',
+	filterFields: () => (['id', 'name']),
+	multiple: false
 })
 
 const emit = defineEmits(['update:model-value'])
@@ -118,28 +117,34 @@ const showedResult = computed(() => {
 		const extra = _val.length > 7 ? `, ... (${_val.length})` : ` (${_val.length})`
 		return `${result}${extra}`
 	}
+
 	return _val?.length ? _val : props.placeHolder
 })
 
-const filled = computed(() => value.value.length > 0)
+const filled = computed(() => {
+	const _val = value.value
+	if (Array.isArray(_val) || typeof _val === 'string') return _val.length > 0
+
+	throw new Error('Invalid type')
+})
 
 const open = ref(false)
 const items = ref<Array<Item>>([])
 
-const value = computed({
+const value = computed<Array<Item> | Item | string>({
 	get() {
 		const selectedValue = props.modelValue
 		if (props.multiple && Array.isArray(selectedValue)) {
 			// Здесь стоит добавить загрузку элементов по поиску
 			loadItems('', selectedValue)
-			return props.modelValue
+			return selectedValue
 		} else if (typeof selectedValue === 'object' && !Array.isArray(selectedValue)) {
-			const value = selectedValue?.[props.typeKey] ?? ''
-			loadItems(value)
+			const value: string = selectedValue?.[props.typeKey] as string
+			loadItems(value ?? '')
 			return value
 		}
 
-		return props.modelValue
+		throw new Error('Invalid type')
 	},
 	set(value) {
 		if (props.multiple && Array.isArray(props.modelValue) && Array.isArray(value)) {

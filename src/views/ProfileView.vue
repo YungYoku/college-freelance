@@ -8,25 +8,29 @@
 		</div>
 
 		<Input
-			v-model="name"
+			v-model="form.name.value"
+			:error="form.name.error"
 			:disabled="loading"
 			label="Имя"
 		/>
 
 		<Input
-			v-model="surname"
+			v-model="form.surname.value"
+			:error="form.surname.error"
 			:disabled="loading"
 			label="Фамилия"
 		/>
 
 		<Input
-			v-model="email"
+			v-model="form.email.value"
+			:error="form.email.error"
 			:disabled="loading"
 			label="Почта"
 		/>
 
 		<Textarea
-			v-model="description"
+			v-model="form.description.value"
+			:error="form.description.error"
 			:disabled="loading"
 			label="О себе"
 			height="240px"
@@ -34,20 +38,20 @@
 
 		<SelectLive
 			v-model="university"
+			:error="form.university.error"
 			place-holder="Университет"
 			api="universities"
 		/>
 
 		<SelectLive
-			v-model="disciplines"
+			v-model="form.disciplines.value"
+			:error="form.disciplines.error"
 			multiple
 			place-holder="Дисциплины"
 			api="disciplines"
 		/>
 
-		<Grid
-			:columns="auth.user.referral_code?.length === 0 ? [3, 1] : 1"
-		>
+		<Grid :columns="auth.user.referral_code?.length === 0 ? [3, 1] : 1">
 			<Input
 				v-model="auth.user.referral_code"
 				disabled
@@ -62,7 +66,6 @@
 				</Button>
 			</template>
 		</Grid>
-
 
 		<Button
 			:loading="loading"
@@ -85,10 +88,19 @@ import { University } from '@/interfaces/University.ts'
 import { Discipline } from '@/interfaces/Discipline.ts'
 import { ReferralCode } from '@/interfaces/ReferralCode.ts'
 import { User } from '@/interfaces/User.ts'
+import Form from '@/plugins/form'
 
 const auth = useAuthStore()
 const { toast } = useToast()
 
+const form = Form({
+	name: '',
+	surname: '',
+	email: auth.user.email,
+	university: '',
+	disciplines: [] as Array<Discipline>,
+	description: ''
+})
 const university = ref<University>({
 	collectionId: '',
 	collectionName: '',
@@ -97,22 +109,17 @@ const university = ref<University>({
 	updated: new Date(),
 	name: ''
 })
-const name = ref('')
-const surname = ref('')
-const email = ref(auth.user.email)
-const disciplines = ref<Array<Discipline>>([])
-const description = ref('')
 
 watch(() => auth.user, () => {
-	name.value = auth.user.name
-	surname.value = auth.user.surname
-	email.value = auth.user.email
-	description.value = auth.user.description
+	form.name.value = auth.user.name
+	form.surname.value = auth.user.surname
+	form.email.value = auth.user.email
+	form.description.value = auth.user.description
 	if (auth.user.expand?.university) {
 		university.value = auth.user.expand.university
 	}
 	if (auth.user.expand?.disciplines) {
-		disciplines.value = auth.user.expand.disciplines
+		form.disciplines.value = auth.user.expand.disciplines
 	}
 }, { immediate: true })
 
@@ -141,15 +148,13 @@ const generateRefCode = async () => {
 
 const save = async () => {
 	loading.value = true
+	form.clearErrors()
 
 	await http
 		.patch<User>(`/collections/users/records/${auth.user.id}`, {
-			name: name.value,
-			surname: surname.value,
-			email: email.value,
-			description: description.value,
+			...form.get(),
 			university: university.value?.id,
-			disciplines: disciplines.value.map(item => item.id)
+			disciplines: form.disciplines.value.map(item => item.id)
 		})
 		.then((res) => {
 			auth.setUser(res)
@@ -157,7 +162,9 @@ const save = async () => {
 				title: 'Сохранено успешно!'
 			})
 		})
-		.catch(() => {
+		.catch(({ data }) => {
+			form.setErrors(data)
+			
 			toast({
 				title: 'Ошибка сохранения'
 			})

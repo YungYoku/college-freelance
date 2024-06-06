@@ -68,8 +68,17 @@ class Http {
 			method: 'GET',
 			headers: this.getHeaders(auth.token)
 		})
-			.then((res) => {
-				return res.json()
+			.then((response) => {
+				return response.json()
+					.then((res) => {
+						if (res.code === 400) {
+							throw res
+						}
+						return res
+					})
+					.catch((err) => {
+						throw err
+					})
 			})
 			.catch((err) => {
 				throw err
@@ -88,11 +97,17 @@ class Http {
 			}),
 			body
 		})
-			.then((res) => {
-				if (res.status === 400) {
-					throw res
-				}
-				return res.json()
+			.then((response) => {
+				return response.json()
+					.then((res) => {
+						if (res.code === 400) {
+							throw res
+						}
+						return res
+					})
+					.catch((err) => {
+						throw err
+					})
 			})
 			.catch((err) => {
 				throw err
@@ -107,8 +122,17 @@ class Http {
 			headers: this.getHeaders(auth.token),
 			body: JSON.stringify(body)
 		})
-			.then((res) => {
-				return res.json()
+			.then((response) => {
+				return response.json()
+					.then((res) => {
+						if (res.code === 400) {
+							throw res
+						}
+						return res
+					})
+					.catch((err) => {
+						throw err
+					})
 			})
 			.catch((err) => {
 				throw err
@@ -122,6 +146,18 @@ class Http {
 			method: 'DELETE',
 			headers: this.getHeaders(auth.token)
 		})
+			.then((response) => {
+				return response.json()
+					.then((res) => {
+						if (res.code === 400) {
+							throw res
+						}
+						return res
+					})
+					.catch((err) => {
+						throw err
+					})
+			})
 			.catch((err) => {
 				throw err
 			})

@@ -84,12 +84,12 @@ const university = ref<University>({
 	name: ''
 })
 const offerType = ref({
-	id: null,
-	name: null
+	id: '',
+	name: ''
 })
 const offerDisciplines = ref({
-	id: null,
-	name: null
+	id: '',
+	name: ''
 })
 
 const loading = ref(true)
