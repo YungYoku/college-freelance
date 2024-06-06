@@ -1,7 +1,6 @@
 <template>
 	<Input
 		:disabled="loading"
-		:loading="loading"
 		type="file"
 		@input="updateFile"
 	/>

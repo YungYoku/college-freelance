@@ -1,31 +1,38 @@
 import { reactive } from 'vue'
 
-type ListValue = string | number | boolean | Array<string | number> | Date | null
-type ListItem = {
-	value: ListValue,
+type BaseType<T> = {
+	[key in keyof T]: string | number | boolean | Date | Array<string | number> | null | object
+}
+type ListItem<T> = {
+	value: T,
 	error: string | null
 }
+type List<T extends BaseType<T>> = {
+	[key in keyof T]: ListItem<T[key]>
+}
 
-const Form = <T>(base: { [key in keyof T]?: ListValue } = {}) => {
-	const list: { [key in keyof T]?: ListItem } = {}
+const Form = <I extends BaseType<I>>(base: I) => {
+	const keys: Array<keyof I> = Object.keys(base) as Array<keyof I>
+
+	const list: List<I> = keys.reduce((obj: List<I>, key) => {
+		const value: I[keyof I] = base[key]
+		obj[key] = reactive<ListItem<I[keyof I]>>({
+			value,
+			error: null
+		})
+
+		return obj
+	}, {} as List<I>)
+
 
 	const get = () => {
-		const result: { [key in keyof T]?: ListValue } = {}
-		const keys = Object.keys(list)
+		const result: I = base
 
-		keys.forEach(item => {
-			result[item] = list[item].value
-		})
+		keys.forEach(key => result[key] = list[key]?.value)
 
 		return result
 	}
 
-	Object.keys(base).forEach((key) => {
-		list[key] = reactive({
-			value: base[key],
-			error: null
-		})
-	})
 	return {
 		...list,
 		get,
