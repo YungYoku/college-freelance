@@ -1,19 +1,14 @@
 <template>
-	<Grid
+	<Input
+		v-model="value"
 		class="job-search"
-		:columns="1"
+		:disabled="searchStore.loading"
+		label="Поиск"
+		:icon="isSearchPage ? null : 'search'"
+		@update:model-value="updateSearch"
+		@action="search"
 		@keyup.enter="search"
-	>
-		<Input
-			v-model="value"
-			:disabled="searchStore.loading"
-			label="Поиск"
-			:icon="isSearchPage ? null : 'search'"
-			@update:model-value="updateSearch"
-			@action="search"
-			@keyup.enter="search"
-		/>
-	</Grid>
+	/>
 </template>
 
 <script setup lang="ts">
@@ -21,7 +16,6 @@ import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSearchStore } from '@/stores/search.ts'
 
-import { Grid } from '@/components/structures'
 import { Input } from '@/components/blocks'
 
 const searchStore = useSearchStore()
@@ -54,6 +48,6 @@ const search = () => {
 		width: 480px;
 	}
 	@media (max-width: 1024px) {
-		width: 400px;
+		width: 320px;
 	}
 }</style>

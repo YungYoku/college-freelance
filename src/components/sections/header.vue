@@ -78,8 +78,6 @@ const filteredMenu = computed(() => menu.filter(item => item.can))
 		justify-content: flex-end;
 		align-items: center;
 
-		width: 240px;
-
 		gap: 10px;
 		margin: 0 0 0 auto;
 	}

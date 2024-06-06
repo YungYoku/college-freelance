@@ -44,11 +44,11 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 interface Props {
 	modelValue: string | number
-	loading: boolean
+	loading?: boolean
 	label: string
-	disabled: boolean
-	type: string
-	icon: string | null
+	disabled?: boolean
+	type?: string
+	icon?: string | null
 }
 
 const props = withDefaults(defineProps<Props>(), {

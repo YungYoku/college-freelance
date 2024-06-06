@@ -14,12 +14,12 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 type Columns = number | Array<number | string> | null
 
 interface Props {
-	vertical: boolean
-	columns: Columns
-	columnsL: Columns
-	columnsM: Columns
-	columnsS: Columns
-	columnsXs: Columns
+	vertical?: boolean
+	columns?: Columns
+	columnsL?: Columns
+	columnsM?: Columns
+	columnsS?: Columns
+	columnsXs?: Columns
 }
 
 const props = withDefaults(defineProps<Props>(), {
