@@ -1,8 +1,6 @@
 <template>
 	<Grid :columns="[1, '140px']">
-		<PageTitle
-			:loading="loading"
-		>
+		<PageTitle :loading="loading">
 			{{ offer.title }}
 		</PageTitle>
 
@@ -24,32 +22,53 @@
 		<Island class="overflow-hidden">
 			<Text
 				size="s"
+				:loading="loading"
 				class="mb-2"
 			>
 				Информация о заказе
 			</Text>
 
 			<div class="grid items-center w-full gap-2">
-				<div>
+				<Text
+					size="xs"
+					:loading="loading"
+				>
 					Цена: {{ offer.price }}₽
-				</div>
-				<div>
+				</Text>
+				<Text
+					size="xs"
+					:loading="loading"
+				>
 					Варианты оплаты:
-				</div>
+				</Text>
 
-				<div class="mt-4">
+				<Text
+					size="xs"
+					:loading="loading"
+					class="mt-4"
+				>
 					Дисциплина: {{ offer.expand?.discipline?.name ?? 'Не указана' }}
-				</div>
-				<div>
+				</Text>
+				<Text
+					size="xs"
+					:loading="loading"
+				>
 					Университет: {{ offer.university ? offer.university : 'Не указан' }}
-				</div>
+				</Text>
 
-				<div class="mt-4">
+				<Text
+					size="xs"
+					:loading="loading"
+					class="mt-4"
+				>
 					Создано: {{ created }}
-				</div>
-				<div>
+				</Text>
+				<Text
+					size="xs"
+					:loading="loading"
+				>
 					Срок сдачи: {{ deadline }}
-				</div>
+				</Text>
 
 				<template v-if="!isItMyOffer && authStore.isExecutor">
 					<Button
@@ -74,11 +93,17 @@
 			<Text
 				size="s"
 				class="mb-2"
+				:loading="loading"
 			>
 				Описание
 			</Text>
 
-			{{ offer.description }}
+			<Text
+				size="xs"
+				:loading="loading"
+			>
+				{{ offer.description }}
+			</Text>
 		</Island>
 	</Grid>
 </template>

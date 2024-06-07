@@ -33,7 +33,7 @@
 
 	<h4
 		v-else-if="size === 'xs'"
-		class="scroll-m-20 text-xl font-semibold tracking-tight"
+		class="scroll-m-20 text-l tracking-tight"
 	>
 		<slot/>
 	</h4>
