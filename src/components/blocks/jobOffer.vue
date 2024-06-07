@@ -1,5 +1,5 @@
 <template>
-	<Island class="job-offer bg-primary-foreground">
+	<Island class="job-offer bg-primary-foreground overflow-hidden">
 		<div class="job-offer__actions">
 			<template v-if="jobOffer.executor && showChat">
 				<Skeleton
