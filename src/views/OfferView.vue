@@ -1,7 +1,6 @@
 <template>
 	<Grid :columns="[1, '140px']">
 		<PageTitle
-			size="l"
 			:loading="loading"
 		>
 			{{ offer.title }}
@@ -23,12 +22,12 @@
 		class="mt-4"
 	>
 		<Island class="w-full">
-			<PageTitle
+			<Text
 				size="s"
 				class="mb-2"
 			>
 				Информация о заказе
-			</PageTitle>
+			</Text>
 
 			<div class="grid items-center w-full gap-2">
 				<div>
@@ -72,12 +71,12 @@
 		</Island>
 
 		<Island>
-			<PageTitle
+			<Text
 				size="s"
 				class="mb-2"
 			>
 				Описание
-			</PageTitle>
+			</Text>
 
 			{{ offer.description }}
 		</Island>
@@ -95,7 +94,7 @@ import { Chat } from '@/interfaces/Chat.ts'
 import { User } from '@/interfaces/User.ts'
 import { Grid, Island } from '@/components/structures'
 import { Button, User as UserCard } from '@/components/blocks'
-import { PageTitle } from '@/components/elements'
+import { PageTitle, Text } from '@/components/elements'
 import { useToast } from '@/components/ui/toast'
 
 const router = useRouter()
