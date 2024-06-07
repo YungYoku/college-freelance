@@ -21,7 +21,7 @@
 		:columns-s="1"
 		class="mt-4"
 	>
-		<Island class="w-full">
+		<Island class="overflow-hidden">
 			<Text
 				size="s"
 				class="mb-2"
@@ -70,7 +70,7 @@
 			/>
 		</Island>
 
-		<Island>
+		<Island class="overflow-hidden">
 			<Text
 				size="s"
 				class="mb-2"
