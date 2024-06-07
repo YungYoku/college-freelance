@@ -1,5 +1,13 @@
 <template>
 	<Grid class="chat">
+		<User
+			v-if="chatMember"
+			class="absolute top-2 left-23"
+			:loading="loading"
+			link
+			:user="chatMember"
+		/>
+
 		<div
 			ref="messagesRef"
 			class="chat__messages"
@@ -82,29 +90,49 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, PropType, ref, watch } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
 import { Chat } from '@/interfaces/Chat.ts'
 import { Grid } from '@/components/structures'
-import { Input, Button, Rating, Message, InputFile } from '@/components/blocks'
+import { Input, Button, Rating, Message, InputFile, User } from '@/components/blocks'
 import { Message as IMessage } from '@/interfaces/Message.ts'
 import type { JobOfferStatus } from '@/interfaces/JobOffer.ts'
+import { User as IUser } from '@/interfaces/User'
 
-const props = defineProps({
-	id: {
-		type: String,
-		required: true
-	},
-	status: {
-		type: String as PropType<JobOfferStatus>,
-		default: 'created'
-	},
-	rating: {
-		type: Number,
-		default: 0
-	}
+interface Props {
+	id: string,
+	chatMember: IUser
+	status: JobOfferStatus,
+	rating: number
+}
+const props = withDefaults(defineProps<Props>(), {
+	id: '',
+	chatMember: () => ({
+		avatar: '',
+		collectionId: '',
+		collectionName: '',
+		created: '',
+		email: '',
+		emailVisibility: false,
+		id: '',
+		name: '',
+		description: '',
+		surname: '',
+		rating: 0,
+		updated: '',
+		username: '',
+		verified: false,
+		role: 'customer',
+		university: '',
+		energy: 0,
+		disciplines: [],
+		favorite: [],
+		referral_code: ''
+	}),
+	status: 'created',
+	rating: 0
 })
 
 const messagesRef = ref<HTMLInputElement | null>(null)

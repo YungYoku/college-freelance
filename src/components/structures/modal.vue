@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="modal"
+		class="modal relative"
 		@click.self="close"
 	>
 		<form
@@ -67,7 +67,7 @@ const close = () => emit('close')
 
         max-width: 100%;
 		min-height: 70px;
-        padding: 40px 10px 10px 10px;
+        padding: 60px 10px 10px 10px;
     }
 
 	&__close {

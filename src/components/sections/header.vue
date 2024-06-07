@@ -1,7 +1,8 @@
 <template>
 	<header class="header">
 		<Grid
-			:columns="[1, 2, 1]"
+			:columns-l="[1, 2, 1]"
+			:columns-xs="[1, '20px', 1]"
 		>
 			<Logo class="header__logo"/>
 

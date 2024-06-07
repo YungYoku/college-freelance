@@ -27,6 +27,7 @@ export interface JobOffer {
     file: string | null
     expand?: {
         creator?: User
+        executor?: User
         chat?: Chat
         proposals?: Array<JobOfferProposal>
         type?: JobOfferType

@@ -3,6 +3,7 @@
 		<Card
 			width="300px"
 			title="Вход"
+			class="mb-auto mt-auto"
 			@keyup.enter="login"
 		>
 			<Input
@@ -20,7 +21,7 @@
 			/>
 
 			<Button
-				:loading="loading"
+				:disabled="loading"
 				type="submit"
 				@click="login"
 			>

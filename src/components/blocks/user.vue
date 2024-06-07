@@ -1,6 +1,11 @@
 <template>
+	<Skeleton
+		v-if="loading"
+		class="h-6 w-[120px]"
+	/>
 	<component
 		:is="link ? 'router-link' : 'div'"
+		v-else
 		class="user"
 		:class="{
 			'cursor-pointer': link,
@@ -19,9 +24,11 @@
 <script setup lang="ts">
 import { User } from '@/interfaces/User'
 import Avatar from './avatar.vue'
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface Props {
     user: User,
+	loading: boolean
 	link: boolean
 }
 
@@ -48,6 +55,7 @@ withDefaults(defineProps<Props>(), {
 		favorite: [],
 		referral_code: ''
 	}),
+	loading: false,
 	link: false
 })
 </script>

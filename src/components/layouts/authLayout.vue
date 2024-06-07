@@ -2,9 +2,9 @@
 	<div class="auth-layout">
 		<Page>
 			<Header/>
-
-			<slot/>
 		</Page>
+
+		<slot/>
 
 		<Footer/>
 	</div>

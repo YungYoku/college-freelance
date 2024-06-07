@@ -22,19 +22,11 @@ const routes: Array<RouteRecordRaw> = [
 				},
 			},
 			{
-				path: '/offers',
-				name: 'Offers',
-				component: () => import('@/views/OffersView.vue'),
-				meta: {
-					rules: ['auth']
-				}
-			},
-			{
 				path: '/offer/:id',
 				name: 'Offer',
 				component: () => import('@/views/OfferView.vue'),
 				meta: {
-					rules: ['auth']
+					rules: []
 				}
 			},
 			{
@@ -74,7 +66,7 @@ const routes: Array<RouteRecordRaw> = [
 				name: 'User',
 				component: () => import('@/views/UserView.vue'),
 				meta: {
-					rules: ['auth']
+					rules: []
 				}
 			},
 			{
@@ -90,7 +82,7 @@ const routes: Array<RouteRecordRaw> = [
 				name: 'Search',
 				component: () => import('@/views/SearchView.vue'),
 				meta: {
-					rules: ['auth']
+					rules: []
 				}
 			},
 		],
