@@ -69,13 +69,13 @@
 			</div>
 		</div>
 
-		<PageTitle
+		<Text
 			:loading="loading"
 			size="m"
 			class="mt-8"
 		>
 			Обо мне
-		</PageTitle>
+		</Text>
 		<Skeleton
 			v-if="loading"
 			class="h-6"
@@ -96,7 +96,7 @@ import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
 import { Avatar, Button } from '@/components/blocks'
-import { PageTitle } from '@/components/elements'
+import { Text } from '@/components/elements'
 import { User } from '@/interfaces/User.ts'
 import { Skeleton } from '@/components/ui/skeleton'
 

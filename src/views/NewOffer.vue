@@ -50,7 +50,7 @@
 
 		<template #footer>
 			<Button
-				:loading="loading"
+				:disabled="loading"
 				class="w-[180px]"
 				@click="createOffer"
 			>

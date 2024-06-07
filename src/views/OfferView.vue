@@ -1,14 +1,11 @@
 <template>
 	<Grid :columns="[1, '140px']">
-		<PageTitle
-			size="l"
-			:loading="loading"
-		>
+		<PageTitle :loading="loading">
 			{{ offer.title }}
 		</PageTitle>
 
 		<Button
-			v-if="authStore.isAdmin || isItMyOffer"
+			v-if="(authStore.isAdmin || isItMyOffer) && offer.status === 'created'"
 			:loading="loading"
 			@click="remove"
 		>
@@ -22,35 +19,56 @@
 		:columns-s="1"
 		class="mt-4"
 	>
-		<Island class="w-full">
-			<PageTitle
+		<Island class="overflow-hidden">
+			<Text
 				size="s"
+				:loading="loading"
 				class="mb-2"
 			>
 				Информация о заказе
-			</PageTitle>
+			</Text>
 
 			<div class="grid items-center w-full gap-2">
-				<div>
+				<Text
+					size="xs"
+					:loading="loading"
+				>
 					Цена: {{ offer.price }}₽
-				</div>
-				<div>
+				</Text>
+				<Text
+					size="xs"
+					:loading="loading"
+				>
 					Варианты оплаты:
-				</div>
+				</Text>
 
-				<div class="mt-4">
+				<Text
+					size="xs"
+					:loading="loading"
+					class="mt-4"
+				>
 					Дисциплина: {{ offer.expand?.discipline?.name ?? 'Не указана' }}
-				</div>
-				<div>
+				</Text>
+				<Text
+					size="xs"
+					:loading="loading"
+				>
 					Университет: {{ offer.university ? offer.university : 'Не указан' }}
-				</div>
+				</Text>
 
-				<div class="mt-4">
+				<Text
+					size="xs"
+					:loading="loading"
+					class="mt-4"
+				>
 					Создано: {{ created }}
-				</div>
-				<div>
+				</Text>
+				<Text
+					size="xs"
+					:loading="loading"
+				>
 					Срок сдачи: {{ deadline }}
-				</div>
+				</Text>
 
 				<template v-if="!isItMyOffer && authStore.isExecutor">
 					<Button
@@ -71,15 +89,21 @@
 			/>
 		</Island>
 
-		<Island>
-			<PageTitle
+		<Island class="overflow-hidden">
+			<Text
 				size="s"
 				class="mb-2"
+				:loading="loading"
 			>
 				Описание
-			</PageTitle>
+			</Text>
 
-			{{ offer.description }}
+			<Text
+				size="xs"
+				:loading="loading"
+			>
+				{{ offer.description }}
+			</Text>
 		</Island>
 	</Grid>
 </template>
@@ -95,7 +119,7 @@ import { Chat } from '@/interfaces/Chat.ts'
 import { User } from '@/interfaces/User.ts'
 import { Grid, Island } from '@/components/structures'
 import { Button, User as UserCard } from '@/components/blocks'
-import { PageTitle } from '@/components/elements'
+import { PageTitle, Text } from '@/components/elements'
 import { useToast } from '@/components/ui/toast'
 
 const router = useRouter()

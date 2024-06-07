@@ -5,11 +5,13 @@ const Icon = defineAsyncComponent(() => import('./icon.vue'))
 const Image = defineAsyncComponent(() => import('./image.vue'))
 const Logo = defineAsyncComponent(() => import('./logo.vue'))
 const PageTitle = defineAsyncComponent(() => import('./pageTitle.vue'))
+const Text = defineAsyncComponent(() => import('./text.vue'))
 
 export {
 	File,
 	Icon,
 	Image,
 	Logo,
-	PageTitle
+	PageTitle,
+	Text
 }

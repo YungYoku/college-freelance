@@ -1,6 +1,6 @@
 <template>
 	<Grid :columns="1">
-		<PageTitle size="l">
+		<PageTitle>
 			Выполняемые объявления
 		</PageTitle>
 	</Grid>

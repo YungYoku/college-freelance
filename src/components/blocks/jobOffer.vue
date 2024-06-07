@@ -1,5 +1,5 @@
 <template>
-	<Island class="job-offer bg-primary-foreground">
+	<Island class="job-offer bg-primary-foreground overflow-hidden">
 		<div class="job-offer__actions">
 			<template v-if="jobOffer.executor && showChat">
 				<Skeleton
@@ -50,8 +50,7 @@
 					/>
 				</div>
 			</template>
-
-			<template v-if="showRemove">
+			<template v-if="showRemove && jobOffer.status === 'created'">
 				<Skeleton
 					v-if="loading"
 					class="h-6 w-[24px]"
