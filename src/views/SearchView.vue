@@ -24,7 +24,7 @@
 		/>
 
 		<Button
-			:loading="loading"
+			:disabled="loading"
 			@click="loadOffers"
 		>
 			Поиск
@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 import { useSearchStore } from '@/stores/search.ts'
 
@@ -68,7 +68,6 @@ import { Grid } from '@/components/structures'
 import { EmptyJobOffer, JobOffer, SelectLive, Button } from '@/components/blocks'
 import { University } from '@/interfaces/University.ts'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
-
 
 const offers = ref<Array<IJobOffer>>([])
 
@@ -133,7 +132,5 @@ const loadOffers = async () => {
 	loading.value = false
 	searchStore.setLoading(false)
 }
-watch(() => authStore.isLoaded, () => {
-	if (authStore.isLoaded) loadOffers()
-}, { immediate: true })
+loadOffers()
 </script>

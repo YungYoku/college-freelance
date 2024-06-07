@@ -9,6 +9,12 @@
 		@action="search"
 		@keyup.enter="search"
 	/>
+	<router-link
+		class="job-search-link"
+		to="/search"
+	>
+		<Icon name="search"/>
+	</router-link>
 </template>
 
 <script setup lang="ts">
@@ -17,6 +23,7 @@ import { useRouter } from 'vue-router'
 import { useSearchStore } from '@/stores/search.ts'
 
 import { Input } from '@/components/blocks'
+import { Icon } from '@/components/elements'
 
 const searchStore = useSearchStore()
 
@@ -50,4 +57,16 @@ const search = () => {
 	@media (max-width: 1024px) {
 		width: 320px;
 	}
-}</style>
+	@media (max-width: 768px) {
+		display: none;
+	}
+}
+.job-search-link {
+	margin: auto 0;
+	display: none;
+
+	@media (max-width: 768px) {
+		display: block;
+	}
+}
+</style>
