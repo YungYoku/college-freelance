@@ -6,7 +6,9 @@
 			'bg-primary': self,
 			'bg-muted': !self,
 			'ml-auto': self,
-			'mr-auto': !self
+			'mr-auto': !self,
+			'rounded-bl-none': !self,
+			'rounded-br-none': self
 		}"
 	>
 		<span class="text-sm">{{ message.text }}</span>

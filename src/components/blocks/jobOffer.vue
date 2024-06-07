@@ -123,12 +123,9 @@
 
 
 		<div class="job-offer__footer">
-			<Skeleton
-				v-if="loading"
-				class="h-6 w-[100px]"
-			/>
 			<User
-				v-else-if="jobOffer?.expand?.creator"
+				v-if="jobOffer?.expand?.creator"
+				:loading="loading"
 				class="job-offer__user"
 				link
 				:user="jobOffer.expand.creator"

@@ -40,6 +40,7 @@
 			:id="openedChat.chat"
 			:status="openedChat.status"
 			:rating="openedChat.ratingCreator"
+			:chat-member="openedChat.expand?.creator"
 			@send-to-review="sendToReview"
 			@send-rating="sendRating"
 		/>
@@ -71,7 +72,7 @@ const getUserOffers = async () => {
 	await http
 		.get<JobOffers>('/collections/job_offers/records', {
 			filter: `(executor='${auth.user.id}')`,
-			expand: ['type', 'discipline']
+			expand: ['type', 'discipline', 'creator']
 		})
 		.then(response => {
 			offers.value = response.items
