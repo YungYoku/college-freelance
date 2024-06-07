@@ -8,7 +8,7 @@
 		</PageTitle>
 
 		<Button
-			v-if="authStore.isAdmin || isItMyOffer"
+			v-if="(authStore.isAdmin || isItMyOffer) && offer.status === 'created'"
 			:loading="loading"
 			@click="remove"
 		>
