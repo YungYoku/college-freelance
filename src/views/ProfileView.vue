@@ -59,7 +59,7 @@
 			/>
 			<template v-if="auth.user.referral_code?.length === 0">
 				<Button
-					:loading="loading"
+					:disabled="loading"
 					@click="generateRefCode"
 				>
 					Создать
@@ -68,7 +68,7 @@
 		</Grid>
 
 		<Button
-			:loading="loading"
+			:disabled="loading"
 			@click="save"
 		>
 			Сохранить
