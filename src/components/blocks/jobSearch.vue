@@ -50,6 +50,7 @@ const search = () => {
     width: 768px;
     min-width: 320px;
     max-width: 100%;
+	margin: 0 auto;
 
 	@media (max-width: 1280px) {
 		width: 480px;

@@ -3,6 +3,7 @@
 		<Card
 			width="300px"
 			title="Регистрация"
+			class="mb-auto mt-auto"
 			@keyup.enter="register"
 		>
 			<Input
@@ -60,7 +61,7 @@
 			/>
 
 			<Button
-				:loading="loading"
+				:disabled="loading"
 				type="submit"
 				@click="register"
 			>
