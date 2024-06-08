@@ -84,7 +84,7 @@
 			v-if="!loading"
 			class="flex flex-wrap gap-2 pr-12"
 		>
-			<Badge class="bg-lime-600">
+			<Badge class="bg-purple-600">
 				{{ jobOffer.price }} ₽
 			</Badge>
 			<Badge v-if="jobOffer.expand?.type?.name">

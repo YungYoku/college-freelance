@@ -15,7 +15,7 @@
     width: 100%;
     max-width: 1920px;
     margin: 0 auto;
-    padding: 0 10px;
+    padding: 10px 20px 0;
     gap: 10px;
 }
 </style>
