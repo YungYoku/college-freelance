@@ -1,5 +1,5 @@
 <template>
-	<Grid :columns="[1, '140px', '140px']">
+	<Grid :columns="[1, '140px']">
 		<PageTitle :loading="loading">
 			{{ offer.title }}
 		</PageTitle>
@@ -11,7 +11,6 @@
 		>
 			Удалить
 		</Button>
-		<span v-else/>
 
 		<Button
 			v-if="!isItMyOffer && authStore.isExecutor"
@@ -21,7 +20,6 @@
 		>
 			Откликнуться
 		</Button>
-		<span v-else/>
 	</Grid>
 
 	<Grid
