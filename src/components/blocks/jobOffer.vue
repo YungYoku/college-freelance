@@ -75,40 +75,18 @@
 		<router-link
 			v-else
 			:to="`/offer/${jobOffer.id}`"
-			class="job-offer__title text-2xl"
+			class="job-offer__title text-2xl max-h-8 text-balance truncate pr-12"
 		>
 			{{ jobOffer.title }}
 		</router-link>
 
-
-		<Skeleton
-			v-if="loading"
-			class="h-4 w-[140px]"
-		/>
-		<div
-			v-else
-			class="job-offer__description text-sm"
-		>
-			{{ jobOffer.description }}
-		</div>
-
-
-		<Skeleton
-			v-if="loading"
-			class="h-4 w-[100px]"
-		/>
-		<div
-			v-else
-			class="job-offer__price text-sm"
-		>
-			Доход: {{ jobOffer.price }} ₽
-		</div>
-
-
 		<div
 			v-if="!loading"
-			class="flex flex-wrap gap-2"
+			class="flex flex-wrap gap-2 pr-12"
 		>
+			<Badge class="bg-purple-600">
+				{{ jobOffer.price }} ₽
+			</Badge>
 			<Badge v-if="jobOffer.expand?.type?.name">
 				{{ jobOffer.expand.type.name }}
 			</Badge>
@@ -120,6 +98,16 @@
 			</Badge>
 		</div>
 
+		<Skeleton
+			v-if="loading"
+			class="h-4 w-[140px]"
+		/>
+		<div
+			v-else
+			class="job-offer__description text-sm h-16 text-balance truncate"
+		>
+			{{ jobOffer.description }}
+		</div>
 
 		<div class="job-offer__footer">
 			<User
@@ -226,7 +214,7 @@ const deadline = computed(() => new Date(props.jobOffer?.deadline).toLocaleStrin
     max-width: 100%;
     height: 240px;
 
-    gap: 5px;
+    gap: 10px;
 
     &__actions {
         position: absolute;
@@ -251,7 +239,7 @@ const deadline = computed(() => new Date(props.jobOffer?.deadline).toLocaleStrin
 	&__description {
 		display: flex;
 		justify-content: flex-start;
-		align-items: center;
+		align-items: flex-start;
 	}
 
     &__footer {

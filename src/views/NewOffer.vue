@@ -131,8 +131,8 @@ const createOffer = async () => {
 			toast({
 				title: 'Ошибка при создании объявления',
 			})
-		})
 
-	loading.value = false
+			loading.value = false
+		})
 }
 </script>

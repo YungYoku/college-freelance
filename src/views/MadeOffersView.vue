@@ -40,20 +40,25 @@
 		@close="closeResponses"
 	>
 		<Grid :columns="1">
+			<Text
+				class="absolute top-2 left-3"
+				size="xs"
+			>
+				Отклики
+			</Text>
 			<div
 				v-for="(user) in responsesUsers"
 				:key="user.id"
 				class="flex w-full items-center gap-2"
 			>
-				<Avatar
-					size="m"
-					:image="`${user.id}/${user.avatar}`"
+				<UserCard
+					:loading="loading"
+					:user="user"
+					link
 				/>
 
-				{{ user.name }}
-
 				<Icon
-					v-if="!openedOffer.executor"
+					v-if="!openedOffer.executor && !loading"
 					class="ml-auto"
 					name="check"
 					@click="pickExecutor(user)"
@@ -88,8 +93,8 @@ import { Users, User } from '@/interfaces/User.ts'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
 import { Grid, Modal } from '@/components/structures'
 import { Chat } from '@/components/sections'
-import { EmptyJobOffer, JobOffer, Avatar } from '@/components/blocks'
-import { Icon, PageTitle } from '@/components/elements'
+import { EmptyJobOffer, JobOffer, User as UserCard } from '@/components/blocks'
+import { Icon, PageTitle, Text } from '@/components/elements'
 
 
 const auth = useAuthStore()
@@ -141,8 +146,10 @@ const closeResponses = () => {
 }
 
 const pickExecutor = async (user: User) => {
-	if (!openedOffer.value) return
+	if (!openedOffer.value || loading.value) return
 	const executorChat = openedOffer.value.expand?.proposals?.find(proposal => proposal.user === user.id)?.chat
+
+	loading.value = true
 
 	await http
 		.patch(`/collections/job_offers/records/${openedOffer.value.id}`, {
