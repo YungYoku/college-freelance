@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/stores/auth'
 
-interface BodyGet {
+interface Query {
 	filter?: string
 	expand?: Array<string>
 	perPage?: number
@@ -43,28 +43,30 @@ class Http {
 		return headers
 	}
 
-	async get<T>(url: string, body?: BodyGet): Promise<T> {
+	getFormatedQuery(query: Query) {
+		let result = '?'
+		if (query.filter) {
+			result += 'filter=' + query.filter + '&'
+		}
+		if (query.expand) {
+			result += 'expand=' + query.expand.join(',') + '&'
+		}
+		if (query.perPage) {
+			result += 'perPage=' + query.perPage + '&'
+		}
+		if (query.sort) {
+			result += 'sort=' + query.sort + '&'
+		}
+		return result.slice(0, -1)
+	}
+
+	async get<T>(_url: string, query: Query | null = null): Promise<T> {
 		const auth = useAuthStore()
 
-		let resultUrl = url
-		if (body) {
-			resultUrl += '?'
-			if (body.filter) {
-				resultUrl += 'filter=' + body.filter + '&'
-			}
-			if (body.expand) {
-				resultUrl += 'expand=' + body.expand.join(',') + '&'
-			}
-			if (body.perPage) {
-				resultUrl += 'perPage=' + body.perPage + '&'
-			}
-			if (body.sort) {
-				resultUrl += 'sort=' + body.sort + '&'
-			}
-			resultUrl = resultUrl.slice(0, -1)
-		}
+		let url = _url
+		if (query) url += this.getFormatedQuery(query)
 
-		return fetch(this.api + resultUrl, {
+		return fetch(this.api + url, {
 			method: 'GET',
 			headers: this.getHeaders(auth.token)
 		})
@@ -85,8 +87,11 @@ class Http {
 			})
 	}
 
-	async post<T>(url: string, _body: object | FormData = {}): Promise<T> {
+	async post<T>(_url: string, _body: object | FormData = {}, query: Query | null = null): Promise<T> {
 		const auth = useAuthStore()
+
+		let url = _url
+		if (query) url += this.getFormatedQuery(query)
 
 		const body = _body instanceof FormData ? _body : JSON.stringify(_body)
 
@@ -114,8 +119,11 @@ class Http {
 			})
 	}
 
-	async patch<T>(url: string, body: object = {}): Promise<T> {
+	async patch<T>(_url: string, body: object = {}, query: Query | null = null): Promise<T> {
 		const auth = useAuthStore()
+
+		let url = _url
+		if (query) url += this.getFormatedQuery(query)
 
 		return fetch(this.api + url, {
 			method: 'PATCH',
@@ -139,8 +147,11 @@ class Http {
 			})
 	}
 
-	async delete(url: string): Promise<Response> {
+	async delete(_url: string, query: Query | null = null): Promise<Response> {
 		const auth = useAuthStore()
+
+		let url = _url
+		if (query) url += this.getFormatedQuery(query)
 
 		return fetch(this.api + url, {
 			method: 'DELETE',

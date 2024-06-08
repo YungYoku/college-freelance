@@ -1,16 +1,27 @@
 <template>
-	<Grid :columns="[1, '140px']">
+	<Grid :columns="[1, '140px', '140px']">
 		<PageTitle :loading="loading">
 			{{ offer.title }}
 		</PageTitle>
 
 		<Button
-			v-if="(authStore.isAdmin || isItMyOffer) && offer.status === 'created'"
-			:loading="loading"
+			v-if="(authStore.isAdmin || isItMyOffer) && !loading && offer.status === 'created'"
+			:disabled="loading"
 			@click="remove"
 		>
 			Удалить
 		</Button>
+		<span v-else/>
+
+		<Button
+			v-if="!isItMyOffer && authStore.isExecutor"
+			:disabled="loading || isAlreadyProposed"
+			class="ml-auto"
+			@click="makeProposal"
+		>
+			Откликнуться
+		</Button>
+		<span v-else/>
 	</Grid>
 
 	<Grid
@@ -69,23 +80,13 @@
 				>
 					Срок сдачи: {{ deadline }}
 				</Text>
-
-				<template v-if="!isItMyOffer && authStore.isExecutor">
-					<Button
-						:loading="loading"
-						:disabled="isAlreadyProposed"
-						class="ml-auto"
-						@click="makeProposal"
-					>
-						Откликнуться
-					</Button>
-				</template>
 			</div>
 
 			<UserCard
 				class="mt-4"
 				link
 				:user="offer.expand?.creator"
+				:loading="loading"
 			/>
 		</Island>
 
@@ -146,9 +147,7 @@ const offer = ref<JobOffer>({
 	proposals: [],
 	file: null,
 	expand: {
-		creator: undefined,
 		proposals: [],
-		discipline: undefined
 	}
 })
 const route = useRoute()
@@ -195,6 +194,12 @@ const makeProposal = async () => {
 
 	loading.value = true
 
+	http
+		.patch<User>(`/collections/users/records/${authStore.user.id}`, {
+			energy: authStore.user.energy - 1
+		})
+		.then((user) => authStore.setUser(user))
+
 	const chatId = await http
 		.post<Chat>('/collections/chats/records')
 		.then(({ id }) => id)
@@ -208,18 +213,13 @@ const makeProposal = async () => {
 
 	await http
 		.patch<JobOffer>(`/collections/job_offers/records/${offer.value.id}`, {
-			expand: ['proposals'],
 			proposals: [...offer.value.proposals, proposalId]
+		}, {
+			expand: ['creator', 'proposals', 'discipline'],
 		})
 		.then(response => {
 			offer.value = response
 		})
-
-	await http
-		.patch<User>(`/collections/users/records/${authStore.user.id}`, {
-			energy: authStore.user.energy - 1
-		})
-		.then((user) => authStore.setUser(user))
 
 	loading.value = false
 }
