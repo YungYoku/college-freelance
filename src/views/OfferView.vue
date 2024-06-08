@@ -219,6 +219,10 @@ const makeProposal = async () => {
 			offer.value = response
 		})
 
+	toast({
+		title: 'Вы успешно откликнулись'
+	})
+
 	loading.value = false
 }
 

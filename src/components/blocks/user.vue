@@ -1,7 +1,7 @@
 <template>
 	<Skeleton
 		v-if="loading"
-		class="h-6 w-[120px]"
+		class="h-7 w-[120px]"
 	/>
 	<component
 		:is="link ? 'router-link' : 'div'"
