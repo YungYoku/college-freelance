@@ -67,7 +67,7 @@ const close = () => emit('close')
 
         max-width: 100%;
 		min-height: 70px;
-		max-height: 80vh;
+		max-height: 70vh;
         padding: 60px 10px 10px 10px;
     }
 

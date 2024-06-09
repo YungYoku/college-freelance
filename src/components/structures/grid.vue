@@ -84,7 +84,6 @@ const style = computed(() => {
     display: grid;
 
     width: 100%;
-	max-height: 100%;
     gap: 10px;
 
     &.vertical {

@@ -183,20 +183,11 @@ const sendMessage = async () => {
 
 	loading.value = true
 
-	const messageId = await http
-		.post<IMessage>('/collections/messages/records', {
-			text: newMessage.value,
-			file: file.value,
-			user: auth.user.id
-		})
-		.then(({ id }) => id)
-
 	await http
-		.patch(`/collections/chats/records/${props.id}`, {
-			messages: [...chat.value.messages, messageId]
+		.post<IMessage>(`/send-message/${props.id}`, {
+			text: newMessage.value,
+			file: file.value
 		})
-
-	await loadChat()
 
 	newMessage.value = ''
 	file.value = null
@@ -237,7 +228,7 @@ const sendRating = () => emit('send-rating', {
 		display: flex;
 		flex-direction: column;
 
-		height: 45vh;
+		height: 40vh;
 		min-height: 300px;
 		max-height: 800px;
 		padding: 0 10px;
