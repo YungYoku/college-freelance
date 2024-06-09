@@ -234,8 +234,9 @@ const sendRating = () => emit('send-rating', newRating.value)
 		display: flex;
 		flex-direction: column;
 
-		min-height: 400px;
-		max-height: 400px;
+		height: 45vh;
+		min-height: 300px;
+		max-height: 800px;
 		padding: 0 10px;
 		overflow: auto;
 		gap: 10px;

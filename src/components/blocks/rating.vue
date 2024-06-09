@@ -6,7 +6,7 @@
 	<div
 		v-else
 		class="flex flex-wrap items-center gap-2 ml-auto mr-auto"
-		@mouseleave="hover(0)"
+		@mouseleave="hover(null)"
 	>
 		<Icon
 			v-for="(icon, index) in icons"
@@ -40,18 +40,26 @@ const icons = computed(() => {
 	const result = []
 
 	for (let i = 0; i < 5; i++) {
-		if (i < props.modelValue || i < hoverIndex.value) {
-			result.push('star-active')
+		if (hoverIndex.value !== null) {
+			if (i < hoverIndex.value) {
+				result.push('star-active')
+			} else {
+				result.push('star')
+			}
 		} else {
-			result.push('star')
+			if (i < props.modelValue) {
+				result.push('star-active')
+			} else {
+				result.push('star')
+			}
 		}
 	}
 
 	return result
 })
 
-const hoverIndex = ref(0)
-const hover = (index: number) => hoverIndex.value = index
+const hoverIndex = ref<number | null>(null)
+const hover = (index: number | null) => hoverIndex.value = index
 
 const emit = defineEmits(['update:modelValue'])
 const update = (value: number) => emit('update:modelValue', value)
