@@ -113,9 +113,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
-import { JobOffer, JobOfferProposal } from '@/interfaces/JobOffer.ts'
-import { Chat } from '@/interfaces/Chat.ts'
-import { User } from '@/interfaces/User.ts'
+import { JobOffer } from '@/interfaces/JobOffer.ts'
 import { Grid, Island } from '@/components/structures'
 import { Button, User as UserCard } from '@/components/blocks'
 import { PageTitle, Text } from '@/components/elements'
@@ -182,7 +180,6 @@ const { toast } = useToast()
 
 const makeProposal = async () => {
 	if (isAlreadyProposed.value) return
-
 	if (authStore.user.energy < 1) {
 		toast({
 			title: 'Недостаточно энергии для отклика'
@@ -192,36 +189,17 @@ const makeProposal = async () => {
 
 	loading.value = true
 
-	http
-		.patch<User>(`/collections/users/records/${authStore.user.id}`, {
-			energy: authStore.user.energy - 1
-		})
-		.then((user) => authStore.setUser(user))
-
-	const chatId = await http
-		.post<Chat>('/collections/chats/records')
-		.then(({ id }) => id)
-
-	const proposalId = await http
-		.post<JobOfferProposal>('/collections/job_offer_proposals/records', {
-			chat: chatId,
-			user: authStore.user.id
-		})
-		.then(({ id }) => id)
-
 	await http
-		.patch<JobOffer>(`/collections/job_offers/records/${offer.value.id}`, {
-			proposals: [...offer.value.proposals, proposalId]
-		}, {
-			expand: ['creator', 'proposals', 'discipline'],
-		})
-		.then(response => {
+		.post<JobOffer>(`/make-proposal/${offer.value.id}`)
+		.then((response) => {
 			offer.value = response
-		})
 
-	toast({
-		title: 'Вы успешно откликнулись'
-	})
+			authStore.setEnergy(authStore.user.energy - 1)
+
+			toast({
+				title: 'Вы успешно откликнулись'
+			})
+		})
 
 	loading.value = false
 }

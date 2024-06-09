@@ -60,6 +60,10 @@ export const useAuthStore = defineStore({
 				id: user.id,
 				name: user.name
 			})
+		},
+
+		setEnergy(energy: number) {
+			this.user.energy = energy
 		}
 	},
 })

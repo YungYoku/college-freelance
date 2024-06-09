@@ -196,8 +196,6 @@ const sendMessage = async () => {
 			messages: [...chat.value.messages, messageId]
 		})
 
-	await loadChat()
-
 	newMessage.value = ''
 	file.value = null
 	loading.value = false
