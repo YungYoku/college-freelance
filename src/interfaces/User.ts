@@ -2,6 +2,7 @@ import { University } from '@/interfaces/University.ts'
 import { Discipline } from '@/interfaces/Discipline.ts'
 import { ReferralCode } from '@/interfaces/ReferralCode.ts'
 import { JobOffer } from '@/interfaces/JobOffer.ts'
+import { Rating } from '@/interfaces/Rating.ts'
 
 export interface User {
     avatar: string
@@ -14,7 +15,6 @@ export interface User {
     name: string
     description: string
     surname: string
-    rating: number | null
     updated: string
     username: string
     verified: boolean
@@ -24,11 +24,13 @@ export interface User {
     disciplines: Array<string>
     referral_code: string
     favorite: Array<string>
+    rating: Array<string>
     expand?: {
         university?: University
         disciplines?: Array<Discipline>
         referral_code?: ReferralCode
-        favorite: Array<JobOffer>
+        favorite?: Array<JobOffer>
+        rating?: Array<Rating>
     }
 }
 

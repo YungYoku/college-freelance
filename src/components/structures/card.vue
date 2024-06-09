@@ -3,6 +3,7 @@
 		:style="{
 			width
 		}"
+		class="max-w-[100%]"
 	>
 		<CardHeader v-if="title">
 			<CardTitle>

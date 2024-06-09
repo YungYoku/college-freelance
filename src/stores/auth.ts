@@ -22,12 +22,16 @@ export const useAuthStore = defineStore({
 			name: '',
 			description: '',
 			surname: '',
-			rating: 0,
 			updated: '',
 			username: '',
 			verified: false,
 			role: 'customer',
-			university: ''
+			university: '',
+			energy: 0,
+			disciplines: [],
+			referral_code: '',
+			favorite: [],
+			rating: []
 		},
 
 		token: localStorage.token ? JSON.parse(localStorage.token) : '',
@@ -56,10 +60,6 @@ export const useAuthStore = defineStore({
 				id: user.id,
 				name: user.name
 			})
-		},
-
-		setRating(rating: number) {
-			this.user.rating = rating
 		}
 	},
 })

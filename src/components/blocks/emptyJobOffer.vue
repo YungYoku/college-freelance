@@ -10,6 +10,8 @@ import JobOffer from './jobOffer.vue'
 import { JobOffer as IJobOffer } from '@/interfaces/JobOffer.ts'
 
 const emptyOffer: IJobOffer = {
+	ratingCreator: '',
+	ratingExecutor: '',
 	chat: '',
 	collectionId: '',
 	collectionName: '',
@@ -20,8 +22,6 @@ const emptyOffer: IJobOffer = {
 	executor: '',
 	id: '',
 	proposals: [],
-	ratingCreator: 0,
-	ratingExecutor: 0,
 	status: 'created',
 	type: '',
 	university: '',

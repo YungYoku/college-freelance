@@ -39,7 +39,7 @@
 		<Chat
 			:id="openedChat.chat"
 			:status="openedChat.status"
-			:rating="openedChat.ratingCreator"
+			:rating="openedChat.expand?.ratingCreator?.stars"
 			:chat-member="openedChat.expand?.creator"
 			@send-to-review="sendToReview"
 			@send-rating="sendRating"
@@ -57,7 +57,7 @@ import { Grid, Modal } from '@/components/structures'
 import { Chat } from '@/components/sections'
 import { EmptyJobOffer, JobOffer } from '@/components/blocks'
 import { PageTitle } from '@/components/elements'
-
+import { Rating } from '@/interfaces/Rating.ts'
 
 const auth = useAuthStore()
 
@@ -72,7 +72,7 @@ const getUserOffers = async () => {
 	await http
 		.get<JobOffers>('/collections/job_offers/records', {
 			filter: `(executor='${auth.user.id}')`,
-			expand: ['type', 'discipline', 'creator']
+			expand: ['type', 'discipline', 'creator', 'ratingCreator']
 		})
 		.then(response => {
 			offers.value = response.items
@@ -105,17 +105,18 @@ const sendToReview = async () => {
 		})
 }
 
-const sendRating = async (rating: number) => {
+const sendRating = async (value: { rating: number, review: string } = { rating: 1, review: '' }) => {
 	if (!openedChat.value) return
+	const { rating, review } = value
 
-	await http
-		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
-			...openedChat.value,
-			ratingCreator: rating
-		})
+	await http.post<Rating>(`/send-review/${openedChat.value.id}`, {
+		stars: rating,
+		review
+	})
 		.then((response) => {
-			if (openedChat.value) {
-				openedChat.value.ratingCreator = response.ratingCreator
+			if (openedChat.value && openedChat.value.expand) {
+				openedChat.value.ratingCreator = response.id
+				openedChat.value.expand.ratingCreator = response
 			}
 		})
 }

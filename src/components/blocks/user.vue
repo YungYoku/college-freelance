@@ -44,7 +44,7 @@ withDefaults(defineProps<Props>(), {
 		name: '',
 		description: '',
 		surname: '',
-		rating: 0,
+		rating: [],
 		updated: '',
 		username: '',
 		verified: false,

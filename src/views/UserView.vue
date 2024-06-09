@@ -31,7 +31,7 @@
 						class="h-6 w-[100px]"
 					/>
 					<div v-else>
-						Рейтинг: {{ user?.rating }}
+						Рейтинг: {{ averageRating }}
 					</div>
 
 					<Skeleton
@@ -90,7 +90,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
@@ -110,12 +110,20 @@ const user = ref<User | null>(null)
 const isItMyProfile = ref(false)
 const auth = useAuthStore()
 
+const averageRating = computed(() => {
+	const rating = user.value?.expand?.rating
+	if (rating) {
+		return rating.reduce((result, current) => result + current.stars, 0) / rating.length
+	}
+	return 'Нет выполненных работ'
+})
+
 const loadUser = async () => {
 	loading.value = true
 
 	await http
 		.get<User>(`/collections/users/records/${route.params.id}`, {
-			expand: ['university', 'disciplines']
+			expand: ['university', 'disciplines', 'rating']
 		})
 		.then(res => {
 			user.value = res
