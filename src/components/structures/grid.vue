@@ -82,12 +82,15 @@ const style = computed(() => {
 <style scoped lang="scss">
 .grid {
     display: grid;
+	align-items: flex-start;
 
     width: 100%;
 	max-height: 100%;
     gap: 10px;
 
     &.vertical {
+		align-items: inherit;
+
         grid-auto-flow: column;
     }
 }
