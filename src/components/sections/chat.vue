@@ -120,7 +120,7 @@ const props = withDefaults(defineProps<Props>(), {
 		name: '',
 		description: '',
 		surname: '',
-		rating: 0,
+		rating: [],
 		updated: '',
 		username: '',
 		verified: false,
@@ -225,7 +225,10 @@ const declineReview = () => {
 
 const newRating = ref<number>()
 watch(() => props.rating, () => { newRating.value = props.rating }, { immediate: true })
-const sendRating = () => emit('send-rating', newRating.value)
+const sendRating = () => emit('send-rating', {
+	rating: newRating.value,
+	review: ''
+})
 </script>
 
 <style scoped lang="scss">

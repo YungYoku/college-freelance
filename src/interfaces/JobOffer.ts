@@ -1,6 +1,7 @@
 import { User } from '@/interfaces/User.ts'
 import { Chat } from '@/interfaces/Chat.ts'
 import { Discipline } from '@/interfaces/Discipline.ts'
+import { Rating } from '@/interfaces/Rating.ts'
 
 export type JobOfferStatus = 'created' | 'in_progress' | 'on_review' | 'ended'
 
@@ -15,8 +16,8 @@ export interface JobOffer {
     price: number
     creator: string
     status: JobOfferStatus
-    ratingCreator: number
-    ratingExecutor: number
+    ratingCreator: string
+    ratingExecutor: string
     deadline: Date
     university: string
     discipline: string
@@ -34,7 +35,9 @@ export interface JobOffer {
         discipline?: Discipline,
         file?: {
             value: File
-        }
+        },
+        ratingCreator?: Rating
+        ratingExecutor?: Rating
     }
 }
 
