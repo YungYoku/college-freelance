@@ -1,63 +1,83 @@
 <template>
-	<Card
-		width="400px"
-		title="Создание объявления"
-		@keyup.enter="createOffer"
-	>
-		<Input
-			v-model.trim="newOffer.title.value"
-			:error="newOffer.title.error"
-			label="Название"
-			type="text"
-		/>
-
-		<Textarea
-			v-model.trim="newOffer.description.value"
-			:error="newOffer.description.error"
-			height="200px"
-			label="Описание"
-		/>
-
-		<SelectLive
-			v-model="offerType"
-			:error="newOffer.type.error"
-			place-holder="Тип работы"
-			api="offer_types"
-		/>
-
-		<SelectLive
-			v-model="offerDisciplines"
-			:error="newOffer.discipline.error"
-			place-holder="Дисциплина"
-			api="disciplines"
-		/>
-
-		<Input
-			v-model.number="newOffer.price.value"
-			:error="newOffer.price.error"
-			label="Цена"
-		/>
-
-		<InputFile
-			v-model="newOffer.file.value"
-			:error="newOffer.file.error"
-			:loading="loading"
-		/>
-
-		<DatePicker
-			v-model="newOffer.deadline.value"
-		/>
-
-		<template #footer>
-			<Button
+	<Grid :columns="[1, '140px']">
+		<PageTitle :loading="loading">
+			<Input
+				v-model.trim="newOffer.title.value"
 				:disabled="loading"
-				class="w-[180px]"
-				@click="createOffer"
+				label="Имя"
+			/>
+		</PageTitle>
+
+		<Button
+			:disabled="loading"
+			class="ml-auto"
+			@click="createOffer"
+		>
+			Создать
+		</Button>
+	</Grid>
+
+	<Grid
+		:columns-l="2"
+		:columns-m="1"
+		:columns-s="1"
+		class="mt-4"
+	>
+		<Island class="overflow-hidden">
+			<Text
+				size="s"
+				:loading="loading"
+				class="mb-2"
 			>
-				Создать объявление
-			</Button>
-		</template>
-	</Card>
+				Информация о заказе
+			</Text>
+
+
+			<div class="grid items-center w-full gap-2">
+				<Input
+					v-model="newOffer.price.value"
+					:disabled="loading"
+					label="Цена"
+				/>
+				<InputFile
+					v-model="newOffer.file.value"
+					:error="newOffer.file.error"
+					:loading="loading"
+				/>
+				<SelectLive
+					v-model="offerDisciplines"
+					place-holder="Дисциплина"
+					api="disciplines"
+				/>
+
+				<SelectLive
+					v-model="offerType"
+					place-holder="Тип работы"
+					api="offer_types"
+				/>
+
+				<DatePicker
+					v-model="newOffer.deadline.value"
+				/>
+			</div>
+		</Island>
+
+		<Island class="overflow-hidden">
+			<Text
+				size="s"
+				class="mb-2"
+				:loading="loading"
+			>
+				Описание
+			</Text>
+
+			<Textarea
+				v-model.trim="newOffer.description.value"
+				height="200px"
+				label="Описание"
+			/>
+		</Island>
+	</Grid>
 </template>
 
 <script setup lang="ts">
@@ -65,12 +85,13 @@ import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
-import { Card } from '@/components/structures'
+import { Grid, Island } from '@/components/structures'
 import { Input, Textarea, Button, DatePicker, SelectLive, InputFile } from '@/components/blocks'
 import { useToast } from '@/components/ui/toast'
 import { JobOffer } from '@/interfaces/JobOffer'
 import http from '@/plugins/http'
 import Form from '@/plugins/form'
+import { PageTitle, Text } from '@/components/elements'
 
 const auth = useAuthStore()
 
