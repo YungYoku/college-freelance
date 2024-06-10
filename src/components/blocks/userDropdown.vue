@@ -10,12 +10,12 @@
 		<DropdownMenuContent class="w-56">
 			<DropdownMenuGroup>
 				<router-link :to="`/users/${auth.user.id}`">
-					<DropdownMenuItem>
+					<DropdownMenuItem class="cursor-pointer">
 						Профиль
 					</DropdownMenuItem>
 				</router-link>
 				<router-link to="/profile">
-					<DropdownMenuItem>
+					<DropdownMenuItem class="cursor-pointer">
 						Настройки
 					</DropdownMenuItem>
 				</router-link>
@@ -25,7 +25,7 @@
 					v-if="auth.isLoggedIn && (auth.isCustomer || auth.isAdmin)"
 					to="/made-offers"
 				>
-					<DropdownMenuItem>
+					<DropdownMenuItem class="cursor-pointer">
 						Мои объявления
 					</DropdownMenuItem>
 				</router-link>
@@ -33,7 +33,7 @@
 					v-if="auth.isLoggedIn && (auth.isCustomer || auth.isAdmin)"
 					to="/new-offer"
 				>
-					<DropdownMenuItem>
+					<DropdownMenuItem class="cursor-pointer">
 						Создать объявление
 					</DropdownMenuItem>
 				</router-link>
@@ -41,7 +41,7 @@
 					v-if="auth.isLoggedIn && (auth.isExecutor || auth.isAdmin)"
 					to="/executing-offers"
 				>
-					<DropdownMenuItem>
+					<DropdownMenuItem class="cursor-pointer">
 						Выполняемые объявления
 					</DropdownMenuItem>
 				</router-link>
@@ -49,7 +49,7 @@
 					v-if="auth.isLoggedIn && auth.isExecutor"
 					to="/favorite"
 				>
-					<DropdownMenuItem>
+					<DropdownMenuItem class="cursor-pointer">
 						Избранное
 					</DropdownMenuItem>
 				</router-link>
@@ -59,12 +59,15 @@
 
 			<DropdownMenuGroup>
 				<DropdownMenuSub>
-					<DropdownMenuSubTrigger>
+					<DropdownMenuSubTrigger class="cursor-pointer">
 						Пригласить пользователей
 					</DropdownMenuSubTrigger>
 					<DropdownMenuPortal>
 						<DropdownMenuSubContent>
-							<DropdownMenuItem @click="copyRefLink">
+							<DropdownMenuItem
+								class="cursor-pointer"
+								@click="copyRefLink"
+							>
 								Ссылкка
 							</DropdownMenuItem>
 						</DropdownMenuSubContent>
@@ -74,7 +77,10 @@
 
 			<DropdownMenuSeparator/>
 
-			<DropdownMenuItem @click="logout">
+			<DropdownMenuItem
+				class="cursor-pointer"
+				@click="logout"
+			>
 				Выйти
 			</DropdownMenuItem>
 		</DropdownMenuContent>
