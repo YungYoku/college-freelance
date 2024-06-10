@@ -1,34 +1,41 @@
 <template>
-	<Grid :columns="[1, '140px']">
+	<Grid :columns="[1, '140px', '140px']">
 		<PageTitle :loading="loading">
 			{{ offer.title }}
 		</PageTitle>
 
-		<Button
-			v-if="(authStore.isAdmin || isItMyOffer) && !loading && offer.status === 'created'"
-			:disabled="loading"
-			@click="remove"
-		>
-			Удалить
-		</Button>
-
-		<Button
-			v-if="!isItMyOffer && authStore.isExecutor"
-			:disabled="loading || isAlreadyProposed"
-			class="ml-auto"
-			@click="makeProposal"
-		>
-			Откликнуться
-		</Button>
-		<router-link :to="`/offer-edit/${offer.id}`">
+		<template v-if="!loading && offer.status === 'created'">
 			<Button
-				v-if="isItMyOffer"
+				v-if="(authStore.isAdmin || isItMyOffer)"
 				:disabled="loading"
-				class="ml-auto"
+				@click="remove"
 			>
-				Редактировать
+				Удалить
 			</Button>
-		</router-link>
+
+			<router-link
+				v-if="isItMyOffer"
+				:to="`/offer-edit/${offer.id}`"
+			>
+				<Button
+					:disabled="loading"
+					class="ml-auto"
+				>
+					Редактировать
+				</Button>
+			</router-link>
+
+			<template v-else-if="authStore.isExecutor">
+				<span/>
+				<Button
+					:disabled="loading || isAlreadyProposed"
+					class="ml-auto"
+					@click="makeProposal"
+				>
+					Откликнуться
+				</Button>
+			</template>
+		</template>
 	</Grid>
 
 	<Grid
