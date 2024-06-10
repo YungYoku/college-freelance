@@ -30,6 +30,14 @@ const routes: Array<RouteRecordRaw> = [
 				}
 			},
 			{
+				path: '/offer-edit/:id',
+				name: 'Offer Edit',
+				component: () => import('@/views/OfferEdit.vue'),
+				meta: {
+					rules: []
+				}
+			},
+			{
 				path: '/new-offer',
 				name: 'NewOffer',
 				component: () => import('@/views/NewOffer.vue'),

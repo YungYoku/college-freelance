@@ -20,6 +20,15 @@
 		>
 			Откликнуться
 		</Button>
+		<router-link :to="`/offer-edit/${offer.id}`">
+			<Button
+				v-if="isItMyOffer"
+				:disabled="loading"
+				class="ml-auto"
+			>
+				Редактировать
+			</Button>
+		</router-link>
 	</Grid>
 
 	<Grid
@@ -79,13 +88,27 @@
 					Срок сдачи: {{ deadline }}
 				</Text>
 			</div>
-
-			<UserCard
-				class="mt-4"
-				link
-				:user="offer.expand?.creator"
-				:loading="loading"
-			/>
+			<div
+				:columns="2"
+				class="flex justify-between"
+			>
+				<UserCard
+					class="mt-4 max-w-10"
+					link
+					:user="offer.expand?.creator"
+					:loading="loading"
+				/>
+				
+				<div v-if="offer.executor">
+					Исполнитель
+					<UserCard
+						class="mt-4"
+						link
+						:user="offer.expand?.executor"
+						:loading="loading"
+					/>
+				</div>
+			</div>
 		</Island>
 
 		<Island class="overflow-hidden">
@@ -155,7 +178,7 @@ const loadOffer = async () => {
 
 	await http
 		.get<JobOffer>(`/collections/job_offers/records/${id}`, {
-			expand: ['creator', 'proposals', 'discipline']
+			expand: ['creator', 'executor', 'proposals', 'discipline']
 		})
 		.then(response => {
 			offer.value = response
