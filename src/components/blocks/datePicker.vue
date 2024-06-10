@@ -3,7 +3,7 @@
 		<PopoverTrigger as-child>
 			<div class="relative">
 				<Label
-					v-if="filled"
+					v-if="value"
 					class="absolute left-3 top-1 text-xs text-muted-foreground font-extralight"
 				>
 					{{ label }}
@@ -12,11 +12,11 @@
 				<Button
 					:variant="'outline'"
 					:class="['w-full', 'justify-between', 'pl-3', {
-						'pt-4': filled,
-						'text-muted-foreground': !filled
+						'pt-4': value,
+						'text-muted-foreground': !value
 					}]"
 				>
-					<span>{{ value ? format(value, "PPP") : label }}</span>
+					{{ value ? df.format(value.toDate(getLocalTimeZone())) : label }}
 				</Button>
 			</div>
 		</PopoverTrigger>
@@ -27,9 +27,14 @@
 </template>
 
 <script setup lang="ts">
-import { format } from 'date-fns'
-
 import { computed } from 'vue'
+
+import {
+	CalendarDate,
+	DateFormatter,
+	getLocalTimeZone,
+} from '@internationalized/date'
+
 import { Button } from '@/components/blocks'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -53,13 +58,16 @@ const emit = defineEmits(['update:model-value'])
 
 const value = computed({
 	get() {
-		return props.modelValue
+		const date = new Date(props.modelValue)
+		return new CalendarDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
 	},
 	set(value) {
-		emit('update:model-value', value)
+		emit('update:model-value', value.toDate(getLocalTimeZone()))
 	}
 })
 
-const filled = computed(() => value.value instanceof Date)
+const df = new DateFormatter('ru-RU', {
+	dateStyle: 'long',
+})
 </script>
 
