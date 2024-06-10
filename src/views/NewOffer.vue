@@ -58,6 +58,7 @@
 
 				<DatePicker
 					v-model="newOffer.deadline.value"
+					label="Срок сдачи"
 				/>
 			</div>
 		</Island>

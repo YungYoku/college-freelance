@@ -60,12 +60,6 @@
 				>
 					Цена: {{ offer.price }}₽
 				</Text>
-				<Text
-					size="xs"
-					:loading="loading"
-				>
-					Варианты оплаты:
-				</Text>
 
 				<Text
 					size="xs"

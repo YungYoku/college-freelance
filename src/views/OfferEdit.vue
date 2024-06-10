@@ -40,33 +40,11 @@
 					label="Цена"
 				/>
 
-				<Text
-					size="xs"
-					:loading="loading"
-				>
-					Варианты оплаты:
-				</Text>
-				<Text
-					size="xs"
-					:loading="loading"
-					class="mt-4"
-				>
-					Дисциплина: {{ offerDisciplines.name }}
-				</Text>
-
 				<SelectLive
 					v-model="offerDisciplines"
 					place-holder="Дисциплина"
 					api="disciplines"
 				/>
-
-				<Text
-					size="xs"
-					:loading="loading"
-					class="mt-4"
-				>
-					Тип работы: {{ offerType.name }}
-				</Text>
 
 				<SelectLive
 					v-model="offerType"
@@ -81,15 +59,9 @@
 				<!--					Университет: {{ form.university.value ??'Не указан' }}-->
 				<!--				</Text>-->
 
-				<Text
-					size="xs"
-					:loading="loading"
-				>
-					Срок сдачи: {{ form.deadline.value }}
-				</Text>
-
 				<DatePicker
 					v-model="form.deadline.value"
+					label="Срок сдачи"
 				/>
 			</div>
 			<Grid
@@ -200,20 +172,6 @@ const offer = ref<JobOffer>({
 const route = useRoute()
 const { id } = route.params
 
-// const paymentMethods = [
-// 	{
-// 		id: '1',
-// 		name: 'Карта',
-// 	},
-// 	{
-// 		id: '2',
-// 		name: 'Крипта',
-// 	},
-// 	{
-// 		id: '3',
-// 		name: 'СБП',
-// 	},
-// ]
 const loading = ref(true)
 const loadOffer = async () => {
 	if (!id) return
