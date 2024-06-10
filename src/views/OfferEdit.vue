@@ -217,6 +217,7 @@ const { id } = route.params
 const loading = ref(true)
 const loadOffer = async () => {
 	if (!id) return
+	loading.value = true
 
 	await http
 		.get<JobOffer>(`/collections/job_offers/records/${id}`, {
@@ -227,12 +228,18 @@ const loadOffer = async () => {
 
 			form.title.value = offer.value.title
 			form.price.value = offer.value.price
-			offerDisciplines.value = offer.value.expand?.discipline
-			offerType.value = offer.value.expand?.type
 			form.university.value = offer.value.university
 			form.description.value = offer.value.description
 			form.deadline.value = new Date(offer.value.deadline)
 
+			offerDisciplines.value = offer.value?.expand?.discipline ?? {
+				id: '',
+				name: ''
+			}
+			offerType.value = offer.value?.expand?.type ?? {
+				id: '',
+				name: ''
+			}
 		})
 
 	loading.value = false
@@ -245,7 +252,6 @@ const save = async () => {
 	await http
 		.patch<User>(`/collections/job_offers/records/${offer.value.id}`, {
 			...form.get(),
-			creator: form.creator.value.id,
 			discipline: offerDisciplines.value?.id,
 			type: offerType.value?.id
 		})
