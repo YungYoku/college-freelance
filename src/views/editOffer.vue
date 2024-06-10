@@ -210,6 +210,7 @@ const save = async () => {
 	await http
 		.patch<User>(`/collections/job_offers/records/${offer.value.id}`, {
 			...form.get(),
+			creator: offer.value.creator,
 			discipline: offerDisciplines.value?.id,
 			type: offerType.value?.id
 		})
