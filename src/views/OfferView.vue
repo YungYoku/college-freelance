@@ -98,7 +98,7 @@
 					:user="offer.expand?.creator"
 					:loading="loading"
 				/>
-				
+
 				<div v-if="offer.executor">
 					Исполнитель
 					<UserCard

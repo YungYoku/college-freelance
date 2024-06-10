@@ -11,6 +11,7 @@
 		<Button
 			:disabled="loading"
 			class="ml-auto"
+			@click="save"
 		>
 			Сохранить
 		</Button>
@@ -45,20 +46,40 @@
 				>
 					Варианты оплаты:
 				</Text>
+				<Text
+					size="xs"
+					:loading="loading"
+					class="mt-4"
+				>
+					Дисциплина: {{ offerDisciplines.name }}
+				</Text>
+
+				<SelectLive
+					v-model="offerDisciplines"
+					place-holder="Дисциплина"
+					api="disciplines"
+				/>
 
 				<Text
 					size="xs"
 					:loading="loading"
 					class="mt-4"
 				>
-					Дисциплина: {{ form.discipline.value ?? 'Не указана' }}
+					Тип работы: {{ offerType.name }}
 				</Text>
-				<Text
-					size="xs"
-					:loading="loading"
-				>
-					Университет: {{ form.university.value ??'Не указан' }}
-				</Text>
+
+				<SelectLive
+					v-model="offerType"
+					place-holder="Тип работы"
+					api="offer_types"
+				/>
+
+				<!--				<Text-->
+				<!--					size="xs"-->
+				<!--					:loading="loading"-->
+				<!--				>-->
+				<!--					Университет: {{ form.university.value ??'Не указан' }}-->
+				<!--				</Text>-->
 
 				<Text
 					size="xs"
@@ -66,8 +87,12 @@
 				>
 					Срок сдачи: {{ form.deadline.value }}
 				</Text>
+
+				<DatePicker
+					v-model="form.deadline.value"
+				/>
 			</div>
-			<div
+			<Grid
 				:columns="2"
 				class="flex justify-between"
 			>
@@ -87,7 +112,7 @@
 						:loading="loading"
 					/>
 				</div>
-			</div>
+			</Grid>
 		</Island>
 
 		<Island class="overflow-hidden">
@@ -111,24 +136,41 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { useToast } from '@/components/ui/toast'
 
 import http from '@/plugins/http'
 import { JobOffer } from '@/interfaces/JobOffer.ts'
 import { Grid, Island } from '@/components/structures'
-import { Button, Input, Textarea, User as UserCard } from '@/components/blocks'
+import { Button, DatePicker, Input, SelectLive, Textarea, User as UserCard } from '@/components/blocks'
 import { PageTitle, Text } from '@/components/elements'
 import Form from '@/plugins/form'
+import { User } from '@/interfaces/User.ts'
+
+const { toast } = useToast()
 
 const form = Form({
 	title: '',
-	price: '',
+	price: 0,
 	discipline: '',
+	type: '',
 	university: '',
-	deadline: '',
+	deadline: new Date(),
 	creator: '',
 	executor: '',
 	description: ''
 })
+
+const offerDisciplines = ref({
+	id: '',
+	name: ''
+})
+
+const offerType = ref({
+	id: '',
+	name: ''
+})
+
+
 const offer = ref<JobOffer>({
 	collectionId: '',
 	collectionName: '',
@@ -139,8 +181,8 @@ const offer = ref<JobOffer>({
 	discipline: '',
 	id: '',
 	price: 0,
-	ratingCreator: 0,
-	ratingExecutor: 0,
+	ratingCreator: '',
+	ratingExecutor: '',
 	status: 'created',
 	title: '',
 	university: '',
@@ -154,6 +196,7 @@ const offer = ref<JobOffer>({
 		proposals: [],
 	}
 })
+
 const route = useRoute()
 const { id } = route.params
 
@@ -177,17 +220,48 @@ const loadOffer = async () => {
 
 	await http
 		.get<JobOffer>(`/collections/job_offers/records/${id}`, {
-			expand: ['creator', 'executor', 'proposals', 'discipline']
+			expand: ['creator', 'executor', 'discipline', 'type', 'university']
 		})
 		.then(response => {
 			offer.value = response
 
-			console.log(offer.value)
-			console.log(form)
+			form.title.value = offer.value.title
+			form.price.value = offer.value.price
+			offerDisciplines.value = offer.value.expand?.discipline
+			offerType.value = offer.value.expand?.type
+			form.university.value = offer.value.university
+			form.description.value = offer.value.description
+			form.deadline.value = new Date(offer.value.deadline)
+
 		})
 
 	loading.value = false
 }
 loadOffer()
+const save = async () => {
+	loading.value = true
+	form.clearErrors()
 
+	await http
+		.patch<User>(`/collections/job_offers/records/${offer.value.id}`, {
+			...form.get(),
+			creator: form.creator.value.id,
+			discipline: offerDisciplines.value?.id,
+			type: offerType.value?.id
+		})
+		.then(() => {
+			toast({
+				title: 'Сохранено успешно!'
+			})
+		})
+		.catch(({ data }) => {
+			form.setErrors(data)
+
+			toast({
+				title: 'Ошибка сохранения'
+			})
+		})
+
+	loading.value = false
+}
 </script>
