@@ -2,90 +2,87 @@
 	<div class="flex relative max-w-screen-lg w-full gap-2 align-center flex-col">
 		<Button
 			v-if="auth.isAdmin || isItMyProfile"
+			:disabled="loading"
 			class="absolute right-0 top-0"
 			@click="router.push(`/profile`)"
 		>
 			Изменить
 		</Button>
 
-		<div class="flex gap-4 items-center">
+		<Grid
+			:columns-l="['150px', 1]"
+			:columns-s="1"
+			class="items-center"
+		>
 			<Avatar
 				size="l"
 				:image="`${user?.id}/${user?.avatar}`"
 			/>
 
-			<div class="flex flex-col align-center gap-4">
-				<Skeleton
-					v-if="loading"
-					class="h-10 w-[340px]"
-				/>
-				<div
-					v-else
-					class="flex items-end text-4xl"
+			<div class="flex flex-col align-center gap-3">
+				<Text
+					:loading="loading"
+					size="m"
 				>
 					{{ user?.name }} {{ user?.surname }}
-				</div>
-				<div class="flex justify-between gap-4">
-					<Skeleton
-						v-if="loading"
-						class="h-6 w-[100px]"
-					/>
-					<div v-else>
+				</Text>
+
+				<div class="flex justify-start gap-6">
+					<Text
+						:loading="loading"
+						loading-width="100px"
+						size="xs"
+					>
 						Рейтинг: {{ averageRating }}
-					</div>
+					</Text>
 
-					<Skeleton
-						v-if="loading"
-						class="h-6 w-[100px]"
-					/>
-					<div v-else>
+					<Text
+						:loading="loading"
+						loading-width="100px"
+						size="xs"
+					>
 						Отзывы:
-					</div>
+					</Text>
 
-					<Skeleton
-						v-if="loading"
-						class="h-6 w-[100px]"
-					/>
-					<div v-else>
-						Выполненных заданий:
-					</div>
+					<Text
+						:loading="loading"
+						loading-width="100px"
+						size="xs"
+					>
+						Завершенных заданий: {{ user?.rating.length ?? 0 }}
+					</Text>
 				</div>
 
-				<Skeleton
-					v-if="loading"
-					class="h-6"
-				/>
-				<div v-else>
+				<Text
+					:loading="loading"
+					size="xs"
+				>
 					{{ universityName }}
-				</div>
+				</Text>
 
-				<Skeleton
-					v-if="loading"
-					class="h-6"
-				/>
-				<div v-else>
+				<Text
+					:loading="loading"
+					size="xs"
+				>
 					Дисциплины: {{ disciplineNames }}
-				</div>
+				</Text>
 			</div>
-		</div>
+		</Grid>
 
 		<Text
-			:loading="loading"
 			size="m"
 			class="mt-8"
 		>
 			Обо мне
 		</Text>
-		<Skeleton
-			v-if="loading"
-			class="h-6"
-		/>
-		<div
-			v-else
+		<Text
+			:loading="loading"
+			loading-width="600px"
+			size="xs"
 			class="text-base"
 		>
 			{{ user?.description }}
-		</div>
+		</Text>
 	</div>
 </template>
 
@@ -95,10 +92,10 @@ import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
+import { Grid } from '@/components/structures'
 import { Avatar, Button } from '@/components/blocks'
 import { Text } from '@/components/elements'
 import { User } from '@/interfaces/User.ts'
-import { Skeleton } from '@/components/ui/skeleton'
 
 const route = useRoute()
 const router = useRouter()
