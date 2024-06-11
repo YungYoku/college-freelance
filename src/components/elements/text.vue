@@ -1,13 +1,12 @@
 <template>
 	<Skeleton
 		v-if="loading"
-		class="w-[400px] max-w-[100%]"
-		:class="{
+		:class="[`w-[${loadingWidth}] max-w-[100%]`, {
 			'h-12': size === 'l',
 			'h-10': size === 'm',
 			'h-8': size === 's',
 			'h-6': size === 'xs'
-		}"
+		}]"
 	/>
 
 	<h1
@@ -53,6 +52,10 @@ defineProps({
 	loading: {
 		type: Boolean,
 		default: false
+	},
+	loadingWidth: {
+		type: String,
+		default: '400px'
 	}
 })
 </script>

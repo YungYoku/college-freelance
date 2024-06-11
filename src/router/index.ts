@@ -16,7 +16,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/',
 				name: 'Main',
-				component: () => import('@/views/MainView.vue'),
+				component: () => import('@/views/main.vue'),
 				meta: {
 					rules: []
 				},
@@ -24,7 +24,15 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/offer/:id',
 				name: 'Offer',
-				component: () => import('@/views/OfferView.vue'),
+				component: () => import('@/views/offer.vue'),
+				meta: {
+					rules: []
+				}
+			},
+			{
+				path: '/offer-edit/:id',
+				name: 'Offer Edit',
+				component: () => import('@/views/editOffer.vue'),
 				meta: {
 					rules: []
 				}
@@ -32,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/new-offer',
 				name: 'NewOffer',
-				component: () => import('@/views/NewOffer.vue'),
+				component: () => import('@/views/newOffer.vue'),
 				meta: {
 					rules: ['auth', 'customer']
 				}
@@ -40,7 +48,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/made-offers',
 				name: 'MadeOffers',
-				component: () => import('@/views/MadeOffersView.vue'),
+				component: () => import('@/views/madeOffers.vue'),
 				meta: {
 					rules: ['auth', 'customer']
 				}
@@ -48,7 +56,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/executing-offers',
 				name: 'ExecutingOffers',
-				component: () => import('@/views/ExecutingOffersView.vue'),
+				component: () => import('@/views/executingOffers.vue'),
 				meta: {
 					rules: ['auth', 'executor']
 				}
@@ -56,7 +64,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/favorite',
 				name: 'Favorite',
-				component: () => import('@/views/FavoriteView.vue'),
+				component: () => import('@/views/favorite.vue'),
 				meta: {
 					rules: ['auth', 'executor']
 				}
@@ -64,7 +72,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/users/:id',
 				name: 'User',
-				component: () => import('@/views/UserView.vue'),
+				component: () => import('@/views/user.vue'),
 				meta: {
 					rules: []
 				}
@@ -72,7 +80,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/profile',
 				name: 'Profile',
-				component: () => import('@/views/ProfileView.vue'),
+				component: () => import('@/views/profile.vue'),
 				meta: {
 					rules: ['auth']
 				}
@@ -80,7 +88,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/search',
 				name: 'Search',
-				component: () => import('@/views/SearchView.vue'),
+				component: () => import('@/views/search.vue'),
 				meta: {
 					rules: []
 				}
@@ -90,7 +98,7 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/login',
 		name: 'Login',
-		component: () => import('@/views/LoginView.vue'),
+		component: () => import('@/views/login.vue'),
 		meta: {
 			rules: ['no-auth']
 		}
@@ -98,7 +106,7 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/registration',
 		name: 'Registration',
-		component: () => import('@/views/RegistrationView.vue'),
+		component: () => import('@/views/registration.vue'),
 		meta: {
 			rules: ['no-auth']
 		}

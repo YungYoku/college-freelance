@@ -2,6 +2,7 @@ import { User } from '@/interfaces/User.ts'
 import { Chat } from '@/interfaces/Chat.ts'
 import { Discipline } from '@/interfaces/Discipline.ts'
 import { Rating } from '@/interfaces/Rating.ts'
+import { University } from '@/interfaces/University.ts'
 
 export type JobOfferStatus = 'created' | 'in_progress' | 'on_review' | 'ended'
 
@@ -32,6 +33,7 @@ export interface JobOffer {
         chat?: Chat
         proposals?: Array<JobOfferProposal>
         type?: JobOfferType
+        university?: University
         discipline?: Discipline,
         file?: {
             value: File
