@@ -41,50 +41,28 @@
 				/>
 
 				<SelectLive
-					v-model="offerDisciplines"
+					v-model="form.discipline.value"
 					place-holder="Дисциплина"
 					api="disciplines"
 				/>
 
 				<SelectLive
-					v-model="offerType"
+					v-model="form.type.value"
 					place-holder="Тип работы"
 					api="offer_types"
 				/>
 
-				<!--				<Text-->
-				<!--					size="xs"-->
-				<!--					:loading="loading"-->
-				<!--				>-->
-				<!--					Университет: {{ form.university.value ??'Не указан' }}-->
-				<!--				</Text>-->
+				<SelectLive
+					v-model="form.university.value"
+					place-holder="Университет"
+					api="universities"
+				/>
 
 				<DatePicker
 					v-model="form.deadline.value"
 					label="Срок сдачи"
 				/>
 			</div>
-			<Grid
-				:columns="2"
-				class="flex justify-between"
-			>
-				<UserCard
-					class="mt-4 max-w-10"
-					link
-					:user="offer.expand?.creator"
-					:loading="loading"
-				/>
-
-				<div v-if="form.executor.value">
-					Исполнитель
-					<UserCard
-						class="mt-4"
-						link
-						:user="offer.expand?.executor"
-						:loading="loading"
-					/>
-				</div>
-			</Grid>
 		</Island>
 
 		<Island class="overflow-hidden">
@@ -113,37 +91,14 @@ import { useToast } from '@/components/ui/toast'
 import http from '@/plugins/http'
 import { JobOffer } from '@/interfaces/JobOffer.ts'
 import { Grid, Island } from '@/components/structures'
-import { Button, DatePicker, Input, SelectLive, Textarea, User as UserCard } from '@/components/blocks'
+import { Button, DatePicker, Input, SelectLive, Textarea } from '@/components/blocks'
 import { PageTitle, Text } from '@/components/elements'
 import Form from '@/plugins/form'
 import { User } from '@/interfaces/User.ts'
 
 const { toast } = useToast()
 
-const form = Form({
-	title: '',
-	price: 0,
-	discipline: '',
-	type: '',
-	university: '',
-	deadline: new Date(),
-	creator: '',
-	executor: '',
-	description: ''
-})
-
-const offerDisciplines = ref({
-	id: '',
-	name: ''
-})
-
-const offerType = ref({
-	id: '',
-	name: ''
-})
-
-
-const offer = ref<JobOffer>({
+const form = Form<JobOffer>({
 	collectionId: '',
 	collectionName: '',
 	created: '',
@@ -164,9 +119,6 @@ const offer = ref<JobOffer>({
 	chat: '',
 	proposals: [],
 	file: null,
-	expand: {
-		proposals: [],
-	}
 })
 
 const route = useRoute()
@@ -182,38 +134,19 @@ const loadOffer = async () => {
 			expand: ['creator', 'executor', 'discipline', 'type', 'university']
 		})
 		.then(response => {
-			offer.value = response
-
-			form.title.value = offer.value.title
-			form.price.value = offer.value.price
-			form.university.value = offer.value.university
-			form.description.value = offer.value.description
-			form.deadline.value = new Date(offer.value.deadline)
-
-			offerDisciplines.value = offer.value?.expand?.discipline ?? {
-				id: '',
-				name: ''
-			}
-			offerType.value = offer.value?.expand?.type ?? {
-				id: '',
-				name: ''
-			}
+			form.set(response)
 		})
 
 	loading.value = false
 }
 loadOffer()
+
 const save = async () => {
 	loading.value = true
 	form.clearErrors()
 
 	await http
-		.patch<User>(`/collections/job_offers/records/${offer.value.id}`, {
-			...form.get(),
-			creator: offer.value.creator,
-			discipline: offerDisciplines.value?.id,
-			type: offerType.value?.id
-		})
+		.patch<User>(`/collections/job_offers/records/${form.id.value}`, form.get())
 		.then(() => {
 			toast({
 				title: 'Сохранено успешно!'

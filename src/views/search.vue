@@ -18,7 +18,7 @@
 		/>
 
 		<SelectLive
-			v-model="offerDisciplines"
+			v-model="offerDiscipline"
 			place-holder="Дисциплина"
 			api="disciplines"
 		/>
@@ -66,7 +66,6 @@ import http from '@/plugins/http'
 
 import { Grid } from '@/components/structures'
 import { EmptyJobOffer, JobOffer, SelectLive, Button } from '@/components/blocks'
-import { University } from '@/interfaces/University.ts'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
 
 const offers = ref<Array<IJobOffer>>([])
@@ -74,22 +73,9 @@ const offers = ref<Array<IJobOffer>>([])
 const authStore = useAuthStore()
 const searchStore = useSearchStore()
 
-const university = ref<University>({
-	collectionId: '',
-	collectionName: '',
-	created: new Date(),
-	id: '',
-	updated: new Date(),
-	name: ''
-})
-const offerType = ref({
-	id: '',
-	name: ''
-})
-const offerDisciplines = ref({
-	id: '',
-	name: ''
-})
+const university = ref('')
+const offerType = ref('')
+const offerDiscipline = ref('')
 
 const loading = ref(true)
 const loadOffers = async () => {
@@ -109,9 +95,9 @@ const loadOffers = async () => {
 
 	if (!authStore.isAdmin) filters.push(`status='created' && deadline>='${today}'`)
 	if (searchStore.search) filters.push(`title~'${searchStore.search}'`)
-	if (university.value.id) filters.push(`university='${university.value.id}'`)
-	if (offerType.value.id) filters.push(`type='${offerType.value.id}'`)
-	if (offerDisciplines.value.id) filters.push(`discipline='${offerDisciplines.value.id}'`)
+	if (university.value) filters.push(`university='${university.value}'`)
+	if (offerType.value) filters.push(`type='${offerType.value}'`)
+	if (offerDiscipline.value) filters.push(`discipline='${offerDiscipline.value}'`)
 	if (filters.length) {
 		filter = filters.reduce((acc, filter) => filter ? `${acc} && ${filter}` : acc, '')
 		filter = filter.slice(4)

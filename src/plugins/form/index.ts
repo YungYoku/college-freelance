@@ -30,6 +30,13 @@ const Form = <I extends BaseType<I>>(base: I) => {
 	}, {} as List<I>)
 
 
+	const set = (data: I) => {
+		keys.forEach(key => {
+			const prevValue = list[key].value
+			list[key].value = data[key] as typeof prevValue
+		})
+	}
+
 	const get = () => {
 		const result: I = {} as I
 
@@ -56,6 +63,7 @@ const Form = <I extends BaseType<I>>(base: I) => {
 
 	return {
 		...list,
+		set,
 		get,
 		setErrors,
 		clearErrors

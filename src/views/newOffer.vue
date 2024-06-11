@@ -45,15 +45,22 @@
 					:loading="loading"
 				/>
 				<SelectLive
-					v-model="offerDisciplines"
+					v-model="newOffer.discipline.value"
 					place-holder="Дисциплина"
 					api="disciplines"
 				/>
 
 				<SelectLive
-					v-model="offerType"
+					v-model="newOffer.type.value"
 					place-holder="Тип работы"
 					api="offer_types"
+				/>
+
+				<SelectLive
+					v-model="newOffer.university.value"
+					:error="newOffer.university.error"
+					place-holder="Университет"
+					api="universities"
 				/>
 
 				<DatePicker
@@ -96,15 +103,6 @@ import { PageTitle, Text } from '@/components/elements'
 
 const auth = useAuthStore()
 
-const offerType = ref({
-	id: '',
-	name: ''
-})
-const offerDisciplines = ref({
-	id: '',
-	name: ''
-})
-
 const newOffer = Form<JobOffer>({
 	chat: '',
 	collectionId: '',
@@ -139,11 +137,7 @@ const createOffer = async () => {
 	newOffer.clearErrors()
 
 	await http
-		.post<JobOffer>('/collections/job_offers/records/', {
-			...newOffer.get(),
-			type: offerType.value?.id,
-			discipline: offerDisciplines.value?.id
-		})
+		.post<JobOffer>('/collections/job_offers/records/', newOffer.get())
 		.then(response => {
 			router.push(`/offer/${response.id}`)
 		})

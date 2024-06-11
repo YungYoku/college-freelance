@@ -37,7 +37,7 @@
 		/>
 
 		<SelectLive
-			v-model="university"
+			v-model="form.university.value"
 			:error="form.university.error"
 			place-holder="Университет"
 			api="universities"
@@ -51,20 +51,20 @@
 			api="disciplines"
 		/>
 
-		<Grid :columns="auth.user.referral_code?.length === 0 ? [3, 1] : 1">
+		<Grid :columns="!isWithRefCode ? [3, 1] : 1">
 			<Input
 				v-model="auth.user.referral_code"
 				disabled
 				label="Реферальный код"
 			/>
-			<template v-if="auth.user.referral_code?.length === 0">
-				<Button
-					:disabled="loading"
-					@click="generateRefCode"
-				>
-					Создать
-				</Button>
-			</template>
+			
+			<Button
+				v-if="!isWithRefCode"
+				:disabled="loading"
+				@click="generateRefCode"
+			>
+				Создать
+			</Button>
 		</Grid>
 
 		<Button
@@ -77,15 +77,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useToast } from '@/components/ui/toast/use-toast'
 
 import http from '@/plugins/http'
 import { Grid } from '@/components/structures'
 import { Avatar, Button, Textarea, SelectLive, Input } from '@/components/blocks'
-import { University } from '@/interfaces/University.ts'
-import { Discipline } from '@/interfaces/Discipline.ts'
 import { ReferralCode } from '@/interfaces/ReferralCode.ts'
 import { User } from '@/interfaces/User.ts'
 import Form from '@/plugins/form'
@@ -98,16 +96,8 @@ const form = Form({
 	surname: '',
 	email: auth.user.email,
 	university: '',
-	disciplines: [] as Array<Discipline>,
+	disciplines: [] as Array<string>,
 	description: ''
-})
-const university = ref<University>({
-	collectionId: '',
-	collectionName: '',
-	created: new Date(),
-	id: '',
-	updated: new Date(),
-	name: ''
 })
 
 watch(() => auth.user, () => {
@@ -115,12 +105,8 @@ watch(() => auth.user, () => {
 	form.surname.value = auth.user.surname
 	form.email.value = auth.user.email
 	form.description.value = auth.user.description
-	if (auth.user.expand?.university) {
-		university.value = auth.user.expand.university
-	}
-	if (auth.user.expand?.disciplines) {
-		form.disciplines.value = auth.user.expand.disciplines
-	}
+	form.disciplines.value = auth.user.disciplines
+	form.university.value = auth.user.university
 }, { immediate: true })
 
 const loading = ref(false)
@@ -151,11 +137,7 @@ const save = async () => {
 	form.clearErrors()
 
 	await http
-		.patch<User>(`/collections/users/records/${auth.user.id}`, {
-			...form.get(),
-			university: university.value?.id,
-			disciplines: form.disciplines.value.map(item => item.id)
-		})
+		.patch<User>(`/collections/users/records/${auth.user.id}`, form.get())
 		.then((res) => {
 			auth.setUser(res)
 			toast({
@@ -172,4 +154,6 @@ const save = async () => {
 
 	loading.value = false
 }
+
+const isWithRefCode = computed(() => auth.user.referral_code?.length > 0)
 </script>

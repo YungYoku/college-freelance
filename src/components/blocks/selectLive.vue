@@ -30,7 +30,7 @@
 			</div>
 		</PopoverTrigger>
 		<PopoverContent class="w-full p-0">
-			<Command v-model="value">
+			<Command v-model="search">
 				<CommandInput
 					:placeholder="placeHolder"
 					@input="handleType"
@@ -42,11 +42,11 @@
 							v-for="item in items"
 							:key="item.id"
 							:value="item.name"
-							@select="select(item)"
+							@select="select(item.id)"
 						>
 							<Checkbox
 								v-if="multiple"
-								:checked="selectedItems.some(i => i.id === item.id)"
+								:checked="selectedItems.some(i => i === item.id)"
 								class="mr-1"
 							/>
 
@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 import { Button } from '@/components/blocks'
 import http from '@/plugins/http'
@@ -84,7 +84,7 @@ interface Items {
 }
 
 interface Props {
-	modelValue: Array<Item> | Item
+	modelValue: Array<string> | string
 	error?: string | null
 	typeKey?: string
 	placeHolder?: string,
@@ -106,7 +106,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits(['update:model-value'])
 
 const showedResult = computed(() => {
-	const _val = value.value
+	const _val = expandedValue.value
 
 	if (Array.isArray(_val)) {
 		if (_val.length === 0) return 'Выбрано 0 элементов.'
@@ -117,7 +117,7 @@ const showedResult = computed(() => {
 		return `${result}${extra}`
 	}
 
-	return _val?.length ? _val : props.placeHolder
+	return _val?.[props.typeKey] ? _val?.[props.typeKey] : props.placeHolder
 })
 
 const filled = computed(() => {
@@ -130,17 +130,13 @@ const filled = computed(() => {
 const open = ref(false)
 const items = ref<Array<Item>>([])
 
-const value = computed<Array<Item> | Item | string>({
+const value = computed<Array<string>| string>({
 	get() {
 		const selectedValue = props.modelValue
 		if (props.multiple && Array.isArray(selectedValue)) {
-			// Здесь стоит добавить загрузку элементов по поиску
-			loadItems('', selectedValue)
 			return selectedValue
-		} else if (typeof selectedValue === 'object' && !Array.isArray(selectedValue)) {
-			const value: string = selectedValue?.[props.typeKey] as string
-			loadItems(value ?? '')
-			return value
+		} else if (typeof selectedValue === 'string') {
+			return selectedValue
 		}
 
 		throw new Error('Invalid type')
@@ -148,18 +144,31 @@ const value = computed<Array<Item> | Item | string>({
 	set(value) {
 		if (props.multiple && Array.isArray(props.modelValue) && Array.isArray(value)) {
 			emit('update:model-value', [...value])
-		} else if (typeof value === 'object') {
+		} else if (typeof value === 'string') {
 			emit('update:model-value', value)
 		}
 	}
 })
+
+const expandedValue = computed<Array<Item>| Item>(() => {
+	const _value = value.value
+	if (Array.isArray(_value)) {
+		return items.value.filter(item => _value.some(i => i === item.id)) ?? []
+	}
+	return items.value.find(item => _value === item.id) ?? {
+		id: '',
+		name: ''
+	} as Item
+})
+
+const search = ref('')
 
 const handleType = (e: Event) => {
 	const target = e.target as HTMLInputElement
 	loadItems(target.value)
 }
 
-const getPayload = (entity: string | Array<Item>, isIncluded: boolean = false) => {
+const getPayload = (entity: string | Array<string>, isIncluded: boolean = false) => {
 	const payload: {
 		sort?: string,
 		filter?: string
@@ -184,10 +193,10 @@ const getPayload = (entity: string | Array<Item>, isIncluded: boolean = false) =
 		payload.filter = '('
 
 		entity.forEach(item => {
-			if (isIncluded) payload.filter += `id='${item.id}' || `
+			if (isIncluded) payload.filter += `id='${item}' || `
 			else {
 				props.filterFields.forEach((field: string) => {
-					const value = item?.[field] ?? null
+					const value = item ?? null
 					if (value) payload.filter += `${field}${sign}'${value}' || `
 				})
 			}
@@ -201,7 +210,7 @@ const getPayload = (entity: string | Array<Item>, isIncluded: boolean = false) =
 	return null
 }
 
-const loadItems = async (item: string | Array<Item>, include?: string | Array<Item>) => {
+const loadItems = async (item: string | Array<string>, include?: string | Array<string>) => {
 	let _defaultItems: Array<Item> = []
 	let _extraItems: Array<Item> = []
 
@@ -221,7 +230,7 @@ const loadItems = async (item: string | Array<Item>, include?: string | Array<It
 				.then(response => {
 					_extraItems = response.items
 					_extraItems.forEach(item => {
-						selectedItems.value.push(item)
+						selectedItems.value.push(item.id)
 					})
 				})
 		}
@@ -233,19 +242,28 @@ const loadItems = async (item: string | Array<Item>, include?: string | Array<It
 	items.value = [..._extraItems, ..._defaultItems]
 }
 
-const selectedItems = ref<Array<Item>>([])
+watch(value, () => {
+	const selectedValue = value.value
+	if (props.multiple && Array.isArray(selectedValue)) {
+		loadItems('', selectedValue)
+	} else if (typeof selectedValue === 'string' && !Array.isArray(selectedValue)) {
+		loadItems(selectedValue ?? '')
+	}
+}, { immediate: true })
 
-const select = (item: Item) => {
+const selectedItems = ref<Array<string>>([])
+
+const select = (id: string) => {
 	if (props.multiple && Array.isArray(value.value)) {
-		if (value.value.some(i => i.id === item.id)) {
-			value.value = value.value.filter(i => i.id !== item.id)
-			selectedItems.value = selectedItems.value.filter(i => i.id !== item.id)
+		if (value.value.some(i => i === id)) {
+			value.value = value.value.filter(i => i !== id)
+			selectedItems.value = selectedItems.value.filter(i => i !== id)
 		} else {
-			value.value = [...value.value, item]
-			selectedItems.value.push(item)
+			value.value = [...value.value, id]
+			selectedItems.value.push(id)
 		}
 	} else {
-		value.value = item
+		value.value = id
 		open.value = false
 	}
 }
