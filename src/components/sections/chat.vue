@@ -140,7 +140,7 @@ const chat = ref<Chat>({
 	created: '',
 	id: '',
 	messages: [],
-	collectionId: '', 
+	collectionId: '',
 	collectionName: '',
 	updated: '',
 	expand: {

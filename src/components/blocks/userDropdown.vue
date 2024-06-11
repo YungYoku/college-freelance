@@ -30,6 +30,14 @@
 					</DropdownMenuItem>
 				</router-link>
 				<router-link
+					v-if="auth.isLoggedIn"
+					to="/chats"
+				>
+					<DropdownMenuItem class="cursor-pointer">
+						Мои чаты
+					</DropdownMenuItem>
+				</router-link>
+				<router-link
 					v-if="auth.isLoggedIn && (auth.isCustomer || auth.isAdmin)"
 					to="/new-offer"
 				>
