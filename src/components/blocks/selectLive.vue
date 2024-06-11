@@ -120,27 +120,13 @@ const showedResult = computed(() => {
 	return _val?.[props.typeKey] ? _val?.[props.typeKey] : props.placeHolder
 })
 
-const filled = computed(() => {
-	const _val = value.value
-	if (Array.isArray(_val) || typeof _val === 'string') return _val.length > 0
-
-	throw new Error('Invalid type')
-})
+const filled = computed(() => value.value.length > 0)
 
 const open = ref(false)
 const items = ref<Array<Item>>([])
 
 const value = computed<Array<string>| string>({
-	get() {
-		const selectedValue = props.modelValue
-		if (props.multiple && Array.isArray(selectedValue)) {
-			return selectedValue
-		} else if (typeof selectedValue === 'string') {
-			return selectedValue
-		}
-
-		throw new Error('Invalid type')
-	},
+	get: () => props.modelValue,
 	set(value) {
 		if (props.multiple && Array.isArray(props.modelValue) && Array.isArray(value)) {
 			emit('update:model-value', [...value])
@@ -160,13 +146,6 @@ const expandedValue = computed<Array<Item>| Item>(() => {
 		name: ''
 	} as Item
 })
-
-const search = ref('')
-
-const handleType = (e: Event) => {
-	const target = e.target as HTMLInputElement
-	loadItems(target.value)
-}
 
 const getPayload = (entity: string | Array<string>, isIncluded: boolean = false) => {
 	const payload: {
@@ -210,17 +189,28 @@ const getPayload = (entity: string | Array<string>, isIncluded: boolean = false)
 	return null
 }
 
-const loadItems = async (item: string | Array<string>, include?: string | Array<string>) => {
+const loadItems = async (include?: string | Array<string>) => {
 	let _defaultItems: Array<Item> = []
+	let _searchItems: Array<Item> = []
 	let _extraItems: Array<Item> = []
 
 	const loadDefaultItems = async () => {
-		await http.get<Items>(`/collections/${props.api}/records`, {
-			...getPayload(item)
-		})
-			.then(response => {
-				_defaultItems = response.items
+		if (search.value.length === 0) {
+			await http.get<Items>(`/collections/${props.api}/records`)
+				.then(response => {
+					_defaultItems = response.items
+				})
+		}
+	}
+	const loadSearchItems = async () => {
+		if (search.value.length > 0) {
+			await http.get<Items>(`/collections/${props.api}/records`, {
+				...getPayload(search.value)
 			})
+				.then(response => {
+					_searchItems = response.items
+				})
+		}
 	}
 	const loadExtraItems = async () => {
 		if (include && include.length) {
@@ -236,20 +226,31 @@ const loadItems = async (item: string | Array<string>, include?: string | Array<
 		}
 	}
 
-	await Promise.all([loadDefaultItems(), loadExtraItems()])
+	await Promise.all([loadDefaultItems(), loadSearchItems(), loadExtraItems()])
 
 	_defaultItems = _defaultItems.filter(defaultItem => !_extraItems.some(extraItem => extraItem.id === defaultItem.id))
-	items.value = [..._extraItems, ..._defaultItems]
+	_searchItems = _searchItems.filter(searchItem => !_extraItems.some(extraItem => extraItem.id === searchItem.id))
+	items.value = [..._extraItems, ..._searchItems, ..._defaultItems]
 }
 
-watch(value, () => {
+const search = ref('')
+
+const handleContextChange = () => {
 	const selectedValue = value.value
 	if (props.multiple && Array.isArray(selectedValue)) {
-		loadItems('', selectedValue)
+		loadItems(selectedValue)
 	} else if (typeof selectedValue === 'string' && !Array.isArray(selectedValue)) {
-		loadItems(selectedValue ?? '')
+		loadItems(selectedValue)
 	}
-}, { immediate: true })
+}
+
+watch(value, handleContextChange, { immediate: true })
+
+const handleType = (e: Event) => {
+	const target = e.target as HTMLInputElement
+	search.value = target.value
+	handleContextChange()
+}
 
 const selectedItems = ref<Array<string>>([])
 
