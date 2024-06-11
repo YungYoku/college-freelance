@@ -1,12 +1,19 @@
 <template>
-	<Grid :columns="[1, '140px']">
-		<PageTitle :loading="loading">
-			<Input
-				v-model.trim="form.title.value"
+	<Grid :columns="[1, '75px', '106px']">
+		<Input
+			v-model.trim="form.title.value"
+			:disabled="loading"
+			label="Имя"
+		/>
+
+		<router-link :to="`/offer/${form.id.value}`">
+			<Button
 				:disabled="loading"
-				label="Имя"
-			/>
-		</PageTitle>
+				class="ml-auto"
+			>
+				Назад
+			</Button>
+		</router-link>
 
 		<Button
 			:disabled="loading"
@@ -92,7 +99,7 @@ import http from '@/plugins/http'
 import { JobOffer } from '@/interfaces/JobOffer.ts'
 import { Grid, Island } from '@/components/structures'
 import { Button, DatePicker, Input, SelectLive, Textarea } from '@/components/blocks'
-import { PageTitle, Text } from '@/components/elements'
+import { Text } from '@/components/elements'
 import Form from '@/plugins/form'
 import { User } from '@/interfaces/User.ts'
 

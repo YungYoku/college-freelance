@@ -7,12 +7,14 @@
 				</div>
 
 				<a
+					class="hover:underline"
 					href="mailto:onyxmetaverse@gmail.com"
 					target="_blank"
 				>
 					onyxmetaverse@gmail.com
 				</a>
 				<a
+					class="hover:underline"
 					href="mailto:onyxmetaverse@yandex.ru"
 					target="_blank"
 				>
