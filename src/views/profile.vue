@@ -91,23 +91,30 @@ import Form from '@/plugins/form'
 const auth = useAuthStore()
 const { toast } = useToast()
 
-const form = Form({
+const form = Form<User>({
 	name: '',
 	surname: '',
+	avatar: '',
+	collectionId: '',
+	collectionName: '',
+	created: '',
+	emailVisibility: false,
+	energy: 0,
+	favorite: [],
+	id: '',
+	rating: [],
+	referral_code: '',
+	role: 'customer',
+	updated: '',
+	username: '',
+	verified: false,
 	email: auth.user.email,
 	university: '',
 	disciplines: [] as Array<string>,
 	description: ''
 })
 
-watch(() => auth.user, () => {
-	form.name.value = auth.user.name
-	form.surname.value = auth.user.surname
-	form.email.value = auth.user.email
-	form.description.value = auth.user.description
-	form.disciplines.value = auth.user.disciplines
-	form.university.value = auth.user.university
-}, { immediate: true })
+watch(() => auth.user, () => form.set(auth.user), { immediate: true })
 
 const loading = ref(false)
 
