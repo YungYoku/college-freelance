@@ -1,5 +1,14 @@
 <template>
+	<router-link
+		v-if="Screen.isSize('s')"
+		class="job-search-link"
+		to="/search"
+	>
+		<Icon name="search"/>
+	</router-link>
+
 	<Input
+		v-else
 		v-model="value"
 		class="job-search"
 		:disabled="searchStore.loading"
@@ -9,12 +18,6 @@
 		@action="search"
 		@keyup.enter="search"
 	/>
-	<router-link
-		class="job-search-link"
-		to="/search"
-	>
-		<Icon name="search"/>
-	</router-link>
 </template>
 
 <script setup lang="ts">
@@ -24,6 +27,7 @@ import { useSearchStore } from '@/stores/search.ts'
 
 import { Input } from '@/components/blocks'
 import { Icon } from '@/components/elements'
+import Screen from '@/plugins/screen'
 
 const searchStore = useSearchStore()
 
@@ -58,16 +62,8 @@ const search = () => {
 	@media (max-width: 1024px) {
 		width: 320px;
 	}
-	@media (max-width: 768px) {
-		display: none;
-	}
 }
 .job-search-link {
 	margin: auto 0;
-	display: none;
-
-	@media (max-width: 768px) {
-		display: block;
-	}
 }
 </style>
