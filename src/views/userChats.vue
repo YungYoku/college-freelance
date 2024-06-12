@@ -41,6 +41,7 @@
 				:chat-member="openedChat.expand?.executor"
 				@approve-review="approveReview"
 				@decline-review="declineReview"
+				@send-to-review="sendToReview"
 				@send-rating="sendRating"
 			/>
 		</Island>
@@ -55,7 +56,7 @@ import { Island, Grid } from '@/components/structures'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer'
 
 import http from '@/plugins/http'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import Text from '@/components/elements/text.vue'
 import { Rating } from '@/interfaces/Rating.ts'
@@ -79,6 +80,7 @@ const getChats = async () => {
 
 	loading.value = false
 }
+watch(() => auth.user.id, getChats, { immediate: true })
 
 const approveReview = async () => {
 	if (!openedChat.value) return
@@ -116,7 +118,7 @@ const sendRating = async (value: { rating: number, review: string } = { rating: 
 
 	await http.post<Rating>(`/send-review/${openedChat.value.id}`, {
 		stars: rating,
-		review
+		review: review
 	})
 		.then((response) => {
 			if (openedChat.value && openedChat.value.expand) {
@@ -125,6 +127,22 @@ const sendRating = async (value: { rating: number, review: string } = { rating: 
 			}
 		})
 }
+
+const sendToReview = async () => {
+	if (!openedChat.value) return
+
+	await http
+		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
+			...openedChat.value,
+			status: 'on_review'
+		})
+		.then((response) => {
+			if (openedChat.value) {
+				openedChat.value.status = response.status
+			}
+		})
+}
+
 const loadChat = (chat: IJobOffer) => {
 	openedChat.value = chat
 }

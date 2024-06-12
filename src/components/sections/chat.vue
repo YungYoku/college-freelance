@@ -35,12 +35,32 @@
 			@keyup.enter="sendMessage"
 		/>
 
-		<Rating
-			v-if="status === 'ended'"
-			v-model="newRating"
-			:loading="loading"
-			@update:model-value="sendRating"
-		/>
+		<Button
+			v-if="status === 'ended' && props.rating === 0"
+			@click="showFeedback = true"
+		>
+			Оставить отзыв
+		</Button>
+		<Button
+			v-if="status === 'ended' && props.rating !== 0"
+			@click="showFeedback = true"
+		>
+			Просмотр отзыва
+		</Button>
+		<Modal
+			v-if="showFeedback"
+			:width="600"
+			@close="showFeedback = false"
+		>
+			<Rating
+				v-if="status === 'ended'"
+				v-model="newRating"
+				:user="props.chatMember.name"
+				:loading="loading"
+				@update:model-value="sendRating"
+			/>
+		</Modal>
+
 
 		<template v-if="auth.isExecutor">
 			<Button
@@ -100,6 +120,7 @@ import { Input, Button, Rating, Message, InputFile, User } from '@/components/bl
 import { Message as IMessage } from '@/interfaces/Message.ts'
 import type { JobOfferStatus } from '@/interfaces/JobOffer.ts'
 import { User as IUser } from '@/interfaces/User'
+import Modal from '@/components/structures/modal.vue'
 
 interface Props {
 	id: string,
@@ -147,6 +168,7 @@ const chat = ref<Chat>({
 		messages: []
 	}
 })
+const showFeedback = ref(false)
 
 const loading = ref(true)
 
@@ -214,12 +236,21 @@ const declineReview = () => {
 	emit('decline-review')
 }
 
-const newRating = ref<number>()
-watch(() => props.rating, () => { newRating.value = props.rating }, { immediate: true })
-const sendRating = () => emit('send-rating', {
-	rating: newRating.value,
-	review: ''
+const newRating = ref({
+	rating: 0,
+	text: ''
 })
+watch(() => props.rating, () => {
+	newRating.value.rating = props.rating
+
+}, { immediate: true })
+const sendRating = () => {
+	showFeedback.value = false
+	emit('send-rating', {
+		rating: newRating.value?.rating,
+		review: newRating.value?.text
+	})
+}
 </script>
 
 <style scoped lang="scss">

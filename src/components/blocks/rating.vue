@@ -5,17 +5,31 @@
 	/>
 	<div
 		v-else
-		class="flex flex-wrap items-center gap-2 ml-auto mr-auto"
+		class="flex flex-wrap justify-center items-center gap-2 ml-auto mr-auto"
 		@mouseleave="hover(null)"
 	>
-		<Icon
-			v-for="(icon, index) in icons"
-			:key="index"
-			:name="icon"
-			size="s"
-			@mouseenter="hover(index + 1)"
-			@click="update(index + 1)"
+		<Text>
+			Оставьте свой отзыв для {{ props.user }}!
+		</Text>
+		<div class="flex flex-wrap items-center gap-2 ml-auto mr-auto mb-10">
+			<Icon
+				v-for="(icon, index) in icons"
+				:key="index"
+				:name="icon"
+				size="s"
+				@mouseenter="hover(index + 1)"
+				@click="review.rating = index + 1"
+			/>
+		</div>
+
+		<Textarea
+			v-model="review.text"
 		/>
+		<Button
+			@click="emit('update:modelValue', review)"
+		>
+			Отправить
+		</Button>
 	</div>
 </template>
 
@@ -24,18 +38,28 @@ import { ref, computed } from 'vue'
 
 import { Icon } from '@/components/elements'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Textarea } from '@/components/ui/textarea'
+import { Text } from '@/components/elements'
+import Button from '@/components/blocks/button.vue'
 
 const props = defineProps({
 	modelValue: {
-		type: Number,
-		default: 0
+		type: Object,
+		default: () => ({})
 	},
 	loading: {
 		type: Boolean,
 		default: false
+	},
+	user: {
+		type: String,
+		default: 'User'
 	}
 })
-
+const review = ref({
+	rating: 0,
+	text: ''
+})
 const icons = computed(() => {
 	const result = []
 
@@ -62,5 +86,5 @@ const hoverIndex = ref<number | null>(null)
 const hover = (index: number | null) => hoverIndex.value = index
 
 const emit = defineEmits(['update:modelValue'])
-const update = (value: number) => emit('update:modelValue', value)
+
 </script>
