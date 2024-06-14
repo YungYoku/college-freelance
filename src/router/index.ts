@@ -96,7 +96,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/chats',
 				name: 'Chats',
-				component: () => import('@/views/userChats.vue'),
+				component: () => import('@/views/chats.vue'),
 				meta: {
 					rules: []
 				}

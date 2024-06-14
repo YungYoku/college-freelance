@@ -6,12 +6,14 @@
 	<div
 		v-else
 		class="flex flex-wrap justify-center items-center gap-2 ml-auto mr-auto"
-		@mouseleave="hover(null)"
 	>
 		<Text>
 			Оставьте свой отзыв для {{ props.user }}!
 		</Text>
-		<div class="flex flex-wrap items-center gap-2 ml-auto mr-auto mb-10">
+		<div
+			class="flex flex-wrap items-center gap-2 ml-auto mr-auto mb-10"
+			@mouseleave="hover(null)"
+		>
 			<Icon
 				v-for="(icon, index) in icons"
 				:key="index"
@@ -25,9 +27,8 @@
 		<Textarea
 			v-model="review.text"
 		/>
-		<Button
-			@click="emit('update:modelValue', review)"
-		>
+
+		<Button @click="send">
 			Отправить
 		</Button>
 	</div>
@@ -56,10 +57,7 @@ const props = defineProps({
 		default: 'User'
 	}
 })
-const review = ref({
-	rating: 0,
-	text: ''
-})
+
 const icons = computed(() => {
 	const result = []
 
@@ -87,4 +85,9 @@ const hover = (index: number | null) => hoverIndex.value = index
 
 const emit = defineEmits(['update:modelValue'])
 
+const review = ref({
+	rating: 0,
+	text: ''
+})
+const send = () => emit('update:modelValue', review.value)
 </script>
