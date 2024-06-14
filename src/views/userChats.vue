@@ -7,28 +7,26 @@
 	<Grid :columns="[1,4]">
 		<Island>
 			<Grid>
-				<div
+				<Grid
 					v-for="chat in chats"
 					:key="chat"
+					class="cursor-pointer rounded-md p-2 hover:bg-card"
+					:class="{
+						'bg-card': openedChat?.chat === chat.chat
+					}"
+					@click="loadChat(chat)"
 				>
-					<div
-						v-if="chat.chat.length > 0"
-						class="cursor-pointer"
-						@click.prevent="loadChat(chat)"
-					>
-						<Text
-							size="s"
-						>
-							{{ chat.title }}
-						</Text>
-						<UserCard
-							:loading="loading"
-							:user="auth.isCustomer ? chat.expand?.executor : chat.expand?.executor"
-						/>
-					</div>
-				</div>
+					<Text size="s">
+						{{ chat.title }}
+					</Text>
+					<UserCard
+						:loading="loading"
+						:user="auth.isCustomer ? chat.expand?.executor : chat.expand?.executor"
+					/>
+				</Grid>
 			</Grid>
 		</Island>
+		
 		<Island class="relative">
 			<div v-if="openedChat === null">
 				Выберите чат
@@ -75,7 +73,7 @@ const getChats = async () => {
 		expand: ['proposals', 'type', 'discipline', 'executor', 'ratingExecutor']
 	})
 		.then(response => {
-			chats.value = response.items
+			chats.value = response.items.filter(item => item.status !== 'created')
 		})
 
 	loading.value = false
@@ -150,7 +148,3 @@ onMounted(() => {
 	getChats()
 })
 </script>
-
-<style scoped lang="scss">
-
-</style>
