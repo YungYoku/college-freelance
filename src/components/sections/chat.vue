@@ -1,5 +1,5 @@
 <template>
-	<Grid class="chat">
+	<Grid class="chat pt-10">
 		<User
 			v-if="chatMember"
 			class="absolute top-2 left-23"
@@ -244,8 +244,6 @@ const sendRating = () => {
 
 <style scoped lang="scss">
 .chat {
-	padding: 40px 0 0 0;
-
 	&__messages {
 		display: flex;
 		flex-direction: column;

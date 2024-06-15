@@ -49,7 +49,7 @@
 			<div
 				v-for="(user) in responsesUsers"
 				:key="user.id"
-				class="flex w-full items-center gap-2"
+				class="flex w-full items-center gap-2 pt-10"
 			>
 				<UserCard
 					:loading="loading"
@@ -58,7 +58,7 @@
 				/>
 
 				<Icon
-					v-if="!openedOffer.executor && !loading"
+					v-if="!loading"
 					class="ml-auto"
 					name="check"
 					@click="pickExecutor(user)"

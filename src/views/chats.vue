@@ -111,13 +111,13 @@ const declineReview = async () => {
 		})
 }
 
-const sendRating = async (value: { rating: number, review: string } = { rating: 1, review: '' }) => {
+const sendRating = async (value: { stars: number, review: string } = { stars: 1, review: '' }) => {
 	if (!openedChat.value) return
-	const { rating, review } = value
+	const { stars, review } = value
 
 	await http.post<Rating>(`/send-review/${openedChat.value.id}`, {
-		stars: rating,
-		review: review
+		stars,
+		review
 	})
 		.then((response) => {
 			if (openedChat.value && openedChat.value.expand) {
