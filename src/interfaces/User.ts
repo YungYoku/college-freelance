@@ -1,10 +1,10 @@
-import { University } from '@/interfaces/University.ts'
-import { Discipline } from '@/interfaces/Discipline.ts'
-import { ReferralCode } from '@/interfaces/ReferralCode.ts'
-import { JobOffer } from '@/interfaces/JobOffer.ts'
-import { Rating } from '@/interfaces/Rating.ts'
+import { IUniversity } from '@/interfaces/University.ts'
+import { IDiscipline } from '@/interfaces/Discipline.ts'
+import { IReferralCode } from '@/interfaces/ReferralCode.ts'
+import { IJobOffer } from '@/interfaces/JobOffer.ts'
+import { IRating } from '@/interfaces/Rating.ts'
 
-export interface User {
+export interface IUser {
     avatar: string
     collectionId: string
     collectionName: string
@@ -26,15 +26,15 @@ export interface User {
     favorite: Array<string>
     rating: Array<string>
     expand?: {
-        university?: University
-        disciplines?: Array<Discipline>
-        referral_code?: ReferralCode
-        favorite?: Array<JobOffer>
-        rating?: Array<Rating>
+        university?: IUniversity
+        disciplines?: Array<IDiscipline>
+        referral_code?: IReferralCode
+        favorite?: Array<IJobOffer>
+        rating?: Array<IRating>
     }
 }
 
-export const emptyUser: User = {
+export const emptyUser: IUser = {
 	avatar: '',
 	collectionId: '',
 	collectionName: '',
@@ -57,15 +57,15 @@ export const emptyUser: User = {
 	referral_code: ''
 }
 
-export interface Users {
+export interface IUsers {
     page: number,
     perPage: number,
     totalPages: number,
     totalItems: number,
-    items: Array<User>
+    items: Array<IUser>
 }
 
-export interface UserLogin {
-    record: User
+export interface IUserLogin {
+    record: IUser
     token: string
 }

@@ -95,7 +95,7 @@ import http from '@/plugins/http'
 import { Grid } from '@/components/structures'
 import { Avatar, Button } from '@/components/blocks'
 import { Text } from '@/components/elements'
-import { User } from '@/interfaces/User.ts'
+import { IUser } from '@/interfaces/User.ts'
 
 const route = useRoute()
 const router = useRouter()
@@ -103,7 +103,7 @@ const disciplineNames = ref()
 const universityName = ref()
 
 const loading = ref(true)
-const user = ref<User | null>(null)
+const user = ref<IUser | null>(null)
 const isItMyProfile = ref(false)
 const auth = useAuthStore()
 
@@ -119,7 +119,7 @@ const loadUser = async () => {
 	loading.value = true
 
 	await http
-		.get<User>(`/collections/users/records/${route.params.id}`, {
+		.get<IUser>(`/collections/users/records/${route.params.id}`, {
 			expand: ['university', 'disciplines', 'rating']
 		})
 		.then(res => {

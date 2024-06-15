@@ -44,11 +44,11 @@ import { Grid } from '@/components/structures'
 import { Button, Textarea } from '@/components/blocks'
 import { Text, Icon } from '@/components/elements'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Rating } from '@/interfaces/Rating.ts'
+import { IRating } from '@/interfaces/Rating.ts'
 
 const props = defineProps({
 	modelValue: {
-		type: Object as PropType<Rating>,
+		type: Object as PropType<IRating>,
 		default: () => ({})
 	},
 	loading: {

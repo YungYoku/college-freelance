@@ -114,17 +114,17 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
-import { Chat } from '@/interfaces/Chat.ts'
+import { IChat } from '@/interfaces/Chat.ts'
 import { Grid } from '@/components/structures'
 import { Input, Button, Rating, Message, InputFile, User } from '@/components/blocks'
-import { Message as IMessage } from '@/interfaces/Message.ts'
-import { emptyOffer, JobOffer } from '@/interfaces/JobOffer.ts'
+import { IMessage } from '@/interfaces/Message.ts'
+import { emptyOffer, IJobOffer } from '@/interfaces/JobOffer.ts'
 import { emptyUser } from '@/interfaces/User'
-import { Rating as IRating } from '@/interfaces/Rating'
+import { IRating } from '@/interfaces/Rating'
 import Modal from '@/components/structures/modal.vue'
 
 interface Props {
-	offer: JobOffer,
+	offer: IJobOffer,
 	userType: 'executor' | 'creator'
 	ratingType: 'ratingExecutor' | 'ratingCreator'
 }
@@ -135,7 +135,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const messagesRef = ref<HTMLInputElement | null>(null)
-const chat = ref<Chat>({
+const chat = ref<IChat>({
 	created: '',
 	id: '',
 	messages: [],
@@ -154,11 +154,11 @@ const chatMember = computed(() => props.offer.expand?.[props.userType])
 const rating = computed(() => props.offer.expand?.[props.ratingType] ?? null)
 
 const loadChat = async () => {
-	await http.connect<Chat>({
+	await http.connect<IChat>({
 		collection: 'chats',
 		id: props.offer.chat,
 		expand: ['messages', 'messages.file'],
-		cb: (response: Chat) => {
+		cb: (response: IChat) => {
 			chat.value = response
 
 			nextTick(() => {

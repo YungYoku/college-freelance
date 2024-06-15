@@ -115,8 +115,8 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import http from '@/plugins/http'
-import { ReferralCode } from '@/interfaces/ReferralCode.ts'
-import { User } from '@/interfaces/User.ts'
+import { IReferralCode } from '@/interfaces/ReferralCode.ts'
+import { IUser } from '@/interfaces/User.ts'
 
 
 const auth = useAuthStore()
@@ -126,13 +126,13 @@ const { toast } = useToast()
 const generateRefCode = async () => {
 	let referral_code = ''
 	await http
-		.post<ReferralCode>('/collections/referral_codes/records')
+		.post<IReferralCode>('/collections/referral_codes/records')
 		.then((res) => {
 			referral_code = res.id
 		})
 
 	await http
-		.patch<User>(`/collections/users/records/${auth.user.id}`, {
+		.patch<IUser>(`/collections/users/records/${auth.user.id}`, {
 			referral_code
 		})
 		.then((res) => {

@@ -142,11 +142,11 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
 import http from '@/plugins/http'
 import { useAuthStore } from '@/stores/auth.ts'
-import { JobOffer } from '@/interfaces/JobOffer'
+import { IJobOffer } from '@/interfaces/JobOffer'
 
 const props = defineProps({
 	jobOffer: {
-		type: Object as PropType<JobOffer>,
+		type: Object as PropType<IJobOffer>,
 		required: true
 	},
 	showResponses: {

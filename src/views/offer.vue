@@ -143,7 +143,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
-import { JobOffer } from '@/interfaces/JobOffer.ts'
+import { IJobOffer } from '@/interfaces/JobOffer.ts'
 import { Grid, Island } from '@/components/structures'
 import { Button, User as UserCard } from '@/components/blocks'
 import { PageTitle, Text } from '@/components/elements'
@@ -151,7 +151,7 @@ import { useToast } from '@/components/ui/toast'
 
 const router = useRouter()
 
-const offer = ref<JobOffer>({
+const offer = ref<IJobOffer>({
 	collectionId: '',
 	collectionName: '',
 	created: '',
@@ -184,7 +184,7 @@ const loadOffer = async () => {
 	if (!id) return
 
 	await http
-		.get<JobOffer>(`/collections/job_offers/records/${id}`, {
+		.get<IJobOffer>(`/collections/job_offers/records/${id}`, {
 			expand: ['creator', 'executor', 'proposals', 'discipline', 'type', 'university']
 		})
 		.then(response => {
@@ -220,7 +220,7 @@ const makeProposal = async () => {
 	loading.value = true
 
 	await http
-		.post<JobOffer>(`/make-proposal/${offer.value.id}`)
+		.post<IJobOffer>(`/make-proposal/${offer.value.id}`)
 		.then((response) => {
 			offer.value = response
 

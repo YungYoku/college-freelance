@@ -43,7 +43,7 @@ import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 import http from '@/plugins/http'
-import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
+import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
 import { Grid } from '@/components/structures'
 import { EmptyJobOffer, JobOffer } from '@/components/blocks'
 import { PageTitle } from '@/components/elements'
@@ -65,7 +65,7 @@ const getUserOffers = async () => {
 	}
 
 	await http
-		.get<JobOffers>('/collections/job_offers/records', {
+		.get<IJobOffers>('/collections/job_offers/records', {
 			filter: `(${auth.user.favorite.reduce((result, id) => result + `id='${id}' || `, '').slice(0, -3)})`,
 			expand: ['proposals', 'type', 'discipline']
 		})

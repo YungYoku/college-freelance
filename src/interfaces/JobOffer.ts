@@ -1,12 +1,35 @@
-import { User } from '@/interfaces/User.ts'
-import { Chat } from '@/interfaces/Chat.ts'
-import { Discipline } from '@/interfaces/Discipline.ts'
-import { Rating } from '@/interfaces/Rating.ts'
-import { University } from '@/interfaces/University.ts'
+import { IUser } from '@/interfaces/User.ts'
+import { IChat } from '@/interfaces/Chat.ts'
+import { IDiscipline } from '@/interfaces/Discipline.ts'
+import { IRating } from '@/interfaces/Rating.ts'
+import { IUniversity } from '@/interfaces/University.ts'
 
-export type JobOfferStatus = 'created' | 'in_progress' | 'on_review' | 'ended'
+export type IJobOfferStatus = 'created' | 'in_progress' | 'on_review' | 'ended'
 
-export interface JobOffer {
+interface IJobOfferType {
+	collectionId: string
+	collectionName: string
+	created: string
+	id: string
+	name: string
+	updated: string
+}
+
+export interface IJobOfferProposal {
+	id: string
+	collectionId: string
+	collectionName: string
+	created: string
+	updated: string
+	user: string
+	chat: string
+	expand?: {
+		user?: IUser
+		chat?: IChat
+	}
+}
+
+export interface IJobOffer {
     id: string
     collectionId: string
     collectionName: string
@@ -16,7 +39,7 @@ export interface JobOffer {
     description: string
     price: number
     creator: string
-    status: JobOfferStatus
+    status: IJobOfferStatus
     ratingCreator: string
     ratingExecutor: string
     deadline: Date
@@ -28,22 +51,22 @@ export interface JobOffer {
     type: string
     file: string | null
     expand?: {
-        creator?: User
-        executor?: User
-        chat?: Chat
-        proposals?: Array<JobOfferProposal>
-        type?: JobOfferType
-        university?: University
-        discipline?: Discipline,
+        creator?: IUser
+        executor?: IUser
+        chat?: IChat
+        proposals?: Array<IJobOfferProposal>
+        type?: IJobOfferType
+        university?: IUniversity
+        discipline?: IDiscipline,
         file?: {
             value: File
         },
-        ratingCreator?: Rating
-        ratingExecutor?: Rating
+        ratingCreator?: IRating
+        ratingExecutor?: IRating
     }
 }
 
-export const emptyOffer: JobOffer = {
+export const emptyOffer: IJobOffer = {
 	ratingCreator: '',
 	ratingExecutor: '',
 	chat: '',
@@ -66,31 +89,8 @@ export const emptyOffer: JobOffer = {
 	price: 0
 }
 
-interface JobOfferType {
-    collectionId: string
-    collectionName: string
-    created: string
-    id: string
-    name: string
-    updated: string
-}
-
-export interface JobOfferProposal {
-    id: string
-    collectionId: string
-    collectionName: string
-    created: string
-    updated: string
-    user: string
-    chat: string
-    expand?: {
-        user?: User
-        chat?: Chat
-    }
-}
-
-export interface JobOffers {
-    items: Array<JobOffer>
+export interface IJobOffers {
+    items: Array<IJobOffer>
     page: number
     perPage: number
     totalItems: number

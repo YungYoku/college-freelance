@@ -1,11 +1,11 @@
-import { User } from '@/interfaces/User.ts'
+import { IUser } from '@/interfaces/User.ts'
 
-export interface ReferralCode {
+export interface IReferralCode {
 	collectionId: string,
 	collectionName: string,
 	created: Date,
 	id: string,
 	updated: Date
-	used: Array<User>
-	new: Array<User>
+	used: Array<IUser>
+	new: Array<IUser>
 }

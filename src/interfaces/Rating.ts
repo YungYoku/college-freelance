@@ -1,7 +1,7 @@
-import { User } from '@/interfaces/User.ts'
+import { IUser } from '@/interfaces/User.ts'
 
-export interface Rating {
-	by: User
+export interface IRating {
+	by: IUser
 	collectionId: string
 	collectionName:	string
 	created: string

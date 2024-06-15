@@ -84,14 +84,14 @@ import { useToast } from '@/components/ui/toast/use-toast'
 import http from '@/plugins/http'
 import { Grid } from '@/components/structures'
 import { Avatar, Button, Textarea, SelectLive, Input } from '@/components/blocks'
-import { ReferralCode } from '@/interfaces/ReferralCode.ts'
-import { User } from '@/interfaces/User.ts'
+import { IReferralCode } from '@/interfaces/ReferralCode.ts'
+import { IUser } from '@/interfaces/User.ts'
 import Form from '@/plugins/form'
 
 const auth = useAuthStore()
 const { toast } = useToast()
 
-const form = Form<User>({
+const form = Form<IUser>({
 	name: '',
 	surname: '',
 	avatar: '',
@@ -123,13 +123,13 @@ const generateRefCode = async () => {
 
 	let referral_code = ''
 	await http
-		.post<ReferralCode>('/collections/referral_codes/records')
+		.post<IReferralCode>('/collections/referral_codes/records')
 		.then((res) => {
 			referral_code = res.id
 		})
 
 	await http
-		.patch<User>(`/collections/users/records/${auth.user.id}`, {
+		.patch<IUser>(`/collections/users/records/${auth.user.id}`, {
 			referral_code
 		})
 		.then((res) => {
@@ -144,7 +144,7 @@ const save = async () => {
 	form.clearErrors()
 
 	await http
-		.patch<User>(`/collections/users/records/${auth.user.id}`, form.get())
+		.patch<IUser>(`/collections/users/records/${auth.user.id}`, form.get())
 		.then((res) => {
 			auth.setUser(res)
 			toast({

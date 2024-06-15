@@ -53,7 +53,7 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { useAuthStore } from '@/stores/auth.ts'
-import { UserLogin } from '@/interfaces/User.ts'
+import { IUserLogin } from '@/interfaces/User.ts'
 import { AuthLayout } from '@/components/layouts'
 import { Card } from '@/components/structures'
 import { Input, Button } from '@/components/blocks'
@@ -82,7 +82,7 @@ const login = async () => {
 		form.clearErrors()
 
 		await http
-			.post<UserLogin>('/collections/users/auth-with-password', form.get())
+			.post<IUserLogin>('/collections/users/auth-with-password', form.get())
 			.then((res) => {
 				auth.setToken(res.token)
 				auth.setUser(res.record)

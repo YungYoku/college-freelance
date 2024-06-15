@@ -52,13 +52,13 @@ import { Chat } from '@/components/sections'
 import { User as UserCard } from '@/components/blocks'
 import { PageTitle } from '@/components/elements'
 import { Island, Grid } from '@/components/structures'
-import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer'
+import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer'
 
 import http from '@/plugins/http'
 import { computed, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import Text from '@/components/elements/text.vue'
-import { Rating } from '@/interfaces/Rating.ts'
+import { IRating } from '@/interfaces/Rating.ts'
 
 const auth = useAuthStore()
 const openedChat = ref<IJobOffer | null>(null)
@@ -75,7 +75,7 @@ const getChats = async () => {
 
 	const userFilter = auth.isCustomer ? `creator='${auth.user.id}'` : `executor='${auth.user.id}'`
 
-	await http.get<JobOffers>('/collections/job_offers/records', {
+	await http.get<IJobOffers>('/collections/job_offers/records', {
 		filter: `(${userFilter})`,
 		expand: ['proposals', 'type', 'discipline', 'creator', 'ratingCreator', 'executor', 'ratingExecutor']
 	})
@@ -121,7 +121,7 @@ const sendRating = async (value: { stars: number, review: string } = { stars: 1,
 	if (!openedChat.value) return
 	const { stars, review } = value
 
-	await http.post<Rating>(`/send-review/${openedChat.value.id}`, {
+	await http.post<IRating>(`/send-review/${openedChat.value.id}`, {
 		stars,
 		review
 	})

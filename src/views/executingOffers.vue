@@ -51,12 +51,12 @@ import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 import http from '@/plugins/http'
-import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
+import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
 import { Grid, Modal } from '@/components/structures'
 import { Chat } from '@/components/sections'
 import { EmptyJobOffer, JobOffer } from '@/components/blocks'
 import { PageTitle } from '@/components/elements'
-import { Rating } from '@/interfaces/Rating.ts'
+import { IRating } from '@/interfaces/Rating.ts'
 
 const auth = useAuthStore()
 
@@ -69,7 +69,7 @@ const getUserOffers = async () => {
 	loading.value = true
 
 	await http
-		.get<JobOffers>('/collections/job_offers/records', {
+		.get<IJobOffers>('/collections/job_offers/records', {
 			filter: `(executor='${auth.user.id}')`,
 			expand: ['type', 'discipline', 'creator', 'ratingCreator']
 		})
@@ -108,7 +108,7 @@ const sendRating = async (value: { stars: number, review: string } = { stars: 1,
 	if (!openedChat.value) return
 	const { stars, review } = value
 
-	await http.post<Rating>(`/send-review/${openedChat.value.id}`, {
+	await http.post<IRating>(`/send-review/${openedChat.value.id}`, {
 		stars,
 		review
 	})

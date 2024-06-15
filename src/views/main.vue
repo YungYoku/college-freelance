@@ -30,7 +30,7 @@
 import { ref } from 'vue'
 
 import http from '@/plugins/http'
-import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
+import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
 import { Grid } from '@/components/structures'
 import { EmptyJobOffer, JobOffer, SearchTags } from '@/components/blocks'
 
@@ -52,7 +52,7 @@ const loadOffers = async () => {
 	const encodedFilter = encodeURIComponent(filter)
 
 	await http
-		.get<JobOffers>('/collections/job_offers/records', {
+		.get<IJobOffers>('/collections/job_offers/records', {
 			filter: encodedFilter,
 			expand: ['creator', 'type', 'discipline'],
 			perPage: 12
