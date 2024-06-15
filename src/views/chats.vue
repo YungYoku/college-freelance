@@ -10,6 +10,7 @@
 				<Grid
 					v-for="chat in chats"
 					:key="chat"
+					gap="xs"
 					class="cursor-pointer rounded-md p-2 hover:bg-card"
 					:class="{
 						'bg-card': openedChat?.chat === chat.chat
@@ -28,14 +29,14 @@
 		</Island>
 		
 		<Island class="relative">
-			<div v-if="openedChat === null">
+			<Text v-if="openedChat === null">
 				Выберите чат
-			</div>
+			</Text>
 			<Chat
 				v-else
 				:id="openedChat.chat"
 				:status="openedChat.status"
-				:rating="openedChat.expand?.ratingExecutor?.stars"
+				:rating="openedChat.expand?.ratingExecutor"
 				:chat-member="openedChat.expand?.executor"
 				@approve-review="approveReview"
 				@decline-review="declineReview"

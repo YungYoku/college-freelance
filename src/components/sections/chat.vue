@@ -36,13 +36,13 @@
 		/>
 
 		<Button
-			v-if="status === 'ended' && props.rating === 0"
+			v-if="status === 'ended' && props.rating === null"
 			@click="showFeedback = true"
 		>
 			Оставить отзыв
 		</Button>
 		<Button
-			v-if="status === 'ended' && props.rating !== 0"
+			v-if="status === 'ended' && props.rating"
 			@click="showFeedback = true"
 		>
 			Просмотр отзыва
@@ -119,41 +119,23 @@ import { Grid } from '@/components/structures'
 import { Input, Button, Rating, Message, InputFile, User } from '@/components/blocks'
 import { Message as IMessage } from '@/interfaces/Message.ts'
 import type { JobOfferStatus } from '@/interfaces/JobOffer.ts'
-import { User as IUser } from '@/interfaces/User'
+import { emptyUser, User as IUser } from '@/interfaces/User'
+import { Rating as IRating } from '@/interfaces/Rating'
 import Modal from '@/components/structures/modal.vue'
 
 interface Props {
 	id: string,
 	chatMember: IUser
 	status: JobOfferStatus,
-	rating: number
+	rating: IRating | null
 }
 const props = withDefaults(defineProps<Props>(), {
 	id: '',
 	chatMember: () => ({
-		avatar: '',
-		collectionId: '',
-		collectionName: '',
-		created: '',
-		email: '',
-		emailVisibility: false,
-		id: '',
-		name: '',
-		description: '',
-		surname: '',
-		rating: [],
-		updated: '',
-		username: '',
-		verified: false,
-		role: 'customer',
-		university: '',
-		energy: 0,
-		disciplines: [],
-		favorite: [],
-		referral_code: ''
+		...emptyUser
 	}),
 	status: 'created',
-	rating: 0
+	rating: null
 })
 
 const messagesRef = ref<HTMLInputElement | null>(null)
@@ -236,25 +218,34 @@ const declineReview = () => {
 	emit('decline-review')
 }
 
-const newRating = ref({
-	rating: 0,
-	text: ''
+const newRating = ref<IRating>({
+	by: emptyUser,
+	collectionId: '',
+	collectionName: '',
+	created: '',
+	id: '',
+	updated: '',
+	stars: 0,
+	review: ''
 })
 watch(() => props.rating, () => {
-	newRating.value.rating = props.rating
-
+	if (props.rating) {
+		newRating.value = props.rating
+	}
 }, { immediate: true })
 const sendRating = () => {
 	showFeedback.value = false
 	emit('send-rating', {
-		rating: newRating.value?.rating,
-		review: newRating.value?.text
+		stars: newRating.value.stars,
+		review: newRating.value.review
 	})
 }
 </script>
 
 <style scoped lang="scss">
 .chat {
+	padding: 40px 0 0 0;
+
 	&__messages {
 		display: flex;
 		flex-direction: column;

@@ -15,7 +15,7 @@ type Columns = number | Array<number | string> | null
 
 interface Props {
 	vertical?: boolean
-	gap: 's' | 'm' |'l'
+	gap: 'xs' | 's' | 'm' |'l'
 	columns?: Columns
 	columnsL?: Columns
 	columnsM?: Columns
@@ -63,6 +63,7 @@ onBeforeUnmount(() => {
 })
 
 const gaps = {
+	xs: '1',
 	s: '2',
 	m: '3',
 	l: '4'
@@ -73,7 +74,7 @@ const style = computed(() => {
 			gridTemplateColumns: `repeat(${activeColumns.value}, 1fr)`
 		}
 	}
-	console.log(`gap-${gaps[props.gap]}`)
+
 	const _columns = [...activeColumns.value as Array<string | number>]
 	return {
 		gridTemplateColumns: _columns.reduce((result: string, column: string | number) => {

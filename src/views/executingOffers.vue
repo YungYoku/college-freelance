@@ -39,7 +39,7 @@
 		<Chat
 			:id="openedChat.chat"
 			:status="openedChat.status"
-			:rating="openedChat.expand?.ratingCreator?.stars"
+			:rating="openedChat.expand?.ratingCreator"
 			:chat-member="openedChat.expand?.creator"
 			@send-to-review="sendToReview"
 			@send-rating="sendRating"
@@ -105,12 +105,12 @@ const sendToReview = async () => {
 		})
 }
 
-const sendRating = async (value: { rating: number, review: string } = { rating: 1, review: '' }) => {
+const sendRating = async (value: { stars: number, review: string } = { stars: 1, review: '' }) => {
 	if (!openedChat.value) return
-	const { rating, review } = value
+	const { stars, review } = value
 
 	await http.post<Rating>(`/send-review/${openedChat.value.id}`, {
-		stars: rating,
+		stars,
 		review
 	})
 		.then((response) => {

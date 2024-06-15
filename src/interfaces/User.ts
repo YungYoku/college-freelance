@@ -34,6 +34,29 @@ export interface User {
     }
 }
 
+export const emptyUser: User = {
+	avatar: '',
+	collectionId: '',
+	collectionName: '',
+	created: '',
+	email: '',
+	emailVisibility: false,
+	id: '',
+	name: '',
+	description: '',
+	surname: '',
+	rating: [],
+	updated: '',
+	username: '',
+	verified: false,
+	role: 'customer',
+	university: '',
+	energy: 0,
+	disciplines: [],
+	favorite: [],
+	referral_code: ''
+}
+
 export interface Users {
     page: number,
     perPage: number,
