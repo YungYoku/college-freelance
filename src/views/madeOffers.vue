@@ -73,10 +73,9 @@
 		@close="closeChat"
 	>
 		<Chat
-			:id="openedChat.chat"
-			:status="openedChat.status"
-			:rating="openedChat.expand?.ratingExecutor"
-			:chat-member="openedChat.expand?.executor"
+			:offer="openedChat"
+			rating-type="ratingExecutor"
+			user-type="executor"
 			@approve-review="approveReview"
 			@decline-review="declineReview"
 			@send-rating="sendRating"

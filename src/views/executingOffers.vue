@@ -37,10 +37,9 @@
 		@close="closeChat"
 	>
 		<Chat
-			:id="openedChat.chat"
-			:status="openedChat.status"
-			:rating="openedChat.expand?.ratingCreator"
-			:chat-member="openedChat.expand?.creator"
+			:offer="openedChat"
+			rating-type="ratingCreator"
+			user-type="creator"
 			@send-to-review="sendToReview"
 			@send-rating="sendRating"
 		/>

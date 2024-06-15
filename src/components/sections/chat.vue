@@ -36,13 +36,13 @@
 		/>
 
 		<Button
-			v-if="status === 'ended' && props.rating === null"
+			v-if="offer.status === 'ended' && rating === null"
 			@click="showFeedback = true"
 		>
 			Оставить отзыв
 		</Button>
 		<Button
-			v-if="status === 'ended' && props.rating"
+			v-if="offer.status === 'ended' && rating"
 			@click="showFeedback = true"
 		>
 			Просмотр отзыва
@@ -53,9 +53,9 @@
 			@close="showFeedback = false"
 		>
 			<Rating
-				v-if="status === 'ended'"
+				v-if="offer.status === 'ended'"
 				v-model="newRating"
-				:user="props.chatMember.name"
+				:user="chatMember?.name"
 				:loading="loading"
 				@update:model-value="sendRating"
 			/>
@@ -64,20 +64,20 @@
 
 		<template v-if="auth.isExecutor">
 			<Button
-				v-if="status === 'in_progress'"
+				v-if="offer.status === 'in_progress'"
 				:loading="loading"
 				@click="sendToReview"
 			>
 				Отправить на проверку
 			</Button>
 			<span
-				v-else-if="status === 'on_review'"
+				v-else-if="offer.status === 'on_review'"
 				class="text-xs text-center"
 			>
 				На проверке
 			</span>
 			<span
-				v-else-if="status === 'ended'"
+				v-else-if="offer.status === 'ended'"
 				class="text-xs text-center"
 			>
 				Объявление завершено
@@ -85,7 +85,7 @@
 		</template>
 
 		<template v-if="auth.isCustomer">
-			<template v-if="status === 'on_review'">
+			<template v-if="offer.status === 'on_review'">
 				<Button
 					:loading="loading"
 					@click="approveReview"
@@ -100,7 +100,7 @@
 				</Button>
 			</template>
 			<span
-				v-else-if="status === 'ended'"
+				v-else-if="offer.status === 'ended'"
 				class="h-9 text-xs text-center content-center"
 			>
 				Объявление завершено
@@ -110,7 +110,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import http from '@/plugins/http'
@@ -118,24 +118,20 @@ import { Chat } from '@/interfaces/Chat.ts'
 import { Grid } from '@/components/structures'
 import { Input, Button, Rating, Message, InputFile, User } from '@/components/blocks'
 import { Message as IMessage } from '@/interfaces/Message.ts'
-import type { JobOfferStatus } from '@/interfaces/JobOffer.ts'
-import { emptyUser, User as IUser } from '@/interfaces/User'
+import { emptyOffer, JobOffer } from '@/interfaces/JobOffer.ts'
+import { emptyUser } from '@/interfaces/User'
 import { Rating as IRating } from '@/interfaces/Rating'
 import Modal from '@/components/structures/modal.vue'
 
 interface Props {
-	id: string,
-	chatMember: IUser
-	status: JobOfferStatus,
-	rating: IRating | null
+	offer: JobOffer,
+	userType: 'executor' | 'creator'
+	ratingType: 'ratingExecutor' | 'ratingCreator'
 }
 const props = withDefaults(defineProps<Props>(), {
-	id: '',
-	chatMember: () => ({
-		...emptyUser
-	}),
-	status: 'created',
-	rating: null
+	offer: () => emptyOffer,
+	userType: 'creator',
+	ratingType: 'ratingCreator',
 })
 
 const messagesRef = ref<HTMLInputElement | null>(null)
@@ -154,10 +150,13 @@ const showFeedback = ref(false)
 
 const loading = ref(true)
 
+const chatMember = computed(() => props.offer.expand?.[props.userType])
+const rating = computed(() => props.offer.expand?.[props.ratingType] ?? null)
+
 const loadChat = async () => {
 	await http.connect<Chat>({
 		collection: 'chats',
-		id: props.id,
+		id: props.offer.chat,
 		expand: ['messages', 'messages.file'],
 		cb: (response: Chat) => {
 			chat.value = response
@@ -174,8 +173,8 @@ const loadChat = async () => {
 	})
 }
 
-watch(() => props.id, loadChat, { immediate: true })
-watch(() => props.status, () => { loading.value = false })
+watch(() => props.offer.chat, loadChat, { immediate: true })
+watch(() => props.offer.status, () => { loading.value = false })
 
 const auth = useAuthStore()
 
@@ -188,7 +187,7 @@ const sendMessage = async () => {
 	loading.value = true
 
 	await http
-		.post<IMessage>(`/send-message/${props.id}`, {
+		.post<IMessage>(`/send-message/${props.offer.chat}`, {
 			text: newMessage.value,
 			file: file.value
 		})
@@ -228,9 +227,9 @@ const newRating = ref<IRating>({
 	stars: 0,
 	review: ''
 })
-watch(() => props.rating, () => {
-	if (props.rating) {
-		newRating.value = props.rating
+watch(rating, () => {
+	if (rating.value) {
+		newRating.value = rating.value
 	}
 }, { immediate: true })
 const sendRating = () => {

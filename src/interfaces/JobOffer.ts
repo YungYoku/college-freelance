@@ -43,6 +43,29 @@ export interface JobOffer {
     }
 }
 
+export const emptyOffer: JobOffer = {
+	ratingCreator: '',
+	ratingExecutor: '',
+	chat: '',
+	collectionId: '',
+	collectionName: '',
+	created: '',
+	creator: '',
+	deadline: new Date(),
+	discipline: '',
+	executor: '',
+	id: '',
+	proposals: [],
+	status: 'created',
+	type: '',
+	university: '',
+	updated: '',
+	title: '',
+	description: '',
+	file: null,
+	price: 0
+}
+
 interface JobOfferType {
     collectionId: string
     collectionName: string

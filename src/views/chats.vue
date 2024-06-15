@@ -9,7 +9,7 @@
 			<Grid>
 				<Grid
 					v-for="chat in chats"
-					:key="chat"
+					:key="chat.id"
 					gap="xs"
 					class="cursor-pointer rounded-md p-2 hover:bg-card"
 					:class="{
@@ -20,9 +20,10 @@
 					<Text size="s">
 						{{ chat.title }}
 					</Text>
+
 					<UserCard
 						:loading="loading"
-						:user="auth.isCustomer ? chat.expand?.executor : chat.expand?.executor"
+						:user="getUserForChar(chat)"
 					/>
 				</Grid>
 			</Grid>
@@ -34,10 +35,9 @@
 			</Text>
 			<Chat
 				v-else
-				:id="openedChat.chat"
-				:status="openedChat.status"
-				:rating="openedChat.expand?.ratingExecutor"
-				:chat-member="openedChat.expand?.executor"
+				:offer="openedChat"
+				:rating-type="chatRatingType"
+				:user-type="chatUserType"
 				@approve-review="approveReview"
 				@decline-review="declineReview"
 				@send-to-review="sendToReview"
@@ -55,23 +55,29 @@ import { Island, Grid } from '@/components/structures'
 import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer'
 
 import http from '@/plugins/http'
-import { onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import Text from '@/components/elements/text.vue'
 import { Rating } from '@/interfaces/Rating.ts'
 
 const auth = useAuthStore()
 const openedChat = ref<IJobOffer | null>(null)
-const chats = ref()
+const chats = ref<Array<IJobOffer>>([])
 const loading = ref(true)
+
+const chatRatingType = computed(() => auth.isCustomer ? 'ratingExecutor' : 'ratingCreator')
+const getUserForChar = (chat: IJobOffer) => auth.isCustomer ? chat.expand?.executor : chat.expand?.creator
+const chatUserType = computed(() => auth.isCustomer ? 'executor' : 'creator')
 
 const getChats = async () => {
 	if (auth.user.id === '') return
 	loading.value = true
 
+	const userFilter = auth.isCustomer ? `creator='${auth.user.id}'` : `executor='${auth.user.id}'`
+
 	await http.get<JobOffers>('/collections/job_offers/records', {
-		filter: auth.isCustomer ? `(creator='${auth.user.id}')` : `(executor='${auth.user.id}')`,
-		expand: ['proposals', 'type', 'discipline', 'executor', 'ratingExecutor']
+		filter: `(${userFilter})`,
+		expand: ['proposals', 'type', 'discipline', 'creator', 'ratingCreator', 'executor', 'ratingExecutor']
 	})
 		.then(response => {
 			chats.value = response.items.filter(item => item.status !== 'created')
@@ -142,10 +148,7 @@ const sendToReview = async () => {
 		})
 }
 
-const loadChat = (chat: IJobOffer) => {
-	openedChat.value = chat
+const loadChat = (offer: IJobOffer) => {
+	openedChat.value = offer
 }
-onMounted(() => {
-	getChats()
-})
 </script>
