@@ -38,9 +38,7 @@
 				:offer="openedChat"
 				:rating-type="chatRatingType"
 				:user-type="chatUserType"
-				@approve-review="approveReview"
-				@decline-review="declineReview"
-				@send-to-review="sendToReview"
+				@update:status="updateStatus"
 				@send-rating="sendRating"
 			/>
 		</Island>
@@ -52,7 +50,7 @@ import { Chat } from '@/components/sections'
 import { User as UserCard } from '@/components/blocks'
 import { PageTitle } from '@/components/elements'
 import { Island, Grid } from '@/components/structures'
-import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer'
+import { IJobOffer, IJobOffers, IJobOfferStatus } from '@/interfaces/JobOffer'
 
 import http from '@/plugins/http'
 import { computed, ref, watch } from 'vue'
@@ -87,34 +85,10 @@ const getChats = async () => {
 }
 watch(() => auth.user.id, getChats, { immediate: true })
 
-const approveReview = async () => {
-	if (!openedChat.value) return
-
-	await http
-		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
-			...openedChat.value,
-			status: 'ended'
-		})
-		.then((response) => {
-			if (openedChat.value) {
-				openedChat.value.status = response.status
-			}
-		})
-}
-
-const declineReview = async () => {
-	if (!openedChat.value) return
-
-	await http
-		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
-			...openedChat.value,
-			status: 'in_progress'
-		})
-		.then((response) => {
-			if (openedChat.value) {
-				openedChat.value.status = response.status
-			}
-		})
+const updateStatus = async (status: IJobOfferStatus) => {
+	if (openedChat.value) {
+		openedChat.value.status = status
+	}
 }
 
 const sendRating = async (value: { stars: number, review: string } = { stars: 1, review: '' }) => {
@@ -129,21 +103,6 @@ const sendRating = async (value: { stars: number, review: string } = { stars: 1,
 			if (openedChat.value && openedChat.value.expand) {
 				openedChat.value.ratingExecutor = response.id
 				openedChat.value.expand.ratingExecutor = response
-			}
-		})
-}
-
-const sendToReview = async () => {
-	if (!openedChat.value) return
-
-	await http
-		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
-			...openedChat.value,
-			status: 'on_review'
-		})
-		.then((response) => {
-			if (openedChat.value) {
-				openedChat.value.status = response.status
 			}
 		})
 }

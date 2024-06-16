@@ -40,7 +40,7 @@
 			:offer="openedChat"
 			rating-type="ratingCreator"
 			user-type="creator"
-			@send-to-review="sendToReview"
+			@update:status="updateStatus"
 			@send-rating="sendRating"
 		/>
 	</Modal>
@@ -51,7 +51,7 @@ import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 import http from '@/plugins/http'
-import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
+import { IJobOffer, IJobOffers, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
 import { Grid, Modal } from '@/components/structures'
 import { Chat } from '@/components/sections'
 import { EmptyJobOffer, JobOffer } from '@/components/blocks'
@@ -89,19 +89,10 @@ const openChat = (offer: IJobOffer) => {
 
 const closeChat = () => openedChat.value = null
 
-const sendToReview = async () => {
-	if (!openedChat.value) return
-
-	await http
-		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
-			...openedChat.value,
-			status: 'on_review'
-		})
-		.then((response) => {
-			if (openedChat.value) {
-				openedChat.value.status = response.status
-			}
-		})
+const updateStatus = async (status: IJobOfferStatus) => {
+	if (openedChat.value) {
+		openedChat.value.status = status
+	}
 }
 
 const sendRating = async (value: { stars: number, review: string } = { stars: 1, review: '' }) => {

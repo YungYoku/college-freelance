@@ -118,7 +118,7 @@ import { IChat } from '@/interfaces/Chat.ts'
 import { Grid } from '@/components/structures'
 import { Input, Button, Rating, Message, InputFile, User } from '@/components/blocks'
 import { IMessage } from '@/interfaces/Message.ts'
-import { emptyOffer, IJobOffer } from '@/interfaces/JobOffer.ts'
+import { emptyOffer, IJobOffer, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
 import { emptyUser } from '@/interfaces/User'
 import { IRating } from '@/interfaces/Rating'
 import Modal from '@/components/structures/modal.vue'
@@ -197,25 +197,28 @@ const sendMessage = async () => {
 	loading.value = false
 }
 
-const emit = defineEmits(['send-to-review', 'approve-review', 'decline-review', 'send-rating'])
+const emit = defineEmits(['update:status', 'send-rating'])
 
-const sendToReview = () => {
+const updateStatus = async (status: IJobOfferStatus) => {
 	loading.value = true
 
-	emit('send-to-review')
+	const body: IJobOffer = {
+		...props.offer,
+		status
+	}
+
+	await http
+		.patch<IJobOffer>(`/collections/job_offers/records/${props.offer.id}`, body)
+		.then((response) => {
+			emit('update:status', response.status)
+		})
+
+	loading.value = false
 }
 
-const approveReview = () => {
-	loading.value = true
-
-	emit('approve-review')
-}
-
-const declineReview = () => {
-	loading.value = true
-
-	emit('decline-review')
-}
+const declineReview = () => updateStatus('in_progress')
+const sendToReview = () => updateStatus('on_review')
+const approveReview = () => updateStatus('ended')
 
 const newRating = ref<IRating>({
 	by: emptyUser,

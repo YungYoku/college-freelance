@@ -76,8 +76,7 @@
 			:offer="openedChat"
 			rating-type="ratingExecutor"
 			user-type="executor"
-			@approve-review="approveReview"
-			@decline-review="declineReview"
+			@update:status="updateStatus"
 			@send-rating="sendRating"
 		/>
 	</Modal>
@@ -177,21 +176,10 @@ const openChat = (offer: IJobOffer) => openedChat.value = offer
 const closeChat = () => openedChat.value = null
 
 const updateStatus = async (status: IJobOfferStatus) => {
-	if (!openedChat.value) return
-
-	await http
-		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
-			...openedChat.value,
-			status
-		})
-		.then((response) => {
-			if (openedChat.value) {
-				openedChat.value.status = response.status
-			}
-		})
+	if (openedChat.value) {
+		openedChat.value.status = status
+	}
 }
-const approveReview = async () => await updateStatus('ended')
-const declineReview = async () => await updateStatus('in_progress')
 
 const sendRating = async (value: { stars: number, review: string } = { stars: 1, review: '' }) => {
 	if (!openedChat.value) return
