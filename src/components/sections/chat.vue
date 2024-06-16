@@ -1,127 +1,130 @@
 <template>
-	<Grid class="chat pt-10">
-		<User
-			v-if="chatMember"
-			class="absolute top-2 left-23"
-			:loading="loading"
-			link
-			:user="chatMember"
-		/>
+	<StepByStep>
+		<template #step_1="{ next }">
+			<Grid class="chat pt-10">
+				<User
+					v-if="chatMember"
+					class="absolute top-2 left-23"
+					:loading="loading"
+					link
+					:user="chatMember"
+				/>
 
-		<div
-			ref="messagesRef"
-			class="chat__messages"
-		>
-			<Message
-				v-for="message in chat.expand?.messages ?? []"
-				:key="message.id"
-				:message="message"
-				:self="message.user === auth.user.id"
-			/>
-		</div>
+				<div
+					ref="messagesRef"
+					class="chat__messages"
+				>
+					<Message
+						v-for="message in chat.expand?.messages ?? []"
+						:key="message.id"
+						:message="message"
+						:self="message.user === auth.user.id"
+					/>
+				</div>
 
-		<InputFile
-			v-model="file"
-			:loading="loading"
-		/>
+				<InputFile
+					v-model="file"
+					:loading="loading"
+				/>
 
-		<Input
-			v-model="newMessage"
-			:disabled="loading"
-			:loading="loading"
-			label="Cообщение"
-			icon="send"
-			@action="sendMessage"
-			@keyup.enter="sendMessage"
-		/>
+				<Input
+					v-model="newMessage"
+					:disabled="loading"
+					:loading="loading"
+					label="Cообщение"
+					icon="send"
+					@action="sendMessage"
+					@keyup.enter="sendMessage"
+				/>
 
-		<Button
-			v-if="offer.status === 'ended' && rating === null"
-			@click="showFeedback = true"
-		>
-			Оставить отзыв
-		</Button>
-		<Button
-			v-if="offer.status === 'ended' && rating"
-			@click="showFeedback = true"
-		>
-			Просмотр отзыва
-		</Button>
-		<Modal
-			v-if="showFeedback"
-			:width="600"
-			@close="showFeedback = false"
-		>
+				<template v-if="offer.status === 'ended'">
+					<Button
+						v-if="rating"
+						@click="next"
+					>
+						Просмотр отзыва
+					</Button>
+					<Button
+						v-else
+						@click="next"
+					>
+						Оставить отзыв
+					</Button>
+				</template>
+
+
+				<template v-if="auth.isExecutor">
+					<Button
+						v-if="offer.status === 'in_progress'"
+						:loading="loading"
+						@click="sendToReview"
+					>
+						Отправить на проверку
+					</Button>
+					<span
+						v-else-if="offer.status === 'on_review'"
+						class="text-xs text-center"
+					>
+						На проверке
+					</span>
+					<span
+						v-else-if="offer.status === 'ended'"
+						class="text-xs text-center"
+					>
+						Объявление завершено
+					</span>
+				</template>
+
+				<template v-if="auth.isCustomer">
+					<template v-if="offer.status === 'on_review'">
+						<Button
+							:loading="loading"
+							@click="approveReview"
+						>
+							Подтвердить выполнение
+						</Button>
+						<Button
+							:loading="loading"
+							@click="declineReview"
+						>
+							Отказ
+						</Button>
+					</template>
+					<span
+						v-else-if="offer.status === 'ended'"
+						class="h-9 text-xs text-center content-center"
+					>
+						Объявление завершено
+					</span>
+				</template>
+			</Grid>
+		</template>
+
+		<template #step_2="{back}">
 			<Rating
 				v-if="offer.status === 'ended'"
 				v-model="newRating"
 				:user="chatMember?.name"
 				:loading="loading"
 				@update:model-value="sendRating"
+				@back="back"
 			/>
-		</Modal>
-
-
-		<template v-if="auth.isExecutor">
-			<Button
-				v-if="offer.status === 'in_progress'"
-				:loading="loading"
-				@click="sendToReview"
-			>
-				Отправить на проверку
-			</Button>
-			<span
-				v-else-if="offer.status === 'on_review'"
-				class="text-xs text-center"
-			>
-				На проверке
-			</span>
-			<span
-				v-else-if="offer.status === 'ended'"
-				class="text-xs text-center"
-			>
-				Объявление завершено
-			</span>
 		</template>
-
-		<template v-if="auth.isCustomer">
-			<template v-if="offer.status === 'on_review'">
-				<Button
-					:loading="loading"
-					@click="approveReview"
-				>
-					Подтвердить выполнение
-				</Button>
-				<Button
-					:loading="loading"
-					@click="declineReview"
-				>
-					Отказ
-				</Button>
-			</template>
-			<span
-				v-else-if="offer.status === 'ended'"
-				class="h-9 text-xs text-center content-center"
-			>
-				Объявление завершено
-			</span>
-		</template>
-	</Grid>
+	</StepByStep>
 </template>
 
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 
-import http from '@/plugins/http'
-import { IChat } from '@/interfaces/Chat.ts'
-import { Grid } from '@/components/structures'
+import { Grid, StepByStep } from '@/components/structures'
 import { Input, Button, Rating, Message, InputFile, User } from '@/components/blocks'
+import http from '@/plugins/http'
 import { IMessage } from '@/interfaces/Message.ts'
+import { IChat } from '@/interfaces/Chat.ts'
 import { emptyOffer, IJobOffer, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
 import { emptyUser } from '@/interfaces/User'
 import { IRating } from '@/interfaces/Rating'
-import Modal from '@/components/structures/modal.vue'
 
 interface Props {
 	offer: IJobOffer,
@@ -146,7 +149,6 @@ const chat = ref<IChat>({
 		messages: []
 	}
 })
-const showFeedback = ref(false)
 
 const loading = ref(true)
 
@@ -237,8 +239,6 @@ watch(rating, () => {
 }, { immediate: true })
 
 const sendRating = async (value: { stars: number, review: string } = { stars: 1, review: '' }) => {
-	showFeedback.value = false
-
 	const { stars, review } = value
 
 	await http.post<IRating>(`/send-review/${props.offer.id}`, {

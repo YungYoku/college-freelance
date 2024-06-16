@@ -34,6 +34,10 @@
 		<Button @click="send">
 			Отправить
 		</Button>
+
+		<Button @click="back">
+			Назад
+		</Button>
 	</Grid>
 </template>
 
@@ -86,7 +90,7 @@ const hoverIndex = ref<number | null>(null)
 const hover = (index: number | null) => hoverIndex.value = index
 
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'back'])
 
 const value = ref({
 	stars: 0,
@@ -94,4 +98,5 @@ const value = ref({
 })
 watch(() => props.modelValue, () => value.value = props.modelValue, { immediate: true })
 const send = () => emit('update:modelValue', value.value)
+const back = () => emit('back')
 </script>
