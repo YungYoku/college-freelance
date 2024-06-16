@@ -1,4 +1,4 @@
-export interface Message {
+export interface IMessage {
 	id: string
 	collectionId: string
 	collectionName: string
@@ -12,12 +12,4 @@ export interface Message {
 			value: File
 		}
 	}
-}
-
-export interface Messages {
-	items: Array<Message>
-	page: number
-	perPage: number
-	totalItems: number
-	totalPages: number
 }

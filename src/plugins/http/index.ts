@@ -189,6 +189,7 @@ class Http {
 		})
 	}
 
+	eventSource: EventSource | null = null
 	async connect<T>(options: ConnectOptions<T> = {
 		collection: '',
 		id: '',
@@ -203,14 +204,15 @@ class Http {
 			})
 		}
 
-		const eventSource = new EventSource(this.api + '/realtime')
-		eventSource.addEventListener('PB_CONNECT', (event: MessageEvent) => {
+		if (this.eventSource) this.eventSource.close()
+		this.eventSource = new EventSource(this.api + '/realtime')
+		this.eventSource.addEventListener('PB_CONNECT', (event: MessageEvent) => {
 			const data = JSON.parse(event.data)
 			this.setSubscription(url, data.clientId)
 		}, { once: true })
 
 		options.cb(await request())
-		eventSource.addEventListener(url, async () => options.cb(await request()))
+		this.eventSource.addEventListener(url, async () => options.cb(await request()))
 	}
 }
 

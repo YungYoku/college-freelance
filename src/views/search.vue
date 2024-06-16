@@ -66,7 +66,7 @@ import http from '@/plugins/http'
 
 import { Grid } from '@/components/structures'
 import { EmptyJobOffer, JobOffer, SelectLive, Button } from '@/components/blocks'
-import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
+import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
 
 const offers = ref<Array<IJobOffer>>([])
 
@@ -106,7 +106,7 @@ const loadOffers = async () => {
 	}
 
 	await http
-		.get<JobOffers>('/collections/job_offers/records', {
+		.get<IJobOffers>('/collections/job_offers/records', {
 			filter: encodedFilter,
 			expand: ['creator', 'type', 'discipline'],
 			perPage: 12

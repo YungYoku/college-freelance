@@ -1,13 +1,13 @@
-import { Message } from '@/interfaces/Message.ts'
+import { IMessage } from '@/interfaces/Message.ts'
 
-export interface Chat {
+export interface IChat {
 	id: string
 	collectionId: string
 	collectionName: string
 	created: string
 	updated: string
 	messages: Array<string>,
-	expand: {
-		messages?: Array<Message>
+	expand?: {
+		messages?: Array<IMessage>
 	}
 }

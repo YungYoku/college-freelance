@@ -22,12 +22,12 @@
 
 
 <script setup lang="ts">
-import { User } from '@/interfaces/User'
+import { IUser } from '@/interfaces/User'
 import Avatar from './avatar.vue'
 import { Skeleton } from '@/components/ui/skeleton'
 
 interface Props {
-    user: User,
+    user: IUser,
 	loading: boolean
 	link: boolean
 }

@@ -3,39 +3,67 @@
 		v-if="loading"
 		class="h-5 w-[132px] ml-auto mr-auto"
 	/>
-	<div
+
+	<Grid
 		v-else
-		class="flex flex-wrap items-center gap-2 ml-auto mr-auto"
-		@mouseleave="hover(null)"
+		class="flex flex-wrap justify-center items-center gap-2 ml-auto mr-auto"
 	>
-		<Icon
-			v-for="(icon, index) in icons"
-			:key="index"
-			:name="icon"
-			size="s"
-			@mouseenter="hover(index + 1)"
-			@click="update(index + 1)"
+		<Text size="s">
+			Оставьте свой отзыв для {{ props.user }}!
+		</Text>
+
+		<div
+			class="flex flex-wrap items-center gap-2 ml-auto mr-auto"
+			@mouseleave="hover(null)"
+		>
+			<Icon
+				v-for="(icon, index) in icons"
+				:key="index"
+				:name="icon"
+				size="m"
+				@mouseenter="hover(index + 1)"
+				@click="value.stars = index + 1"
+			/>
+		</div>
+
+		<Textarea
+			v-model="value.review"
+			label="Отзыв"
 		/>
-	</div>
+
+		<Button @click="send">
+			Отправить
+		</Button>
+
+		<Button @click="back">
+			Назад
+		</Button>
+	</Grid>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, PropType, watch } from 'vue'
 
-import { Icon } from '@/components/elements'
+import { Grid } from '@/components/structures'
+import { Button, Textarea } from '@/components/blocks'
+import { Text, Icon } from '@/components/elements'
 import { Skeleton } from '@/components/ui/skeleton'
+import { IRating } from '@/interfaces/Rating.ts'
 
 const props = defineProps({
 	modelValue: {
-		type: Number,
-		default: 0
+		type: Object as PropType<IRating>,
+		default: () => ({})
 	},
 	loading: {
 		type: Boolean,
 		default: false
+	},
+	user: {
+		type: String,
+		default: 'User'
 	}
 })
-
 const icons = computed(() => {
 	const result = []
 
@@ -47,7 +75,7 @@ const icons = computed(() => {
 				result.push('star')
 			}
 		} else {
-			if (i < props.modelValue) {
+			if (i < props.modelValue.stars) {
 				result.push('star-active')
 			} else {
 				result.push('star')
@@ -61,6 +89,14 @@ const icons = computed(() => {
 const hoverIndex = ref<number | null>(null)
 const hover = (index: number | null) => hoverIndex.value = index
 
-const emit = defineEmits(['update:modelValue'])
-const update = (value: number) => emit('update:modelValue', value)
+
+const emit = defineEmits(['update:modelValue', 'back'])
+
+const value = ref({
+	stars: 0,
+	review: ''
+})
+watch(() => props.modelValue, () => value.value = props.modelValue, { immediate: true })
+const send = () => emit('update:modelValue', value.value)
+const back = () => emit('back')
 </script>

@@ -1,12 +1,19 @@
 <template>
-	<Grid :columns="[1, '140px']">
-		<PageTitle :loading="loading">
-			<Input
-				v-model.trim="form.title.value"
+	<Grid :columns="[1, '75px', '106px']">
+		<Input
+			v-model.trim="form.title.value"
+			:disabled="loading"
+			label="Имя"
+		/>
+
+		<router-link :to="`/offer/${form.id.value}`">
+			<Button
 				:disabled="loading"
-				label="Имя"
-			/>
-		</PageTitle>
+				class="ml-auto"
+			>
+				Назад
+			</Button>
+		</router-link>
 
 		<Button
 			:disabled="loading"
@@ -89,16 +96,16 @@ import { useRoute } from 'vue-router'
 import { useToast } from '@/components/ui/toast'
 
 import http from '@/plugins/http'
-import { JobOffer } from '@/interfaces/JobOffer.ts'
+import { IJobOffer } from '@/interfaces/JobOffer.ts'
 import { Grid, Island } from '@/components/structures'
 import { Button, DatePicker, Input, SelectLive, Textarea } from '@/components/blocks'
-import { PageTitle, Text } from '@/components/elements'
+import { Text } from '@/components/elements'
 import Form from '@/plugins/form'
-import { User } from '@/interfaces/User.ts'
+import { IUser } from '@/interfaces/User.ts'
 
 const { toast } = useToast()
 
-const form = Form<JobOffer>({
+const form = Form<IJobOffer>({
 	collectionId: '',
 	collectionName: '',
 	created: '',
@@ -130,7 +137,7 @@ const loadOffer = async () => {
 	loading.value = true
 
 	await http
-		.get<JobOffer>(`/collections/job_offers/records/${id}`, {
+		.get<IJobOffer>(`/collections/job_offers/records/${id}`, {
 			expand: ['creator', 'executor', 'discipline', 'type', 'university']
 		})
 		.then(response => {
@@ -146,7 +153,7 @@ const save = async () => {
 	form.clearErrors()
 
 	await http
-		.patch<User>(`/collections/job_offers/records/${form.id.value}`, form.get())
+		.patch<IUser>(`/collections/job_offers/records/${form.id.value}`, form.get())
 		.then(() => {
 			toast({
 				title: 'Сохранено успешно!'

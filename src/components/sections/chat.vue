@@ -1,146 +1,148 @@
 <template>
-	<Grid class="chat">
-		<User
-			v-if="chatMember"
-			class="absolute top-2 left-23"
-			:loading="loading"
-			link
-			:user="chatMember"
-		/>
+	<StepByStep>
+		<template #step_1="{ next }">
+			<Grid class="chat pt-10">
+				<User
+					v-if="chatMember"
+					class="absolute top-2 left-23"
+					:loading="loading"
+					link
+					:user="chatMember"
+				/>
 
-		<div
-			ref="messagesRef"
-			class="chat__messages"
-		>
-			<Message
-				v-for="message in chat.expand?.messages ?? []"
-				:key="message.id"
-				:message="message"
-				:self="message.user === auth.user.id"
-			/>
-		</div>
+				<div
+					ref="messagesRef"
+					class="chat__messages"
+				>
+					<Message
+						v-for="message in chat.expand?.messages ?? []"
+						:key="message.id"
+						:message="message"
+						:self="message.user === auth.user.id"
+					/>
+				</div>
 
-		<InputFile
-			v-model="file"
-			:loading="loading"
-		/>
+				<InputFile
+					v-model="file"
+					:loading="loading"
+				/>
 
-		<Input
-			v-model="newMessage"
-			:disabled="loading"
-			:loading="loading"
-			label="Cообщение"
-			icon="send"
-			@action="sendMessage"
-			@keyup.enter="sendMessage"
-		/>
+				<Input
+					v-model="newMessage"
+					:disabled="loading"
+					:loading="loading"
+					label="Cообщение"
+					icon="send"
+					@action="sendMessage"
+					@keyup.enter="sendMessage"
+				/>
 
-		<Rating
-			v-if="status === 'ended'"
-			v-model="newRating"
-			:loading="loading"
-			@update:model-value="sendRating"
-		/>
+				<template v-if="offer.status === 'ended'">
+					<Button
+						v-if="rating"
+						@click="next"
+					>
+						Просмотр отзыва
+					</Button>
+					<Button
+						v-else
+						@click="next"
+					>
+						Оставить отзыв
+					</Button>
+				</template>
 
-		<template v-if="auth.isExecutor">
-			<Button
-				v-if="status === 'in_progress'"
+
+				<template v-if="auth.isExecutor">
+					<Button
+						v-if="offer.status === 'in_progress'"
+						:loading="loading"
+						@click="sendToReview"
+					>
+						Отправить на проверку
+					</Button>
+					<span
+						v-else-if="offer.status === 'on_review'"
+						class="text-xs text-center"
+					>
+						На проверке
+					</span>
+					<span
+						v-else-if="offer.status === 'ended'"
+						class="text-xs text-center"
+					>
+						Объявление завершено
+					</span>
+				</template>
+
+				<template v-if="auth.isCustomer">
+					<template v-if="offer.status === 'on_review'">
+						<Button
+							:loading="loading"
+							@click="approveReview"
+						>
+							Подтвердить выполнение
+						</Button>
+						<Button
+							:loading="loading"
+							@click="declineReview"
+						>
+							Отказ
+						</Button>
+					</template>
+					<span
+						v-else-if="offer.status === 'ended'"
+						class="h-9 text-xs text-center content-center"
+					>
+						Объявление завершено
+					</span>
+				</template>
+			</Grid>
+		</template>
+
+		<template #step_2="{back}">
+			<Rating
+				v-if="offer.status === 'ended'"
+				v-model="newRating"
+				:user="chatMember?.name"
 				:loading="loading"
-				@click="sendToReview"
-			>
-				Отправить на проверку
-			</Button>
-			<span
-				v-else-if="status === 'on_review'"
-				class="text-xs text-center"
-			>
-				На проверке
-			</span>
-			<span
-				v-else-if="status === 'ended'"
-				class="text-xs text-center"
-			>
-				Объявление завершено
-			</span>
+				@update:model-value="sendRating"
+				@back="back"
+			/>
 		</template>
-
-		<template v-if="auth.isCustomer">
-			<template v-if="status === 'on_review'">
-				<Button
-					:loading="loading"
-					@click="approveReview"
-				>
-					Подтвердить выполнение
-				</Button>
-				<Button
-					:loading="loading"
-					@click="declineReview"
-				>
-					Отказ
-				</Button>
-			</template>
-			<span
-				v-else-if="status === 'ended'"
-				class="h-9 text-xs text-center content-center"
-			>
-				Объявление завершено
-			</span>
-		</template>
-	</Grid>
+	</StepByStep>
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 
-import http from '@/plugins/http'
-import { Chat } from '@/interfaces/Chat.ts'
-import { Grid } from '@/components/structures'
+import { Grid, StepByStep } from '@/components/structures'
 import { Input, Button, Rating, Message, InputFile, User } from '@/components/blocks'
-import { Message as IMessage } from '@/interfaces/Message.ts'
-import type { JobOfferStatus } from '@/interfaces/JobOffer.ts'
-import { User as IUser } from '@/interfaces/User'
+import http from '@/plugins/http'
+import { IMessage } from '@/interfaces/Message.ts'
+import { IChat } from '@/interfaces/Chat.ts'
+import { emptyOffer, IJobOffer, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
+import { emptyUser } from '@/interfaces/User'
+import { IRating } from '@/interfaces/Rating'
 
 interface Props {
-	id: string,
-	chatMember: IUser
-	status: JobOfferStatus,
-	rating: number
+	offer: IJobOffer,
+	userType: 'executor' | 'creator'
+	ratingType: 'ratingExecutor' | 'ratingCreator'
 }
 const props = withDefaults(defineProps<Props>(), {
-	id: '',
-	chatMember: () => ({
-		avatar: '',
-		collectionId: '',
-		collectionName: '',
-		created: '',
-		email: '',
-		emailVisibility: false,
-		id: '',
-		name: '',
-		description: '',
-		surname: '',
-		rating: [],
-		updated: '',
-		username: '',
-		verified: false,
-		role: 'customer',
-		university: '',
-		energy: 0,
-		disciplines: [],
-		favorite: [],
-		referral_code: ''
-	}),
-	status: 'created',
-	rating: 0
+	offer: () => emptyOffer,
+	userType: 'creator',
+	ratingType: 'ratingCreator',
 })
 
 const messagesRef = ref<HTMLInputElement | null>(null)
-const chat = ref<Chat>({
+const chat = ref<IChat>({
 	created: '',
 	id: '',
 	messages: [],
-	collectionId: '', 
+	collectionId: '',
 	collectionName: '',
 	updated: '',
 	expand: {
@@ -150,12 +152,15 @@ const chat = ref<Chat>({
 
 const loading = ref(true)
 
+const chatMember = computed(() => props.offer.expand?.[props.userType])
+const rating = computed(() => props.offer.expand?.[props.ratingType] ?? null)
+
 const loadChat = async () => {
-	await http.connect<Chat>({
+	await http.connect<IChat>({
 		collection: 'chats',
-		id: props.id,
+		id: props.offer.chat,
 		expand: ['messages', 'messages.file'],
-		cb: (response: Chat) => {
+		cb: (response: IChat) => {
 			chat.value = response
 
 			nextTick(() => {
@@ -170,8 +175,8 @@ const loadChat = async () => {
 	})
 }
 
-watch(() => props.id, loadChat, { immediate: true })
-watch(() => props.status, () => { loading.value = false })
+watch(() => props.offer.chat, loadChat, { immediate: true })
+watch(() => props.offer.status, () => { loading.value = false })
 
 const auth = useAuthStore()
 
@@ -184,7 +189,7 @@ const sendMessage = async () => {
 	loading.value = true
 
 	await http
-		.post<IMessage>(`/send-message/${props.id}`, {
+		.post<IMessage>(`/send-message/${props.offer.chat}`, {
 			text: newMessage.value,
 			file: file.value
 		})
@@ -194,32 +199,56 @@ const sendMessage = async () => {
 	loading.value = false
 }
 
-const emit = defineEmits(['send-to-review', 'approve-review', 'decline-review', 'send-rating'])
+const emit = defineEmits(['update:status', 'update:rating'])
 
-const sendToReview = () => {
+const updateStatus = async (status: IJobOfferStatus) => {
 	loading.value = true
 
-	emit('send-to-review')
+	const body: IJobOffer = {
+		...props.offer,
+		status
+	}
+
+	await http
+		.patch<IJobOffer>(`/collections/job_offers/records/${props.offer.id}`, body)
+		.then((response) => {
+			emit('update:status', response.status)
+		})
+
+	loading.value = false
 }
 
-const approveReview = () => {
-	loading.value = true
+const declineReview = () => updateStatus('in_progress')
+const sendToReview = () => updateStatus('on_review')
+const approveReview = () => updateStatus('ended')
 
-	emit('approve-review')
-}
-
-const declineReview = () => {
-	loading.value = true
-
-	emit('decline-review')
-}
-
-const newRating = ref<number>()
-watch(() => props.rating, () => { newRating.value = props.rating }, { immediate: true })
-const sendRating = () => emit('send-rating', {
-	rating: newRating.value,
+const newRating = ref<IRating>({
+	by: emptyUser,
+	collectionId: '',
+	collectionName: '',
+	created: '',
+	id: '',
+	updated: '',
+	stars: 0,
 	review: ''
 })
+watch(rating, () => {
+	if (rating.value) {
+		newRating.value = rating.value
+	}
+}, { immediate: true })
+
+const sendRating = async (value: { stars: number, review: string } = { stars: 1, review: '' }) => {
+	const { stars, review } = value
+
+	await http.post<IRating>(`/send-review/${props.offer.id}`, {
+		stars,
+		review
+	})
+		.then((response) => {
+			emit('update:rating', response)
+		})
+}
 </script>
 
 <style scoped lang="scss">

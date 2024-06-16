@@ -96,14 +96,14 @@ import { useAuthStore } from '@/stores/auth'
 import { Grid, Island } from '@/components/structures'
 import { Input, Textarea, Button, DatePicker, SelectLive, InputFile } from '@/components/blocks'
 import { useToast } from '@/components/ui/toast'
-import { JobOffer } from '@/interfaces/JobOffer'
+import { IJobOffer } from '@/interfaces/JobOffer'
 import http from '@/plugins/http'
 import Form from '@/plugins/form'
 import { PageTitle, Text } from '@/components/elements'
 
 const auth = useAuthStore()
 
-const newOffer = Form<JobOffer>({
+const newOffer = Form<IJobOffer>({
 	chat: '',
 	collectionId: '',
 	collectionName: '',
@@ -137,7 +137,7 @@ const createOffer = async () => {
 	newOffer.clearErrors()
 
 	await http
-		.post<JobOffer>('/collections/job_offers/records/', newOffer.get())
+		.post<IJobOffer>('/collections/job_offers/records/', newOffer.get())
 		.then(response => {
 			router.push(`/offer/${response.id}`)
 		})

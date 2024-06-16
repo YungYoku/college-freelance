@@ -37,12 +37,11 @@
 		@close="closeChat"
 	>
 		<Chat
-			:id="openedChat.chat"
-			:status="openedChat.status"
-			:rating="openedChat.expand?.ratingCreator?.stars"
-			:chat-member="openedChat.expand?.creator"
-			@send-to-review="sendToReview"
-			@send-rating="sendRating"
+			:offer="openedChat"
+			rating-type="ratingCreator"
+			user-type="creator"
+			@update:status="updateStatus"
+			@update:rating="updateRating"
 		/>
 	</Modal>
 </template>
@@ -52,12 +51,12 @@ import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 import http from '@/plugins/http'
-import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
+import { IJobOffer, IJobOffers, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
 import { Grid, Modal } from '@/components/structures'
 import { Chat } from '@/components/sections'
 import { EmptyJobOffer, JobOffer } from '@/components/blocks'
 import { PageTitle } from '@/components/elements'
-import { Rating } from '@/interfaces/Rating.ts'
+import { IRating } from '@/interfaces/Rating.ts'
 
 const auth = useAuthStore()
 
@@ -70,7 +69,7 @@ const getUserOffers = async () => {
 	loading.value = true
 
 	await http
-		.get<JobOffers>('/collections/job_offers/records', {
+		.get<IJobOffers>('/collections/job_offers/records', {
 			filter: `(executor='${auth.user.id}')`,
 			expand: ['type', 'discipline', 'creator', 'ratingCreator']
 		})
@@ -90,35 +89,17 @@ const openChat = (offer: IJobOffer) => {
 
 const closeChat = () => openedChat.value = null
 
-const sendToReview = async () => {
-	if (!openedChat.value) return
-
-	await http
-		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
-			...openedChat.value,
-			status: 'on_review'
-		})
-		.then((response) => {
-			if (openedChat.value) {
-				openedChat.value.status = response.status
-			}
-		})
+const updateStatus = async (status: IJobOfferStatus) => {
+	if (openedChat.value) {
+		openedChat.value.status = status
+	}
 }
 
-const sendRating = async (value: { rating: number, review: string } = { rating: 1, review: '' }) => {
-	if (!openedChat.value) return
-	const { rating, review } = value
-
-	await http.post<Rating>(`/send-review/${openedChat.value.id}`, {
-		stars: rating,
-		review
-	})
-		.then((response) => {
-			if (openedChat.value && openedChat.value.expand) {
-				openedChat.value.ratingCreator = response.id
-				openedChat.value.expand.ratingCreator = response
-			}
-		})
+const updateRating = async (rating: IRating) => {
+	if (openedChat.value && openedChat.value.expand) {
+		openedChat.value.ratingCreator = rating.id
+		openedChat.value.expand.ratingCreator = rating
+	}
 }
 </script>
 

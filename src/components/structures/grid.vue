@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="grid"
-		:class="{ vertical }"
+		:class="[`gap-${gaps[gap]}`,{ vertical }]"
 		:style="style"
 	>
 		<slot/>
@@ -15,6 +15,7 @@ type Columns = number | Array<number | string> | null
 
 interface Props {
 	vertical?: boolean
+	gap: 'xs' | 's' | 'm' |'l'
 	columns?: Columns
 	columnsL?: Columns
 	columnsM?: Columns
@@ -24,6 +25,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
 	vertical: false,
+	gap: 's',
 	columns: null,
 	columnsL: null,
 	columnsM: null,
@@ -60,6 +62,12 @@ onBeforeUnmount(() => {
 	window.removeEventListener('resize', updateActiveColumns)
 })
 
+const gaps = {
+	xs: '1',
+	s: '2',
+	m: '3',
+	l: '4'
+}
 const style = computed(() => {
 	if (typeof activeColumns.value === 'number') {
 		return {
@@ -84,7 +92,6 @@ const style = computed(() => {
     display: grid;
 
     width: 100%;
-    gap: 10px;
 
     &.vertical {
         grid-auto-flow: column;

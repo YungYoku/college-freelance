@@ -1,7 +1,7 @@
 <template>
 	<div class="search-tags">
 		<Badge
-			v-for="(item, index) in items"
+			v-for="(item, index) in tags"
 			:key="index"
 			class="search-tags__child cursor-pointer"
 			@click="selectTag(item)"
@@ -12,9 +12,11 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useSearchStore } from '@/stores/search.ts'
 
 import { Badge } from '@/components/ui/badge'
+import Screen from '@/plugins/screen'
 
 const items = [
 	'тригонометрия',
@@ -25,6 +27,11 @@ const items = [
 	'биохимические формулы',
 	'17 задача по математике ЕГЭ'
 ]
+
+const tags = computed(() => {
+	if (Screen.isSize('s')) return items.slice(0, 3)
+	return items.slice(0, items.length)
+})
 
 const searchStore = useSearchStore()
 

@@ -8,23 +8,23 @@ class Screen {
 	}
 
 	constructor() {
-		this.update()
-		window.addEventListener('resize', this.update.bind(this))
+		this.#update()
+		window.addEventListener('resize', this.#update.bind(this))
 	}
 
-	size = ref('xl')
+	#size = ref('xl')
 
-	update() {
+	#update() {
 		const value = document.body.clientWidth
 
-		if (value <= 768) this.size.value = 's'
-		else if (value <= 1024) this.size.value = 'm'
-		else if (value <= 1280) this.size.value = 'l'
-		else if (value <= 1440) this.size.value = 'xl'
+		if (value <= 768) this.#size.value = 's'
+		else if (value <= 1024) this.#size.value = 'm'
+		else if (value <= 1280) this.#size.value = 'l'
+		else if (value <= 1440) this.#size.value = 'xl'
 	}
 
 	isSize(size: string) {
-		return this.size.value === size
+		return this.#size.value === size
 	}
 }
 

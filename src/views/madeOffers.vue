@@ -49,7 +49,7 @@
 			<div
 				v-for="(user) in responsesUsers"
 				:key="user.id"
-				class="flex w-full items-center gap-2"
+				class="flex w-full items-center gap-2 pt-10"
 			>
 				<UserCard
 					:loading="loading"
@@ -58,7 +58,7 @@
 				/>
 
 				<Icon
-					v-if="!openedOffer.executor && !loading"
+					v-if="!loading"
 					class="ml-auto"
 					name="check"
 					@click="pickExecutor(user)"
@@ -73,13 +73,11 @@
 		@close="closeChat"
 	>
 		<Chat
-			:id="openedChat.chat"
-			:status="openedChat.status"
-			:rating="openedChat.expand?.ratingExecutor?.stars"
-			:chat-member="openedChat.expand?.executor"
-			@approve-review="approveReview"
-			@decline-review="declineReview"
-			@send-rating="sendRating"
+			:offer="openedChat"
+			rating-type="ratingExecutor"
+			user-type="executor"
+			@update:status="updateStatus"
+			@update:rating="updateRating"
 		/>
 	</Modal>
 </template>
@@ -89,13 +87,13 @@ import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 import http from '@/plugins/http'
-import { Users, User } from '@/interfaces/User.ts'
-import { JobOffer as IJobOffer, JobOffers } from '@/interfaces/JobOffer.ts'
+import { IUsers, IUser } from '@/interfaces/User.ts'
+import { IJobOffer, IJobOffers, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
 import { Grid, Modal } from '@/components/structures'
 import { Chat } from '@/components/sections'
 import { EmptyJobOffer, JobOffer, User as UserCard } from '@/components/blocks'
 import { Icon, PageTitle, Text } from '@/components/elements'
-import { Rating } from '@/interfaces/Rating.ts'
+import { IRating } from '@/interfaces/Rating.ts'
 
 
 const auth = useAuthStore()
@@ -109,7 +107,7 @@ const getUserOffers = async () => {
 	loading.value = true
 
 	await http
-		.get<JobOffers>('/collections/job_offers/records', {
+		.get<IJobOffers>('/collections/job_offers/records', {
 			filter: `(creator='${auth.user.id}')`,
 			expand: ['proposals', 'type', 'discipline', 'executor', 'ratingExecutor']
 		})
@@ -123,7 +121,7 @@ const getUserOffers = async () => {
 watch(() => auth.user.id, getUserOffers, { immediate: true })
 
 const openedOffer = ref<IJobOffer | null>(null)
-const responsesUsers = ref<Array<User>>([])
+const responsesUsers = ref<Array<IUser>>([])
 
 const openResponses = async (offer: IJobOffer) => {
 	if (!offer.expand?.proposals || offer.expand?.proposals?.length === 0) return
@@ -133,7 +131,7 @@ const openResponses = async (offer: IJobOffer) => {
 	let ids = offer.expand.proposals.reduce((result, proposal) => result + `id='${proposal.user}' || `, '')
 	ids = ids.slice(0, ids.length - 3)
 	await http
-		.get<Users>('/collections/users/records', {
+		.get<IUsers>('/collections/users/records', {
 			filter: `(${ids})`
 		})
 		.then(response => {
@@ -146,7 +144,7 @@ const closeResponses = () => {
 	responsesUsers.value = []
 }
 
-const pickExecutor = async (user: User) => {
+const pickExecutor = async (user: IUser) => {
 	if (!openedOffer.value || loading.value) return
 	const executorChat = openedOffer.value.expand?.proposals?.find(proposal => proposal.user === user.id)?.chat
 
@@ -177,51 +175,17 @@ const openChat = (offer: IJobOffer) => openedChat.value = offer
 
 const closeChat = () => openedChat.value = null
 
-
-const approveReview = async () => {
-	if (!openedChat.value) return
-
-	await http
-		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
-			...openedChat.value,
-			status: 'ended'
-		})
-		.then((response) => {
-			if (openedChat.value) {
-				openedChat.value.status = response.status
-			}
-		})
+const updateStatus = async (status: IJobOfferStatus) => {
+	if (openedChat.value) {
+		openedChat.value.status = status
+	}
 }
 
-const declineReview = async () => {
-	if (!openedChat.value) return
-
-	await http
-		.patch<IJobOffer>(`/collections/job_offers/records/${openedChat.value.id}`, {
-			...openedChat.value,
-			status: 'in_progress'
-		})
-		.then((response) => {
-			if (openedChat.value) {
-				openedChat.value.status = response.status
-			}
-		})
-}
-
-const sendRating = async (value: { rating: number, review: string } = { rating: 1, review: '' }) => {
-	if (!openedChat.value) return
-	const { rating, review } = value
-
-	await http.post<Rating>(`/send-review/${openedChat.value.id}`, {
-		stars: rating,
-		review
-	})
-		.then((response) => {
-			if (openedChat.value && openedChat.value.expand) {
-				openedChat.value.ratingExecutor = response.id
-				openedChat.value.expand.ratingExecutor = response
-			}
-		})
+const updateRating = async (rating: IRating) => {
+	if (openedChat.value && openedChat.value.expand) {
+		openedChat.value.ratingExecutor = rating.id
+		openedChat.value.expand.ratingExecutor = rating
+	}
 }
 </script>
 

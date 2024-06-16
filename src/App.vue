@@ -7,7 +7,7 @@
 import { useAuthStore } from '@/stores/auth'
 import http from './plugins/http'
 import LocalStorage from '@/plugins/localStorage'
-import { User } from '@/interfaces/User'
+import { IUser } from '@/interfaces/User'
 import Toaster from '@/components/ui/toast/Toaster.vue'
 import { watch } from 'vue'
 
@@ -19,7 +19,7 @@ const loadUserInfo = async () => {
 		if (!userId) return
 
 		http
-			.get<User>(`/collections/users/records/${userId}`)
+			.get<IUser>(`/collections/users/records/${userId}`)
 			.then((user) => {
 				auth.setUser(user)
 			})

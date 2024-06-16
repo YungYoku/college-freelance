@@ -89,7 +89,7 @@ import http from '@/plugins/http/index'
 import { AuthLayout } from '@/components/layouts'
 import { Card } from '@/components/structures'
 import { Select, Input, Button } from '@/components/blocks'
-import { User } from '@/interfaces/User.ts'
+import { IUser } from '@/interfaces/User.ts'
 import Form from '@/plugins/form'
 import { useToast } from '@/components/ui/toast'
 
@@ -134,7 +134,7 @@ const register = async () => {
 		form.clearErrors()
 
 		await http
-			.post<User>('/collections/users/records', form.get())
+			.post<IUser>('/collections/users/records', form.get())
 			.then(() => {
 				router.push('/')
 			})
