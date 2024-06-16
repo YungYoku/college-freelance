@@ -77,7 +77,7 @@
 			rating-type="ratingExecutor"
 			user-type="executor"
 			@update:status="updateStatus"
-			@send-rating="sendRating"
+			@update:rating="updateRating"
 		/>
 	</Modal>
 </template>
@@ -181,20 +181,11 @@ const updateStatus = async (status: IJobOfferStatus) => {
 	}
 }
 
-const sendRating = async (value: { stars: number, review: string } = { stars: 1, review: '' }) => {
-	if (!openedChat.value) return
-	const { stars, review } = value
-
-	await http.post<IRating>(`/send-review/${openedChat.value.id}`, {
-		stars,
-		review
-	})
-		.then((response) => {
-			if (openedChat.value && openedChat.value.expand) {
-				openedChat.value.ratingExecutor = response.id
-				openedChat.value.expand.ratingExecutor = response
-			}
-		})
+const updateRating = async (rating: IRating) => {
+	if (openedChat.value && openedChat.value.expand) {
+		openedChat.value.ratingExecutor = rating.id
+		openedChat.value.expand.ratingExecutor = rating
+	}
 }
 </script>
 

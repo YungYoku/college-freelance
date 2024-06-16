@@ -39,7 +39,7 @@
 				:rating-type="chatRatingType"
 				:user-type="chatUserType"
 				@update:status="updateStatus"
-				@send-rating="sendRating"
+				@update:rating="updateRating"
 			/>
 		</Island>
 	</Grid>
@@ -91,20 +91,16 @@ const updateStatus = async (status: IJobOfferStatus) => {
 	}
 }
 
-const sendRating = async (value: { stars: number, review: string } = { stars: 1, review: '' }) => {
-	if (!openedChat.value) return
-	const { stars, review } = value
-
-	await http.post<IRating>(`/send-review/${openedChat.value.id}`, {
-		stars,
-		review
-	})
-		.then((response) => {
-			if (openedChat.value && openedChat.value.expand) {
-				openedChat.value.ratingExecutor = response.id
-				openedChat.value.expand.ratingExecutor = response
-			}
-		})
+const updateRating = async (rating: IRating) => {
+	if (openedChat.value && openedChat.value.expand) {
+		if (auth.isCustomer) {
+			openedChat.value.ratingExecutor = rating.id
+			openedChat.value.expand.ratingExecutor = rating
+		} else if (auth.isExecutor) {
+			openedChat.value.ratingCreator = rating.id
+			openedChat.value.expand.ratingCreator = rating
+		}
+	}
 }
 
 const loadChat = (offer: IJobOffer) => {

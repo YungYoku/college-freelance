@@ -197,7 +197,7 @@ const sendMessage = async () => {
 	loading.value = false
 }
 
-const emit = defineEmits(['update:status', 'send-rating'])
+const emit = defineEmits(['update:status', 'update:rating'])
 
 const updateStatus = async (status: IJobOfferStatus) => {
 	loading.value = true
@@ -235,12 +235,19 @@ watch(rating, () => {
 		newRating.value = rating.value
 	}
 }, { immediate: true })
-const sendRating = () => {
+
+const sendRating = async (value: { stars: number, review: string } = { stars: 1, review: '' }) => {
 	showFeedback.value = false
-	emit('send-rating', {
-		stars: newRating.value.stars,
-		review: newRating.value.review
+
+	const { stars, review } = value
+
+	await http.post<IRating>(`/send-review/${props.offer.id}`, {
+		stars,
+		review
 	})
+		.then((response) => {
+			emit('update:rating', response)
+		})
 }
 </script>
 
