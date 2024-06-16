@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch, useSlots } from 'vue'
+import { ref, reactive, computed, useSlots } from 'vue'
 
 const emit = defineEmits(['update:modelValue', 'apply'])
 
@@ -31,27 +31,15 @@ const slots = useSlots()
 const steps = reactive(Object.keys(slots).filter((slot) => slot !== 'footer'))
 const currentStep = ref(1)
 
-const props = defineProps({
+defineProps({
 	width: {
 		type: Number,
 		default: 302
-	},
-	modelValue: {
-		type: Boolean,
-		default: false
 	},
 	title: {
 		type: String,
 		default: null
 	}
-})
-
-const show = computed({
-	get: () => props.modelValue,
-	set: (val) => emit('update:modelValue', val)
-})
-watch(show, () => {
-	if (show.value) currentStep.value = 1
 })
 
 const isRequestStep = computed(() => currentStep.value === steps.length)
