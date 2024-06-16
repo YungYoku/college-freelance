@@ -1,5 +1,5 @@
 <template>
-	<StepByStep>
+	<StepByStep :key="offer.id">
 		<template #step_1="{ next }">
 			<Grid class="chat pt-10">
 				<User
