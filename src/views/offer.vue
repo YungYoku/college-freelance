@@ -1,5 +1,9 @@
 <template>
-	<Grid :columns="[1, '140px', '140px']">
+	<Grid
+		:columns-xl="[1, '140px', '140px']"
+		:columns-m="[1, 1]"
+		:columns-s="1"
+	>
 		<PageTitle :loading="loading">
 			{{ offer.title }}
 		</PageTitle>
@@ -39,9 +43,8 @@
 	</Grid>
 
 	<Grid
-		:columns-l="2"
-		:columns-m="1"
-		:columns-s="1"
+		:columns-xl="2"
+		:columns-l="1"
 		class="mt-4"
 	>
 		<Island class="overflow-hidden">
@@ -95,10 +98,7 @@
 					Срок сдачи: {{ deadline }}
 				</Text>
 			</div>
-			<div
-				:columns="2"
-				class="flex justify-between"
-			>
+			<div class="flex justify-between">
 				<UserCard
 					class="mt-4 max-w-10"
 					link

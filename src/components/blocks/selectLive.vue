@@ -13,7 +13,7 @@
 					variant="outline"
 					role="combobox"
 					:aria-expanded="open"
-					:class="['w-full', 'justify-between', 'pl-3', {
+					:class="['w-full', 'justify-between', 'pl-3', 'overflow-hidden', {
 						'pt-4': filled,
 						'text-muted-foreground': !filled
 					}]"

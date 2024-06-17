@@ -40,8 +40,6 @@ const router = useRouter()
 const isSearchPage = computed(() => router.currentRoute.value.path === '/search')
 
 const search = () => {
-	if (value.value.length === 0) return
-
 	if (!isSearchPage.value) {
 		router.push('/search')
 		searchStore.setLoading(true)

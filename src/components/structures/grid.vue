@@ -11,26 +11,28 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
+import Screen from '@/plugins/screen'
+
 type Columns = number | Array<number | string> | null
 
 interface Props {
 	vertical?: boolean
 	gap: 'xs' | 's' | 'm' |'l'
 	columns?: Columns
+	columnsXl?: Columns
 	columnsL?: Columns
 	columnsM?: Columns
 	columnsS?: Columns
-	columnsXs?: Columns
 }
 
 const props = withDefaults(defineProps<Props>(), {
 	vertical: false,
 	gap: 's',
 	columns: null,
+	columnsXl: null,
 	columnsL: null,
 	columnsM: null,
-	columnsS: null,
-	columnsXs: null
+	columnsS: null
 })
 
 const activeColumns = ref<Array<number | string> | number | null>(1)
@@ -39,19 +41,19 @@ const updateActiveColumns = () => {
 		activeColumns.value = props.columns
 	}
 
+	const columnsXl = props.columnsXl
 	const columnsL = props.columnsL
 	const columnsM = props.columnsM
 	const columnsS = props.columnsS
-	const columnsXs = props.columnsXs
 
-	if (window.innerWidth < 768 && columnsXs) {
-		activeColumns.value = columnsXs
-	} else if (window.innerWidth < 1024 && columnsS) {
+	if (Screen.isSize('s') && columnsS !== null) {
 		activeColumns.value = columnsS
-	} else if (window.innerWidth < 1280 && columnsM) {
+	} else if (Screen.isSmaller('m') && columnsM !== null) {
 		activeColumns.value = columnsM
-	} else if (columnsL) {
+	} else if (Screen.isSmaller('l') && columnsL !== null) {
 		activeColumns.value = columnsL
+	} else if ((Screen.isSmaller('xl') || Screen.isSize('xl')) && columnsXl !== null) {
+		activeColumns.value = columnsXl
 	}
 }
 onMounted(() => {

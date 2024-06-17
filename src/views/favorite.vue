@@ -7,10 +7,10 @@
 
 	<Grid
 		v-if="loading || offers.length"
-		:columns-l="4"
-		:columns-m="3"
-		:columns-s="2"
-		:columns-xs="1"
+		:columns-xl="4"
+		:columns-l="3"
+		:columns-m="2"
+		:columns-s="1"
 	>
 		<template v-if="loading">
 			<EmptyJobOffer

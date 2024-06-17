@@ -1,10 +1,16 @@
 <template>
 	<Grid
-		:columns-l="4"
-		:columns-m="3"
-		:columns-s="2"
-		:columns-xs="1"
+		:columns-xl="4"
+		:columns-l="3"
+		:columns-m="2"
+		:columns-s="1"
 	>
+		<Input
+			v-if="Screen.isSize('s')"
+			v-model="search"
+			label="Поиск"
+		/>
+
 		<SelectLive
 			v-model="university"
 			place-holder="Университет"
@@ -33,10 +39,10 @@
 
 	<Grid
 		v-if="offers.length || loading"
-		:columns-l="4"
-		:columns-m="3"
-		:columns-s="2"
-		:columns-xs="1"
+		:columns-xl="4"
+		:columns-l="3"
+		:columns-m="2"
+		:columns-s="1"
 	>
 		<template v-if="loading">
 			<EmptyJobOffer
@@ -58,20 +64,32 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 import { useSearchStore } from '@/stores/search.ts'
 
-import http from '@/plugins/http'
-
 import { Grid } from '@/components/structures'
-import { EmptyJobOffer, JobOffer, SelectLive, Button } from '@/components/blocks'
+import { EmptyJobOffer, JobOffer, SelectLive, Button, Input } from '@/components/blocks'
 import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
+import http from '@/plugins/http'
+import Screen from '@/plugins/screen'
 
 const offers = ref<Array<IJobOffer>>([])
 
 const authStore = useAuthStore()
 const searchStore = useSearchStore()
+
+const _search = ref('')
+const search = computed({
+	get: () => _search.value,
+	set: (value) => {
+		_search.value = value
+		searchStore.update(value)
+	}
+})
+watch(() => searchStore.search, (value) => {
+	search.value = value
+}, { immediate: true })
 
 const university = ref('')
 const offerType = ref('')
@@ -94,7 +112,7 @@ const loadOffers = async () => {
 	const today = `${year}-${getFormattedMonth(month)}-${getFormattedDay(day)}`
 
 	if (!authStore.isAdmin) filters.push(`status='created' && deadline>='${today}'`)
-	if (searchStore.search) filters.push(`title~'${searchStore.search}'`)
+	if (search.value) filters.push(`title~'${search.value}'`)
 	if (university.value) filters.push(`university='${university.value}'`)
 	if (offerType.value) filters.push(`type='${offerType.value}'`)
 	if (offerDiscipline.value) filters.push(`discipline='${offerDiscipline.value}'`)
