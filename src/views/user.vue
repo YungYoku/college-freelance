@@ -10,8 +10,8 @@
 		</Button>
 
 		<Grid
-			:columns-l="['150px', 1]"
-			:columns-s="1"
+			:columns-xl="['150px', 1]"
+			:columns-m="1"
 			class="items-center"
 		>
 			<Avatar

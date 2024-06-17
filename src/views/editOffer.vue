@@ -25,9 +25,8 @@
 	</Grid>
 
 	<Grid
-		:columns-l="2"
-		:columns-m="1"
-		:columns-s="1"
+		:columns-xl="2"
+		:columns-l="1"
 		class="mt-4"
 	>
 		<Island class="overflow-hidden">

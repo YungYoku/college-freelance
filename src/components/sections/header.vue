@@ -1,14 +1,16 @@
 <template>
 	<header class="header">
 		<Grid
-			:columns-l="[1, 2, 1]"
-			:columns-xs="[1, '20px', 1]"
+			:columns-xl="[1, 2, 1]"
+			:columns-s="[1, 1]"
 		>
 			<Logo class="header__logo"/>
 
-			<JobSearch class="header__search"/>
+			<JobSearch v-if="Screen.isLarger('s')"/>
 
 			<nav class="header__nav">
+				<JobSearch v-if="Screen.isSize('s')"/>
+
 				<router-link
 					v-for="link in filteredMenu"
 					:key="link.text"
@@ -41,9 +43,10 @@
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 
+import { Grid } from '@/components/structures'
 import { ThemeColorToggle, UserDropdown, JobSearch, Button } from '@/components/blocks'
 import { Logo, Icon } from '@/components/elements'
-import Grid from '@/components/structures/grid.vue'
+import Screen from '@/plugins/screen'
 
 const auth = useAuthStore()
 
@@ -69,10 +72,6 @@ const filteredMenu = computed(() => menu.filter(item => item.can))
     min-height: 48px;
 
 	padding: 5px 0;
-
-	&__search {
-		margin: 0 auto;
-	}
 
 	&__nav {
 		display: flex;
