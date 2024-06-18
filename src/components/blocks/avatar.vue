@@ -110,6 +110,10 @@ const removeAvatar = () => loadImage('')
         z-index: 2;
     }
 
+	&__icon-upload {
+		pointer-events: none;
+	}
+
     &__icon-remove {
         opacity: 0;
         transition: all 0.2s;
