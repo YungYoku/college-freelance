@@ -1,7 +1,7 @@
 <template>
 	<Grid
 		vertical
-		class="relative max-w-[1024px]"
+		class="relative max-w-screen-lg"
 	>
 		<Button
 			v-if="isItMyProfile"
