@@ -1,12 +1,10 @@
 <template>
 	<Grid :columns="[1, '140px']">
-		<PageTitle :loading="loading">
-			<Input
-				v-model.trim="newOffer.title.value"
-				:disabled="loading"
-				label="Имя"
-			/>
-		</PageTitle>
+		<Input
+			v-model.trim="newOffer.title.value"
+			:disabled="loading"
+			label="Имя"
+		/>
 
 		<Button
 			:disabled="loading"
@@ -98,7 +96,7 @@ import { useToast } from '@/components/ui/toast'
 import { IJobOffer } from '@/interfaces/JobOffer'
 import http from '@/plugins/http'
 import Form from '@/plugins/form'
-import { PageTitle, Text } from '@/components/elements'
+import { Text } from '@/components/elements'
 
 const auth = useAuthStore()
 

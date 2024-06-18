@@ -1,5 +1,8 @@
 <template>
-	<div class="flex max-w-screen-md w-full gap-2 align-center flex-col">
+	<Grid
+		vertical
+		class="max-w-[768px]"
+	>
 		<div class="flex gap-4 items-center">
 			<Avatar
 				size="l"
@@ -73,7 +76,7 @@
 		>
 			Сохранить
 		</Button>
-	</div>
+	</Grid>
 </template>
 
 <script setup lang="ts">
