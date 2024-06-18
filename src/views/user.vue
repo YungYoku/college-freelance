@@ -1,7 +1,10 @@
 <template>
-	<div class="flex relative max-w-screen-lg w-full gap-2 align-center flex-col">
+	<Grid
+		vertical
+		class="relative max-w-[1024px]"
+	>
 		<Button
-			v-if="auth.isAdmin || isItMyProfile"
+			v-if="isItMyProfile"
 			:disabled="loading"
 			class="absolute right-0 top-0"
 			@click="router.push(`/profile`)"
@@ -83,7 +86,7 @@
 		>
 			{{ user?.description }}
 		</Text>
-	</div>
+	</Grid>
 </template>
 
 <script setup lang="ts">

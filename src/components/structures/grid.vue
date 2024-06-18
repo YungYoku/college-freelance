@@ -1,7 +1,11 @@
 <template>
 	<div
-		class="grid"
-		:class="[`gap-${gaps[gap]}`,{ vertical }]"
+		class="w-full"
+		:class="[`gap-${gaps[gap]}`, {
+			grid: !vertical,
+			flex: vertical,
+			'flex-col': vertical
+		}]"
 		:style="style"
 	>
 		<slot/>
@@ -71,9 +75,12 @@ const gaps = {
 	l: '4'
 }
 const style = computed(() => {
+	if (props.vertical) return {}
+
 	if (typeof activeColumns.value === 'number') {
 		return {
-			gridTemplateColumns: `repeat(${activeColumns.value}, 1fr)`
+			gridTemplateColumns: `repeat(${activeColumns.value}, 1fr)`,
+			'place-items': 'stretch'
 		}
 	}
 
@@ -83,20 +90,9 @@ const style = computed(() => {
 			if (typeof column === 'string') return `${result} ${column} `
 			if (typeof column === 'number') return `${result} ${column}fr `
 			return result
-		}, '').trim()
+		}, '').trim(),
+		'place-items': 'stretch'
 	}
 })
 
 </script>
-
-<style scoped lang="scss">
-.grid {
-    display: grid;
-
-    width: 100%;
-
-    &.vertical {
-        grid-auto-flow: column;
-    }
-}
-</style>
