@@ -97,6 +97,9 @@ const value = ref({
 	review: ''
 })
 watch(() => props.modelValue, () => value.value = props.modelValue, { immediate: true })
-const send = () => emit('update:modelValue', value.value)
 const back = () => emit('back')
+const send = () => {
+	emit('update:modelValue', value.value)
+	back()
+}
 </script>

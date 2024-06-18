@@ -125,6 +125,9 @@ import { IChat } from '@/interfaces/Chat.ts'
 import { emptyOffer, IJobOffer, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
 import { emptyUser } from '@/interfaces/User'
 import { IRating } from '@/interfaces/Rating'
+import { useToast } from '@/components/ui/toast'
+
+const { toast } = useToast()
 
 interface Props {
 	offer: IJobOffer,
@@ -233,9 +236,7 @@ const newRating = ref<IRating>({
 	review: ''
 })
 watch(rating, () => {
-	if (rating.value) {
-		newRating.value = rating.value
-	}
+	if (rating.value) newRating.value = rating.value
 }, { immediate: true })
 
 const sendRating = async (value: { stars: number, review: string } = { stars: 1, review: '' }) => {
@@ -247,6 +248,10 @@ const sendRating = async (value: { stars: number, review: string } = { stars: 1,
 	})
 		.then((response) => {
 			emit('update:rating', response)
+
+			toast({
+				title: 'Отзыв оставлен!'
+			})
 		})
 }
 </script>
