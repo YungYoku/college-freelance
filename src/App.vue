@@ -4,12 +4,12 @@
 </template>
 
 <script lang="ts" setup>
+import { watch } from 'vue'
+
 import { useAuthStore } from '@/stores/auth'
-import http from './plugins/http'
-import LocalStorage from '@/plugins/localStorage'
+import { Http, LocalStorage } from '@/plugins'
 import { IUser } from '@/interfaces/User'
 import Toaster from '@/components/ui/toast/Toaster.vue'
-import { watch } from 'vue'
 
 const auth = useAuthStore()
 
@@ -18,7 +18,7 @@ const loadUserInfo = async () => {
 		const userId = LocalStorage.load('user')?.id ?? ''
 		if (!userId) return
 
-		http
+		Http
 			.get<IUser>(`/collections/users/records/${userId}`)
 			.then((user) => {
 				auth.setUser(user)

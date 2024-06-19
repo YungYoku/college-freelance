@@ -140,7 +140,7 @@ import User from './user.vue'
 import { Icon } from '@/components/elements'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
-import http from '@/plugins/http'
+import { Http } from '@/plugins'
 import { useAuthStore } from '@/stores/auth.ts'
 import { IJobOffer } from '@/interfaces/JobOffer'
 
@@ -182,7 +182,7 @@ const addToFavorite = async () => {
 		? authStore.user.favorite.filter(id => id !== props.jobOffer.id)
 		: [...authStore.user.favorite, props.jobOffer.id]
 
-	await http
+	await Http
 		.patch(`/collections/users/records/${authStore.user.id}`, {
 			favorite: newFavorite
 		})

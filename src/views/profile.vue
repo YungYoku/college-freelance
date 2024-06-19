@@ -84,12 +84,11 @@ import { computed, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useToast } from '@/components/ui/toast/use-toast'
 
-import http from '@/plugins/http'
+import { Http, Form } from '@/plugins'
 import { Grid } from '@/components/structures'
 import { Avatar, Button, Textarea, SelectLive, Input } from '@/components/blocks'
 import { IReferralCode } from '@/interfaces/ReferralCode.ts'
 import { IUser } from '@/interfaces/User.ts'
-import Form from '@/plugins/form'
 
 const auth = useAuthStore()
 const { toast } = useToast()
@@ -125,13 +124,13 @@ const generateRefCode = async () => {
 	loading.value = true
 
 	let referral_code = ''
-	await http
+	await Http
 		.post<IReferralCode>('/collections/referral_codes/records')
 		.then((res) => {
 			referral_code = res.id
 		})
 
-	await http
+	await Http
 		.patch<IUser>(`/collections/users/records/${auth.user.id}`, {
 			referral_code
 		})
@@ -146,7 +145,7 @@ const save = async () => {
 	loading.value = true
 	form.clearErrors()
 
-	await http
+	await Http
 		.patch<IUser>(`/collections/users/records/${auth.user.id}`, form.get())
 		.then((res) => {
 			auth.setUser(res)

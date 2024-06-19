@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-import http from '@/plugins/http'
+import { Http } from '@/plugins'
 import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
 import { Grid } from '@/components/structures'
 import { EmptyJobOffer, JobOffer, SearchTags } from '@/components/blocks'
@@ -51,7 +51,7 @@ const loadOffers = async () => {
 	const filter = `(status='created' && deadline>='${today}')`
 	const encodedFilter = encodeURIComponent(filter)
 
-	await http
+	await Http
 		.get<IJobOffers>('/collections/job_offers/records', {
 			filter: encodedFilter,
 			expand: ['creator', 'type', 'discipline'],

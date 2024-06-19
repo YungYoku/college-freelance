@@ -94,8 +94,7 @@ import { Grid, Island } from '@/components/structures'
 import { Input, Textarea, Button, DatePicker, SelectLive, InputFile } from '@/components/blocks'
 import { useToast } from '@/components/ui/toast'
 import { IJobOffer } from '@/interfaces/JobOffer'
-import http from '@/plugins/http'
-import Form from '@/plugins/form'
+import { Http, Form } from '@/plugins'
 import { Text } from '@/components/elements'
 
 const auth = useAuthStore()
@@ -133,7 +132,7 @@ const createOffer = async () => {
 	loading.value = true
 	newOffer.clearErrors()
 
-	await http
+	await Http
 		.post<IJobOffer>('/collections/job_offers/records/', newOffer.get())
 		.then(response => {
 			router.push(`/offer/${response.id}`)

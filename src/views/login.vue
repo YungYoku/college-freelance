@@ -58,8 +58,7 @@ import { AuthLayout } from '@/components/layouts'
 import { Card } from '@/components/structures'
 import { Input, Button } from '@/components/blocks'
 import { useToast } from '@/components/ui/toast'
-import http from '@/plugins/http'
-import Form from '@/plugins/form'
+import { Http, Form } from '@/plugins'
 
 interface LoginForm {
 	identity: string
@@ -81,7 +80,7 @@ const login = async () => {
 		loading.value = true
 		form.clearErrors()
 
-		await http
+		await Http
 			.post<IUserLogin>('/collections/users/auth-with-password', form.get())
 			.then((res) => {
 				auth.setToken(res.token)
