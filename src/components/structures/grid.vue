@@ -17,11 +17,14 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
 import Screen from '@/plugins/screen'
 
+type Align = 'start' | 'center' | 'end' | 'stretch' | 'initial'
 type Columns = number | Array<number | string> | null
 
 interface Props {
 	vertical?: boolean
-	gap: 'xs' | 's' | 'm' |'l'
+	gap?: 'xs' | 's' | 'm' |'l'
+	verAlign?: 'start' | 'center' | 'end' | 'stretch' | 'initial'
+	horAlign?: 'start' | 'center' | 'end' | 'stretch' | 'initial'
 	columns?: Columns
 	columnsXl?: Columns
 	columnsL?: Columns
@@ -32,6 +35,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
 	vertical: false,
 	gap: 's',
+	verAlign: 'initial',
+	horAlign: 'initial',
 	columns: null,
 	columnsXl: null,
 	columnsL: null,
@@ -74,13 +79,33 @@ const gaps = {
 	m: '3',
 	l: '4'
 }
+const getAlign = (align: Align) => {
+	switch (align) {
+	case 'start':
+		return 'flex-start'
+	case 'center':
+		return 'center'
+	case 'end':
+		return 'flex-end'
+	case 'initial':
+		return 'initial'
+	case 'stretch':
+		return 'stretch'
+	default:
+		return 'initial'
+	}
+}
 const style = computed(() => {
-	if (props.vertical) return {}
+	if (props.vertical) {
+		return {
+			'align-items': getAlign(props.horAlign)
+		}
+	}
 
 	if (typeof activeColumns.value === 'number') {
 		return {
 			gridTemplateColumns: `repeat(${activeColumns.value}, 1fr)`,
-			'place-items': 'stretch'
+			'place-items': getAlign(props.verAlign)
 		}
 	}
 
@@ -91,7 +116,7 @@ const style = computed(() => {
 			if (typeof column === 'number') return `${result} ${column}fr `
 			return result
 		}, '').trim(),
-		'place-items': 'stretch'
+		'place-items': getAlign(props.verAlign)
 	}
 })
 

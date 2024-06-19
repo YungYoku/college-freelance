@@ -1,7 +1,7 @@
 <template>
 	<Grid
 		vertical
-		class="relative max-w-[1024px]"
+		class="relative max-w-screen-lg"
 	>
 		<Button
 			v-if="isItMyProfile"
@@ -15,14 +15,27 @@
 		<Grid
 			:columns-xl="['150px', 1]"
 			:columns-m="1"
-			class="items-center"
+			gap="l"
 		>
-			<Avatar
-				size="l"
-				:image="`${user?.id}/${user?.avatar}`"
-			/>
+			<Grid
+				vertical
+				hor-align="center"
+			>
+				<Avatar
+					size="l"
+					:image="`${user?.id}/${user?.avatar}`"
+				/>
 
-			<div class="flex flex-col align-center gap-3">
+				<Text
+					:loading="loading"
+					loading-width="100px"
+					size="xs"
+				>
+					Рейтинг: {{ averageRating }}
+				</Text>
+			</Grid>
+
+			<Grid vertical>
 				<Text
 					:loading="loading"
 					size="m"
@@ -31,14 +44,6 @@
 				</Text>
 
 				<div class="flex justify-start gap-6">
-					<Text
-						:loading="loading"
-						loading-width="100px"
-						size="xs"
-					>
-						Рейтинг: {{ averageRating }}
-					</Text>
-
 					<Text
 						:loading="loading"
 						loading-width="100px"
@@ -69,7 +74,7 @@
 				>
 					Дисциплины: {{ disciplineNames }}
 				</Text>
-			</div>
+			</Grid>
 		</Grid>
 
 		<Text
@@ -115,7 +120,7 @@ const averageRating = computed(() => {
 	if (rating) {
 		return rating.reduce((result, current) => result + current.stars, 0) / rating.length
 	}
-	return 'Нет выполненных работ'
+	return 'нет'
 })
 
 const loadUser = async () => {

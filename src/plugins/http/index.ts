@@ -119,16 +119,20 @@ class Http {
 			})
 	}
 
-	async patch<T>(_url: string, body: object = {}, query: Query | null = null): Promise<T> {
+	async patch<T>(_url: string, _body: object | FormData = {}, query: Query | null = null): Promise<T> {
 		const auth = useAuthStore()
 
 		let url = _url
 		if (query) url += this.getFormatedQuery(query)
 
+		const body = _body instanceof FormData ? _body : JSON.stringify(_body)
+
 		return fetch(this.api + url, {
 			method: 'PATCH',
-			headers: this.getHeaders(auth.token),
-			body: JSON.stringify(body)
+			headers: this.getHeaders(auth.token, {
+				isFormData: _body instanceof FormData
+			}),
+			body
 		})
 			.then((response) => {
 				return response.json()

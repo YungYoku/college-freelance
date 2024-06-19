@@ -1,7 +1,7 @@
 <template>
 	<Grid
 		vertical
-		class="max-w-[768px]"
+		class="max-w-screen-md"
 	>
 		<div class="flex gap-4 items-center">
 			<Avatar
