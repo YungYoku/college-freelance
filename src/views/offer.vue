@@ -89,13 +89,13 @@
 					:loading="loading"
 					class="mt-4"
 				>
-					Создано: {{ created }}
+					Создано: {{ $date(created) }}
 				</Text>
 				<Text
 					size="xs"
 					:loading="loading"
 				>
-					Срок сдачи: {{ deadline }}
+					Срок сдачи: {{ $date(deadline) }}
 				</Text>
 			</div>
 			<div class="flex justify-between">
@@ -242,6 +242,6 @@ const isAlreadyProposed = computed(() => {
 	return proposal !== undefined
 })
 
-const created = computed(() => new Date(offer.value.created).toLocaleString())
-const deadline = computed(() => new Date(offer.value.deadline).toLocaleString())
+const created = computed(() => new Date(offer.value.created))
+const deadline = computed(() => new Date(offer.value.deadline))
 </script>

@@ -126,7 +126,7 @@
 				v-else
 				class="job-offer__deadline text-xs"
 			>
-				Дедлайн: {{ deadline }}
+				Дедлайн: {{ $date(deadline) }}
 			</div>
 		</div>
 	</Island>
@@ -200,7 +200,7 @@ const status = computed(() => {
 	}
 })
 
-const deadline = computed(() => new Date(props.jobOffer?.deadline).toLocaleString())
+const deadline = computed(() => new Date(props.jobOffer?.deadline))
 </script>
 
 <style scoped lang="scss">
