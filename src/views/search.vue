@@ -71,7 +71,7 @@ import { useSearchStore } from '@/stores/search.ts'
 import { Grid } from '@/components/structures'
 import { EmptyJobOffer, JobOffer, SelectLive, Button, Input } from '@/components/blocks'
 import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
-import { Http, Screen } from '@/plugins'
+import { Datetime, Http, Screen } from '@/plugins'
 
 const offers = ref<Array<IJobOffer>>([])
 
@@ -103,14 +103,7 @@ const loadOffers = async () => {
 	let filter = ''
 	let encodedFilter = ''
 
-	const year = new Date().getFullYear()
-	const month = new Date().getMonth() + 1
-	const getFormattedMonth = (month: number) => month < 10 ? '0' + month : month
-	const day = new Date().getDate()
-	const getFormattedDay = (day: number) => day < 10 ? '0' + day : day
-	const today = `${year}-${getFormattedMonth(month)}-${getFormattedDay(day)}`
-
-	if (!authStore.isAdmin) filters.push(`status='created' && deadline>='${today}'`)
+	if (!authStore.isAdmin) filters.push(`status='created' && deadline>='${Datetime.get(new Date())}'`)
 	if (search.value) filters.push(`title~'${search.value}'`)
 	if (university.value) filters.push(`university='${university.value}'`)
 	if (offerType.value) filters.push(`type='${offerType.value}'`)
