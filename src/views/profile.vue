@@ -7,6 +7,7 @@
 			<Avatar
 				size="l"
 				editable
+				self
 			/>
 		</div>
 
