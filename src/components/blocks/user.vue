@@ -14,7 +14,7 @@
 	>
 		<Avatar
 			size="s"
-			:image="`${user.id}/${user.avatar}`"
+			:user="user"
 		/>
 		{{ user.name }}
 	</component>

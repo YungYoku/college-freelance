@@ -21,20 +21,6 @@
 			/>
 
 			<Input
-				v-model.trim="form.name.value"
-				:error="form.name.error"
-				label="Имя"
-				type="text"
-			/>
-
-			<Input
-				v-model.trim="form.surname.value"
-				:error="form.surname.error"
-				label="Фамилия"
-				type="text"
-			/>
-
-			<Input
 				v-model.trim="form.password.value"
 				:error="form.password.error"
 				label="Пароль"
@@ -95,8 +81,6 @@ import { useToast } from '@/components/ui/toast'
 interface RegistrationForm {
 	email: string
 	username: string
-	name: string
-	surname: string
 	password: string
 	passwordConfirm: string
 	role: string
@@ -106,8 +90,6 @@ interface RegistrationForm {
 const form = Form<RegistrationForm>({
 	email: '',
 	username: '',
-	name: '',
-	surname: '',
 	password: '',
 	passwordConfirm: '',
 	role: 'customer',
