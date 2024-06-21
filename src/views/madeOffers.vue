@@ -86,7 +86,7 @@
 import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
-import http from '@/plugins/http'
+import { Http } from '@/plugins'
 import { IUsers, IUser } from '@/interfaces/User.ts'
 import { IJobOffer, IJobOffers, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
 import { Grid, Modal } from '@/components/structures'
@@ -106,7 +106,7 @@ const getUserOffers = async () => {
 
 	loading.value = true
 
-	await http
+	await Http
 		.get<IJobOffers>('/collections/job_offers/records', {
 			filter: `(creator='${auth.user.id}')`,
 			expand: ['proposals', 'type', 'discipline', 'executor', 'ratingExecutor']
@@ -130,7 +130,7 @@ const openResponses = async (offer: IJobOffer) => {
 
 	let ids = offer.expand.proposals.reduce((result, proposal) => result + `id='${proposal.user}' || `, '')
 	ids = ids.slice(0, ids.length - 3)
-	await http
+	await Http
 		.get<IUsers>('/collections/users/records', {
 			filter: `(${ids})`
 		})
@@ -150,7 +150,7 @@ const pickExecutor = async (user: IUser) => {
 
 	loading.value = true
 
-	await http
+	await Http
 		.patch(`/collections/job_offers/records/${openedOffer.value.id}`, {
 			executor: user.id,
 			status: 'in_progress',
@@ -163,7 +163,7 @@ const pickExecutor = async (user: IUser) => {
 }
 
 const remove = async (offer: IJobOffer) => {
-	await http
+	await Http
 		.delete(`/collections/job_offers/records/${offer.id}`)
 		.then(() => {
 			offers.value = offers.value.filter((item) => item.id !== offer.id)

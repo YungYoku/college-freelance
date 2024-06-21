@@ -16,7 +16,7 @@ import { computed } from 'vue'
 import { useSearchStore } from '@/stores/search.ts'
 
 import { Badge } from '@/components/ui/badge'
-import Screen from '@/plugins/screen'
+import { Screen } from '@/plugins'
 
 const items = [
 	'тригонометрия',

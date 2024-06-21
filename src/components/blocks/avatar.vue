@@ -40,8 +40,8 @@ import { computed } from 'vue'
 
 import { Image, Icon } from '@/components/elements'
 import { useAuthStore } from '@/stores/auth'
+import { Http } from '@/plugins'
 import { IUser } from '@/interfaces/User.ts'
-import http from '@/plugins/http'
 
 const props = defineProps({
 	image: {
@@ -74,7 +74,7 @@ const loadImage = async (avatar: File | string) => {
 
 	formData.append('avatar', avatar)
 
-	const user = await http.patch<IUser>(`/collections/users/records/${auth.user.id}`, formData)
+	const user = await Http.patch<IUser>(`/collections/users/records/${auth.user.id}`, formData)
 	auth.setUser(user)
 }
 

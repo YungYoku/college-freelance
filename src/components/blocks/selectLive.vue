@@ -63,7 +63,7 @@
 import { ref, computed, watch } from 'vue'
 
 import { Button } from '@/components/blocks'
-import http from '@/plugins/http'
+import { Http } from '@/plugins'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -196,7 +196,7 @@ const loadItems = async (include?: string | Array<string>) => {
 
 	const loadDefaultItems = async () => {
 		if (search.value.length === 0) {
-			await http.get<Items>(`/collections/${props.api}/records`)
+			await Http.get<Items>(`/collections/${props.api}/records`)
 				.then(response => {
 					_defaultItems = response.items
 				})
@@ -204,9 +204,7 @@ const loadItems = async (include?: string | Array<string>) => {
 	}
 	const loadSearchItems = async () => {
 		if (search.value.length > 0) {
-			await http.get<Items>(`/collections/${props.api}/records`, {
-				...getPayload(search.value)
-			})
+			await Http.get<Items>(`/collections/${props.api}/records`, getPayload(search.value))
 				.then(response => {
 					_searchItems = response.items
 				})
@@ -214,9 +212,7 @@ const loadItems = async (include?: string | Array<string>) => {
 	}
 	const loadExtraItems = async () => {
 		if (include && include.length) {
-			await http.get<Items>(`/collections/${props.api}/records`, {
-				...getPayload(include, true)
-			})
+			await Http.get<Items>(`/collections/${props.api}/records`, getPayload(include, true))
 				.then(response => {
 					_extraItems = response.items
 					_extraItems.forEach(item => {

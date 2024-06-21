@@ -85,12 +85,11 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
-import http from '@/plugins/http/index'
+import { Http, Form } from '@/plugins'
 import { AuthLayout } from '@/components/layouts'
 import { Card } from '@/components/structures'
 import { Select, Input, Button } from '@/components/blocks'
 import { IUser } from '@/interfaces/User.ts'
-import Form from '@/plugins/form'
 import { useToast } from '@/components/ui/toast'
 
 interface RegistrationForm {
@@ -133,7 +132,7 @@ const register = async () => {
 		loading.value = true
 		form.clearErrors()
 
-		await http
+		await Http
 			.post<IUser>('/collections/users/records', form.get())
 			.then(() => {
 				router.push('/')

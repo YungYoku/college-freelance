@@ -42,7 +42,7 @@
 import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
-import http from '@/plugins/http'
+import { Http } from '@/plugins'
 import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
 import { Grid } from '@/components/structures'
 import { EmptyJobOffer, JobOffer } from '@/components/blocks'
@@ -64,7 +64,7 @@ const getUserOffers = async () => {
 		return
 	}
 
-	await http
+	await Http
 		.get<IJobOffers>('/collections/job_offers/records', {
 			filter: `(${auth.user.favorite.reduce((result, id) => result + `id='${id}' || `, '').slice(0, -3)})`,
 			expand: ['proposals', 'type', 'discipline']
@@ -79,7 +79,7 @@ const getUserOffers = async () => {
 watch(() => auth.user.id, getUserOffers, { immediate: true })
 
 const remove = async (offer: IJobOffer) => {
-	await http
+	await Http
 		.delete(`/collections/job_offers/records/${offer.id}`)
 		.then(() => {
 			offers.value = offers.value.filter((item) => item.id !== offer.id)

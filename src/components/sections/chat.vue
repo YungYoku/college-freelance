@@ -119,7 +119,7 @@ import { useAuthStore } from '@/stores/auth.ts'
 
 import { Grid, StepByStep } from '@/components/structures'
 import { Input, Button, Rating, Message, InputFile, User } from '@/components/blocks'
-import http from '@/plugins/http'
+import { Http } from '@/plugins'
 import { IMessage } from '@/interfaces/Message.ts'
 import { IChat } from '@/interfaces/Chat.ts'
 import { emptyOffer, IJobOffer, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
@@ -159,7 +159,7 @@ const chatMember = computed(() => props.offer.expand?.[props.userType])
 const rating = computed(() => props.offer.expand?.[props.ratingType] ?? null)
 
 const loadChat = async () => {
-	await http.connect<IChat>({
+	await Http.connect<IChat>({
 		collection: 'chats',
 		id: props.offer.chat,
 		expand: ['messages', 'messages.file'],
@@ -191,7 +191,7 @@ const sendMessage = async () => {
 
 	loading.value = true
 
-	await http
+	await Http
 		.post<IMessage>(`/send-message/${props.offer.chat}`, {
 			text: newMessage.value,
 			file: file.value
@@ -212,7 +212,7 @@ const updateStatus = async (status: IJobOfferStatus) => {
 		status
 	}
 
-	await http
+	await Http
 		.patch<IJobOffer>(`/collections/job_offers/records/${props.offer.id}`, body)
 		.then((response) => {
 			emit('update:status', response.status)
@@ -242,7 +242,7 @@ watch(rating, () => {
 const sendRating = async (value: { stars: number, review: string } = { stars: 1, review: '' }) => {
 	const { stars, review } = value
 
-	await http.post<IRating>(`/send-review/${props.offer.id}`, {
+	await Http.post<IRating>(`/send-review/${props.offer.id}`, {
 		stars,
 		review
 	})

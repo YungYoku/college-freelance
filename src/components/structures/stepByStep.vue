@@ -4,7 +4,7 @@
 			<span
 				v-for="(step, i) in steps"
 				:key="step"
-				:class="getCurrentClass(i++)"
+				:class="getCurrentClass(i)"
 			/>
 		</div>
 
@@ -22,7 +22,7 @@
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, computed, useSlots } from 'vue'
 
 const emit = defineEmits(['update:modelValue', 'apply'])
@@ -46,9 +46,7 @@ const isRequestStep = computed(() => currentStep.value === steps.length)
 const isCancelStep = computed(() => currentStep.value === 1)
 
 const back = () => {
-	if (isCancelStep.value) {
-		show.value = false
-	} else {
+	if (!isCancelStep.value) {
 		currentStep.value--
 	}
 }
@@ -56,15 +54,15 @@ const back = () => {
 const next = () => {
 	if (isRequestStep.value) {
 		emit('apply')
-		show.value = false
 	} else {
 		currentStep.value++
 	}
 }
 
-const getCurrentClass = (step) => {
-	if (step + 1 === currentStep.value) return 'current_step'
-	if (step < currentStep.value) return 'accept_step'
+const getCurrentClass = (step: number) => {
+	const _step = step + 1
+	if (_step + 1 === currentStep.value) return 'current_step'
+	if (_step < currentStep.value) return 'accept_step'
 
 	return ''
 }
@@ -82,13 +80,13 @@ const getCurrentClass = (step) => {
 			width: 100%;
 			height: 5px;
 
-			background: var(--color-m110);
+			background: transparent;
 			border-radius: 3px;
 			&.current_step {
-				background: var(--color-m150);
+				background: transparent;
 			}
 			&.accept_step {
-				background: var(--color-a2200);
+				background: transparent;
 			}
 		}
 	}

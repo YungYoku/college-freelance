@@ -27,7 +27,7 @@ import { useSearchStore } from '@/stores/search.ts'
 
 import { Input } from '@/components/blocks'
 import { Icon } from '@/components/elements'
-import Screen from '@/plugins/screen'
+import { Screen } from '@/plugins'
 
 const searchStore = useSearchStore()
 

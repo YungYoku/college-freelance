@@ -19,7 +19,7 @@
 			:inverted-color="!self"
 		/>
 
-		<span class="text-xs">{{ created }}</span>
+		<span class="text-xs">{{ $date(created, 'fullDatetime') }}</span>
 	</div>
 </template>
 
@@ -39,5 +39,5 @@ const props = defineProps({
 	}
 })
 
-const created = computed(() => new Date(props.message?.created).toLocaleString())
+const created = computed(() => new Date(props.message?.created))
 </script>

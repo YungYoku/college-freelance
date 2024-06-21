@@ -71,8 +71,7 @@ import { useSearchStore } from '@/stores/search.ts'
 import { Grid } from '@/components/structures'
 import { EmptyJobOffer, JobOffer, SelectLive, Button, Input } from '@/components/blocks'
 import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
-import http from '@/plugins/http'
-import Screen from '@/plugins/screen'
+import { Http, Screen } from '@/plugins'
 
 const offers = ref<Array<IJobOffer>>([])
 
@@ -123,7 +122,7 @@ const loadOffers = async () => {
 		encodedFilter = encodeURIComponent(filter)
 	}
 
-	await http
+	await Http
 		.get<IJobOffers>('/collections/job_offers/records', {
 			filter: encodedFilter,
 			expand: ['creator', 'type', 'discipline'],

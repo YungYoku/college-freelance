@@ -52,7 +52,7 @@ import { PageTitle } from '@/components/elements'
 import { Island, Grid } from '@/components/structures'
 import { IJobOffer, IJobOffers, IJobOfferStatus } from '@/interfaces/JobOffer'
 
-import http from '@/plugins/http'
+import { Http } from '@/plugins'
 import { computed, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import Text from '@/components/elements/text.vue'
@@ -73,7 +73,7 @@ const getChats = async () => {
 
 	const userFilter = auth.isCustomer ? `creator='${auth.user.id}'` : `executor='${auth.user.id}'`
 
-	await http.get<IJobOffers>('/collections/job_offers/records', {
+	await Http.get<IJobOffers>('/collections/job_offers/records', {
 		filter: `(${userFilter})`,
 		expand: ['proposals', 'type', 'discipline', 'creator', 'ratingCreator', 'executor', 'ratingExecutor']
 	})

@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
-import Screen from '@/plugins/screen'
+import { Screen } from '@/plugins'
 
 type Align = 'start' | 'center' | 'end' | 'stretch' | 'initial'
 type Columns = number | Array<number | string> | null

@@ -89,13 +89,13 @@
 					:loading="loading"
 					class="mt-4"
 				>
-					Создано: {{ created }}
+					Создано: {{ $date(created) }}
 				</Text>
 				<Text
 					size="xs"
 					:loading="loading"
 				>
-					Срок сдачи: {{ deadline }}
+					Срок сдачи: {{ $date(deadline) }}
 				</Text>
 			</div>
 			<div class="flex justify-between">
@@ -142,7 +142,7 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
-import http from '@/plugins/http'
+import { Http } from '@/plugins'
 import { IJobOffer } from '@/interfaces/JobOffer.ts'
 import { Grid, Island } from '@/components/structures'
 import { Button, User as UserCard } from '@/components/blocks'
@@ -183,7 +183,7 @@ const loading = ref(true)
 const loadOffer = async () => {
 	if (!id) return
 
-	await http
+	await Http
 		.get<IJobOffer>(`/collections/job_offers/records/${id}`, {
 			expand: ['creator', 'executor', 'proposals', 'discipline', 'type', 'university']
 		})
@@ -198,7 +198,7 @@ loadOffer()
 const remove = async () => {
 	if (loading.value) return
 
-	await http
+	await Http
 		.delete(`/collections/job_offers/records/${offer.value.id}`)
 		.then(() => {
 			router.push('/')
@@ -219,7 +219,7 @@ const makeProposal = async () => {
 
 	loading.value = true
 
-	await http
+	await Http
 		.post<IJobOffer>(`/make-proposal/${offer.value.id}`)
 		.then((response) => {
 			offer.value = response
@@ -242,6 +242,6 @@ const isAlreadyProposed = computed(() => {
 	return proposal !== undefined
 })
 
-const created = computed(() => new Date(offer.value.created).toLocaleString())
-const deadline = computed(() => new Date(offer.value.deadline).toLocaleString())
+const created = computed(() => new Date(offer.value.created))
+const deadline = computed(() => new Date(offer.value.deadline))
 </script>

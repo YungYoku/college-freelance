@@ -99,7 +99,7 @@ import { computed, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
-import http from '@/plugins/http'
+import { Http } from '@/plugins'
 import { Grid } from '@/components/structures'
 import { Avatar, Button } from '@/components/blocks'
 import { Text } from '@/components/elements'
@@ -126,7 +126,7 @@ const averageRating = computed(() => {
 const loadUser = async () => {
 	loading.value = true
 
-	await http
+	await Http
 		.get<IUser>(`/collections/users/records/${route.params.id}`, {
 			expand: ['university', 'disciplines', 'rating']
 		})

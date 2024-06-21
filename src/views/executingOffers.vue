@@ -50,7 +50,7 @@
 import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
-import http from '@/plugins/http'
+import { Http } from '@/plugins'
 import { IJobOffer, IJobOffers, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
 import { Grid, Modal } from '@/components/structures'
 import { Chat } from '@/components/sections'
@@ -68,7 +68,7 @@ const getUserOffers = async () => {
 
 	loading.value = true
 
-	await http
+	await Http
 		.get<IJobOffers>('/collections/job_offers/records', {
 			filter: `(executor='${auth.user.id}')`,
 			expand: ['type', 'discipline', 'creator', 'ratingCreator']

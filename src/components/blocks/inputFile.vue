@@ -10,8 +10,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { Input } from '@/components/blocks/index.ts'
-import http from '@/plugins/http'
+import { Input } from '@/components/blocks'
+import { Http } from '@/plugins'
 
 interface Props {
 	modelValue: string | null
@@ -45,7 +45,7 @@ const updateFile = async (event: Event) => {
 
 		formData.append('file', file)
 
-		value.value = await http
+		value.value = await Http
 			.post<{ id: string }>('/collections/files/records', formData)
 			.then(({ id }) => id)
 	}

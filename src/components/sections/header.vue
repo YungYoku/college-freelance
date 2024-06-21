@@ -46,7 +46,7 @@ import { useAuthStore } from '@/stores/auth.ts'
 import { Grid } from '@/components/structures'
 import { ThemeColorToggle, UserDropdown, JobSearch, Button } from '@/components/blocks'
 import { Logo, Icon } from '@/components/elements'
-import Screen from '@/plugins/screen'
+import { Screen } from '@/plugins'
 
 const auth = useAuthStore()
 
