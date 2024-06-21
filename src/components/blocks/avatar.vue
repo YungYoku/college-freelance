@@ -43,30 +43,48 @@ import { useAuthStore } from '@/stores/auth'
 import { Http } from '@/plugins'
 import { IUser } from '@/interfaces/User.ts'
 
-const props = defineProps({
-	image: {
-		type: String,
-		default: ''
-	},
-	size: {
-		type: String,
-		default: 'm',
-		validator: (size: string) => {
-			return ['xs', 's', 'm', 'l'].includes(size)
-		}
-	},
-	editable: {
-		type: Boolean,
-		default: false
-	}
+interface Props {
+	user?: IUser | null | undefined,
+	size: 'xs' | 's' | 'm' | 'l'
+	editable: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	user: () => ({
+		avatar: '',
+		collectionId: '',
+		collectionName: '',
+		created: '',
+		email: '',
+		emailVisibility: false,
+		id: '',
+		name: '',
+		description: '',
+		surname: '',
+		rating: [],
+		updated: '',
+		username: '',
+		verified: false,
+		role: 'customer',
+		university: '',
+		energy: 0,
+		disciplines: [],
+		favorite: [],
+		referral_code: ''
+	}),
+	size: 'm',
+	editable: false
 })
 
 const auth = useAuthStore()
 
 const avatar = computed(() => {
-	if (props.image) return `users/${props.image}`
-	if (auth.user.avatar) return `_pb_users_auth_/${auth.user.id}/${auth.user.avatar}`
-	return ''
+	if (props.user) {
+		if (props.user.avatar) return `users/${props.user.id}/${props.user.avatar}`
+	} else {
+		if (auth.user.avatar) return `_pb_users_auth_/${auth.user.id}/${auth.user.avatar}`
+	}
+	return null
 })
 
 const loadImage = async (avatar: File | string) => {

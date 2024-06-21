@@ -23,7 +23,7 @@
 			>
 				<Avatar
 					size="l"
-					:image="`${user?.id}/${user?.avatar}`"
+					:user="user"
 				/>
 
 				<Text
