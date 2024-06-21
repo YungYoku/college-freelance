@@ -44,7 +44,8 @@ import { Http } from '@/plugins'
 import { IUser } from '@/interfaces/User.ts'
 
 interface Props {
-	user?: IUser | null | undefined,
+	user?: IUser | null | undefined
+	self: boolean
 	size: 'xs' | 's' | 'm' | 'l'
 	editable: boolean
 }
@@ -72,6 +73,7 @@ const props = withDefaults(defineProps<Props>(), {
 		favorite: [],
 		referral_code: ''
 	}),
+	self: false,
 	size: 'm',
 	editable: false
 })
@@ -79,7 +81,7 @@ const props = withDefaults(defineProps<Props>(), {
 const auth = useAuthStore()
 
 const avatar = computed(() => {
-	if (props.user) {
+	if (props.user && !props.self) {
 		if (props.user.avatar) return `users/${props.user.id}/${props.user.avatar}`
 	} else {
 		if (auth.user.avatar) return `_pb_users_auth_/${auth.user.id}/${auth.user.avatar}`
