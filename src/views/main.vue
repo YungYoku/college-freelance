@@ -29,10 +29,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-import { Http } from '@/plugins'
 import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
 import { Grid } from '@/components/structures'
 import { EmptyJobOffer, JobOffer, SearchTags } from '@/components/blocks'
+import { Http, Datetime } from '@/plugins'
 
 
 const offers = ref<Array<IJobOffer>>([])
@@ -41,14 +41,7 @@ const loading = ref(true)
 const loadOffers = async () => {
 	loading.value = true
 
-	const year = new Date().getFullYear()
-	const month = new Date().getMonth() + 1
-	const getFormattedMonth = (month: number) => month < 10 ? '0' + month : month
-	const day = new Date().getDate()
-	const getFormattedDay = (day: number) => day < 10 ? '0' + day : day
-	const today = `${year}-${getFormattedMonth(month)}-${getFormattedDay(day)}`
-
-	const filter = `(status='created' && deadline>='${today}')`
+	const filter = `(status='created' && deadline>='${Datetime.get(new Date())}')`
 	const encodedFilter = encodeURIComponent(filter)
 
 	await Http
