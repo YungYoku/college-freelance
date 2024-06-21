@@ -3,6 +3,7 @@
 		<Input
 			v-model.trim="newOffer.title.value"
 			:disabled="loading"
+			:error="newOffer.title.error"
 			label="Имя"
 		/>
 
@@ -34,6 +35,7 @@
 				<Input
 					v-model="newOffer.price.value"
 					:disabled="loading"
+					:error="newOffer.price.error"
 					label="Цена"
 				/>
 				<InputFile
@@ -43,12 +45,14 @@
 				/>
 				<SelectLive
 					v-model="newOffer.discipline.value"
+					:error="newOffer.discipline.error"
 					place-holder="Дисциплина"
 					api="disciplines"
 				/>
 
 				<SelectLive
 					v-model="newOffer.type.value"
+					:error="newOffer.type.error"
 					place-holder="Тип работы"
 					api="offer_types"
 				/>
@@ -62,6 +66,7 @@
 
 				<DatePicker
 					v-model="newOffer.deadline.value"
+					:error="newOffer.deadline.error"
 					label="Срок сдачи"
 				/>
 			</div>
@@ -78,6 +83,7 @@
 
 			<Textarea
 				v-model.trim="newOffer.description.value"
+				:error="newOffer.description.error"
 				height="200px"
 				label="Описание"
 			/>

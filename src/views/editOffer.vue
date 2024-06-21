@@ -2,6 +2,7 @@
 	<Grid :columns="[1, '75px', '106px']">
 		<Input
 			v-model.trim="form.title.value"
+			:error="form.title.error"
 			:disabled="loading"
 			label="Имя"
 		/>
@@ -42,30 +43,35 @@
 			<div class="grid items-center w-full gap-2">
 				<Input
 					v-model="form.price.value"
+					:error="form.price.error"
 					:disabled="loading"
 					label="Цена"
 				/>
 
 				<SelectLive
 					v-model="form.discipline.value"
+					:error="form.discipline.error"
 					place-holder="Дисциплина"
 					api="disciplines"
 				/>
 
 				<SelectLive
 					v-model="form.type.value"
+					:error="form.type.error"
 					place-holder="Тип работы"
 					api="offer_types"
 				/>
 
 				<SelectLive
 					v-model="form.university.value"
+					:error="form.university.error"
 					place-holder="Университет"
 					api="universities"
 				/>
 
 				<DatePicker
 					v-model="form.deadline.value"
+					:error="form.deadline.error"
 					label="Срок сдачи"
 				/>
 			</div>
@@ -82,6 +88,7 @@
 
 			<Textarea
 				v-model.trim="form.description.value"
+				:error="form.description.error"
 				height="200px"
 				label="Описание"
 			/>
