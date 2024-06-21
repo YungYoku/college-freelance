@@ -16,6 +16,7 @@ const SelectLive = defineAsyncComponent(() => import('./selectLive.vue'))
 const Textarea = defineAsyncComponent(() => import('./textarea.vue'))
 const ThemeColorToggle = defineAsyncComponent(() => import('./themeColorToggle.vue'))
 const User = defineAsyncComponent(() => import('./user.vue'))
+const UserCard = defineAsyncComponent(() => import('./userCard.vue'))
 const UserDropdown = defineAsyncComponent(() => import('./userDropdown.vue'))
 
 
@@ -36,5 +37,6 @@ export {
 	Textarea,
 	ThemeColorToggle,
 	User,
+	UserCard,
 	UserDropdown
 }

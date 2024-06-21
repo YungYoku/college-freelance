@@ -1,0 +1,105 @@
+<template>
+	<Island class="bg-primary-foreground overflow-hidden">
+		<Grid vertical>
+			<Skeleton
+				v-if="loading"
+				class="h-7 w-[120px]"
+			/>
+
+			<component
+				:is="link ? 'router-link' : 'div'"
+				v-else
+				class="user"
+				:class="{
+					'cursor-pointer': link,
+				}"
+				:to="`/users/${user.id}`"
+			>
+				<Avatar
+					size="s"
+					:image="`${user.id}/${user.avatar}`"
+				/>
+				{{ user.name }} {{ user.surname }}
+			</component>
+
+			<div class="flex flex-wrap gap-2">
+				<Badge v-if="user.expand?.university">
+					{{ user.expand.university.name }}
+				</Badge>
+
+				<Badge v-if="averageRating">
+					Рейтинг {{ averageRating }}
+				</Badge>
+				
+				<template v-if="user.expand?.disciplines">
+					<Badge
+						v-for="discipline in user.expand?.disciplines"
+						:key="discipline.id"
+					>
+						{{ discipline.name }}
+					</Badge>
+				</template>
+			</div>
+		</Grid>
+	</Island>
+</template>
+
+
+<script setup lang="ts">
+import { IUser } from '@/interfaces/User'
+import { Island, Grid } from '@/components/structures'
+import Avatar from './avatar.vue'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Badge } from '@/components/ui/badge'
+import { computed } from 'vue'
+
+interface Props {
+	user: IUser,
+	loading: boolean
+	link: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	user: () => ({
+		avatar: '',
+		collectionId: '',
+		collectionName: '',
+		created: '',
+		email: '',
+		emailVisibility: false,
+		id: '',
+		name: '',
+		description: '',
+		surname: '',
+		rating: [],
+		updated: '',
+		username: '',
+		verified: false,
+		role: 'customer',
+		university: '',
+		energy: 0,
+		disciplines: [],
+		favorite: [],
+		referral_code: ''
+	}),
+	loading: false,
+	link: false
+})
+
+const averageRating = computed(() => {
+	const rating = props.user?.expand?.rating
+	if (rating) {
+		return rating.reduce((result, current) => result + current.stars, 0) / rating.length
+	}
+	return null
+})
+</script>
+
+<style lang="scss" scoped>
+.user {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 10px;
+}
+</style>
