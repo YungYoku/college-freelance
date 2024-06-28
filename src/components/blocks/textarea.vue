@@ -10,9 +10,9 @@
 		<Textarea
 			v-model="value"
 			:placeholder="label"
-			:class="{
+			:class="['bg-background', 'hover:bg-accent', {
 				'pt-4': !placeholder,
-			}"
+			}]"
 			:style="{
 				height
 			}"
