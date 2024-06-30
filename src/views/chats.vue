@@ -1,6 +1,17 @@
 <template>
-	<Grid :columns="1">
-		<PageTitle>
+	<Grid
+		:columns="openedChat !== null ? 1 : [1, 1]"
+	>
+		<Icon
+			v-if="openedChat !== null"
+			name="arrow-left"
+			size="l"
+			@click="openedChat = null"
+		/>
+		<PageTitle
+			class="flex"
+			:class="{'justify-end': openedChat !== null}"
+		>
 			Мои чаты
 		</PageTitle>
 	</Grid>
@@ -29,7 +40,7 @@
 			</Grid>
 		</Island>
 		<Island
-			v-if="Screen.isSize('s') && openedChat !== null"
+			v-if="(Screen.isSize('s') && openedChat !== null)|| Screen.isLarger('s')"
 			class="relative"
 		>
 			<Text v-if="openedChat === null">
@@ -50,7 +61,7 @@
 <script setup lang="ts">
 import { Chat } from '@/components/sections'
 import { User as UserCard } from '@/components/blocks'
-import { PageTitle } from '@/components/elements'
+import { PageTitle, Icon } from '@/components/elements'
 import { Island, Grid } from '@/components/structures'
 import { IJobOffer, IJobOffers, IJobOfferStatus } from '@/interfaces/JobOffer'
 
