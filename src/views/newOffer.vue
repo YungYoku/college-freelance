@@ -57,13 +57,6 @@
 					api="offer_types"
 				/>
 
-				<SelectLive
-					v-model="newOffer.university.value"
-					:error="newOffer.university.error"
-					place-holder="Университет"
-					api="universities"
-				/>
-
 				<DatePicker
 					v-model="newOffer.deadline.value"
 					:error="newOffer.deadline.error"

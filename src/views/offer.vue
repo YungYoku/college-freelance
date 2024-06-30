@@ -77,12 +77,6 @@
 				>
 					Тип работы: {{ offer.expand?.type?.name ?? 'Не указан' }}
 				</Text>
-				<Text
-					size="xs"
-					:loading="loading"
-				>
-					Университет: {{ offer.expand?.university?.name ?? 'Не указан' }}
-				</Text>
 
 				<Text
 					size="xs"
