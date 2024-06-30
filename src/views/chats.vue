@@ -1,18 +1,13 @@
 <template>
-	<Grid
-		:columns="headerColumns"
-		ver-align="start"
-	>
+	<Grid :columns="headerColumns">
 		<Icon
 			v-if="Screen.isSize('s') && isChatOpened"
 			name="arrow-left"
 			size="l"
 			@click="openedChat = null"
 		/>
-		<PageTitle
-			class="flex"
-			:class="{'justify-end': isChatOpened}"
-		>
+
+		<PageTitle>
 			Мои чаты
 		</PageTitle>
 	</Grid>
@@ -78,7 +73,9 @@ const auth = useAuthStore()
 const openedChat = ref<IJobOffer | null>(null)
 const isChatOpened = computed(() => openedChat.value !== null)
 const headerColumns = computed(() => {
-	if (Screen.isSize('s') && isChatOpened.value) return ['40px', 1]
+	if (Screen.isSize('s') && isChatOpened.value) {
+		return ['40px', 1]
+	}
 	return 1
 })
 const chats = ref<Array<IJobOffer>>([])
