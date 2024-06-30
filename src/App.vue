@@ -19,7 +19,9 @@ const loadUserInfo = async () => {
 		if (!userId) return
 
 		Http
-			.get<IUser>(`/collections/users/records/${userId}`)
+			.get<IUser>(`/collections/users/records/${userId}`, {
+				expand: ['notifications']
+			})
 			.then((user) => {
 				auth.setUser(user)
 			})

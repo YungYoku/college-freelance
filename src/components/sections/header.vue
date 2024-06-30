@@ -32,7 +32,9 @@
 					{{ auth.user.energy }}
 				</Button>
 
-				<ThemeColorToggle/>
+				<Notifications v-if="auth.isLoggedIn"/>
+
+				<ThemeColorToggle v-if="!auth.isLoggedIn || Screen.isLarger('s')"/>
 
 				<UserDropdown v-if="auth.isLoggedIn"/>
 			</nav>
@@ -44,7 +46,7 @@
 import { useAuthStore } from '@/stores/auth.ts'
 
 import { Grid } from '@/components/structures'
-import { ThemeColorToggle, UserDropdown, JobSearch, Button } from '@/components/blocks'
+import { ThemeColorToggle, UserDropdown, JobSearch, Button, Notifications } from '@/components/blocks'
 import { Logo, Icon } from '@/components/elements'
 import { Screen } from '@/plugins'
 
