@@ -7,6 +7,7 @@
 
 	<Grid
 		v-if="loading || offers.length"
+		class="mt-4"
 		:columns-xl="4"
 		:columns-l="3"
 		:columns-m="2"
@@ -32,7 +33,7 @@
 	</Grid>
 	<span
 		v-else
-		class="mr-auto ml-auto"
+		class="mt-4 mr-auto ml-auto"
 	>
 		Пусто
 	</span>

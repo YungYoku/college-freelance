@@ -9,8 +9,6 @@
 			<JobSearch v-if="Screen.isLarger('s')"/>
 
 			<nav class="header__nav">
-				<ThemeColorToggle/>
-
 				<JobSearch v-if="Screen.isSize('s')"/>
 
 				<template v-if="!auth.isLoggedIn">
@@ -33,6 +31,8 @@
 					/>
 					{{ auth.user.energy }}
 				</Button>
+
+				<ThemeColorToggle/>
 
 				<UserDropdown v-if="auth.isLoggedIn"/>
 			</nav>

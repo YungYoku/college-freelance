@@ -1,6 +1,6 @@
 <template>
 	<Grid
-		:columns-xl="[1, '140px', '140px']"
+		:columns-xl="[1, '119px', '126px']"
 		:columns-m="[1, 1]"
 		:columns-s="1"
 	>

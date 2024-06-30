@@ -1,5 +1,5 @@
 <template>
-	<Grid :columns="[1, '75px', '106px']">
+	<Grid :columns="[1, '70px', '99px']">
 		<Input
 			v-model.trim="form.title.value"
 			:error="form.title.error"
@@ -98,7 +98,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useToast } from '@/components/ui/toast'
 
 import { Http, Form } from '@/plugins'
@@ -133,6 +133,7 @@ const form = Form<IJobOffer>({
 	file: null,
 })
 
+const router = useRouter()
 const route = useRoute()
 const { id } = route.params
 
@@ -160,6 +161,8 @@ const save = async () => {
 	await Http
 		.patch<IUser>(`/collections/job_offers/records/${form.id.value}`, form.get())
 		.then(() => {
+			router.push(`/offer/${id}`)
+
 			toast({
 				title: 'Сохранено успешно!'
 			})
