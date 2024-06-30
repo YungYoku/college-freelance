@@ -1,11 +1,19 @@
 <template>
-	<Grid :columns="1">
+	<Grid :columns="headerColumns">
+		<Icon
+			v-if="Screen.isSize('s') && isChatOpened"
+			name="arrow-left"
+			size="l"
+			@click="openedChat = null"
+		/>
+
 		<PageTitle>
 			Мои чаты
 		</PageTitle>
 	</Grid>
-	<Grid :columns="[1,4]">
-		<Island>
+
+	<Grid :columns="Screen.isLarger('s') ? [1,4] : 1 ">
+		<Island v-if="Screen.isLarger('s') || !isChatOpened">
 			<Grid>
 				<Grid
 					v-for="chat in chats"
@@ -28,13 +36,16 @@
 				</Grid>
 			</Grid>
 		</Island>
-		
-		<Island class="relative">
-			<Text v-if="openedChat === null">
+
+		<Island
+			v-if="(Screen.isSize('s') && isChatOpened) || Screen.isLarger('s')"
+			class="relative"
+		>
+			<Text v-if="!isChatOpened">
 				Выберите чат
 			</Text>
 			<Chat
-				v-else
+				v-else-if="openedChat !== null"
 				:offer="openedChat"
 				:rating-type="chatRatingType"
 				:user-type="chatUserType"
@@ -48,11 +59,11 @@
 <script setup lang="ts">
 import { Chat } from '@/components/sections'
 import { User as UserCard } from '@/components/blocks'
-import { PageTitle } from '@/components/elements'
+import { PageTitle, Icon } from '@/components/elements'
 import { Island, Grid } from '@/components/structures'
 import { IJobOffer, IJobOffers, IJobOfferStatus } from '@/interfaces/JobOffer'
 
-import { Http } from '@/plugins'
+import { Http, Screen } from '@/plugins'
 import { computed, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import Text from '@/components/elements/text.vue'
@@ -60,6 +71,13 @@ import { IRating } from '@/interfaces/Rating.ts'
 
 const auth = useAuthStore()
 const openedChat = ref<IJobOffer | null>(null)
+const isChatOpened = computed(() => openedChat.value !== null)
+const headerColumns = computed(() => {
+	if (Screen.isSize('s') && isChatOpened.value) {
+		return ['40px', 1]
+	}
+	return 1
+})
 const chats = ref<Array<IJobOffer>>([])
 const loading = ref(true)
 
@@ -71,14 +89,15 @@ const getChats = async () => {
 	if (auth.user.id === '') return
 	loading.value = true
 
-	const userFilter = auth.isCustomer ? `creator='${auth.user.id}'` : `executor='${auth.user.id}'`
+	const filter = auth.isCustomer ? `creator='${auth.user.id}'` : `executor='${auth.user.id}'`
+	const encodedFilter = encodeURIComponent(`(${filter} && status!='created')`)
 
 	await Http.get<IJobOffers>('/collections/job_offers/records', {
-		filter: `(${userFilter})`,
+		filter: `(${encodedFilter})`,
 		expand: ['proposals', 'type', 'discipline', 'creator', 'ratingCreator', 'executor', 'ratingExecutor']
 	})
-		.then(response => {
-			chats.value = response.items.filter(item => item.status !== 'created')
+		.then(({ items }) => {
+			chats.value = items
 		})
 
 	loading.value = false

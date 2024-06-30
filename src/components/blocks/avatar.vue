@@ -71,7 +71,8 @@ const props = withDefaults(defineProps<Props>(), {
 		energy: 0,
 		disciplines: [],
 		favorite: [],
-		referral_code: ''
+		referral_code: '',
+		notifications: []
 	}),
 	self: false,
 	size: 'm',

@@ -25,6 +25,12 @@ class Http {
 	constructor() {
 	}
 
+	static inst: Http | null = null
+	static getInst() {
+		// eslint-disable-next-line
+		return Http.inst || (Http.inst = new Http())
+	}
+
 	getHeaders(token: string, options: HeadersOptions = {
 		isFormData: false,
 		isSSE: false
@@ -220,4 +226,4 @@ class Http {
 	}
 }
 
-export default new Http()
+export default Http.getInst()

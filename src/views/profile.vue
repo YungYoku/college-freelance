@@ -55,21 +55,20 @@
 			api="disciplines"
 		/>
 
-		<Grid :columns="!isWithRefCode ? [3, 1] : 1">
-			<Input
-				v-model="auth.user.referral_code"
-				disabled
-				label="Реферальный код"
-			/>
+		<Input
+			v-if="isWithRefCode"
+			v-model="auth.user.referral_code"
+			disabled
+			label="Реферальный код"
+		/>
 			
-			<Button
-				v-if="!isWithRefCode"
-				:disabled="loading"
-				@click="generateRefCode"
-			>
-				Создать
-			</Button>
-		</Grid>
+		<Button
+			v-else
+			:disabled="loading"
+			@click="generateRefCode"
+		>
+			Создать реферальный код
+		</Button>
 
 		<Button
 			:disabled="loading"
@@ -114,7 +113,8 @@ const form = Form<IUser>({
 	email: auth.user.email,
 	university: '',
 	disciplines: [] as Array<string>,
-	description: ''
+	description: '',
+	notifications: []
 })
 
 watch(() => auth.user, () => form.set(auth.user), { immediate: true })

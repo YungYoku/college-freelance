@@ -9,7 +9,9 @@ const InputFile = defineAsyncComponent(() => import('./inputFile.vue'))
 const JobOffer = defineAsyncComponent(() => import('./jobOffer.vue'))
 const JobSearch = defineAsyncComponent(() => import('./jobSearch.vue'))
 const Message = defineAsyncComponent(() => import('./message.vue'))
-const Rating = defineAsyncComponent(() => import('./rating.vue'))
+const RatingStars = defineAsyncComponent(() => import('./ratingStars.vue'))
+const CardRating = defineAsyncComponent(() => import('./cardRating.vue'))
+const Notifications = defineAsyncComponent(() => import('./notifications.vue'))
 const SearchTags = defineAsyncComponent(() => import('./searchTags.vue'))
 const Select = defineAsyncComponent(() => import('./select.vue'))
 const SelectLive = defineAsyncComponent(() => import('./selectLive.vue'))
@@ -30,7 +32,9 @@ export {
 	JobOffer,
 	JobSearch,
 	Message,
-	Rating,
+	RatingStars,
+	CardRating,
+	Notifications,
 	SearchTags,
 	Select,
 	SelectLive,

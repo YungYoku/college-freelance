@@ -1,7 +1,7 @@
 <template>
 	<Grid
 		vertical
-		class="relative max-w-screen-lg"
+		class="relative max-w-screen-md"
 	>
 		<Button
 			v-if="isItMyProfile"
@@ -49,7 +49,7 @@
 						loading-width="100px"
 						size="xs"
 					>
-						Отзывы:
+						Отзывы: {{ user?.rating.length }}
 					</Text>
 
 					<Text
@@ -91,11 +91,17 @@
 		>
 			{{ user?.description }}
 		</Text>
+
+		<CardRating
+			v-for="rating in user?.expand?.rating"
+			:key="rating.id"
+			:rating="rating"
+		/>
 	</Grid>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
@@ -104,6 +110,7 @@ import { Grid } from '@/components/structures'
 import { Avatar, Button } from '@/components/blocks'
 import { Text } from '@/components/elements'
 import { IUser } from '@/interfaces/User.ts'
+import { CardRating } from '@/components/blocks'
 
 const route = useRoute()
 const router = useRouter()
@@ -128,7 +135,7 @@ const loadUser = async () => {
 
 	await Http
 		.get<IUser>(`/collections/users/records/${route.params.id}`, {
-			expand: ['university', 'disciplines', 'rating']
+			expand: ['university', 'disciplines', 'rating', 'rating.by']
 		})
 		.then(res => {
 			user.value = res
@@ -139,5 +146,5 @@ const loadUser = async () => {
 
 	loading.value = false
 }
-loadUser()
+watch(() => route.params.id, loadUser, { immediate: true })
 </script>

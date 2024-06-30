@@ -53,7 +53,8 @@ withDefaults(defineProps<Props>(), {
 		energy: 0,
 		disciplines: [],
 		favorite: [],
-		referral_code: ''
+		referral_code: '',
+		notifications: []
 	}),
 	loading: false,
 	link: false

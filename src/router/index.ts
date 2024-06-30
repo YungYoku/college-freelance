@@ -30,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
 				}
 			},
 			{
-				path: '/offer-edit/:id',
+				path: '/offer/:id/edit',
 				name: 'Offer Edit',
 				component: () => import('@/views/editOffer.vue'),
 				meta: {

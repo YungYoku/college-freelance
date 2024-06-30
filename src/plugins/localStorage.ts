@@ -13,6 +13,11 @@ class LocalStorage {
 		if (data) return JSON.parse(localStorage[key])
 		return null
 	}
+
+	clear() {
+		localStorage.removeItem('user')
+		localStorage.removeItem('token')
+	}
 }
 
 export default new LocalStorage()

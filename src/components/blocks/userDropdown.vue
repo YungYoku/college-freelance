@@ -66,6 +66,13 @@
 			<DropdownMenuSeparator/>
 
 			<DropdownMenuGroup>
+				<DropdownMenuItem
+					class="cursor-pointer"
+					@click="toggle"
+				>
+					Тема: {{ isLight? 'светлая' : 'темная' }}
+				</DropdownMenuItem>
+
 				<DropdownMenuSub>
 					<DropdownMenuSubTrigger class="cursor-pointer">
 						Пригласить пользователей
@@ -96,7 +103,9 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useColorMode } from '@vueuse/core'
 import { useToast } from '@/components/ui/toast/use-toast'
 
 import { useAuthStore } from '@/stores/auth.ts'
@@ -114,7 +123,7 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Http } from '@/plugins'
+import { Http, LocalStorage } from '@/plugins'
 import { IReferralCode } from '@/interfaces/ReferralCode.ts'
 import { IUser } from '@/interfaces/User.ts'
 
@@ -122,6 +131,17 @@ import { IUser } from '@/interfaces/User.ts'
 const auth = useAuthStore()
 const router = useRouter()
 const { toast } = useToast()
+
+const mode = useColorMode({ selector: 'body' })
+const currentTheme = computed(() => mode.state.value)
+const isLight = computed(() => currentTheme.value === 'light')
+const toggle = () => {
+	if (currentTheme.value === 'light') {
+		mode.value = 'dark'
+	} else {
+		mode.value = 'light'
+	}
+}
 
 const generateRefCode = async () => {
 	let referral_code = ''
@@ -152,7 +172,7 @@ const copyRefLink = async () => {
 }
 
 const logout = () => {
-	localStorage.clear()
+	LocalStorage.clear()
 	auth.$reset()
 	router.push('/login')
 }

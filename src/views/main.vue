@@ -44,13 +44,22 @@
 		:columns-m="2"
 		:columns-s="1"
 	>
-		<UserCard
-			v-for="executor in executors"
-			:key="executor.id"
-			:user="executor"
-			:loading="loadingExecutors"
-			link
-		/>
+		<template v-if="loadingOffers">
+			<UserCard
+				v-for="i in 8"
+				:key="i"
+				loading
+				link
+			/>
+		</template>
+		<template v-else>
+			<UserCard
+				v-for="executor in executors"
+				:key="executor.id"
+				:user="executor"
+				link
+			/>
+		</template>
 	</Grid>
 	<span v-else>Нет доступных исполнителей.</span>
 </template>

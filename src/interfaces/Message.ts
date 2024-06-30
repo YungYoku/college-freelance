@@ -7,6 +7,7 @@ export interface IMessage {
 	text: string
 	file: string | null
 	user: string
+	checked: boolean
 	expand?:{
 		file?: {
 			value: File

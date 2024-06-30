@@ -31,15 +31,15 @@ export const useAuthStore = defineStore({
 			disciplines: [],
 			referral_code: '',
 			favorite: [],
-			rating: []
+			rating: [],
+			notifications: []
 		},
 
 		token: localStorage.token ? JSON.parse(localStorage.token) : '',
 	}),
 
 	getters: {
-		isLoggedIn: state => state.token,
-		isLoaded: state => state.user.id.length > 0,
+		isLoggedIn: state => state.token.length > 0,
 		isCustomer: state => state.user.role === 'customer',
 		isExecutor: state => state.user.role === 'executor',
 		isAdmin: state => state.user.role === 'admin',

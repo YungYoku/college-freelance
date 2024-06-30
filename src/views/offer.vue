@@ -1,6 +1,6 @@
 <template>
 	<Grid
-		:columns-xl="[1, '140px', '140px']"
+		:columns-xl="[1, '119px', '126px']"
 		:columns-m="[1, 1]"
 		:columns-s="1"
 	>
@@ -19,7 +19,7 @@
 
 			<router-link
 				v-if="isItMyOffer"
-				:to="`/offer-edit/${offer.id}`"
+				:to="`/offer/${offer.id}/edit`"
 			>
 				<Button
 					:disabled="loading"
@@ -76,12 +76,6 @@
 					:loading="loading"
 				>
 					Тип работы: {{ offer.expand?.type?.name ?? 'Не указан' }}
-				</Text>
-				<Text
-					size="xs"
-					:loading="loading"
-				>
-					Университет: {{ offer.expand?.university?.name ?? 'Не указан' }}
 				</Text>
 
 				<Text

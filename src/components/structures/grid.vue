@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 
 import { Screen } from '@/plugins'
 
@@ -72,6 +72,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
 	window.removeEventListener('resize', updateActiveColumns)
 })
+watch(() => [props.columns, props.columnsXl, props.columnsL, props.columnsM, props.columnsS], updateActiveColumns)
 
 const gaps = {
 	xs: '1',
