@@ -95,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
@@ -139,5 +139,5 @@ const loadUser = async () => {
 
 	loading.value = false
 }
-loadUser()
+watch(() => route.params.id, loadUser, { immediate: true })
 </script>

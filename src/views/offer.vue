@@ -19,7 +19,7 @@
 
 			<router-link
 				v-if="isItMyOffer"
-				:to="`/offer-edit/${offer.id}`"
+				:to="`/offer/${offer.id}/edit`"
 			>
 				<Button
 					:disabled="loading"
