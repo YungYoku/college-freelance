@@ -12,19 +12,10 @@
 			Оставьте свой отзыв для {{ props.user }}!
 		</Text>
 
-		<div
-			class="flex flex-wrap items-center gap-2 ml-auto mr-auto"
-			@mouseleave="hover(null)"
-		>
-			<Icon
-				v-for="(icon, index) in icons"
-				:key="index"
-				:name="icon"
-				size="m"
-				@mouseenter="hover(index + 1)"
-				@click="value.stars = index + 1"
-			/>
-		</div>
+		<RatingStars
+			v-model="value.stars"
+			editable
+		/>
 
 		<Textarea
 			v-model="value.review"
@@ -42,13 +33,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, PropType, watch } from 'vue'
+import { ref, PropType } from 'vue'
 
 import { Grid } from '@/components/structures'
 import { Button, Textarea } from '@/components/blocks'
-import { Text, Icon } from '@/components/elements'
+import { Text } from '@/components/elements'
 import { Skeleton } from '@/components/ui/skeleton'
 import { IRating } from '@/interfaces/Rating.ts'
+import { RatingStars } from '@/components/blocks'
 
 const props = defineProps({
 	modelValue: {
@@ -64,31 +56,6 @@ const props = defineProps({
 		default: 'User'
 	}
 })
-const icons = computed(() => {
-	const result = []
-
-	for (let i = 0; i < 5; i++) {
-		if (hoverIndex.value !== null) {
-			if (i < hoverIndex.value) {
-				result.push('star-active')
-			} else {
-				result.push('star')
-			}
-		} else {
-			if (i < props.modelValue.stars) {
-				result.push('star-active')
-			} else {
-				result.push('star')
-			}
-		}
-	}
-
-	return result
-})
-
-const hoverIndex = ref<number | null>(null)
-const hover = (index: number | null) => hoverIndex.value = index
-
 
 const emit = defineEmits(['update:modelValue', 'back'])
 
@@ -96,7 +63,6 @@ const value = ref({
 	stars: 0,
 	review: ''
 })
-watch(() => props.modelValue, () => value.value = props.modelValue, { immediate: true })
 const back = () => emit('back')
 const send = () => {
 	emit('update:modelValue', value.value)

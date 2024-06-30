@@ -49,7 +49,7 @@
 						loading-width="100px"
 						size="xs"
 					>
-						Отзывы:
+						Отзывы: {{ user?.rating.length }}
 					</Text>
 
 					<Text
@@ -91,6 +91,14 @@
 		>
 			{{ user?.description }}
 		</Text>
+		<div
+			v-for="rating in user?.expand?.rating"
+			:key="rating.id"
+		>
+			<CardRating
+				:item="rating"
+			/>
+		</div>
 	</Grid>
 </template>
 
@@ -104,6 +112,7 @@ import { Grid } from '@/components/structures'
 import { Avatar, Button } from '@/components/blocks'
 import { Text } from '@/components/elements'
 import { IUser } from '@/interfaces/User.ts'
+import CardRating from '@/components/ui/card/CardRating.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -128,7 +137,7 @@ const loadUser = async () => {
 
 	await Http
 		.get<IUser>(`/collections/users/records/${route.params.id}`, {
-			expand: ['university', 'disciplines', 'rating']
+			expand: ['university', 'disciplines', 'rating', 'rating.by']
 		})
 		.then(res => {
 			user.value = res
