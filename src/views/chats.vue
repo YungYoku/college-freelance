@@ -4,8 +4,8 @@
 			Мои чаты
 		</PageTitle>
 	</Grid>
-	<Grid :columns="[1,4]">
-		<Island>
+	<Grid :columns="Screen.isLarger('s') ? [1,4] : 1 ">
+		<Island v-if="!openedChat">
 			<Grid>
 				<Grid
 					v-for="chat in chats"
@@ -28,8 +28,10 @@
 				</Grid>
 			</Grid>
 		</Island>
-		
-		<Island class="relative">
+		<Island
+			v-if="Screen.isSize('s') && openedChat !== null"
+			class="relative"
+		>
 			<Text v-if="openedChat === null">
 				Выберите чат
 			</Text>
@@ -52,7 +54,7 @@ import { PageTitle } from '@/components/elements'
 import { Island, Grid } from '@/components/structures'
 import { IJobOffer, IJobOffers, IJobOfferStatus } from '@/interfaces/JobOffer'
 
-import { Http } from '@/plugins'
+import { Http, Screen } from '@/plugins'
 import { computed, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import Text from '@/components/elements/text.vue'
@@ -105,5 +107,6 @@ const updateRating = async (rating: IRating) => {
 
 const loadChat = (offer: IJobOffer) => {
 	openedChat.value = offer
+	console.log(openedChat.value)
 }
 </script>
