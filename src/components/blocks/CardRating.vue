@@ -1,9 +1,11 @@
 <template>
 	<Card
 		width="100%"
-		class="max-w-[100%] pt-4">
+		class="max-w-[100%] pt-4"
+	>
 		<Grid
-			:columns="[1,1]">
+			:columns="[1,1]"
+		>
 			<component
 				is="router-link"
 				class="user cursor-pointer"
@@ -31,15 +33,15 @@
 		</Grid>
 		<div
 			v-if="item.review"
-			class="border border-solid border-1 border-gray-500 rounded-sm my-2"/>
+			class="border border-solid border-1 border-gray-500 rounded-sm my-2"
+		/>
 		<Text
 			size="xs"
 			class="text-base mb-2"
 		>
-			{{item.review }}
+			{{ item.review }}
 		</Text>
-		{{$date(created)}}
-
+		{{ $date(created) }}
 	</Card>
 </template>
 
@@ -50,7 +52,7 @@ import { Card, Grid } from '@/components/structures'
 import Avatar from '@/components/blocks/avatar.vue'
 import { computed } from 'vue'
 import { Text } from '@/components/elements'
-import { RatingStars } from '@/components/blocks'
+import { RatingStars } from '@/components/blocks/index.ts'
 
 
 const props = defineProps ({

@@ -112,7 +112,7 @@ import { Grid } from '@/components/structures'
 import { Avatar, Button } from '@/components/blocks'
 import { Text } from '@/components/elements'
 import { IUser } from '@/interfaces/User.ts'
-import CardRating from '@/components/ui/card/CardRating.vue'
+import { CardRating } from '@/components/blocks'
 
 const route = useRoute()
 const router = useRouter()
