@@ -10,10 +10,9 @@
 					v-else
 					name="moon"
 				/>
-				<span class="sr-only">Toggle theme</span>
 			</Button>
 		</DropdownMenuTrigger>
-		<DropdownMenuContent align="end">
+		<DropdownMenuContent>
 			<DropdownMenuItem @click="mode = 'light'">
 				Светлая
 			</DropdownMenuItem>

@@ -114,7 +114,7 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Http } from '@/plugins'
+import { Http, LocalStorage } from '@/plugins'
 import { IReferralCode } from '@/interfaces/ReferralCode.ts'
 import { IUser } from '@/interfaces/User.ts'
 
@@ -152,7 +152,7 @@ const copyRefLink = async () => {
 }
 
 const logout = () => {
-	localStorage.clear()
+	LocalStorage.clear()
 	auth.$reset()
 	router.push('/login')
 }
