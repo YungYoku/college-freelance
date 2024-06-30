@@ -91,14 +91,12 @@
 		>
 			{{ user?.description }}
 		</Text>
-		<div
+
+		<CardRating
 			v-for="rating in user?.expand?.rating"
 			:key="rating.id"
-		>
-			<CardRating
-				:item="rating"
-			/>
-		</div>
+			:rating="rating"
+		/>
 	</Grid>
 </template>
 

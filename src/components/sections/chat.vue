@@ -118,15 +118,14 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import { Grid, StepByStep } from '@/components/structures'
+import { Rating } from '@/components/sections'
 import { Input, Button, Message, InputFile, User } from '@/components/blocks'
 import { Http } from '@/plugins'
 import { IMessage } from '@/interfaces/Message.ts'
 import { IChat } from '@/interfaces/Chat.ts'
 import { emptyOffer, IJobOffer, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
-import { emptyUser } from '@/interfaces/User'
 import { IRating } from '@/interfaces/Rating'
 import { useToast } from '@/components/ui/toast'
-import { Rating } from '@/components/sections'
 
 const { toast } = useToast()
 
@@ -227,7 +226,7 @@ const sendToReview = () => updateStatus('on_review')
 const approveReview = () => updateStatus('ended')
 
 const newRating = ref<IRating>({
-	by: emptyUser,
+	by: '',
 	collectionId: '',
 	collectionName: '',
 	created: '',

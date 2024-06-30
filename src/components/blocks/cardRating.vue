@@ -3,13 +3,10 @@
 		width="100%"
 		class="max-w-[100%] pt-4"
 	>
-		<Grid
-			:columns="[1,1]"
-		>
-			<component
-				is="router-link"
+		<Grid :columns="[1, '132px']">
+			<router-link
 				class="user cursor-pointer"
-				:to="`/users/${item.expand.by.id}`"
+				:to="`/users/${rating.expand?.by?.id}`"
 			>
 				<Grid
 					:columns="['50px', 1, 1]"
@@ -17,54 +14,57 @@
 				>
 					<Avatar
 						size="s"
-						:user="item.expand.by"
+						:user="rating.expand?.by"
 					/>
 					<div>
-						{{ item.expand.by.name }} {{ item.expand.by.surname }}
+						{{ rating.expand?.by?.name }} {{ rating.expand?.by?.surname }}
 					</div>
 				</Grid>
-			</component>
-			<div class="flex flex-wrap justify-end items-center">
-				<RatingStars
-					v-model="item.stars"
-					size="s"
-				/>
-			</div>
+			</router-link>
+
+			<RatingStars
+				v-model="stars"
+				size="s"
+			/>
 		</Grid>
+
 		<div
-			v-if="item.review"
+			v-if="rating.review"
 			class="border border-solid border-1 border-gray-500 rounded-sm my-2"
 		/>
+
 		<Text
 			size="xs"
 			class="text-base mb-2"
 		>
-			{{ item.review }}
+			{{ rating.review }}
 		</Text>
+
 		{{ $date(created) }}
 	</Card>
 </template>
 
-
 <script setup lang="ts">
+import { computed } from 'vue'
 
 import { Card, Grid } from '@/components/structures'
-import Avatar from '@/components/blocks/avatar.vue'
-import { computed } from 'vue'
+import { Avatar, RatingStars } from '@/components/blocks'
 import { Text } from '@/components/elements'
-import { RatingStars } from '@/components/blocks/index.ts'
+import { IRating, emptyRating } from '@/interfaces/Rating.ts'
 
-
-const props = defineProps ({
-	item: {
-		type: Object,
-		default: () => ({})
-	}
+interface Props {
+	rating: IRating
+}
+const props = withDefaults(defineProps<Props>(), {
+	rating: () => emptyRating,
 })
-const created = computed(() => new Date(props.item?.created))
 
+const emit = defineEmits(['update:model-value'])
+
+const stars = computed({
+	get: () => props.rating.stars,
+	set: value => emit('update:model-value', value)
+})
+
+const created = computed(() => new Date(props.rating?.created))
 </script>
-
-<style scoped lang="scss">
-
-</style>

@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, PropType } from 'vue'
+import { ref, PropType, watch } from 'vue'
 
 import { Grid } from '@/components/structures'
 import { Button, Textarea } from '@/components/blocks'
@@ -59,10 +59,20 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'back'])
 
-const value = ref({
+const value = ref<IRating>({
+	by: '',
+	collectionId: '',
+	collectionName: '',
+	created: '',
+	id: '',
+	updated: '',
 	stars: 0,
 	review: ''
 })
+watch(() => props.modelValue, () => {
+	if (props.modelValue) value.value = props.modelValue
+}, { immediate: true })
+
 const back = () => emit('back')
 const send = () => {
 	emit('update:modelValue', value.value)

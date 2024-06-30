@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-
 import { Icon } from '@/components/elements'
 import { computed, ref, watch } from 'vue'
 
@@ -33,6 +32,7 @@ const props = defineProps({
 		default: 'm'
 	}
 })
+
 const icons = computed(() => {
 	const result = []
 
@@ -65,7 +65,7 @@ const value = ref({
 	stars: 0,
 	review: ''
 })
-const updateStars = (index) => {
+const updateStars = (index: number) => {
 	if (!props.editable) return
 	value.value.stars = index + 1
 	emit('update:modelValue', value.value.stars)
@@ -73,9 +73,3 @@ const updateStars = (index) => {
 
 watch(() => props.modelValue, () => value.value.stars = props.modelValue, { immediate: true })
 </script>
-
-
-
-<style scoped lang="scss">
-
-</style>
