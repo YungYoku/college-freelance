@@ -73,14 +73,15 @@ const getChats = async () => {
 	if (auth.user.id === '') return
 	loading.value = true
 
-	const userFilter = auth.isCustomer ? `creator='${auth.user.id}'` : `executor='${auth.user.id}'`
+	const filter = auth.isCustomer ? `creator='${auth.user.id}'` : `executor='${auth.user.id}'`
+	const encodedFilter = encodeURIComponent(`(${filter} && status!='created')`)
 
 	await Http.get<IJobOffers>('/collections/job_offers/records', {
-		filter: `(${userFilter})`,
+		filter: `(${encodedFilter})`,
 		expand: ['proposals', 'type', 'discipline', 'creator', 'ratingCreator', 'executor', 'ratingExecutor']
 	})
-		.then(response => {
-			chats.value = response.items.filter(item => item.status !== 'created')
+		.then(({ items }) => {
+			chats.value = items
 		})
 
 	loading.value = false
