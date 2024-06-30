@@ -1,22 +1,24 @@
 <template>
 	<Grid
-		:columns="openedChat !== null ? 1 : [1, 1]"
+		:columns="headerColumns"
+		ver-align="start"
 	>
 		<Icon
-			v-if="openedChat !== null"
+			v-if="Screen.isSize('s') && isChatOpened"
 			name="arrow-left"
 			size="l"
 			@click="openedChat = null"
 		/>
 		<PageTitle
 			class="flex"
-			:class="{'justify-end': openedChat !== null}"
+			:class="{'justify-end': isChatOpened}"
 		>
 			Мои чаты
 		</PageTitle>
 	</Grid>
+
 	<Grid :columns="Screen.isLarger('s') ? [1,4] : 1 ">
-		<Island v-if="!openedChat">
+		<Island v-if="Screen.isLarger('s') || !isChatOpened">
 			<Grid>
 				<Grid
 					v-for="chat in chats"
@@ -39,15 +41,16 @@
 				</Grid>
 			</Grid>
 		</Island>
+
 		<Island
-			v-if="(Screen.isSize('s') && openedChat !== null)|| Screen.isLarger('s')"
+			v-if="(Screen.isSize('s') && isChatOpened) || Screen.isLarger('s')"
 			class="relative"
 		>
-			<Text v-if="openedChat === null">
+			<Text v-if="!isChatOpened">
 				Выберите чат
 			</Text>
 			<Chat
-				v-else
+				v-else-if="openedChat !== null"
 				:offer="openedChat"
 				:rating-type="chatRatingType"
 				:user-type="chatUserType"
@@ -73,6 +76,11 @@ import { IRating } from '@/interfaces/Rating.ts'
 
 const auth = useAuthStore()
 const openedChat = ref<IJobOffer | null>(null)
+const isChatOpened = computed(() => openedChat.value !== null)
+const headerColumns = computed(() => {
+	if (Screen.isSize('s') && isChatOpened.value) return ['40px', 1]
+	return 1
+})
 const chats = ref<Array<IJobOffer>>([])
 const loading = ref(true)
 
@@ -119,6 +127,5 @@ const updateRating = async (rating: IRating) => {
 
 const loadChat = (offer: IJobOffer) => {
 	openedChat.value = offer
-	console.log(openedChat.value)
 }
 </script>
