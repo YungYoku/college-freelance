@@ -3,6 +3,7 @@ import { IDiscipline } from '@/interfaces/Discipline.ts'
 import { IReferralCode } from '@/interfaces/ReferralCode.ts'
 import { IJobOffer } from '@/interfaces/JobOffer.ts'
 import { IRating } from '@/interfaces/Rating.ts'
+import { INotification } from '@/interfaces/Notification.ts'
 
 export interface IUser {
     avatar: string
@@ -25,12 +26,14 @@ export interface IUser {
     referral_code: string
     favorite: Array<string>
     rating: Array<string>
+	notifications: Array<string>
     expand?: {
         university?: IUniversity
         disciplines?: Array<IDiscipline>
         referral_code?: IReferralCode
         favorite?: Array<IJobOffer>
         rating?: Array<IRating>
+		notifications: Array<INotification>
     }
 }
 
@@ -54,7 +57,8 @@ export const emptyUser: IUser = {
 	energy: 0,
 	disciplines: [],
 	favorite: [],
-	referral_code: ''
+	referral_code: '',
+	notifications: []
 }
 
 export interface IUsers {
