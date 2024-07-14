@@ -14,7 +14,14 @@
 					:key="notification.id"
 				>
 					<DropdownMenuItem>
-						{{ notification.text }}
+						<Grid
+							vertical
+							gap="xs"
+						>
+							<span>{{ notification.text }}</span>
+
+							<span>{{ $date(new Date(notification?.created)) }}</span>
+						</Grid>
 					</DropdownMenuItem>
 
 					<DropdownMenuSeparator v-if="notificationsAmount !== index + 1"/>
@@ -32,6 +39,7 @@
 import { computed } from 'vue'
 
 import { useAuthStore } from '@/stores/auth.ts'
+import { Grid } from '@/components/structures'
 import { Button } from '@/components/blocks'
 import { Icon } from '@/components/elements'
 import {
