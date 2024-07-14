@@ -50,6 +50,7 @@ export interface IJobOffer {
     chat: string
     type: string
     file: string | null
+	tutoring: false
     expand?: {
         creator?: IUser
         executor?: IUser
@@ -86,7 +87,8 @@ export const emptyOffer: IJobOffer = {
 	title: '',
 	description: '',
 	file: null,
-	price: 0
+	price: 0,
+	tutoring: false
 }
 
 export interface IJobOffers {

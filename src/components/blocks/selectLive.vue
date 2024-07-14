@@ -47,10 +47,13 @@
 							<Checkbox
 								v-if="multiple"
 								:checked="selectedItems.some(i => i === item.id)"
-								class="mr-1"
+								disabled
+								:label="item.name"
 							/>
 
-							{{ item.name }}
+							<template v-else>
+								{{ item.name }}
+							</template>
 						</CommandItem>
 					</CommandGroup>
 				</CommandList>
@@ -62,11 +65,10 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 
-import { Button } from '@/components/blocks'
+import { Button, Checkbox } from '@/components/blocks'
 import { Http } from '@/plugins'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 
 interface Item {

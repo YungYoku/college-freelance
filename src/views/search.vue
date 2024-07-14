@@ -39,6 +39,12 @@
 			api="disciplines"
 		/>
 
+		<Checkbox
+			v-model="form.tutoring.value"
+			:error="form.tutoring.error"
+			label="Репетиторство"
+		/>
+
 		<Button
 			:disabled="loading"
 			@click="loadData"
@@ -108,7 +114,16 @@ import { useAuthStore } from '@/stores/auth.ts'
 import { useSearchStore } from '@/stores/search.ts'
 
 import { Grid } from '@/components/structures'
-import { EmptyJobOffer, JobOffer, SelectLive, Button, Input, Select, UserCard } from '@/components/blocks'
+import {
+	EmptyJobOffer,
+	JobOffer,
+	SelectLive,
+	Button,
+	Input,
+	Select,
+	UserCard,
+	Checkbox,
+} from '@/components/blocks'
 import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
 import { Datetime, Form, Http, Screen } from '@/plugins'
 import { IUser, IUsers } from '@/interfaces/User.ts'
@@ -118,6 +133,7 @@ interface SearchForm {
 	university: string
 	type: string
 	discipline: string
+	tutoring: boolean
 }
 
 const offers = ref<Array<IJobOffer>>([])
@@ -142,7 +158,8 @@ const form = Form<SearchForm>({
 	entity: 'offer',
 	university: '',
 	type: '',
-	discipline: ''
+	discipline: '',
+	tutoring: false
 })
 const entitiesItems = [
 	{ value: 'offer', text: 'Объявление' },
@@ -160,6 +177,7 @@ const loadOffers = async () => {
 	if (form.university.value) filters.push(`university='${form.university.value}'`)
 	if (form.type.value) filters.push(`type='${form.type.value}'`)
 	if (form.discipline.value) filters.push(`discipline='${form.discipline.value}'`)
+	filters.push(`tutoring=${form.tutoring.value}`)
 	if (filters.length) {
 		filter = filters.reduce((acc, filter) => filter ? `${acc} && ${filter}` : acc, '')
 		filter = filter.slice(4)

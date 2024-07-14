@@ -2,6 +2,8 @@ import { defineAsyncComponent } from 'vue'
 
 const Avatar = defineAsyncComponent(() => import('./avatar.vue'))
 const Button = defineAsyncComponent(() => import('./button.vue'))
+const CardRating = defineAsyncComponent(() => import('./cardRating.vue'))
+const Checkbox = defineAsyncComponent(() => import('./checkbox.vue'))
 const DatePicker = defineAsyncComponent(() => import('./datePicker.vue'))
 const EmptyJobOffer = defineAsyncComponent(() => import('./emptyJobOffer.vue'))
 const Input = defineAsyncComponent(() => import('./input.vue'))
@@ -10,7 +12,6 @@ const JobOffer = defineAsyncComponent(() => import('./jobOffer.vue'))
 const JobSearch = defineAsyncComponent(() => import('./jobSearch.vue'))
 const Message = defineAsyncComponent(() => import('./message.vue'))
 const RatingStars = defineAsyncComponent(() => import('./ratingStars.vue'))
-const CardRating = defineAsyncComponent(() => import('./cardRating.vue'))
 const Notifications = defineAsyncComponent(() => import('./notifications.vue'))
 const SearchTags = defineAsyncComponent(() => import('./searchTags.vue'))
 const Select = defineAsyncComponent(() => import('./select.vue'))
@@ -25,6 +26,8 @@ const UserDropdown = defineAsyncComponent(() => import('./userDropdown.vue'))
 export {
 	Avatar,
 	Button,
+	CardRating,
+	Checkbox,
 	DatePicker,
 	EmptyJobOffer,
 	Input,
@@ -33,7 +36,6 @@ export {
 	JobSearch,
 	Message,
 	RatingStars,
-	CardRating,
 	Notifications,
 	SearchTags,
 	Select,

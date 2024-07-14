@@ -74,6 +74,12 @@
 					:error="form.deadline.error"
 					label="Срок сдачи"
 				/>
+
+				<Checkbox
+					v-model="form.tutoring.value"
+					:error="form.tutoring.error"
+					label="Репетиторство"
+				/>
 			</div>
 		</Island>
 
@@ -104,7 +110,7 @@ import { useToast } from '@/components/ui/toast'
 import { Http, Form } from '@/plugins'
 import { IJobOffer } from '@/interfaces/JobOffer.ts'
 import { Grid, Island } from '@/components/structures'
-import { Button, DatePicker, Input, SelectLive, Textarea } from '@/components/blocks'
+import { Button, Checkbox, DatePicker, Input, SelectLive, Textarea } from '@/components/blocks'
 import { Text } from '@/components/elements'
 import { IUser } from '@/interfaces/User.ts'
 
@@ -131,6 +137,7 @@ const form = Form<IJobOffer>({
 	chat: '',
 	proposals: [],
 	file: null,
+	tutoring: false
 })
 
 const router = useRouter()
