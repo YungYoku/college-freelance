@@ -8,6 +8,7 @@
 			:key="index"
 			:name="icon"
 			:size="size"
+			:pointer="editable"
 			@mouseenter="hover(index + 1)"
 			@click="updateStars(index)"
 		/>

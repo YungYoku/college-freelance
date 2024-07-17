@@ -1,7 +1,9 @@
 <template>
 	<Image
 		class="icon"
-		:class="[`icon_${size}`, currentColor]"
+		:class="[`icon_${size}`, currentColor, {
+			'cursor-pointer': pointer
+		}]"
 		:src="src"
 		alt="icon"
 		local
@@ -29,6 +31,10 @@ const props = defineProps({
 	invertedColor: {
 		type: Boolean,
 		default: true
+	},
+	pointer: {
+		type: Boolean,
+		default: true
 	}
 })
 
@@ -51,8 +57,6 @@ const src = computed(() => {
 
 <style lang="scss" scoped>
 .icon {
-    cursor: pointer;
-
 	&.light {
 		filter: invert(1);
 	}
