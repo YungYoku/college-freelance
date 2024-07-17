@@ -5,19 +5,25 @@
 		}"
 		class="max-w-[100%]"
 	>
-		<CardHeader v-if="title">
+		<CardHeader
+			v-if="title"
+			class="p-5 pb-2"
+		>
 			<CardTitle>
 				{{ title }}
 			</CardTitle>
 		</CardHeader>
 
-		<CardContent>
+		<CardContent class="p-5">
 			<div class="grid items-center w-full gap-2">
 				<slot/>
 			</div>
 		</CardContent>
 
-		<CardFooter v-if="$slots.footer">
+		<CardFooter
+			v-if="$slots.footer"
+			class="p-5"
+		>
 			<slot name="footer"/>
 		</CardFooter>
 	</Card>
