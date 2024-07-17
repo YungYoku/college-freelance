@@ -18,6 +18,18 @@
 			label="Сущность"
 		/>
 
+		<Input
+			v-model="form.priceFrom.value"
+			:error="form.priceFrom.error"
+			label="Оплата от"
+		/>
+
+		<Input
+			v-model="form.priceTo.value"
+			:error="form.priceTo.error"
+			label="Оплата до"
+		/>
+
 		<SelectLive
 			v-model="form.university.value"
 			:error="form.university.error"
@@ -129,7 +141,9 @@ import { Datetime, Form, Http, Screen } from '@/plugins'
 import { IUser, IUsers } from '@/interfaces/User.ts'
 
 interface SearchForm {
-	entity: 'offer' | 'executor',
+	priceFrom: string
+	priceTo: string
+	entity: 'offer' | 'executor'
 	university: string
 	type: string
 	discipline: string
@@ -155,6 +169,8 @@ watch(() => searchStore.search, (value) => {
 }, { immediate: true })
 
 const form = Form<SearchForm>({
+	priceFrom: '',
+	priceTo: '',
 	entity: 'offer',
 	university: '',
 	type: '',
@@ -177,6 +193,8 @@ const loadOffers = async () => {
 	if (form.university.value) filters.push(`university='${form.university.value}'`)
 	if (form.type.value) filters.push(`type='${form.type.value}'`)
 	if (form.discipline.value) filters.push(`discipline='${form.discipline.value}'`)
+	if (form.priceFrom.value) filters.push(`price>=${form.priceFrom.value}`)
+	if (form.priceTo.value) filters.push(`price<=${form.priceTo.value}`)
 	filters.push(`tutoring=${form.tutoring.value}`)
 	if (filters.length) {
 		filter = filters.reduce((acc, filter) => filter ? `${acc} && ${filter}` : acc, '')
