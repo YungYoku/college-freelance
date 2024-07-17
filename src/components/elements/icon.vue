@@ -28,9 +28,9 @@ const props = defineProps({
 			return ['xs', 's', 'm', 'l'].includes(size)
 		}
 	},
-	invertedColor: {
-		type: Boolean,
-		default: true
+	colors: {
+		type: Array,
+		default: () => ['light', 'dark']
 	},
 	pointer: {
 		type: Boolean,
@@ -41,13 +41,10 @@ const props = defineProps({
 const mode = useColorMode({ selector: 'body' })
 const currentTheme = computed(() => mode.state.value)
 
-const colors = {
-	dark: 'light',
-	light: 'dark'
-}
-
 const currentColor = computed(() => {
-	return props.invertedColor ? colors[currentTheme.value] : currentTheme.value
+	const colorIndex = currentTheme.value === 'dark' ? 0 : 1
+
+	return props.colors[colorIndex]
 })
 
 const src = computed(() => {

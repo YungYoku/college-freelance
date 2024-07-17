@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="chat__message flex w-max max-w-[50%] flex-col gap-1 rounded-lg px-3 py-2"
+		class="flex w-max max-w-[50%] flex-col gap-1 rounded-lg px-3 py-2"
 		:class="{
 			'text-primary-foreground': self,
 			'bg-primary': self,
@@ -16,7 +16,7 @@
 		<File
 			v-if="message.expand?.file.file"
 			:src="`${message.expand?.file.collectionId}/${message.expand?.file.id}/${message.expand?.file.file}`"
-			:inverted-color="!self"
+			:colors="self ? ['dark', 'light'] : ['light', 'dark']"
 		/>
 
 		<span class="text-xs">{{ $date(created, 'fullDatetime') }}</span>
