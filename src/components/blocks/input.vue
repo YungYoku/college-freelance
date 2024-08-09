@@ -37,6 +37,14 @@
 				:name="icon"
 				@click="action"
 			/>
+
+			<Icon
+				v-else-if="filled"
+				class="absolute right-3 top-3.5 cursor-pointer"
+				name="close"
+				size="s"
+				@click.prevent.stop="clear"
+			/>
 		</template>
 	</div>
 </template>
@@ -50,7 +58,7 @@ import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
 
 interface Props {
-	modelValue: string | number
+	modelValue: string | number | undefined
 	error?: string | null
 	loading?: boolean
 	label: string
@@ -60,7 +68,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	modelValue: '',
+	modelValue: undefined,
 	error: null,
 	loading: false,
 	label: '',
@@ -92,4 +100,14 @@ const placeholder = computed(() => {
 
 	return null
 })
+
+const filled = computed(() => {
+	if (typeof value.value === 'number') return true
+	if (typeof value.value === 'string') return value.value.length > 0
+	return false
+})
+
+const clear = () => {
+	value.value = undefined
+}
 </script>

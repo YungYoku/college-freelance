@@ -25,6 +25,14 @@
 		>
 			{{ error }}
 		</span>
+
+		<Icon
+			v-else-if="filled"
+			class="absolute right-3 top-3.5 cursor-pointer"
+			name="close"
+			size="s"
+			@click.prevent.stop="clear"
+		/>
 	</div>
 </template>
 
@@ -33,9 +41,10 @@ import { computed } from 'vue'
 
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
+import { Icon } from '@/components/elements'
 
 interface Props {
-	modelValue: string
+	modelValue: string | undefined
 	error?: string | null
 	label: string
 	height?: string
@@ -43,7 +52,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	modelValue: '',
+	modelValue: undefined,
 	error: null,
 	label: '',
 	height: '200px',
@@ -58,11 +67,20 @@ const value = computed({
 })
 
 const placeholder = computed(() => {
-	const hasValue = props.modelValue.length > 0
+	const hasValue = typeof value.value === 'string' && value.value.length > 0
 	if (props.label && !hasValue) {
 		return props.label
 	}
 
 	return null
 })
+
+const filled = computed(() => {
+	if (typeof value.value === 'string') return value.value.length > 0
+	return false
+})
+
+const clear = () => {
+	value.value = undefined
+}
 </script>
