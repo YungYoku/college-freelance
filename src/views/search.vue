@@ -63,6 +63,13 @@
 		>
 			Поиск
 		</Button>
+
+		<Button
+			:disabled="loading"
+			@click="form.reset"
+		>
+			Очистить
+		</Button>
 	</Grid>
 
 	<template v-if="form.entity.value === 'offer'">
