@@ -1,7 +1,7 @@
 <template>
 	<Card
 		width="100%"
-		class="max-w-[100%] pt-4"
+		class="max-w-[100%]"
 	>
 		<Grid :columns="[1, '132px']">
 			<router-link
@@ -9,8 +9,8 @@
 				:to="`/users/${rating.expand?.by?.id}`"
 			>
 				<Grid
-					:columns="['50px', 1, 1]"
-					class="flex flex-wrap justify-between items-center"
+					:columns="['30px', 1]"
+					gap="l"
 				>
 					<Avatar
 						size="s"
@@ -28,19 +28,19 @@
 			/>
 		</Grid>
 
-		<div
-			v-if="rating.review"
-			class="border border-solid border-1 border-gray-500 rounded-sm my-2"
-		/>
+		<template v-if="rating.review">
+			<div class="border-t my-1"/>
 
-		<Text
-			size="xs"
-			class="text-base mb-2"
-		>
-			{{ rating.review }}
+			<Text size="xs">
+				{{ rating.review }}
+			</Text>
+
+			<div class="border-t my-1"/>
+		</template>
+
+		<Text size="xs">
+			{{ $date(created) }}
 		</Text>
-
-		{{ $date(created) }}
 	</Card>
 </template>
 

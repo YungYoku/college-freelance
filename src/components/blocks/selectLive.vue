@@ -21,6 +21,14 @@
 					{{ showedResult }}
 				</Button>
 
+				<Icon
+					v-if="filled"
+					class="absolute right-3 top-3.5 cursor-pointer"
+					name="close"
+					size="s"
+					@click.prevent.stop="clear"
+				/>
+
 				<span
 					v-if="error"
 					class="pl-3 text-xs text-destructive font-extralight"
@@ -42,15 +50,18 @@
 							v-for="item in items"
 							:key="item.id"
 							:value="item.name"
-							@select="select(item.id)"
+							@select.prevent.stop="select(item.id)"
 						>
 							<Checkbox
 								v-if="multiple"
 								:checked="selectedItems.some(i => i === item.id)"
-								class="mr-1"
+								disabled
+								:label="item.name"
 							/>
 
-							{{ item.name }}
+							<template v-else>
+								{{ item.name }}
+							</template>
 						</CommandItem>
 					</CommandGroup>
 				</CommandList>
@@ -62,11 +73,11 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 
-import { Button } from '@/components/blocks'
+import { Button, Checkbox } from '@/components/blocks'
+import { Icon } from '@/components/elements'
 import { Http } from '@/plugins'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 
 interface Item {
@@ -263,5 +274,15 @@ const select = (id: string) => {
 		value.value = id
 		open.value = false
 	}
+}
+
+const clear = () => {
+	if (props.multiple && Array.isArray(value.value)) {
+		value.value = []
+		selectedItems.value = []
+	} else {
+		value.value = ''
+	}
+	search.value = ''
 }
 </script>

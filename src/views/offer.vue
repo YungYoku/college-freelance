@@ -77,6 +77,12 @@
 				>
 					Тип работы: {{ offer.expand?.type?.name ?? 'Не указан' }}
 				</Text>
+				<Text
+					size="xs"
+					:loading="loading"
+				>
+					Университет: {{ offer.expand?.university?.name ?? 'Не указан' }}
+				</Text>
 
 				<Text
 					size="xs"
@@ -91,7 +97,16 @@
 				>
 					Срок сдачи: {{ $date(deadline) }}
 				</Text>
+
+				<Text
+					size="xs"
+					:loading="loading"
+					class="mt-4"
+				>
+					Репетиторство: {{ offer.tutoring ? 'да' : 'нет' }}
+				</Text>
 			</div>
+
 			<div class="flex justify-between">
 				<UserCard
 					class="mt-4 max-w-10"
@@ -166,6 +181,7 @@ const offer = ref<IJobOffer>({
 	chat: '',
 	proposals: [],
 	file: null,
+	tutoring: false,
 	expand: {
 		proposals: [],
 	}

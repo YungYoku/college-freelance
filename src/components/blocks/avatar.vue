@@ -116,7 +116,7 @@ const removeAvatar = () => loadImage('')
     overflow: hidden;
 
     background: #444444;
-    border-radius: 50% ;
+    border-radius: 50%;
 
     &__image {
         max-width: 100%;

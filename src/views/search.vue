@@ -18,6 +18,18 @@
 			label="Сущность"
 		/>
 
+		<Input
+			v-model="form.priceFrom.value"
+			:error="form.priceFrom.error"
+			label="Оплата от"
+		/>
+
+		<Input
+			v-model="form.priceTo.value"
+			:error="form.priceTo.error"
+			label="Оплата до"
+		/>
+
 		<SelectLive
 			v-model="form.university.value"
 			:error="form.university.error"
@@ -39,11 +51,24 @@
 			api="disciplines"
 		/>
 
+		<Checkbox
+			v-model="form.tutoring.value"
+			:error="form.tutoring.error"
+			label="Репетиторство"
+		/>
+
 		<Button
 			:disabled="loading"
 			@click="loadData"
 		>
 			Поиск
+		</Button>
+
+		<Button
+			:disabled="loading"
+			@click="form.reset"
+		>
+			Очистить
 		</Button>
 	</Grid>
 
@@ -108,16 +133,28 @@ import { useAuthStore } from '@/stores/auth.ts'
 import { useSearchStore } from '@/stores/search.ts'
 
 import { Grid } from '@/components/structures'
-import { EmptyJobOffer, JobOffer, SelectLive, Button, Input, Select, UserCard } from '@/components/blocks'
+import {
+	EmptyJobOffer,
+	JobOffer,
+	SelectLive,
+	Button,
+	Input,
+	Select,
+	UserCard,
+	Checkbox,
+} from '@/components/blocks'
 import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
 import { Datetime, Form, Http, Screen } from '@/plugins'
 import { IUser, IUsers } from '@/interfaces/User.ts'
 
 interface SearchForm {
-	entity: 'offer' | 'executor',
+	priceFrom: string
+	priceTo: string
+	entity: 'offer' | 'executor'
 	university: string
 	type: string
 	discipline: string
+	tutoring: boolean
 }
 
 const offers = ref<Array<IJobOffer>>([])
@@ -139,10 +176,13 @@ watch(() => searchStore.search, (value) => {
 }, { immediate: true })
 
 const form = Form<SearchForm>({
+	priceFrom: '',
+	priceTo: '',
 	entity: 'offer',
 	university: '',
 	type: '',
-	discipline: ''
+	discipline: '',
+	tutoring: false
 })
 const entitiesItems = [
 	{ value: 'offer', text: 'Объявление' },
@@ -160,6 +200,9 @@ const loadOffers = async () => {
 	if (form.university.value) filters.push(`university='${form.university.value}'`)
 	if (form.type.value) filters.push(`type='${form.type.value}'`)
 	if (form.discipline.value) filters.push(`discipline='${form.discipline.value}'`)
+	if (form.priceFrom.value) filters.push(`price>=${form.priceFrom.value}`)
+	if (form.priceTo.value) filters.push(`price<=${form.priceTo.value}`)
+	filters.push(`tutoring=${form.tutoring.value}`)
 	if (filters.length) {
 		filter = filters.reduce((acc, filter) => filter ? `${acc} && ${filter}` : acc, '')
 		filter = filter.slice(4)

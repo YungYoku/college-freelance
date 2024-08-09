@@ -57,10 +57,23 @@
 					api="offer_types"
 				/>
 
+				<SelectLive
+					v-model="newOffer.university.value"
+					:error="newOffer.university.error"
+					place-holder="Университет"
+					api="universities"
+				/>
+
 				<DatePicker
 					v-model="newOffer.deadline.value"
 					:error="newOffer.deadline.error"
 					label="Срок сдачи"
+				/>
+				
+				<Checkbox
+					v-model="newOffer.tutoring.value"
+					:error="newOffer.tutoring.error"
+					label="Репетиторство"
 				/>
 			</div>
 		</Island>
@@ -90,7 +103,15 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 import { Grid, Island } from '@/components/structures'
-import { Input, Textarea, Button, DatePicker, SelectLive, InputFile } from '@/components/blocks'
+import {
+	Input,
+	Textarea,
+	Button,
+	DatePicker,
+	SelectLive,
+	InputFile,
+	Checkbox
+} from '@/components/blocks'
 import { useToast } from '@/components/ui/toast'
 import { IJobOffer } from '@/interfaces/JobOffer'
 import { Http, Form } from '@/plugins'
@@ -118,7 +139,8 @@ const newOffer = Form<IJobOffer>({
 	type: '',
 	price: 0,
 	file: null,
-	deadline: new Date()
+	deadline: new Date(),
+	tutoring: false
 })
 
 const router = useRouter()

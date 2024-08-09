@@ -1,7 +1,9 @@
 <template>
 	<Image
 		class="icon"
-		:class="[`icon_${size}`, currentColor]"
+		:class="[`icon_${size}`, currentColor, {
+			'cursor-pointer': pointer
+		}]"
 		:src="src"
 		alt="icon"
 		local
@@ -26,7 +28,11 @@ const props = defineProps({
 			return ['xs', 's', 'm', 'l'].includes(size)
 		}
 	},
-	invertedColor: {
+	colors: {
+		type: Array,
+		default: () => ['light', 'dark']
+	},
+	pointer: {
 		type: Boolean,
 		default: true
 	}
@@ -35,13 +41,10 @@ const props = defineProps({
 const mode = useColorMode({ selector: 'body' })
 const currentTheme = computed(() => mode.state.value)
 
-const colors = {
-	dark: 'light',
-	light: 'dark'
-}
-
 const currentColor = computed(() => {
-	return props.invertedColor ? colors[currentTheme.value] : currentTheme.value
+	const colorIndex = currentTheme.value === 'dark' ? 0 : 1
+
+	return props.colors[colorIndex]
 })
 
 const src = computed(() => {
@@ -51,8 +54,6 @@ const src = computed(() => {
 
 <style lang="scss" scoped>
 .icon {
-    cursor: pointer;
-
 	&.light {
 		filter: invert(1);
 	}

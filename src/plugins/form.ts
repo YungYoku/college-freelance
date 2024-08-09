@@ -61,12 +61,22 @@ const Form = <I extends BaseType<I>>(base: I) => {
 		})
 	}
 
+	const reset = () => {
+		keys.forEach(key => {
+			Object.assign(list[key], {
+				value: base[key],
+				error: null
+			})
+		})
+	}
+
 	return {
 		...list,
 		set,
 		get,
 		setErrors,
-		clearErrors
+		clearErrors,
+		reset
 	}
 }
 
