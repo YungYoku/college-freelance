@@ -22,7 +22,7 @@
 				<DropdownMenuSeparator/>
 
 				<router-link
-					v-if="auth.isLoggedIn && (auth.isCustomer || auth.isAdmin)"
+					v-if="auth.isLoggedIn && auth.isCustomer"
 					to="/made-offers"
 				>
 					<DropdownMenuItem class="cursor-pointer">
@@ -30,7 +30,7 @@
 					</DropdownMenuItem>
 				</router-link>
 				<router-link
-					v-if="auth.isLoggedIn && (auth.isCustomer || auth.isAdmin)"
+					v-if="auth.isLoggedIn && auth.isCustomer"
 					to="/new-offer"
 				>
 					<DropdownMenuItem class="cursor-pointer">
@@ -38,7 +38,7 @@
 					</DropdownMenuItem>
 				</router-link>
 				<router-link
-					v-if="auth.isLoggedIn && (auth.isExecutor || auth.isAdmin)"
+					v-if="auth.isLoggedIn && auth.isExecutor"
 					to="/executing-offers"
 				>
 					<DropdownMenuItem class="cursor-pointer">
@@ -59,6 +59,14 @@
 				>
 					<DropdownMenuItem class="cursor-pointer">
 						Избранное
+					</DropdownMenuItem>
+				</router-link>
+				<router-link
+					v-if="auth.isLoggedIn && auth.isAdmin"
+					to="/unverified-entities"
+				>
+					<DropdownMenuItem class="cursor-pointer">
+						Новые сущности
 					</DropdownMenuItem>
 				</router-link>
 			</DropdownMenuGroup>

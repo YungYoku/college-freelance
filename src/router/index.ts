@@ -101,6 +101,14 @@ const routes: Array<RouteRecordRaw> = [
 					rules: ['auth']
 				}
 			},
+			{
+				path: '/unverified-entities',
+				name: 'UnverifiedEntities',
+				component: () => import('@/views/unverifiedEntities.vue'),
+				meta: {
+					rules: ['auth', 'admin']
+				}
+			},
 		],
 	},
 	{
@@ -137,11 +145,11 @@ router.beforeEach((to) => {
 		if (!authStore.isLoggedIn) return '/login'
 
 		if (toRules.includes('customer')) {
-			if (authStore.isCustomer || authStore.isAdmin) return true
+			if (authStore.isCustomer) return true
 			return '/'
 		}
 		if (toRules.includes('executor')) {
-			if (authStore.isExecutor || authStore.isAdmin) return true
+			if (authStore.isExecutor) return true
 			return '/'
 		}
 
