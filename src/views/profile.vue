@@ -61,7 +61,7 @@
 			disabled
 			label="Реферальный код"
 		/>
-			
+
 		<Button
 			v-else
 			:disabled="loading"
@@ -88,34 +88,12 @@ import { Http, Form } from '@/plugins'
 import { Grid } from '@/components/structures'
 import { Avatar, Button, Textarea, SelectLive, Input } from '@/components/blocks'
 import { IReferralCode } from '@/interfaces/ReferralCode.ts'
-import { IUser } from '@/interfaces/User.ts'
+import { IUser, emptyUser } from '@/interfaces/User.ts'
 
 const auth = useAuthStore()
 const { toast } = useToast()
 
-const form = Form<IUser>({
-	name: '',
-	surname: '',
-	avatar: '',
-	collectionId: '',
-	collectionName: '',
-	created: '',
-	emailVisibility: false,
-	energy: 0,
-	favorite: [],
-	id: '',
-	rating: [],
-	referral_code: '',
-	role: 'customer',
-	updated: '',
-	username: '',
-	verified: false,
-	email: auth.user.email,
-	university: '',
-	disciplines: [] as Array<string>,
-	description: '',
-	notifications: []
-})
+const form = Form<IUser>({ ...emptyUser })
 
 watch(() => auth.user, () => form.set(auth.user), { immediate: true })
 

@@ -22,9 +22,9 @@
 
 
 <script setup lang="ts">
-import { IUser } from '@/interfaces/User'
-import Avatar from './avatar.vue'
+import { emptyUser, IUser } from '@/interfaces/User'
 import { Skeleton } from '@/components/ui/skeleton'
+import Avatar from './avatar.vue'
 
 interface Props {
     user: IUser,
@@ -33,29 +33,7 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-	user: () => ({
-		avatar: '',
-		collectionId: '',
-		collectionName: '',
-		created: '',
-		email: '',
-		emailVisibility: false,
-		id: '',
-		name: '',
-		description: '',
-		surname: '',
-		rating: [],
-		updated: '',
-		username: '',
-		verified: false,
-		role: 'customer',
-		university: '',
-		energy: 0,
-		disciplines: [],
-		favorite: [],
-		referral_code: '',
-		notifications: []
-	}),
+	user: () => ({ ...emptyUser }),
 	loading: false,
 	link: false
 })

@@ -17,8 +17,16 @@ class Datetime {
 		return Datetime.inst || (Datetime.inst = new Datetime())
 	}
 
-	get(date: Date | null, type: Method = 'default') {
+	get(date: Date | string | null, type: Method = 'default') {
 		if (date === null) return ''
+		if (typeof date === 'string') {
+			try {
+				date = new Date(date)
+			} catch (e) {
+				console.warn(e)
+				date = new Date()
+			}
+		}
 
 		const year = date.getFullYear()
 		const getValue = (value: number) => String(value).padStart(2, '0')
@@ -44,7 +52,7 @@ const datetime = Datetime.getInst()
 
 const datetimePlugin: Plugin = {
 	install (app: App) {
-		app.config.globalProperties.$date = (date: Date | null, type: Method = 'default') => {
+		app.config.globalProperties.$date = (date: Date | string | null, type: Method = 'default') => {
 			return datetime.get(date, type)
 		}
 	},

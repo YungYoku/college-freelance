@@ -46,12 +46,12 @@
 
 
 <script setup lang="ts">
-import { IUser } from '@/interfaces/User'
+import { computed } from 'vue'
+import { emptyUser, IUser } from '@/interfaces/User'
 import { Island, Grid } from '@/components/structures'
-import Avatar from './avatar.vue'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
-import { computed } from 'vue'
+import Avatar from './avatar.vue'
 
 interface Props {
 	user: IUser,
@@ -60,29 +60,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	user: () => ({
-		avatar: '',
-		collectionId: '',
-		collectionName: '',
-		created: '',
-		email: '',
-		emailVisibility: false,
-		id: '',
-		name: '',
-		description: '',
-		surname: '',
-		rating: [],
-		updated: '',
-		username: '',
-		verified: false,
-		role: 'customer',
-		university: '',
-		energy: 0,
-		disciplines: [],
-		favorite: [],
-		referral_code: '',
-		notifications: []
-	}),
+	user: () => ({ ...emptyUser }),
 	loading: false,
 	link: false
 })

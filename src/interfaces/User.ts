@@ -9,14 +9,15 @@ export interface IUser {
     avatar: string
     collectionId: string
     collectionName: string
-    created: string
+    created: Date
+    updated: Date
+    checked_at: Date
     email: string
     emailVisibility: boolean
     id: string
     name: string
     description: string
     surname: string
-    updated: string
     username: string
     verified: boolean
     role: 'admin' | 'customer' | 'executor'
@@ -41,15 +42,16 @@ export const emptyUser: IUser = {
 	avatar: '',
 	collectionId: '',
 	collectionName: '',
-	created: '',
 	email: '',
+	created: new Date(),
+	updated: new Date(),
+	checked_at: new Date(),
 	emailVisibility: false,
 	id: '',
 	name: '',
 	description: '',
 	surname: '',
 	rating: [],
-	updated: '',
 	username: '',
 	verified: false,
 	role: 'customer',

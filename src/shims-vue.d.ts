@@ -11,6 +11,6 @@ export {}
 
 declare module 'vue' {
   interface ComponentCustomProperties {
-    $date: (date: Date | null, key: Method = 'default') => string
+    $date: (date: Date | string | null, key: Method = 'default') => string
   }
 }

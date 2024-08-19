@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { IUser } from '@/interfaces/User'
+import { emptyUser, IUser } from '@/interfaces/User'
 import { LocalStorage } from '@/plugins'
 
 export interface State {
@@ -11,29 +11,7 @@ export const useAuthStore = defineStore({
 	id: 'auth',
 
 	state: (): State => <State>({
-		user: {
-			avatar: '',
-			collectionId: '',
-			collectionName: '',
-			created: '',
-			email: '',
-			emailVisibility: false,
-			id: '',
-			name: '',
-			description: '',
-			surname: '',
-			updated: '',
-			username: '',
-			verified: false,
-			role: 'customer',
-			university: '',
-			energy: 0,
-			disciplines: [],
-			referral_code: '',
-			favorite: [],
-			rating: [],
-			notifications: []
-		},
+		user: { ...emptyUser },
 
 		token: localStorage.token ? JSON.parse(localStorage.token) : '',
 	}),

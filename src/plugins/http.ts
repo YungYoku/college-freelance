@@ -79,7 +79,7 @@ class Http {
 			.then((response) => {
 				return response.json()
 					.then((res) => {
-						if (res.code === 400) {
+						if (response.status === 400) {
 							throw res
 						}
 						return res
@@ -111,7 +111,7 @@ class Http {
 			.then((response) => {
 				return response.json()
 					.then((res) => {
-						if (res.code === 400) {
+						if (response.status === 400) {
 							throw res
 						}
 						return res
@@ -143,7 +143,7 @@ class Http {
 			.then((response) => {
 				return response.json()
 					.then((res) => {
-						if (res.code === 400) {
+						if (response.status === 400) {
 							throw res
 						}
 						return res
@@ -170,7 +170,7 @@ class Http {
 			.then((response) => {
 				return response.json()
 					.then((res) => {
-						if (res.code === 400) {
+						if (response.status === 400) {
 							throw res
 						}
 						return res

@@ -85,6 +85,7 @@ interface RegistrationForm {
 	passwordConfirm: string
 	role: string
 	energy: number
+	checked_at: Date
 }
 
 const form = Form<RegistrationForm>({
@@ -93,7 +94,8 @@ const form = Form<RegistrationForm>({
 	password: '',
 	passwordConfirm: '',
 	role: 'customer',
-	energy: 100
+	energy: 100,
+	checked_at: new Date()
 })
 
 const router = useRouter()

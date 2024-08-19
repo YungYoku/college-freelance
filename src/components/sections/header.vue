@@ -24,6 +24,7 @@
 				<Button
 					v-if="auth.isLoggedIn"
 					variant="outline"
+					@click="claim"
 				>
 					<Icon
 						name="energy"
@@ -48,7 +49,9 @@ import { useAuthStore } from '@/stores/auth.ts'
 import { Grid } from '@/components/structures'
 import { ThemeColorToggle, UserDropdown, JobSearch, Button, Notifications } from '@/components/blocks'
 import { Logo, Icon } from '@/components/elements'
-import { Screen } from '@/plugins'
+import { Datetime, Http, Screen } from '@/plugins'
+import { IUser } from '@/interfaces/User.ts'
+import { useToast } from '@/components/ui/toast'
 
 const auth = useAuthStore()
 
@@ -62,6 +65,20 @@ const authLinks = [
 		to: '/registration',
 	},
 ]
+
+const { toast } = useToast()
+const claim = async () => {
+	await Http
+		.post<IUser>('/claim-energy')
+		.then((res) => {
+			auth.setUser(res)
+		})
+		.catch(() => {
+			toast({
+				title: `Не прошло достаточно времени. Последняя дата получения энергии: ${Datetime.get(auth.user.checked_at, 'fullDatetime')}`
+			})
+		})
+}
 </script>
 
 <style scoped lang="scss">

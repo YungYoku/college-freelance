@@ -41,7 +41,7 @@ import { computed } from 'vue'
 import { Image, Icon } from '@/components/elements'
 import { useAuthStore } from '@/stores/auth'
 import { Http } from '@/plugins'
-import { IUser } from '@/interfaces/User.ts'
+import { emptyUser, IUser } from '@/interfaces/User.ts'
 
 interface Props {
 	user?: IUser | null | undefined
@@ -51,29 +51,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	user: () => ({
-		avatar: '',
-		collectionId: '',
-		collectionName: '',
-		created: '',
-		email: '',
-		emailVisibility: false,
-		id: '',
-		name: '',
-		description: '',
-		surname: '',
-		rating: [],
-		updated: '',
-		username: '',
-		verified: false,
-		role: 'customer',
-		university: '',
-		energy: 0,
-		disciplines: [],
-		favorite: [],
-		referral_code: '',
-		notifications: []
-	}),
+	user: () => ({ ...emptyUser }),
 	self: false,
 	size: 'm',
 	editable: false
