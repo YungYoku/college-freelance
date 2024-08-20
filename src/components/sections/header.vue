@@ -72,6 +72,9 @@ const claim = async () => {
 		.post<IUser>('/claim-energy')
 		.then((res) => {
 			auth.setUser(res)
+			toast({
+				title: 'Было получено 5 энергии!'
+			})
 		})
 		.catch(() => {
 			toast({
