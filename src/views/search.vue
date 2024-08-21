@@ -1,130 +1,128 @@
 <template>
 	<Grid
-		:columns-xl="4"
-		:columns-l="3"
-		:columns-m="2"
+		:columns-xl="['300px', 1]"
 		:columns-s="1"
 	>
-		<Input
-			v-if="Screen.isSize('s')"
-			v-model="search"
-			label="Поиск"
-		/>
+		<Grid vertical>
+			<Input
+				v-if="Screen.isSize('s')"
+				v-model="search"
+				label="Поиск"
+			/>
 
-		<Select
-			v-model="form.entity.value"
-			:error="form.entity.error"
-			:items="entitiesItems"
-			label="Сущность"
-		/>
+			<Select
+				v-model="form.entity.value"
+				:error="form.entity.error"
+				:items="entitiesItems"
+				label="Сущность"
+			/>
 
-		<Input
-			v-model="form.priceFrom.value"
-			:error="form.priceFrom.error"
-			label="Оплата от"
-		/>
+			<Input
+				v-model="form.priceFrom.value"
+				:error="form.priceFrom.error"
+				label="Оплата от"
+			/>
 
-		<Input
-			v-model="form.priceTo.value"
-			:error="form.priceTo.error"
-			label="Оплата до"
-		/>
+			<Input
+				v-model="form.priceTo.value"
+				:error="form.priceTo.error"
+				label="Оплата до"
+			/>
 
-		<SelectLive
-			v-model="form.university.value"
-			:error="form.university.error"
-			place-holder="Университет"
-			api="universities"
-		/>
+			<SelectLive
+				v-model="form.university.value"
+				:error="form.university.error"
+				place-holder="Университет"
+				api="universities"
+			/>
 
-		<SelectLive
-			v-model="form.type.value"
-			:error="form.type.error"
-			place-holder="Тип работы"
-			api="offer_types"
-		/>
+			<SelectLive
+				v-model="form.type.value"
+				:error="form.type.error"
+				place-holder="Тип работы"
+				api="offer_types"
+			/>
 
-		<SelectLive
-			v-model="form.discipline.value"
-			:error="form.discipline.error"
-			place-holder="Дисциплина"
-			api="disciplines"
-		/>
+			<SelectLive
+				v-model="form.discipline.value"
+				:error="form.discipline.error"
+				place-holder="Дисциплина"
+				api="disciplines"
+			/>
 
-		<Checkbox
-			v-model="form.tutoring.value"
-			:error="form.tutoring.error"
-			label="Репетиторство"
-		/>
+			<Checkbox
+				v-model="form.tutoring.value"
+				:error="form.tutoring.error"
+				label="Репетиторство"
+			/>
 
-		<Button
-			:disabled="loading"
-			@click="loadData"
-		>
-			Поиск
-		</Button>
+			<Button
+				:disabled="loading"
+				@click="loadData"
+			>
+				Поиск
+			</Button>
 
-		<Button
-			:disabled="loading"
-			@click="form.reset"
-		>
-			Очистить
-		</Button>
+			<Button
+				:disabled="loading"
+				@click="form.reset"
+			>
+				Очистить
+			</Button>
+		</Grid>
+
+		<template v-if="form.entity.value === 'offer'">
+			<Grid
+				v-if="offers.length || loading"
+				:columns-xl="3"
+				:columns-l="2"
+				:columns-m="1"
+			>
+				<template v-if="loading">
+					<EmptyJobOffer
+						v-for="i in 8"
+						:key="i"
+					/>
+				</template>
+				<template v-else>
+					<JobOffer
+						v-for="offer in offers"
+						:key="offer.id"
+						:job-offer="offer"
+						:loading="loading"
+					/>
+				</template>
+			</Grid>
+			<span v-else>Нет доступных объявлений.</span>
+		</template>
+
+		<template v-else>
+			<Grid
+				v-if="executors.length || loading"
+				:columns-xl="3"
+				:columns-l="2"
+				:columns-m="1"
+			>
+				<template v-if="loading">
+					<UserCard
+						v-for="i in 8"
+						:key="i"
+						loading
+						link
+					/>
+				</template>
+				<template v-else>
+					<UserCard
+						v-for="executor in executors"
+						:key="executor.id"
+						:user="executor"
+						link
+					/>
+				</template>
+			</Grid>
+			<span v-else>Нет доступных исполнителей.</span>
+		</template>
 	</Grid>
-
-	<template v-if="form.entity.value === 'offer'">
-		<Grid
-			v-if="offers.length || loading"
-			:columns-xl="4"
-			:columns-l="3"
-			:columns-m="2"
-			:columns-s="1"
-		>
-			<template v-if="loading">
-				<EmptyJobOffer
-					v-for="i in 8"
-					:key="i"
-				/>
-			</template>
-			<template v-else>
-				<JobOffer
-					v-for="offer in offers"
-					:key="offer.id"
-					:job-offer="offer"
-					:loading="loading"
-				/>
-			</template>
-		</Grid>
-		<span v-else>Нет доступных объявлений.</span>
-	</template>
-
-	<template v-else>
-		<Grid
-			v-if="executors.length || loading"
-			:columns-xl="4"
-			:columns-l="3"
-			:columns-m="2"
-			:columns-s="1"
-		>
-			<template v-if="loading">
-				<UserCard
-					v-for="i in 8"
-					:key="i"
-					loading
-					link
-				/>
-			</template>
-			<template v-else>
-				<UserCard
-					v-for="executor in executors"
-					:key="executor.id"
-					:user="executor"
-					link
-				/>
-			</template>
-		</Grid>
-		<span v-else>Нет доступных исполнителей.</span>
-	</template>
 </template>
 
 <script lang="ts" setup>

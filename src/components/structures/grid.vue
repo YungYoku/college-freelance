@@ -48,6 +48,7 @@ const activeColumns = ref<Array<number | string> | number | null>(1)
 const updateActiveColumns = () => {
 	if (props.columns) {
 		activeColumns.value = props.columns
+		return
 	}
 
 	const columnsXl = props.columnsXl
@@ -55,13 +56,13 @@ const updateActiveColumns = () => {
 	const columnsM = props.columnsM
 	const columnsS = props.columnsS
 
-	if (Screen.isSize('s') && columnsS !== null) {
-		activeColumns.value = columnsS
-	} else if (Screen.isSmaller('m') && columnsM !== null) {
-		activeColumns.value = columnsM
-	} else if (Screen.isSmaller('l') && columnsL !== null) {
-		activeColumns.value = columnsL
-	} else if ((Screen.isSmaller('xl') || Screen.isSize('xl')) && columnsXl !== null) {
+	if (Screen.isSize('s')) {
+		activeColumns.value = columnsS ?? columnsM ?? columnsL ?? columnsXl
+	} else if (Screen.isSize('m')) {
+		activeColumns.value = columnsM ?? columnsL ?? columnsXl
+	} else if (Screen.isSize('l')) {
+		activeColumns.value = columnsL ?? columnsXl
+	} else if (Screen.isSize('xl') || Screen.isLarger('xxl')) {
 		activeColumns.value = columnsXl
 	}
 }
@@ -97,6 +98,8 @@ const getAlign = (align: Align) => {
 	}
 }
 const style = computed(() => {
+	if (activeColumns.value === null) return {}
+
 	if (props.vertical) {
 		return {
 			'align-items': getAlign(props.horAlign)
