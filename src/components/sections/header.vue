@@ -6,10 +6,13 @@
 		>
 			<Logo class="header__logo"/>
 
-			<JobSearch v-if="Screen.isLarger('s')"/>
+			<template v-if="Screen.isLarger('s')">
+				<div v-if="isSearchPage"/>
+				<JobSearch v-else/>
+			</template>
 
 			<nav class="header__nav">
-				<JobSearch v-if="Screen.isSize('s')"/>
+				<JobSearch v-if="Screen.isSize('s') && !isSearchPage"/>
 
 				<template v-if="!auth.isLoggedIn">
 					<router-link
@@ -44,6 +47,8 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import { Grid } from '@/components/structures'
@@ -78,10 +83,13 @@ const claim = async () => {
 		})
 		.catch(() => {
 			toast({
-				title: `Не прошло достаточно времени. Последняя дата получения энергии: ${Datetime.get(auth.user.checked_at, 'fullDatetime')}`
+				title: `Не прошло достаточно времени. Последняя дата получения энергии: ${Datetime.get(auth.user.checked_at)}`
 			})
 		})
 }
+
+const route = useRoute()
+const isSearchPage = computed(() => route.path === '/search')
 </script>
 
 <style scoped lang="scss">

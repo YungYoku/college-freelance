@@ -5,7 +5,6 @@
 	>
 		<Grid vertical>
 			<Input
-				v-if="Screen.isSize('s')"
 				v-model="search"
 				label="Поиск"
 			/>
@@ -142,7 +141,7 @@ import {
 	Checkbox,
 } from '@/components/blocks'
 import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
-import { Datetime, Form, Http, Screen } from '@/plugins'
+import { Datetime, Form, Http } from '@/plugins'
 import { IUser, IUsers } from '@/interfaces/User.ts'
 
 interface SearchForm {
