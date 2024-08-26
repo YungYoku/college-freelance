@@ -2,73 +2,26 @@
 	<DropdownMenu>
 		<DropdownMenuTrigger as-child>
 			<Button variant="outline">
-				<Icon
-					name="user"
-				/>
+				<Icon name="user"/>
 			</Button>
 		</DropdownMenuTrigger>
 		<DropdownMenuContent class="w-56">
 			<DropdownMenuGroup>
-				<router-link :to="`/users/${auth.user.id}`">
-					<DropdownMenuItem class="cursor-pointer">
-						Профиль
+				<template
+					v-for="link in links"
+					:key="link.title"
+				>
+					<DropdownMenuItem>
+						<router-link
+							class="block w-full h-full"
+							:to="link.to"
+						>
+							{{ link.title }}
+						</router-link>
 					</DropdownMenuItem>
-				</router-link>
-				<router-link to="/profile">
-					<DropdownMenuItem class="cursor-pointer">
-						Настройки
-					</DropdownMenuItem>
-				</router-link>
-				<DropdownMenuSeparator/>
 
-				<router-link
-					v-if="auth.isLoggedIn && auth.isCustomer"
-					to="/made-offers"
-				>
-					<DropdownMenuItem class="cursor-pointer">
-						Мои объявления
-					</DropdownMenuItem>
-				</router-link>
-				<router-link
-					v-if="auth.isLoggedIn && auth.isCustomer"
-					to="/new-offer"
-				>
-					<DropdownMenuItem class="cursor-pointer">
-						Создать объявление
-					</DropdownMenuItem>
-				</router-link>
-				<router-link
-					v-if="auth.isLoggedIn && auth.isExecutor"
-					to="/executing-offers"
-				>
-					<DropdownMenuItem class="cursor-pointer">
-						Выполняемые объявления
-					</DropdownMenuItem>
-				</router-link>
-				<router-link
-					v-if="auth.isLoggedIn"
-					to="/chats"
-				>
-					<DropdownMenuItem class="cursor-pointer">
-						Мои чаты
-					</DropdownMenuItem>
-				</router-link>
-				<router-link
-					v-if="auth.isLoggedIn && auth.isExecutor"
-					to="/favorite"
-				>
-					<DropdownMenuItem class="cursor-pointer">
-						Избранное
-					</DropdownMenuItem>
-				</router-link>
-				<router-link
-					v-if="auth.isLoggedIn && auth.isAdmin"
-					to="/unverified-entities"
-				>
-					<DropdownMenuItem class="cursor-pointer">
-						Новые сущности
-					</DropdownMenuItem>
-				</router-link>
+					<DropdownMenuSeparator v-if="link.separateAfter"/>
+				</template>
 			</DropdownMenuGroup>
 
 			<DropdownMenuSeparator/>
@@ -135,7 +88,6 @@ import { Http, LocalStorage } from '@/plugins'
 import { IReferralCode } from '@/interfaces/ReferralCode.ts'
 import { IUser } from '@/interfaces/User.ts'
 
-
 const auth = useAuthStore()
 const router = useRouter()
 const { toast } = useToast()
@@ -184,4 +136,51 @@ const logout = () => {
 	auth.$reset()
 	router.push('/login')
 }
+
+const links = computed(() => {
+	const items = [
+		{
+			title: 'Профиль',
+			to: `/users/${auth.user.id}`,
+			can: true
+		},
+		{
+			title: 'Настройки',
+			to: '/profile',
+			can: true,
+			separateAfter: true
+		},
+		{
+			title: 'Мои объявления',
+			to: '/made-offers',
+			can: auth.isCustomer
+		},
+		{
+			title: 'Создать объявление',
+			to: '/new-offer',
+			can: auth.isCustomer
+		},
+		{
+			title: 'Выполняемые объявления',
+			to: '/executing-offers',
+			can: auth.isExecutor
+		},
+		{
+			title: 'Мои чаты',
+			to: '/chats'
+		},
+		{
+			title: 'Избранное',
+			to: '/favorite',
+			can: auth.isExecutor
+		},
+		{
+			title: 'Новые сущности',
+			to: '/unverified-entities',
+			can: 'auth.isAdmin'
+		}
+	]
+
+	return items.filter(item => item.can)
+})
 </script>

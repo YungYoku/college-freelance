@@ -8,9 +8,9 @@
 			</Button>
 		</DropdownMenuTrigger>
 		<DropdownMenuContent class="w-56">
-			<template v-if="notificationsAmount > 0">
+			<template v-if="notifications.length > 0">
 				<template
-					v-for="(notification, index) in auth.user.expand?.notifications"
+					v-for="(notification, index) in notifications"
 					:key="notification.id"
 				>
 					<DropdownMenuItem>
@@ -24,12 +24,12 @@
 						</Grid>
 					</DropdownMenuItem>
 
-					<DropdownMenuSeparator v-if="notificationsAmount !== index + 1"/>
+					<DropdownMenuSeparator v-if="notifications.length !== index + 1"/>
 				</template>
 			</template>
 
 			<DropdownMenuItem v-else>
-				Уводомления отсутствуют
+				Уведомления отсутствуют
 			</DropdownMenuItem>
 		</DropdownMenuContent>
 	</DropdownMenu>
@@ -52,9 +52,5 @@ import {
 
 const auth = useAuthStore()
 
-const notificationsAmount = computed(() => {
-	const notifications = auth.user.expand?.notifications
-	if (notifications && notifications.length > 0) return notifications.length
-	return 0
-})
+const notifications = computed(() => auth.user?.expand?.notifications ?? [])
 </script>

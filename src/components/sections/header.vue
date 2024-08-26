@@ -24,11 +24,11 @@
 					</router-link>
 				</template>
 
+				<ThemeColorToggle v-if="!auth.isLoggedIn || Screen.isLarger('s')"/>
+
 				<EnergyIndicator/>
 
 				<Notifications v-if="auth.isLoggedIn"/>
-
-				<ThemeColorToggle v-if="!auth.isLoggedIn || Screen.isLarger('s')"/>
 
 				<UserDropdown v-if="auth.isLoggedIn"/>
 			</nav>

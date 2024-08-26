@@ -1,8 +1,8 @@
 import { defineAsyncComponent } from 'vue'
 
 const Chat = defineAsyncComponent(() => import('./chat.vue'))
-const Footer = defineAsyncComponent(() => import('./footer.vue'))
-const Header = defineAsyncComponent(() => import('./header.vue'))
+import Footer from './footer.vue'
+import Header from './header.vue'
 const Rating = defineAsyncComponent(() => import('./rating.vue'))
 
 export {
