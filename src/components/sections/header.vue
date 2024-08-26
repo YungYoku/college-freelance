@@ -24,17 +24,7 @@
 					</router-link>
 				</template>
 
-				<Button
-					v-if="auth.isLoggedIn"
-					variant="outline"
-					@click="claim"
-				>
-					<Icon
-						name="energy"
-						class="mr-1"
-					/>
-					{{ auth.user.energy }}
-				</Button>
+				<EnergyIndicator/>
 
 				<Notifications v-if="auth.isLoggedIn"/>
 
@@ -52,11 +42,9 @@ import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import { Grid } from '@/components/structures'
-import { ThemeColorToggle, UserDropdown, JobSearch, Button, Notifications } from '@/components/blocks'
-import { Logo, Icon } from '@/components/elements'
-import { Datetime, Http, Screen } from '@/plugins'
-import { IUser } from '@/interfaces/User.ts'
-import { useToast } from '@/components/ui/toast'
+import { ThemeColorToggle, UserDropdown, JobSearch, Notifications, EnergyIndicator } from '@/components/blocks'
+import { Logo } from '@/components/elements'
+import { Screen } from '@/plugins'
 
 const auth = useAuthStore()
 
@@ -70,23 +58,6 @@ const authLinks = [
 		to: '/registration',
 	},
 ]
-
-const { toast } = useToast()
-const claim = async () => {
-	await Http
-		.post<IUser>('/claim-energy')
-		.then((res) => {
-			auth.setUser(res)
-			toast({
-				title: 'Было получено 5 энергии!'
-			})
-		})
-		.catch(() => {
-			toast({
-				title: `Не прошло достаточно времени. Последняя дата получения энергии: ${Datetime.get(auth.user.checked_at)}`
-			})
-		})
-}
 
 const route = useRoute()
 const isSearchPage = computed(() => route.path === '/search')

@@ -6,6 +6,7 @@ const CardRating = defineAsyncComponent(() => import('./cardRating.vue'))
 const Checkbox = defineAsyncComponent(() => import('./checkbox.vue'))
 const DatePicker = defineAsyncComponent(() => import('./datePicker.vue'))
 const EmptyJobOffer = defineAsyncComponent(() => import('./emptyJobOffer.vue'))
+const EnergyIndicator = defineAsyncComponent(() => import('./energyIndicator.vue'))
 const Input = defineAsyncComponent(() => import('./input.vue'))
 const InputFile = defineAsyncComponent(() => import('./inputFile.vue'))
 const JobOffer = defineAsyncComponent(() => import('./jobOffer.vue'))
@@ -30,6 +31,7 @@ export {
 	Checkbox,
 	DatePicker,
 	EmptyJobOffer,
+	EnergyIndicator,
 	Input,
 	InputFile,
 	JobOffer,
