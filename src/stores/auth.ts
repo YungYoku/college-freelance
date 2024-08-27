@@ -3,8 +3,8 @@ import { emptyUser, IUser } from '@/interfaces/User'
 import { LocalStorage } from '@/plugins'
 
 export interface State {
-    user: IUser;
-    token: string;
+    user: IUser
+    token: string
 }
 
 export const useAuthStore = defineStore({

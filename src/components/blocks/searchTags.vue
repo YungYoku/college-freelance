@@ -1,41 +1,47 @@
 <template>
 	<div class="search-tags">
 		<Badge
-			v-for="(item, index) in tags"
-			:key="index"
+			v-for="item in resultTags"
+			:key="item.id"
 			class="search-tags__child cursor-pointer"
-			@click="selectTag(item)"
+			@click="selectTag(item.name)"
 		>
-			{{ item }}
+			{{ item.name }}
 		</Badge>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useSearchStore } from '@/stores/search.ts'
 
 import { Badge } from '@/components/ui/badge'
-import { Screen } from '@/plugins'
+import { Http, Screen } from '@/plugins'
+import { IDiscipline, IDisciplines } from '@/interfaces/Discipline.ts'
 
-const items = [
-	'тригонометрия',
-	'сочинение ОГЭ',
-	'преобразование тригонометрических выражений',
-	'метод вспомогательного угла', 
-	'перпендикуляр в простанстве',
-	'биохимические формулы',
-	'17 задача по математике ЕГЭ'
-]
-
-const tags = computed(() => {
-	if (Screen.isSize('s')) return items.slice(0, 3)
-	return items.slice(0, items.length)
+const tags = ref<Array<IDiscipline>>([])
+const resultTags = computed<Array<IDiscipline>>(() => {
+	if (Screen.isSize('s')) return tags.value.slice(0, 3)
+	return tags.value.slice(0, tags.value.length)
 })
+const loadTags = async () => {
+	Http.get<IDisciplines>('/collections/disciplines/records', {
+		perPage: 14
+	})
+		.then(({ items }) => {
+			tags.value = items
+		})
+}
+loadTags()
 
+const router = useRouter()
 const searchStore = useSearchStore()
-
-const selectTag = (item: string) => searchStore.update(item)
+const selectTag = (item: string) => {
+	searchStore.update(item)
+	router.push('/search')
+	searchStore.setLoading(true)
+}
 </script>
 
 <style scoped lang="scss">

@@ -113,35 +113,13 @@ import {
 	Checkbox
 } from '@/components/blocks'
 import { useToast } from '@/components/ui/toast'
-import { IJobOffer } from '@/interfaces/JobOffer'
+import { emptyOffer, IJobOffer } from '@/interfaces/JobOffer'
 import { Http, Form } from '@/plugins'
 import { Text } from '@/components/elements'
 
 const auth = useAuthStore()
 
-const newOffer = Form<IJobOffer>({
-	chat: '',
-	collectionId: '',
-	collectionName: '',
-	created: '',
-	creator: '',
-	discipline: '',
-	executor: '',
-	id: '',
-	ratingCreator: '',
-	ratingExecutor: '',
-	proposals: [],
-	status: 'created',
-	university: '',
-	updated: '',
-	title: '',
-	description: '',
-	type: '',
-	price: 0,
-	file: null,
-	deadline: new Date(),
-	tutoring: false
-})
+const newOffer = Form<IJobOffer>({ ...emptyOffer })
 
 const router = useRouter()
 const { toast } = useToast()

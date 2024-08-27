@@ -102,22 +102,13 @@
 				:columns-l="2"
 				:columns-m="1"
 			>
-				<template v-if="loading">
-					<UserCard
-						v-for="i in 8"
-						:key="i"
-						loading
-						link
-					/>
-				</template>
-				<template v-else>
-					<UserCard
-						v-for="executor in executors"
-						:key="executor.id"
-						:user="executor"
-						link
-					/>
-				</template>
+				<UserCard
+					v-for="executor in executors"
+					:key="executor.id"
+					:user="executor"
+					:loading="loading"
+					link
+				/>
 			</Grid>
 			<span v-else>Нет доступных исполнителей.</span>
 		</template>
@@ -142,7 +133,7 @@ import {
 } from '@/components/blocks'
 import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
 import { Datetime, Form, Http } from '@/plugins'
-import { IUser, IUsers } from '@/interfaces/User.ts'
+import { emptyUser, IUser, IUsers } from '@/interfaces/User.ts'
 
 interface SearchForm {
 	priceFrom: string
@@ -155,7 +146,7 @@ interface SearchForm {
 }
 
 const offers = ref<Array<IJobOffer>>([])
-const executors = ref<Array<IUser>>([])
+const executors = ref<Array<IUser>>(Array(8).fill(emptyUser))
 
 const authStore = useAuthStore()
 const searchStore = useSearchStore()

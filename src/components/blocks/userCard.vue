@@ -1,45 +1,46 @@
 <template>
 	<Island class="bg-primary-foreground overflow-hidden">
 		<Grid vertical>
-			<Skeleton
-				v-if="loading"
-				class="h-7 w-[120px]"
-			/>
+			<template v-if="loading">
+				<Skeleton class="h-8 w-[180px]"/>
+				<Skeleton class="h-5 w-[120px]"/>
+			</template>
 
-			<component
-				:is="link ? 'router-link' : 'div'"
-				v-else
-				class="user"
-				:class="{
-					'cursor-pointer': link,
-				}"
-				:to="`/users/${user.id}`"
-			>
-				<Avatar
-					size="s"
-					:user="user"
-				/>
-				{{ user.name }} {{ user.surname }}
-			</component>
+			<template v-else>
+				<component
+					:is="link ? 'router-link' : 'div'"
+					class="user"
+					:class="{
+						'cursor-pointer': link,
+					}"
+					:to="`/users/${user.id}`"
+				>
+					<Avatar
+						size="s"
+						:user="user"
+					/>
+					{{ user.name }} {{ user.surname }}
+				</component>
 
-			<div class="flex flex-wrap gap-2">
-				<Badge v-if="user.expand?.university">
-					{{ user.expand.university.name }}
-				</Badge>
-
-				<Badge v-if="averageRating">
-					Рейтинг {{ averageRating }}
-				</Badge>
-				
-				<template v-if="user.expand?.disciplines">
-					<Badge
-						v-for="discipline in user.expand?.disciplines"
-						:key="discipline.id"
-					>
-						{{ discipline.name }}
+				<div class="flex flex-wrap gap-2">
+					<Badge v-if="user.expand?.university">
+						{{ user.expand.university.name }}
 					</Badge>
-				</template>
-			</div>
+
+					<Badge v-if="averageRating">
+						Рейтинг {{ averageRating }}
+					</Badge>
+
+					<template v-if="user.expand?.disciplines">
+						<Badge
+							v-for="discipline in user.expand?.disciplines"
+							:key="discipline.id"
+						>
+							{{ discipline.name }}
+						</Badge>
+					</template>
+				</div>
+			</template>
 		</Grid>
 	</Island>
 </template>

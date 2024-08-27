@@ -62,7 +62,7 @@ const updateActiveColumns = () => {
 		activeColumns.value = columnsM ?? columnsL ?? columnsXl
 	} else if (Screen.isSize('l')) {
 		activeColumns.value = columnsL ?? columnsXl
-	} else if (Screen.isSize('xl') || Screen.isLarger('xxl')) {
+	} else if (Screen.isSize('xl') || Screen.isLarger('xl')) {
 		activeColumns.value = columnsXl
 	}
 }

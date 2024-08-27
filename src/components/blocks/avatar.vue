@@ -45,9 +45,9 @@ import { emptyUser, IUser } from '@/interfaces/User.ts'
 
 interface Props {
 	user?: IUser | null | undefined
-	self: boolean
+	self?: boolean
 	size: 'xs' | 's' | 'm' | 'l'
-	editable: boolean
+	editable?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
