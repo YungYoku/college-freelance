@@ -21,6 +21,19 @@ export const useAuthStore = defineStore({
 		isCustomer: state => state.user.role === 'customer',
 		isExecutor: state => state.user.role === 'executor',
 		isAdmin: state => state.user.role === 'admin',
+		isRewardClaimable: state => {
+			if (!state.user) return false
+			if (!state.user.checked_at) return true
+
+			const checked_at = new Date(state.user.checked_at)
+			const today = new Date()
+
+			const dateComparison = checked_at.getDate() !== today.getDate()
+			const monthComparison = checked_at.getMonth() !== today.getMonth()
+			const yearComparison = checked_at.getFullYear() !== today.getFullYear()
+			return dateComparison || monthComparison || yearComparison
+
+		},
 	},
 
 	actions: {
