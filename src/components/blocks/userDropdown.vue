@@ -167,7 +167,8 @@ const links = computed(() => {
 		},
 		{
 			title: 'Мои чаты',
-			to: '/chats'
+			to: '/chats',
+			can: true
 		},
 		{
 			title: 'Избранное',
