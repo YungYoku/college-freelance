@@ -44,7 +44,7 @@
 								class="cursor-pointer"
 								@click="copyRefLink"
 							>
-								Ссылкка
+								Ссылка
 							</DropdownMenuItem>
 						</DropdownMenuSubContent>
 					</DropdownMenuPortal>
@@ -177,7 +177,7 @@ const links = computed(() => {
 		{
 			title: 'Новые сущности',
 			to: '/unverified-entities',
-			can: 'auth.isAdmin'
+			can: auth.isAdmin
 		}
 	]
 
