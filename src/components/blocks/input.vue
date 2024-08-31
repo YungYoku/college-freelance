@@ -15,7 +15,7 @@
 
 			<Input
 				v-model="value"
-				:class="['h-12', 'bg-background', 'hover:bg-accent', {
+				:class="['h-12', 'bg-background', 'hover:bg-accent', 'pr-10', {
 					'pt-4': !placeholder
 				}]"
 				:placeholder="placeholder"

@@ -13,12 +13,12 @@
 					variant="outline"
 					role="combobox"
 					:aria-expanded="open"
-					:class="['w-full', 'justify-between', 'pl-3', 'overflow-hidden', {
+					:class="['w-full', 'justify-between', 'pl-3', 'overflow-hidden', 'pr-10', {
 						'pt-4': filled,
 						'text-muted-foreground': !filled
 					}]"
 				>
-					{{ showedResult }}
+					<span class="block overflow-hidden text-ellipsis">{{ showedResult }}</span>
 				</Button>
 
 				<Icon
