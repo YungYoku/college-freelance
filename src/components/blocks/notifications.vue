@@ -69,14 +69,27 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { INotification } from '@/interfaces/Notification.ts'
+import { Http } from '@/plugins'
 
 const auth = useAuthStore()
 
 const notifications = computed<Array<INotification>>(() => auth.user?.expand?.notifications ?? [])
 
 const onOpen = () => {
-	setTimeout(() => {
-		console.log('read all notifications')
-	}, 100)
+	Http.post<Array<INotification>>('/check-notifications')
+		.then(() => {
+			setTimeout(() => {
+				auth.setUser({
+					...auth.user,
+					expand: {
+						...auth.user?.expand,
+						notifications: auth.user?.expand?.notifications.map(item => {
+							item.checked = true
+							return item
+						})
+					}
+				})
+			}, 5000)
+		})
 }
 </script>

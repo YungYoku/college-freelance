@@ -7,3 +7,11 @@ export interface INotification {
 	updated: string
 	checked: boolean
 }
+
+export interface INotifications {
+	page: number,
+	perPage: number,
+	totalPages: number,
+	totalItems: number,
+	items: Array<INotification>
+}
