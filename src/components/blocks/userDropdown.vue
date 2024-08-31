@@ -1,9 +1,10 @@
 <template>
 	<DropdownMenu>
 		<DropdownMenuTrigger as-child>
-			<Button variant="outline">
-				<Icon name="user"/>
-			</Button>
+			<Avatar
+				class="cursor-pointer"
+				self
+			/>
 		</DropdownMenuTrigger>
 		<DropdownMenuContent class="w-56">
 			<DropdownMenuGroup>
@@ -70,8 +71,6 @@ import { useColorMode } from '@vueuse/core'
 import { useToast } from '@/components/ui/toast/use-toast'
 
 import { useAuthStore } from '@/stores/auth.ts'
-import { Button } from '@/components/blocks'
-import { Icon } from '@/components/elements'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -87,6 +86,7 @@ import {
 import { Http, LocalStorage } from '@/plugins'
 import { IReferralCode } from '@/interfaces/ReferralCode.ts'
 import { IUser } from '@/interfaces/User.ts'
+import Avatar from '@/components/blocks/avatar.vue'
 
 const auth = useAuthStore()
 const router = useRouter()

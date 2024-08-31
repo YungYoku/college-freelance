@@ -22,41 +22,43 @@
 				</a>
 			</div>
 
-			<div class="footer__column">
-				<div class="footer__column-title">
-					Сообщество
-				</div>
+			<!--			<div class="footer__column">-->
+			<!--				<div class="footer__column-title">-->
+			<!--					Сообщество-->
+			<!--				</div>-->
 
-				<!--				<a-->
-				<!--					href="https://vk.com"-->
-				<!--					target="_blank"-->
-				<!--				>-->
-				<!--					Вконтакте-->
-				<!--				</a>-->
-				<!--				<a-->
-				<!--					href="https://telegram.org"-->
-				<!--					target="_blank"-->
-				<!--				>-->
-				<!--					Телеграм-->
-				<!--				</a>-->
-				<!--				<a-->
-				<!--					href="https://instagram.com"-->
-				<!--					target="_blank"-->
-				<!--				>-->
-				<!--					Инстаграм-->
-				<!--				</a>-->
-			</div>
+			<!--				<a-->
+			<!--					href="https://vk.com"-->
+			<!--					target="_blank"-->
+			<!--				>-->
+			<!--					Вконтакте-->
+			<!--				</a>-->
+			<!--				<a-->
+			<!--					href="https://telegram.org"-->
+			<!--					target="_blank"-->
+			<!--				>-->
+			<!--					Телеграм-->
+			<!--				</a>-->
+			<!--				<a-->
+			<!--					href="https://instagram.com"-->
+			<!--					target="_blank"-->
+			<!--				>-->
+			<!--					Инстаграм-->
+			<!--				</a>-->
+			<!--			</div>-->
 
-			<div class="footer__column">
-				<div class="footer__column-title">
-					Наши продукты
-				</div>
-			</div>
+			<!--			<div class="footer__column">-->
+			<!--				<div class="footer__column-title">-->
+			<!--					Наши продукты-->
+			<!--				</div>-->
+			<!--			</div>-->
 
 			<div class="footer__column">
 				<div class="footer__column-title">
 					Информация
 				</div>
+
+				<span>Скоро...</span>
 
 				<!--				<span>О нас</span>-->
 
@@ -86,10 +88,6 @@
 		max-width: 1024px;
 		margin: 0 auto;
 		padding: 10px;
-
-		@media (max-width: 1024px) {
-
-		}
 	}
 
 	&__column {

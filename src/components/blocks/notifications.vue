@@ -1,9 +1,16 @@
 <template>
 	<DropdownMenu>
 		<DropdownMenuTrigger as-child>
-			<Button variant="outline">
-				<Icon
-					:name="auth.user.notifications.length ? 'notifications-on' : 'notifications-off'"
+			<Button
+				variant="outline"
+				class="relative"
+				@click="onOpen"
+			>
+				<Icon name="notifications"/>
+
+				<span
+					v-if="notifications.findIndex(item => !item.checked) !== -1"
+					class="bg-red-500 w-2 h-2 absolute right-1 top-1 rounded-full"
 				/>
 			</Button>
 		</DropdownMenuTrigger>
@@ -18,9 +25,21 @@
 							vertical
 							gap="xs"
 						>
-							<span>{{ notification.text }}</span>
+							<Text size="xs">
+								{{ notification.text }}
+							</Text>
 
-							<span>{{ $date(new Date(notification?.created)) }}</span>
+							<Text
+								size="xs"
+								class="text-xs"
+							>
+								{{ $date(new Date(notification?.created), 'datetime') }}
+							</Text>
+
+							<span
+								v-if="!notification.checked"
+								class="bg-red-500 w-2 h-2 absolute right-2 top-2 rounded-full"
+							/>
 						</Grid>
 					</DropdownMenuItem>
 
@@ -41,7 +60,7 @@ import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 import { Grid } from '@/components/structures'
 import { Button } from '@/components/blocks'
-import { Icon } from '@/components/elements'
+import { Icon, Text } from '@/components/elements'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -49,8 +68,15 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { INotification } from '@/interfaces/Notification.ts'
 
 const auth = useAuthStore()
 
-const notifications = computed(() => auth.user?.expand?.notifications ?? [])
+const notifications = computed<Array<INotification>>(() => auth.user?.expand?.notifications ?? [])
+
+const onOpen = () => {
+	setTimeout(() => {
+		console.log('read all notifications')
+	}, 100)
+}
 </script>

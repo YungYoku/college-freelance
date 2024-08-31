@@ -46,7 +46,7 @@ import { emptyUser, IUser } from '@/interfaces/User.ts'
 interface Props {
 	user?: IUser | null | undefined
 	self?: boolean
-	size: 'xs' | 's' | 'm' | 'l'
+	size?: 'xs' | 's' | 'm' | 'l'
 	editable?: boolean
 }
 
@@ -126,31 +126,31 @@ const removeAvatar = () => loadImage('')
     }
 
     &__xs {
-        min-width: 15px;
-        max-width: 15px;
-        min-height: 15px;
-        max-height: 15px;
+        min-width: 16px;
+        max-width: 16px;
+        min-height: 16px;
+        max-height: 16px;
     }
 
     &__s {
-        min-width: 30px;
-        max-width: 30px;
-        min-height: 30px;
-        max-height: 30px;
+        min-width: 32px;
+        max-width: 32px;
+        min-height: 32px;
+        max-height: 32px;
     }
 
     &__m {
-        min-width: 50px;
-        max-width: 50px;
-        min-height: 50px;
-        max-height: 50px;
+        min-width: 48px;
+        max-width: 48px;
+        min-height: 48px;
+        max-height: 48px;
     }
 
     &__l {
-        min-width: 150px;
-        max-width: 150px;
-        min-height: 150px;
-        max-height: 150px;
+        min-width: 160px;
+        max-width: 160px;
+        min-height: 160px;
+        max-height: 160px;
     }
 
     &__editable {
