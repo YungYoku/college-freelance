@@ -83,7 +83,7 @@ const onOpen = () => {
 					...auth.user,
 					expand: {
 						...auth.user?.expand,
-						notifications: auth.user?.expand?.notifications.map(item => {
+						notifications: notifications.value.map(item => {
 							item.checked = true
 							return item
 						})
