@@ -20,7 +20,7 @@ export interface IUser {
     surname: string
     username: string
     verified: boolean
-    role: 'admin' | 'customer' | 'executor'
+    role: 'admin' | 'customer' | 'executor' | 'guest'
     university: string
     energy: number
     disciplines: Array<string>
@@ -54,7 +54,7 @@ export const emptyUser: IUser = {
 	rating: [],
 	username: '',
 	verified: false,
-	role: 'customer',
+	role: 'guest',
 	university: '',
 	energy: 0,
 	disciplines: [],
