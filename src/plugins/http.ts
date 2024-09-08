@@ -168,6 +168,10 @@ class Http {
 			headers: this.getHeaders(auth.token)
 		})
 			.then((response) => {
+				if (response.status === 204) {
+					return new Promise((resolve) => {resolve({})})
+				}
+
 				return response.json()
 					.then((res) => {
 						if (response.status === 400) {

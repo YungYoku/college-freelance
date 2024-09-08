@@ -58,10 +58,10 @@ import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
 
 interface Props {
-	modelValue: string | number | undefined
+	modelValue?: string | number | undefined
 	error?: string | null
 	loading?: boolean
-	label: string
+	label?: string
 	disabled?: boolean
 	type?: string
 	icon?: string | null

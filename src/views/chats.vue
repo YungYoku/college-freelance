@@ -68,6 +68,7 @@ import { computed, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import Text from '@/components/elements/text.vue'
 import { IRating } from '@/interfaces/Rating.ts'
+import { emptyUser } from '@/interfaces/User.ts'
 
 const auth = useAuthStore()
 const openedChat = ref<IJobOffer | null>(null)
@@ -82,7 +83,17 @@ const chats = ref<Array<IJobOffer>>([])
 const loading = ref(true)
 
 const chatRatingType = computed(() => auth.isCustomer ? 'ratingExecutor' : 'ratingCreator')
-const getUserForChar = (chat: IJobOffer) => auth.isCustomer ? chat.expand?.executor : chat.expand?.creator
+const getUserForChar = (chat: IJobOffer) => {
+	if (loading.value) return emptyUser
+	
+	const executor = chat.expand?.executor
+	const creator = chat.expand?.creator
+	if (executor && creator) {
+		return auth.isCustomer ? executor : creator
+	}
+
+	return emptyUser
+}
 const chatUserType = computed(() => auth.isCustomer ? 'executor' : 'creator')
 
 const getChats = async () => {

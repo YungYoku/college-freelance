@@ -30,7 +30,7 @@
 				show-status
 				@show-responses="openResponses"
 				@show-chat="openChat"
-				@remove="remove"
+				@remove="showDeleteConfirmation"
 			/>
 		</template>
 	</Grid>
@@ -39,31 +39,43 @@
 		v-if="openedOffer"
 		@close="closeResponses"
 	>
-		<Grid :columns="1">
+		<Grid
+			:columns="1"
+			class="pt-7"
+		>
 			<Text
 				class="absolute top-2 left-3"
 				size="xs"
 			>
 				Отклики
 			</Text>
-			<div
-				v-for="(user) in responsesUsers"
-				:key="user.id"
-				class="flex w-full items-center gap-2 pt-10"
-			>
-				<UserCard
-					:loading="loading"
-					:user="user"
-					link
-				/>
 
-				<Icon
-					v-if="!loading"
-					class="ml-auto"
-					name="check"
-					@click="pickExecutor(user)"
-				/>
-			</div>
+			<template v-if="responsesUsers.length">
+				<div
+					v-for="(user) in responsesUsers"
+					:key="user.id"
+					class="flex w-full items-center gap-2"
+				>
+					<UserCard
+						:loading="responsesLoading"
+						:user="user"
+						link
+					/>
+
+					<Icon
+						v-if="!responsesLoading"
+						class="ml-auto"
+						name="check"
+						@click="pickExecutor(user)"
+					/>
+				</div>
+			</template>
+			<Text
+				v-else
+				size="xs"
+			>
+				Пусто
+			</Text>
 		</Grid>
 	</Modal>
 
@@ -80,20 +92,28 @@
 			@update:rating="updateRating"
 		/>
 	</Modal>
+	
+	<ModalDeleteConfirmation
+		v-if="deleteConfirmationModal.show"
+		@remove="remove"
+		@close="hideDeleteConfirmation"
+	>
+		Вы уверены, что хотите удалить объявление?
+	</ModalDeleteConfirmation>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
-import { Http } from '@/plugins'
-import { IUsers, IUser } from '@/interfaces/User.ts'
-import { IJobOffer, IJobOffers, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
 import { Grid, Modal } from '@/components/structures'
-import { Chat } from '@/components/sections'
+import { Chat, ModalDeleteConfirmation } from '@/components/sections'
 import { EmptyJobOffer, JobOffer, User as UserCard } from '@/components/blocks'
 import { Icon, PageTitle, Text } from '@/components/elements'
 import { IRating } from '@/interfaces/Rating.ts'
+import { Http } from '@/plugins'
+import { IUsers, IUser, emptyUser } from '@/interfaces/User.ts'
+import { IJobOffer, IJobOffers, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
 
 
 const auth = useAuthStore()
@@ -101,6 +121,7 @@ const auth = useAuthStore()
 const offers = ref<Array<IJobOffer>>([])
 
 const loading = ref(true)
+const responsesLoading = ref(true)
 const getUserOffers = async () => {
 	if (auth.user.id === '') return
 
@@ -124,11 +145,21 @@ const openedOffer = ref<IJobOffer | null>(null)
 const responsesUsers = ref<Array<IUser>>([])
 
 const openResponses = async (offer: IJobOffer) => {
-	if (!offer.expand?.proposals || offer.expand?.proposals?.length === 0) return
+	responsesLoading.value = true
 
 	openedOffer.value = offer
 
-	let ids = offer.expand.proposals.reduce((result, proposal) => result + `id='${proposal.user}' || `, '')
+	const proposals = offer.expand?.proposals ?? []
+	if (proposals.length === 0) {
+		responsesUsers.value = []
+
+		responsesLoading.value = false
+		return
+	}
+
+	responsesUsers.value = Array(proposals.length).fill(emptyUser)
+
+	let ids = proposals.reduce((result, proposal) => result + `id='${proposal.user}' || `, '')
 	ids = ids.slice(0, ids.length - 3)
 	await Http
 		.get<IUsers>('/collections/users/records', {
@@ -137,6 +168,8 @@ const openResponses = async (offer: IJobOffer) => {
 		.then(response => {
 			responsesUsers.value = response.items
 		})
+
+	responsesLoading.value = false
 }
 
 const closeResponses = () => {
@@ -162,12 +195,17 @@ const pickExecutor = async (user: IUser) => {
 		})
 }
 
-const remove = async (offer: IJobOffer) => {
+const remove = async () => {
+	const offer = deleteConfirmationModal.offer
+	if (!offer) return
+
 	await Http
 		.delete(`/collections/job_offers/records/${offer.id}`)
 		.then(() => {
 			offers.value = offers.value.filter((item) => item.id !== offer.id)
 		})
+
+	hideDeleteConfirmation()
 }
 
 const openedChat = ref<IJobOffer | null>(null)
@@ -187,8 +225,23 @@ const updateRating = async (rating: IRating) => {
 		openedChat.value.expand.ratingExecutor = rating
 	}
 }
-</script>
 
+const deleteConfirmationModal = reactive<{
+	show: boolean
+	offer: IJobOffer | null
+}>({
+	show: false,
+	offer: null
+})
+const showDeleteConfirmation = (offer: IJobOffer) => {
+	deleteConfirmationModal.show = true
+	deleteConfirmationModal.offer = offer
+}
+const hideDeleteConfirmation = () => {
+	deleteConfirmationModal.show = false
+	deleteConfirmationModal.offer = null
+}
+</script>
 
 <style scoped lang="scss">
 .offer-wrapper {

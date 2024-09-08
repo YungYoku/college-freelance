@@ -12,7 +12,7 @@
 			<Button
 				v-if="(authStore.isAdmin || isItMyOffer)"
 				:disabled="loading"
-				@click="remove"
+				@click="showDeleteConfirmation"
 			>
 				Удалить
 			</Button>
@@ -109,18 +109,19 @@
 
 			<div class="flex justify-between">
 				<UserCard
+					v-if="offer.expand?.creator"
 					class="mt-4 max-w-10"
 					link
-					:user="offer.expand?.creator"
+					:user="offer.expand.creator"
 					:loading="loading"
 				/>
 
-				<div v-if="offer.executor">
+				<div v-if="offer.expand?.executor">
 					Исполнитель
 					<UserCard
 						class="mt-4"
 						link
-						:user="offer.expand?.executor"
+						:user="offer.expand.executor"
 						:loading="loading"
 					/>
 				</div>
@@ -144,19 +145,28 @@
 			</Text>
 		</Island>
 	</Grid>
+
+	<ModalDeleteConfirmation
+		v-if="deleteConfirmationModal.show"
+		@remove="remove"
+		@close="hideDeleteConfirmation"
+	>
+		Вы уверены, что хотите удалить объявление?
+	</ModalDeleteConfirmation>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
-import { Http } from '@/plugins'
-import { IJobOffer } from '@/interfaces/JobOffer.ts'
 import { Grid, Island } from '@/components/structures'
+import { ModalDeleteConfirmation } from '@/components/sections'
 import { Button, User as UserCard } from '@/components/blocks'
 import { PageTitle, Text } from '@/components/elements'
 import { useToast } from '@/components/ui/toast'
+import { Http } from '@/plugins'
+import { IJobOffer } from '@/interfaces/JobOffer.ts'
 
 const router = useRouter()
 
@@ -254,4 +264,16 @@ const isAlreadyProposed = computed(() => {
 
 const created = computed(() => new Date(offer.value.created))
 const deadline = computed(() => new Date(offer.value.deadline))
+
+const deleteConfirmationModal = reactive<{
+	show: boolean
+}>({
+	show: false,
+})
+const showDeleteConfirmation = () => {
+	deleteConfirmationModal.show = true
+}
+const hideDeleteConfirmation = () => {
+	deleteConfirmationModal.show = false
+}
 </script>

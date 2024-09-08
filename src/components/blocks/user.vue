@@ -29,7 +29,7 @@ import Avatar from './avatar.vue'
 interface Props {
     user: IUser,
 	loading: boolean
-	link: boolean
+	link?: boolean
 }
 
 withDefaults(defineProps<Props>(), {

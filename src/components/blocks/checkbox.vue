@@ -18,10 +18,10 @@ import { Label } from '@/components/ui/label'
 import { computed } from 'vue'
 
 interface Props {
-	modelValue: boolean,
-	error: string | null,
-	checked: boolean,
-	disabled: boolean
+	modelValue?: boolean,
+	error?: string | null,
+	checked?: boolean,
+	disabled?: boolean
 	label: string
 }
 
