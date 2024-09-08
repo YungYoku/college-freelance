@@ -24,7 +24,16 @@
 					</router-link>
 				</template>
 
-				<ThemeColorToggle v-if="!auth.isLoggedIn || Screen.isLarger('s')"/>
+				<router-link
+					v-if="auth.isCustomer"
+					to="/new-offer"
+				>
+					<Button class="w-[48px] bg-green-600 text-white text-2xl hover:bg-green-500">
+						+
+					</Button>
+				</router-link>
+
+				<ThemeColorToggle v-if="!auth.isLoggedIn"/>
 
 				<EnergyIndicator/>
 
@@ -42,7 +51,7 @@ import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import { Grid } from '@/components/structures'
-import { ThemeColorToggle, UserDropdown, JobSearch, Notifications, EnergyIndicator } from '@/components/blocks'
+import { ThemeColorToggle, UserDropdown, JobSearch, Notifications, EnergyIndicator, Button } from '@/components/blocks'
 import { Logo } from '@/components/elements'
 import { Screen } from '@/plugins'
 

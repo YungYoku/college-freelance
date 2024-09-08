@@ -12,6 +12,7 @@
 			<Button
 				v-if="(authStore.isAdmin || isItMyOffer)"
 				:disabled="loading"
+				variant="destructive"
 				@click="showDeleteConfirmation"
 			>
 				Удалить
