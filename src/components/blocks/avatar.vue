@@ -4,41 +4,50 @@
 		:class="[`avatar__${size}`, {
 			'avatar__editable': editable && avatar
 		}]"
+		:style="style"
 	>
-		<Image
-			v-if="avatar"
-			class="avatar__image"
-			:src="avatar"
-		/>
-		<input
-			v-else-if="editable"
-			id="avatar"
-			class="avatar__input"
-			type="file"
-			accept="image/png, image/gif, image/jpeg, image/jpg, image/svg, image/webp, image/avif"
-			@input="onImageLoad"
-		>
+		<template v-if="avatar">
+			<Icon
+				v-if="editable"
+				class="avatar__icon-remove"
+				name="trash"
+				size="m"
+				@click="removeAvatar"
+			/>
+		</template>
 
-		<Icon
-			v-if="avatar && editable"
-			class="avatar__icon-remove"
-			name="trash"
-			size="m"
-			@click="removeAvatar"
-		/>
-		<Icon
-			v-if="!avatar && editable"
-			class="avatar__icon-upload"
-			name="upload"
-			size="m"
-		/>
+		<template v-else>
+			<template v-if="editable">
+				<input
+					v-if="editable"
+					id="avatar"
+					class="avatar__input"
+					type="file"
+					accept="image/png, image/gif, image/jpeg, image/jpg, image/svg, image/webp, image/avif"
+					@input="onImageLoad"
+				>
+
+				<Icon
+					v-if="editable"
+					class="avatar__icon-upload"
+					name="upload"
+					size="m"
+				/>
+			</template>
+
+			<Icon
+				v-else
+				name="user"
+				size="s"
+			/>
+		</template>
 	</div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { Image, Icon } from '@/components/elements'
+import { Icon } from '@/components/elements'
 import { useAuthStore } from '@/stores/auth'
 import { Http } from '@/plugins'
 import { emptyUser, IUser } from '@/interfaces/User.ts'
@@ -61,11 +70,25 @@ const auth = useAuthStore()
 
 const avatar = computed(() => {
 	if (props.user && !props.self) {
-		if (props.user.avatar) return `users/${props.user.id}/${props.user.avatar}`
+		if (props.user.avatar) {
+			return `${import.meta.env.VITE_API}/files/users/${props.user.id}/${props.user.avatar}`
+		}
 	} else {
-		if (auth.user.avatar) return `_pb_users_auth_/${auth.user.id}/${auth.user.avatar}`
+		if (auth.user.avatar) {
+			return `${import.meta.env.VITE_API}/files/_pb_users_auth_/${auth.user.id}/${auth.user.avatar}`
+		}
 	}
+
 	return null
+})
+
+const style = computed(() => {
+	if (avatar.value) {
+		return {
+			backgroundImage: `url(${avatar.value})`,
+		}
+	}
+	return {}
 })
 
 const loadImage = async (avatar: File | string) => {
@@ -91,9 +114,15 @@ const removeAvatar = () => loadImage('')
 .avatar {
     position: relative;
 
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
     overflow: hidden;
 
-    background: #444444;
+    background-color: #444444;
+	background-position: center;
+	background-size: cover;
     border-radius: 50%;
 
     &__image {
