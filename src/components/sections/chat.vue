@@ -1,7 +1,11 @@
 <template>
 	<StepByStep :key="offer.id">
 		<template #step_1="{ next }">
-			<Grid class="chat pt-10">
+			<Grid
+				vertical
+				:columns="1"
+				class="chat pt-10"
+			>
 				<User
 					v-if="chatMember"
 					class="absolute top-2 left-23"

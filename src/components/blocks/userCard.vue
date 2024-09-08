@@ -1,6 +1,9 @@
 <template>
 	<Island class="bg-primary-foreground overflow-hidden">
-		<Grid vertical>
+		<Grid
+			:columns="1"
+			vertical
+		>
 			<template v-if="loading">
 				<Skeleton class="h-8 w-[180px]"/>
 				<Skeleton class="h-5 w-[120px]"/>

@@ -22,6 +22,7 @@
 				>
 					<DropdownMenuItem>
 						<Grid
+							:columns="1"
 							vertical
 							gap="xs"
 						>

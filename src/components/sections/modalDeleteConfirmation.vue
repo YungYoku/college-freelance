@@ -3,7 +3,10 @@
 		:width="600"
 		@close="close"
 	>
-		<Grid vertical>
+		<Grid
+			:columns="1"
+			vertical
+		>
 			<slot/>
 
 			<Grid :columns="2">

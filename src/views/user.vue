@@ -1,5 +1,6 @@
 <template>
 	<Grid
+		:columns="1"
 		vertical
 		class="relative max-w-screen-md"
 	>
@@ -13,12 +14,13 @@
 		</Button>
 
 		<Grid
-			:columns-xl="['150px', 1]"
+			:columns-xl="['160px', 1]"
 			:columns-m="1"
 			gap="l"
 		>
 			<Grid
 				vertical
+				:columns="1"
 				hor-align="center"
 			>
 				<Avatar
@@ -35,7 +37,10 @@
 				</Text>
 			</Grid>
 
-			<Grid vertical>
+			<Grid
+				:columns="1"
+				vertical
+			>
 				<Text
 					:loading="loading"
 					size="m"

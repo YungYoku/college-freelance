@@ -14,7 +14,10 @@
 
 	<Grid :columns="Screen.isLarger('s') ? [1,4] : 1 ">
 		<Island v-if="Screen.isLarger('s') || !isChatOpened">
-			<Grid>
+			<Grid
+				vertical
+				:columns="1"
+			>
 				<Grid
 					v-for="chat in chats"
 					:key="chat.id"
@@ -23,6 +26,8 @@
 					:class="{
 						'bg-card': openedChat?.chat === chat.chat
 					}"
+					vertical
+					:columns="1"
 					@click="loadChat(chat)"
 				>
 					<Text size="s">

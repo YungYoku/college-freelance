@@ -236,6 +236,12 @@ const makeProposal = async () => {
 		})
 		return
 	}
+	if (authStore.isPersonalInfoIncomplete) {
+		toast({
+			title: 'Для отклика на объявление требуется заполнить свои имя и фамилию!'
+		})
+		return
+	}
 
 	loading.value = true
 

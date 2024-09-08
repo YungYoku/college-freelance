@@ -128,6 +128,13 @@ watch(() => auth.user.id, () => newOffer.creator.value = auth.user.id, { immedia
 
 const loading = ref(false)
 const createOffer = async () => {
+	if (auth.isPersonalInfoIncomplete) {
+		toast({
+			title: 'Для создания объявления требуется заполнить свои имя и фамилию!'
+		})
+		return
+	}
+
 	loading.value = true
 	newOffer.clearErrors()
 

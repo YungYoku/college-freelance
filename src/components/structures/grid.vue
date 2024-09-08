@@ -123,5 +123,4 @@ const style = computed(() => {
 		'place-items': getAlign(props.verAlign)
 	}
 })
-
 </script>

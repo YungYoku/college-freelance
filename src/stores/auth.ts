@@ -34,6 +34,19 @@ export const useAuthStore = defineStore({
 			return dateComparison || monthComparison || yearComparison
 
 		},
+		isPersonalInfoIncomplete: state => {
+			const { name, surname } = state.user
+			const rules = [
+				name.length > 0,
+				surname.length > 0,
+			]
+
+			for (const rule of rules) {
+				if (!rule) return true
+			}
+
+			return false
+		}
 	},
 
 	actions: {

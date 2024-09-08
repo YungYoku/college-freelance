@@ -1,5 +1,6 @@
 <template>
 	<Grid
+		:columns="1"
 		vertical
 		class="max-w-screen-md"
 	>
