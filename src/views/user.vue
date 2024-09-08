@@ -10,7 +10,10 @@
 			class="absolute right-0 top-0"
 			@click="router.push(`/profile`)"
 		>
-			Изменить
+			<Icon
+				:colors="['dark', 'light']"
+				name="pencil"
+			/>
 		</Button>
 
 		<Grid
@@ -45,7 +48,7 @@
 					:loading="loading"
 					size="m"
 				>
-					{{ user?.name }} {{ user?.surname }}
+					{{ user?.name }} {{ user?.surname }} | {{ user?.username }}
 				</Text>
 
 				<div class="flex justify-start gap-6">
@@ -118,6 +121,7 @@ import { Avatar, Button } from '@/components/blocks'
 import { Text } from '@/components/elements'
 import { IUser } from '@/interfaces/User.ts'
 import { CardRating } from '@/components/blocks'
+import Icon from '@/components/elements/icon.vue'
 
 const route = useRoute()
 const router = useRouter()
