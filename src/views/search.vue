@@ -3,7 +3,10 @@
 		:columns-xl="['300px', 1]"
 		:columns-s="1"
 	>
-		<Grid vertical>
+		<Grid
+			vertical
+			@keyup.enter="loadData"
+		>
 			<Input
 				v-model="search"
 				label="Поиск"
@@ -184,7 +187,7 @@ const loadOffers = async () => {
 	let encodedFilter = ''
 
 	if (!authStore.isAdmin) filters.push(`status='created' && deadline>='${Datetime.get(new Date())}'`)
-	if (search.value) filters.push(`title~'${search.value}'`)
+	if (search.value) filters.push(`(title~'${search.value}' || description~'${search.value}')`)
 	if (form.university.value) filters.push(`university='${form.university.value}'`)
 	if (form.type.value) filters.push(`type='${form.type.value}'`)
 	if (form.discipline.value) filters.push(`discipline='${form.discipline.value}'`)
