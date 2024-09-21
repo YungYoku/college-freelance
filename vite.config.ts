@@ -18,6 +18,11 @@ export default defineConfig(({ mode }) => {
 			postcss: {
 				plugins: [tailwind(), autoprefixer()],
 			},
+			preprocessorOptions: {
+				scss: {
+					api: 'modern'
+				},
+			},
 		},
 
 		plugins: [
