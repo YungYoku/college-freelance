@@ -138,6 +138,9 @@ const createOffer = async () => {
 	loading.value = true
 	newOffer.clearErrors()
 
+	newOffer.title_lowercase.value = newOffer.title.value
+	newOffer.description_lowercase.value = newOffer.description.value
+
 	await Http
 		.post<IJobOffer>('/collections/job_offers/records/', newOffer.get())
 		.then(response => {

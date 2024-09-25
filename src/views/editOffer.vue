@@ -143,6 +143,9 @@ const save = async () => {
 	loading.value = true
 	form.clearErrors()
 
+	form.title_lowercase.value = form.title.value
+	form.description_lowercase.value = form.description.value
+
 	await Http
 		.patch<IUser>(`/collections/job_offers/records/${form.id.value}`, form.get())
 		.then(() => {
