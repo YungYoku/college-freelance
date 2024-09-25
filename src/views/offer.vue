@@ -167,36 +167,11 @@ import { Button, User as UserCard } from '@/components/blocks'
 import { PageTitle, Text } from '@/components/elements'
 import { useToast } from '@/components/ui/toast'
 import { Http } from '@/plugins'
-import { IJobOffer } from '@/interfaces/JobOffer.ts'
+import { IJobOffer, emptyOffer } from '@/interfaces/JobOffer.ts'
 
 const router = useRouter()
 
-const offer = ref<IJobOffer>({
-	collectionId: '',
-	collectionName: '',
-	created: '',
-	creator: '',
-	deadline: new Date(),
-	description: '',
-	discipline: '',
-	id: '',
-	price: 0,
-	ratingCreator: '',
-	ratingExecutor: '',
-	status: 'created',
-	title: '',
-	university: '',
-	updated: '',
-	type: '',
-	executor: '',
-	chat: '',
-	proposals: [],
-	file: null,
-	tutoring: false,
-	expand: {
-		proposals: [],
-	}
-})
+const offer = ref<IJobOffer>({ ...emptyOffer })
 const route = useRoute()
 const { id } = route.params
 

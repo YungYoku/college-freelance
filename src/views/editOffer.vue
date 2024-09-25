@@ -108,7 +108,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { useToast } from '@/components/ui/toast'
 
 import { Http, Form } from '@/plugins'
-import { IJobOffer } from '@/interfaces/JobOffer.ts'
+import { IJobOffer, emptyOffer } from '@/interfaces/JobOffer.ts'
 import { Grid, Island } from '@/components/structures'
 import { Button, Checkbox, DatePicker, Input, SelectLive, Textarea } from '@/components/blocks'
 import { Text } from '@/components/elements'
@@ -116,29 +116,7 @@ import { IUser } from '@/interfaces/User.ts'
 
 const { toast } = useToast()
 
-const form = Form<IJobOffer>({
-	collectionId: '',
-	collectionName: '',
-	created: '',
-	creator: '',
-	deadline: new Date(),
-	description: '',
-	discipline: '',
-	id: '',
-	price: 0,
-	ratingCreator: '',
-	ratingExecutor: '',
-	status: 'created',
-	title: '',
-	university: '',
-	updated: '',
-	type: '',
-	executor: '',
-	chat: '',
-	proposals: [],
-	file: null,
-	tutoring: false
-})
+const form = Form<IJobOffer>({ ...emptyOffer })
 
 const router = useRouter()
 const route = useRoute()

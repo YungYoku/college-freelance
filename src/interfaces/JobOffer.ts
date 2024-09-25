@@ -12,6 +12,7 @@ interface IJobOfferType {
 	created: string
 	id: string
 	name: string
+	name_lowercase: string
 	updated: string
 }
 
@@ -36,7 +37,9 @@ export interface IJobOffer {
     created: string
     updated: string
     title: string
+    title_lowercase: string
     description: string
+    description_lowercase: string
     price: number
     creator: string
     status: IJobOfferStatus
@@ -85,10 +88,15 @@ export const emptyOffer: IJobOffer = {
 	university: '',
 	updated: '',
 	title: '',
+	title_lowercase: '',
 	description: '',
+	description_lowercase: '',
 	file: null,
 	price: 0,
-	tutoring: false
+	tutoring: false,
+	expand: {
+		proposals: []
+	}
 }
 
 export interface IJobOffers {

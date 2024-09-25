@@ -110,7 +110,7 @@ const props = withDefaults(defineProps<Props>(), {
 	typeKey: 'name',
 	placeHolder: 'Значение',
 	api: '',
-	filterFields: () => (['id', 'name']),
+	filterFields: () => (['id', 'name_lowercase']),
 	multiple: false
 })
 
@@ -172,7 +172,7 @@ const getPayload = (entity: string | Array<string>, isIncluded: boolean = false)
 		if (isIncluded) payload.filter += `id='${entity}'`
 		else {
 			props.filterFields.forEach(field => {
-				payload.filter += `${field}${sign}'${entity}' || `
+				payload.filter += `${field}${sign}'${entity.toLowerCase()}' || `
 			})
 			payload.filter = payload.filter.slice(0, payload.filter.length - 3).trim()
 		}
@@ -187,7 +187,7 @@ const getPayload = (entity: string | Array<string>, isIncluded: boolean = false)
 			else {
 				props.filterFields.forEach((field: string) => {
 					const value = item ?? null
-					if (value) payload.filter += `${field}${sign}'${value}' || `
+					if (value) payload.filter += `${field}${sign}'${value.toLowerCase()}' || `
 				})
 			}
 		})
