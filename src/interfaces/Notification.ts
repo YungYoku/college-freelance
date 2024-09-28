@@ -4,6 +4,7 @@ export interface INotification {
 	created: string
 	id:	string
 	text: string
+	link: string
 	updated: string
 	checked: boolean
 }

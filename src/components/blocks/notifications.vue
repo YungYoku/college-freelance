@@ -21,27 +21,32 @@
 					:key="notification.id"
 				>
 					<DropdownMenuItem>
-						<Grid
-							:columns="1"
-							vertical
-							gap="xs"
+						<component
+							:is="notification.link ? 'router-link' : 'div'"
+							:to="notification.link"
 						>
-							<Text size="xs">
-								{{ notification.text }}
-							</Text>
-
-							<Text
-								size="xs"
-								class="text-xs"
+							<Grid
+								:columns="1"
+								vertical
+								gap="xs"
 							>
-								{{ $date(new Date(notification?.created), 'datetime') }}
-							</Text>
+								<Text size="xs">
+									{{ notification.text }}
+								</Text>
 
-							<span
-								v-if="!notification.checked"
-								class="bg-red-500 w-2 h-2 absolute right-2 top-2 rounded-full"
-							/>
-						</Grid>
+								<Text
+									size="xs"
+									class="text-xs"
+								>
+									{{ $date(new Date(notification?.created), 'datetime') }}
+								</Text>
+
+								<span
+									v-if="!notification.checked"
+									class="bg-red-500 w-2 h-2 absolute right-2 top-2 rounded-full"
+								/>
+							</Grid>
+						</component>
 					</DropdownMenuItem>
 
 					<DropdownMenuSeparator v-if="notifications.length !== index + 1"/>
