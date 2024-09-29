@@ -14,16 +14,16 @@
 			/>
 
 			<Input
-				v-model.trim="form.username.value"
-				:error="form.username.error"
-				label="Имя пользователя"
+				v-model.trim="form.name.value"
+				:error="form.name.error"
+				label="Имя"
 				type="text"
 			/>
 
 			<Input
-				v-model.trim="form.name.value"
-				:error="form.name.error"
-				label="Имя"
+				v-model.trim="form.username.value"
+				:error="form.username.error"
+				label="Имя пользователя"
 				type="text"
 			/>
 
@@ -32,6 +32,7 @@
 				:error="form.password.error"
 				label="Пароль"
 				type="password"
+				autocomplete="new-password"
 			/>
 
 			<Input
@@ -39,6 +40,7 @@
 				:error="form.passwordConfirm.error"
 				label="Повторите пароль"
 				type="password"
+				autocomplete="new-password"
 			/>
 
 			<Input

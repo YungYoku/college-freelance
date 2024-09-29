@@ -1,6 +1,4 @@
 <template>
-	<SearchTags/>
-
 	<Text
 		size="m"
 		class="mt-4 mr-auto"
@@ -61,7 +59,7 @@ import { ref } from 'vue'
 import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
 import { IUsers, IUser, emptyUser } from '@/interfaces/User.ts'
 import { Grid } from '@/components/structures'
-import { EmptyJobOffer, JobOffer, SearchTags, UserCard } from '@/components/blocks'
+import { EmptyJobOffer, JobOffer, UserCard } from '@/components/blocks'
 import { Text } from '@/components/elements'
 import { Http, Datetime } from '@/plugins'
 

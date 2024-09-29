@@ -28,8 +28,11 @@
 					v-if="auth.isCustomer"
 					to="/new-offer"
 				>
-					<Button class="w-[48px] bg-green-600 text-white text-2xl hover:bg-green-500">
-						+
+					<Button class="w-[48px] bg-green-600 hover:bg-green-500">
+						<Icon
+							name="plus"
+							:colors="['light', 'light']"
+						/>
 					</Button>
 				</router-link>
 
@@ -54,6 +57,7 @@ import { Grid } from '@/components/structures'
 import { ThemeColorToggle, UserDropdown, JobSearch, Notifications, EnergyIndicator, Button } from '@/components/blocks'
 import { Logo } from '@/components/elements'
 import { Screen } from '@/plugins'
+import Icon from '@/components/elements/icon.vue'
 
 const auth = useAuthStore()
 

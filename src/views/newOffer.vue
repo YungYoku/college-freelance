@@ -4,7 +4,7 @@
 			v-model.trim="newOffer.title.value"
 			:disabled="loading"
 			:error="newOffer.title.error"
-			label="Имя"
+			label="Название"
 		/>
 
 		<Button

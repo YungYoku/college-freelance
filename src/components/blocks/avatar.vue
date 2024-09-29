@@ -38,7 +38,8 @@
 			<Icon
 				v-else
 				name="user"
-				size="s"
+				:colors="['light', 'light']"
+				:size="size"
 			/>
 		</template>
 	</div>

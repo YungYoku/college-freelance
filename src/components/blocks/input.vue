@@ -21,6 +21,7 @@
 				:placeholder="placeholder"
 				:disabled="disabled"
 				:type="type"
+				autocomplete=""
 				@input="onInput"
 			/>
 
@@ -65,6 +66,7 @@ interface Props {
 	disabled?: boolean
 	type?: string
 	icon?: string | null
+	autocomplete?: 'off' | 'on' | 'new-password' | 'username'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -74,7 +76,8 @@ const props = withDefaults(defineProps<Props>(), {
 	label: '',
 	disabled: false,
 	type: 'text',
-	icon: null
+	icon: null,
+	autocomplete: 'off'
 })
 
 const emit = defineEmits(['update:model-value', 'input', 'action'])

@@ -4,7 +4,7 @@
 			v-model.trim="form.title.value"
 			:error="form.title.error"
 			:disabled="loading"
-			label="Имя"
+			label="Название"
 		/>
 
 		<router-link :to="`/offer/${form.id.value}`">

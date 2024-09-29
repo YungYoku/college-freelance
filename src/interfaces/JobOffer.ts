@@ -92,7 +92,7 @@ export const emptyOffer: IJobOffer = {
 	description: '',
 	description_lowercase: '',
 	file: null,
-	price: 0,
+	price: 100,
 	tutoring: false,
 	expand: {
 		proposals: []
