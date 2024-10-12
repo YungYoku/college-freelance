@@ -26,20 +26,29 @@
 					/>
 				</div>
 
-				<InputFile
-					v-model="file"
-					:loading="loading"
-				/>
+				<Grid vertical>
+					<Badge v-if="fileName">
+						Прикреплен файл {{ fileName }}
+					</Badge>
+					<Grid :columns="['48px', 1]">
+						<InputFile
+							v-model="file"
+							:loading="loading"
+							compact
+							@update:name="value => fileName = value"
+						/>
 
-				<Input
-					v-model="newMessage"
-					:disabled="loading"
-					:loading="loading"
-					label="Cообщение"
-					icon="send"
-					@action="sendMessage"
-					@keyup.enter="sendMessage"
-				/>
+						<Input
+							v-model="newMessage"
+							:disabled="loading"
+							:loading="loading"
+							label="Cообщение"
+							icon="send"
+							@action="sendMessage"
+							@keyup.enter="sendMessage"
+						/>
+					</Grid>
+				</Grid>
 
 				<template v-if="offer.status === 'ended'">
 					<Button
@@ -124,6 +133,7 @@ import { useAuthStore } from '@/stores/auth.ts'
 import { Grid, StepByStep } from '@/components/structures'
 import { Rating } from '@/components/sections'
 import { Input, Button, Message, InputFile, User } from '@/components/blocks'
+import { Badge } from '@/components/elements'
 import { Http } from '@/plugins'
 import { IMessage } from '@/interfaces/Message.ts'
 import { IChat } from '@/interfaces/Chat.ts'
@@ -167,7 +177,7 @@ const loadChat = async () => {
 		collection: 'chats',
 		id: props.offer.chat,
 		expand: ['messages', 'messages.file'],
-		cb: (response: IChat) => {
+		cb: (response) => {
 			chat.value = response
 
 			nextTick(() => {
@@ -189,6 +199,7 @@ const auth = useAuthStore()
 
 const newMessage = ref('')
 const file = ref<string | null>(null)
+const fileName = ref<string | null>(null)
 const sendMessage = async () => {
 	if (loading.value) return
 	if (newMessage.value.length === 0 && file.value === null) return

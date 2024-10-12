@@ -1,12 +1,14 @@
 import { reactive, UnwrapRef } from 'vue'
 
 type Errors<T> = {
+	// eslint-disable-next-line no-unused-vars
 	[key in keyof T]: {
 		code: string
 		message: string
 	}
 }
 type BaseType<T> = {
+	// eslint-disable-next-line no-unused-vars
 	[key in keyof T]: string | number | boolean | Date | Array<string | number> | null | object
 }
 type ListItem<T> = {
@@ -32,6 +34,7 @@ const Form = <I extends BaseType<I>>(base: I) => {
 
 	const set = (data: I) => {
 		keys.forEach(key => {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const prevValue = list[key].value
 			list[key].value = data[key] as typeof prevValue
 		})

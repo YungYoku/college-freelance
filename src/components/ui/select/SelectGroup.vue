@@ -6,14 +6,18 @@ import { cn } from '@/lib/utils'
 const props = defineProps<SelectGroupProps & { class?: HTMLAttributes['class'] }>()
 
 const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
+	// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
+	const { class: _, ...delegated } = props
 
-  return delegated
+	return delegated
 })
 </script>
 
 <template>
-  <SelectGroup :class="cn('p-1 w-full', props.class)" v-bind="delegatedProps">
-    <slot />
-  </SelectGroup>
+	<SelectGroup
+		:class="cn('p-1 w-full', props.class)"
+		v-bind="delegatedProps"
+	>
+		<slot/>
+	</SelectGroup>
 </template>

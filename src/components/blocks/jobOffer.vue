@@ -84,7 +84,10 @@
 			v-if="!loading"
 			class="flex flex-wrap gap-2 pr-12"
 		>
-			<Badge class="bg-purple-600">
+			<Badge
+				class="bg-purple-600"
+				variant="secondary"
+			>
 				{{ jobOffer.price }} ₽
 			</Badge>
 			<Badge v-if="jobOffer.expand?.type?.name">
@@ -136,10 +139,9 @@
 import { computed, PropType } from 'vue'
 
 import { Island } from '@/components/structures'
-import User from './user.vue'
-import { Icon } from '@/components/elements'
+import { Icon, Badge } from '@/components/elements'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Badge } from '@/components/ui/badge'
+import User from './user.vue'
 import { Http } from '@/plugins'
 import { useAuthStore } from '@/stores/auth.ts'
 import { IJobOffer } from '@/interfaces/JobOffer'

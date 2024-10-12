@@ -13,7 +13,6 @@ interface Methods {
 class Datetime {
 	static inst: Datetime | null = null
 	static getInst() {
-		// eslint-disable-next-line
 		return Datetime.inst || (Datetime.inst = new Datetime())
 	}
 

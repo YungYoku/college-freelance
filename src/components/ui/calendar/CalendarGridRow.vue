@@ -6,16 +6,20 @@ import { cn } from '@/lib/utils'
 const props = defineProps<CalendarGridRowProps & { class?: HTMLAttributes['class'] }>()
 
 const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
+	// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
+	const { class: _, ...delegated } = props
 
-  return delegated
+	return delegated
 })
 
 const forwardedProps = useForwardProps(delegatedProps)
 </script>
 
 <template>
-  <CalendarGridRow :class="cn('flex', props.class)" v-bind="forwardedProps">
-    <slot />
-  </CalendarGridRow>
+	<CalendarGridRow
+		:class="cn('flex', props.class)"
+		v-bind="forwardedProps"
+	>
+		<slot/>
+	</CalendarGridRow>
 </template>

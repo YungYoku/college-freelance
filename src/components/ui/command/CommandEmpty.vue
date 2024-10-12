@@ -7,14 +7,18 @@ import { cn } from '@/lib/utils'
 const props = defineProps<ComboboxEmptyProps & { class?: HTMLAttributes['class'] }>()
 
 const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
+	// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
+	const { class: _, ...delegated } = props
 
-  return delegated
+	return delegated
 })
 </script>
 
 <template>
-  <ComboboxEmpty v-bind="delegatedProps" :class="cn('py-6 text-center text-sm', props.class)">
-    <slot />
-  </ComboboxEmpty>
+	<ComboboxEmpty
+		v-bind="delegatedProps"
+		:class="cn('py-6 text-center text-sm', props.class)"
+	>
+		<slot/>
+	</ComboboxEmpty>
 </template>

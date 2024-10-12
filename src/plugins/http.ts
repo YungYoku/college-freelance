@@ -16,6 +16,7 @@ interface ConnectOptions<T> {
 	collection: string
 	id: string
 	expand: Array<string>,
+	// eslint-disable-next-line no-unused-vars
 	cb: (response: T) => void
 }
 
@@ -27,7 +28,6 @@ class Http {
 
 	static inst: Http | null = null
 	static getInst() {
-		// eslint-disable-next-line
 		return Http.inst || (Http.inst = new Http())
 	}
 

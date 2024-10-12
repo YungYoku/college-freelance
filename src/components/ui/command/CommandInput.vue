@@ -5,7 +5,7 @@ import { ComboboxInput, type ComboboxInputProps, useForwardProps } from 'radix-v
 import { cn } from '@/lib/utils'
 
 defineOptions({
-  inheritAttrs: false,
+	inheritAttrs: false,
 })
 
 const props = defineProps<ComboboxInputProps & {
@@ -13,21 +13,25 @@ const props = defineProps<ComboboxInputProps & {
 }>()
 
 const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
+	// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
+	const { class: _, ...delegated } = props
 
-  return delegated
+	return delegated
 })
 
 const forwardedProps = useForwardProps(delegatedProps)
 </script>
 
 <template>
-  <div class="flex items-center border-b px-3" cmdk-input-wrapper>
-    <MagnifyingGlassIcon class="mr-2 h-4 w-4 shrink-0 opacity-50" />
-    <ComboboxInput
-      v-bind="{ ...forwardedProps, ...$attrs }"
-      auto-focus
-      :class="cn('flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50', props.class)"
-    />
-  </div>
+	<div
+		class="flex items-center border-b px-3"
+		cmdk-input-wrapper
+	>
+		<MagnifyingGlassIcon class="mr-2 h-4 w-4 shrink-0 opacity-50"/>
+		<ComboboxInput
+			v-bind="{ ...forwardedProps, ...$attrs }"
+			auto-focus
+			:class="cn('flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50', props.class)"
+		/>
+	</div>
 </template>

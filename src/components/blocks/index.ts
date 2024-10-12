@@ -14,7 +14,6 @@ const JobSearch = defineAsyncComponent(() => import('./jobSearch.vue'))
 const Message = defineAsyncComponent(() => import('./message.vue'))
 const RatingStars = defineAsyncComponent(() => import('./ratingStars.vue'))
 const Notifications = defineAsyncComponent(() => import('./notifications.vue'))
-const SearchTags = defineAsyncComponent(() => import('./searchTags.vue'))
 const Select = defineAsyncComponent(() => import('./select.vue'))
 const SelectLive = defineAsyncComponent(() => import('./selectLive.vue'))
 const Textarea = defineAsyncComponent(() => import('./textarea.vue'))
@@ -38,7 +37,6 @@ export {
 	Message,
 	RatingStars,
 	Notifications,
-	SearchTags,
 	Select,
 	SelectLive,
 	Textarea,

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { type HTMLAttributes, computed } from 'vue'
 import {
-  DropdownMenuSeparator,
-  type DropdownMenuSeparatorProps,
+	DropdownMenuSeparator,
+	type DropdownMenuSeparatorProps,
 } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
@@ -11,12 +11,16 @@ const props = defineProps<DropdownMenuSeparatorProps & {
 }>()
 
 const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
+	// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
+	const { class: _, ...delegated } = props
 
-  return delegated
+	return delegated
 })
 </script>
 
 <template>
-  <DropdownMenuSeparator v-bind="delegatedProps" :class="cn('-mx-1 my-1 h-px bg-muted', props.class)" />
+	<DropdownMenuSeparator
+		v-bind="delegatedProps"
+		:class="cn('-mx-1 my-1 h-px bg-muted', props.class)"
+	/>
 </template>
