@@ -19,13 +19,18 @@
 			</div>
 		</Button>
 
-		<Input
+		<div
 			v-else
-			:disabled="loading"
-			:error="error"
-			type="file"
-			@input="updateFile"
-		/>
+			:class="inputWrapStyle"
+		>
+			<Input
+				:disabled="loading"
+				:error="error"
+				type="file"
+				cursor="pointer"
+				@input="updateFile"
+			/>
+		</div>
 	</div>
 </template>
 
