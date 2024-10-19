@@ -1,26 +1,38 @@
 <template>
 	<div class="relative flex items-center justify-center cursor-pointer">
-		<Icon
+		<Button
 			v-if="compact"
-			name="file"
-		/>
-		<div
-			:class="inputWrapStyle"
+			:disabled="loading"
+			variant="outline"
+			class="absolute left-0 top-0"
 		>
-			<Input
-				:disabled="loading"
-				:error="error"
-				type="file"
-				@input="updateFile"
-			/>
-		</div>
+			<Icon name="file"/>
+
+			<div :class="inputWrapStyle">
+				<Input
+					:disabled="loading"
+					:error="error"
+					type="file"
+					cursor="pointer"
+					@input="updateFile"
+				/>
+			</div>
+		</Button>
+
+		<Input
+			v-else
+			:disabled="loading"
+			:error="error"
+			type="file"
+			@input="updateFile"
+		/>
 	</div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
-import { Input } from '@/components/blocks'
+import { Button, Input } from '@/components/blocks'
 import { Icon } from '@/components/elements'
 import { Http } from '@/plugins'
 
@@ -70,8 +82,8 @@ const updateFile = async (event: Event) => {
 const inputWrapStyle = computed(() => {
 	if (props.compact) {
 		return [
-			'w-[48px]',
-			'h-[48px]',
+			'w-[100%]',
+			'h-[100%]',
 			'absolute',
 			'left-0',
 			'top-0',

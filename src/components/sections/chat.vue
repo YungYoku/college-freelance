@@ -30,7 +30,7 @@
 					<Badge v-if="fileName">
 						Прикреплен файл {{ fileName }}
 					</Badge>
-					<Grid :columns="['48px', 1]">
+					<Grid :columns="['54px', 1]">
 						<InputFile
 							v-model="file"
 							:loading="loading"

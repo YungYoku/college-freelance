@@ -7,7 +7,7 @@
 
 		<template v-else>
 			<Label
-				v-if="!placeholder"
+				v-if="!placeholder && label"
 				class="absolute left-3 top-1 text-xs text-muted-foreground font-extralight"
 			>
 				{{ label }}
@@ -15,7 +15,7 @@
 
 			<Input
 				v-model="value"
-				:class="['h-12', 'bg-background', 'hover:bg-accent', 'pr-10', {
+				:class="['h-12', 'bg-background', 'hover:bg-accent', 'pr-10', ` cursor-${cursor}`, {
 					'pt-4': !placeholder
 				}]"
 				:placeholder="placeholder"
@@ -66,7 +66,8 @@ interface Props {
 	disabled?: boolean
 	type?: string
 	icon?: string | null
-	autocomplete?: 'off' | 'on' | 'new-password' | 'username'
+	autocomplete?: 'off' | 'on' | 'new-password' | 'username',
+	cursor?: 'text' | 'pointer'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -77,7 +78,8 @@ const props = withDefaults(defineProps<Props>(), {
 	disabled: false,
 	type: 'text',
 	icon: null,
-	autocomplete: 'off'
+	autocomplete: 'off',
+	cursor: 'text'
 })
 
 const emit = defineEmits(['update:model-value', 'input', 'action'])

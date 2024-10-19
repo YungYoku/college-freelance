@@ -22,7 +22,7 @@
 					v-for="chat in chats"
 					:key="chat.id"
 					gap="xs"
-					class="cursor-pointer rounded-md p-2 hover:bg-card"
+					class="cursor-pointer rounded-md py-2 px-4 hover:bg-card"
 					:class="{
 						'bg-card': openedChat?.chat === chat.chat
 					}"
@@ -30,7 +30,7 @@
 					:columns="1"
 					@click="loadChat(chat)"
 				>
-					<Text size="s">
+					<Text size="xs">
 						{{ chat.title }}
 					</Text>
 
