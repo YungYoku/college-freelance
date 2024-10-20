@@ -5,6 +5,7 @@
 
 <script lang="ts" setup>
 import { watch } from 'vue'
+import { useRouter } from 'vue-router'
 
 import { useAuthStore } from '@/stores/auth'
 import { Http, LocalStorage } from '@/plugins'
@@ -12,18 +13,22 @@ import { IUser } from '@/interfaces/User'
 import Toaster from '@/components/ui/toast/Toaster.vue'
 
 const auth = useAuthStore()
+const router = useRouter()
 
 const loadUserInfo = async () => {
 	if (auth.isLoggedIn) {
-		const userId = LocalStorage.load('user')?.id ?? ''
-		if (!userId) return
-
 		Http
-			.get<IUser>(`/collections/users/records/${userId}`, {
+			.post<IUser>('/collections/users/auth-refresh', {
 				expand: ['notifications']
 			})
-			.then((user) => {
-				auth.setUser(user)
+			.then(({ token, record }) => {
+				auth.setToken(token)
+				auth.setUser(record)
+			})
+			.catch(() => {
+				LocalStorage.clear()
+				auth.$reset()
+				router.push('/login')
 			})
 	}
 }

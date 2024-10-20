@@ -81,21 +81,20 @@ const auth = useAuthStore()
 
 const notifications = computed<Array<INotification>>(() => auth.user?.expand?.notifications ?? [])
 
-const onOpen = () => {
-	Http.post<Array<INotification>>('/check-notifications')
-		.then(() => {
-			setTimeout(() => {
-				auth.setUser({
-					...auth.user,
-					expand: {
-						...auth.user?.expand,
-						notifications: notifications.value.map(item => {
-							item.checked = true
-							return item
-						})
-					}
+const onOpen = async () => {
+	await Http.post<Array<INotification>>('/check-notifications')
+
+	setTimeout(() => {
+		auth.setUser({
+			...auth.user,
+			expand: {
+				...auth.user?.expand,
+				notifications: notifications.value.map(item => {
+					item.checked = true
+					return item
 				})
-			}, 3000)
+			}
 		})
+	}, 3000)
 }
 </script>
