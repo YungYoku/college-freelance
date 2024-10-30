@@ -2,10 +2,7 @@
 	<Popover v-model:open="open">
 		<PopoverTrigger as-child>
 			<div class="relative">
-				<Label
-					v-if="filled"
-					class="absolute left-3 top-1 text-xs text-muted-foreground font-extralight"
-				>
+				<Label v-if="filled">
 					{{ placeHolder }}
 				</Label>
 
@@ -74,11 +71,10 @@
 import { ref, computed, watch } from 'vue'
 
 import { Button, Checkbox } from '@/components/blocks'
-import { Icon } from '@/components/elements'
+import { Icon, Label } from '@/components/elements'
 import { Http } from '@/plugins'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Label } from '@/components/ui/label'
 
 interface Item {
 	id: string

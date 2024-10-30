@@ -2,10 +2,7 @@
 	<Popover>
 		<PopoverTrigger as-child>
 			<div class="relative">
-				<Label
-					v-if="value"
-					class="absolute left-3 top-1 text-xs text-muted-foreground font-extralight"
-				>
+				<Label v-if="value">
 					{{ label }}
 				</Label>
 
@@ -36,13 +33,13 @@ import {
 } from '@internationalized/date'
 
 import { Button } from '@/components/blocks'
+import { Label } from '@/components/elements'
 import { Calendar } from '@/components/ui/calendar'
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
-import { Label } from '@/components/ui/label'
 
 interface Props {
 	modelValue: Date

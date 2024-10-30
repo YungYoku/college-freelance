@@ -1,9 +1,6 @@
 <template>
 	<div class="relative">
-		<Label
-			v-if="!placeholder"
-			class="absolute left-3 top-1 text-xs text-muted-foreground font-extralight"
-		>
+		<Label v-if="!placeholder">
 			{{ label }}
 		</Label>
 
@@ -40,8 +37,7 @@
 import { computed } from 'vue'
 
 import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { Icon } from '@/components/elements'
+import { Icon, Label } from '@/components/elements'
 
 interface Props {
 	modelValue: string | undefined

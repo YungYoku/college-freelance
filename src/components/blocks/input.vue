@@ -6,10 +6,7 @@
 		/>
 
 		<template v-else>
-			<Label
-				v-if="!placeholder && label"
-				class="absolute left-3 top-1 text-xs text-muted-foreground font-extralight"
-			>
+			<Label v-if="!placeholder && label">
 				{{ label }}
 			</Label>
 
@@ -53,9 +50,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { Icon } from '@/components/elements'
+import { Icon, Label } from '@/components/elements'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
 
 interface Props {

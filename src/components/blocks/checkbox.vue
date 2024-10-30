@@ -1,21 +1,25 @@
 <template>
 	<Grid
 		:columns="['16px', 1]"
+		ver-align="center"
 		@click="value = !value"
 	>
 		<Checkbox :checked="value"/>
 
-		<Label v-if="label">
+		<div
+			v-if="label"
+			class="text-left"
+		>
 			{{ label }}
-		</Label>
+		</div>
 	</Grid>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+
 import { Grid } from '@/components/structures'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Label } from '@/components/ui/label'
-import { computed } from 'vue'
 
 interface Props {
 	modelValue?: boolean,

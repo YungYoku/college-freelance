@@ -109,7 +109,8 @@ const style = computed(() => {
 	if (typeof activeColumns.value === 'number') {
 		return {
 			gridTemplateColumns: `repeat(${activeColumns.value}, 1fr)`,
-			'place-items': getAlign(props.verAlign)
+			'align-items': getAlign(props.verAlign),
+			'justify-items': getAlign(props.horAlign)
 		}
 	}
 
@@ -120,7 +121,8 @@ const style = computed(() => {
 			if (typeof column === 'number') return `${result} ${column}fr `
 			return result
 		}, '').trim(),
-		'place-items': getAlign(props.verAlign)
+		'align-items': getAlign(props.verAlign),
+		'justify-items': getAlign(props.horAlign)
 	}
 })
 </script>
