@@ -38,6 +38,11 @@ export interface IUser {
     }
 }
 
+export interface IUserRefresh {
+	token: string
+	record: IUser
+}
+
 export const emptyUser: IUser = {
 	avatar: '',
 	collectionId: '',

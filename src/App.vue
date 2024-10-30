@@ -9,7 +9,7 @@ import { useRouter } from 'vue-router'
 
 import { useAuthStore } from '@/stores/auth'
 import { Http, LocalStorage } from '@/plugins'
-import { IUser } from '@/interfaces/User'
+import { IUserRefresh } from '@/interfaces/User'
 import Toaster from '@/components/ui/toast/Toaster.vue'
 
 const auth = useAuthStore()
@@ -18,7 +18,7 @@ const router = useRouter()
 const loadUserInfo = async () => {
 	if (auth.isLoggedIn) {
 		Http
-			.post<IUser>('/collections/users/auth-refresh', {
+			.post<IUserRefresh>('/collections/users/auth-refresh', {
 				expand: ['notifications']
 			})
 			.then(({ token, record }) => {
