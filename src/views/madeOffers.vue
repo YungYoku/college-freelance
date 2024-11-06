@@ -35,49 +35,13 @@
 		</template>
 	</Grid>
 
-	<Modal
+	<ModalProposals
 		v-if="openedOffer"
+		:responses-users="responsesUsers"
+		:responses-loading="responsesLoading"
+		@chose-proposal="pickExecutor"
 		@close="closeResponses"
-	>
-		<Grid
-			:columns="1"
-			class="pt-7"
-		>
-			<Text
-				class="absolute top-2 left-3"
-				size="xs"
-			>
-				Отклики
-			</Text>
-
-			<template v-if="responsesUsers.length">
-				<div
-					v-for="(user) in responsesUsers"
-					:key="user.id"
-					class="flex w-full items-center gap-2"
-				>
-					<UserCard
-						:loading="responsesLoading"
-						:user="user"
-						link
-					/>
-
-					<Icon
-						v-if="!responsesLoading"
-						class="ml-auto"
-						name="check"
-						@click="pickExecutor(user)"
-					/>
-				</div>
-			</template>
-			<Text
-				v-else
-				size="xs"
-			>
-				Пусто
-			</Text>
-		</Grid>
-	</Modal>
+	/>
 
 	<Modal
 		v-if="openedChat"
@@ -107,14 +71,13 @@ import { ref, reactive, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 import { Grid, Modal } from '@/components/structures'
-import { Chat, ModalDeleteConfirmation } from '@/components/sections'
-import { EmptyJobOffer, JobOffer, User as UserCard } from '@/components/blocks'
-import { Icon, PageTitle, Text } from '@/components/elements'
+import { Chat, ModalDeleteConfirmation, ModalProposals } from '@/components/sections'
+import { EmptyJobOffer, JobOffer } from '@/components/blocks'
+import { PageTitle } from '@/components/elements'
 import { IRating } from '@/interfaces/Rating.ts'
 import { Http } from '@/plugins'
 import { IUsers, IUser, emptyUser } from '@/interfaces/User.ts'
 import { IJobOffer, IJobOffers, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
-
 
 const auth = useAuthStore()
 
@@ -242,18 +205,3 @@ const hideDeleteConfirmation = () => {
 	deleteConfirmationModal.offer = null
 }
 </script>
-
-<style scoped lang="scss">
-.offer-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    padding: 20px;
-
-    border: 1px solid grey;
-    border-radius: 10px;
-    gap: 20px;
-}
-</style>

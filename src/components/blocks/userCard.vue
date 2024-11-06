@@ -25,23 +25,24 @@
 					{{ user.name }} {{ user.surname }}
 				</component>
 
-				<div class="flex flex-wrap gap-2">
-					<Badge v-if="user.expand?.university">
-						{{ user.expand.university.name }}
+				<div
+					v-if="university || averageRating || disciplines.length"
+					class="flex flex-wrap gap-2"
+				>
+					<Badge v-if="university">
+						{{ university }}
 					</Badge>
 
 					<Badge v-if="averageRating">
 						Рейтинг {{ averageRating }}
 					</Badge>
 
-					<template v-if="user.expand?.disciplines">
-						<Badge
-							v-for="discipline in user.expand?.disciplines"
-							:key="discipline.id"
-						>
-							{{ discipline.name }}
-						</Badge>
-					</template>
+					<Badge
+						v-for="discipline in disciplines"
+						:key="discipline.id"
+					>
+						{{ discipline.name }}
+					</Badge>
 				</div>
 			</template>
 		</Grid>
@@ -70,6 +71,12 @@ const props = withDefaults(defineProps<Props>(), {
 	link: false
 })
 
+const university = computed(() => {
+	const name = props.user?.expand?.university?.name
+	if (name) return name
+	return null
+})
+
 const averageRating = computed(() => {
 	const rating = props.user?.expand?.rating
 	if (rating) {
@@ -77,6 +84,8 @@ const averageRating = computed(() => {
 	}
 	return null
 })
+
+const disciplines = computed(() => props.user?.expand?.disciplines ?? [])
 </script>
 
 <style lang="scss" scoped>

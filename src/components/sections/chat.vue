@@ -15,7 +15,7 @@
 				/>
 
 				<div
-					ref="messagesRef"
+					ref="messages-ref"
 					class="chat__messages"
 				>
 					<Message
@@ -127,7 +127,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import { Grid, StepByStep } from '@/components/structures'
@@ -154,7 +154,7 @@ const props = withDefaults(defineProps<Props>(), {
 	ratingType: 'ratingCreator',
 })
 
-const messagesRef = ref<HTMLInputElement | null>(null)
+const messagesRef = useTemplateRef('messages-ref')
 const chat = ref<IChat>({
 	created: '',
 	id: '',
