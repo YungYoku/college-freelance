@@ -3,7 +3,8 @@ import { defineAsyncComponent } from 'vue'
 const Chat = defineAsyncComponent(() => import('./chat.vue'))
 import Footer from './footer.vue'
 import Header from './header.vue'
-import ModalDeleteConfirmation from './modalDeleteConfirmation.vue'
+const ModalDeleteConfirmation = defineAsyncComponent(() => import('./modalDeleteConfirmation.vue'))
+const ModalMakeProposal = defineAsyncComponent(() => import('./modalMakeProposal.vue'))
 const Rating = defineAsyncComponent(() => import('./rating.vue'))
 
 export {
@@ -11,5 +12,6 @@ export {
 	Footer,
 	Header,
 	ModalDeleteConfirmation,
+	ModalMakeProposal,
 	Rating
 }

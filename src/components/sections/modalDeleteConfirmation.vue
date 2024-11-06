@@ -10,11 +10,11 @@
 			<slot/>
 
 			<Grid :columns="2">
-				<Button @click="remove">
-					Да
-				</Button>
 				<Button @click="close">
 					Нет
+				</Button>
+				<Button @click="remove">
+					Да
 				</Button>
 			</Grid>
 		</Grid>

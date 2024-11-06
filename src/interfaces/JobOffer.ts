@@ -24,10 +24,24 @@ export interface IJobOfferProposal {
 	updated: string
 	user: string
 	chat: string
+	text: string
+	price: number
 	expand?: {
 		user?: IUser
 		chat?: IChat
 	}
+}
+
+export const emptyProposal: IJobOfferProposal = {
+	id: '',
+	collectionId: '',
+	collectionName: '',
+	created: '',
+	updated: '',
+	user: '',
+	chat: '',
+	text: '',
+	price: 0
 }
 
 export interface IJobOffer {

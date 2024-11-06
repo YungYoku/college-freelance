@@ -35,7 +35,7 @@
 				<Button
 					:disabled="loading || isAlreadyProposed"
 					class="ml-auto"
-					@click="makeProposal"
+					@click="showMakeProposal"
 				>
 					Откликнуться
 				</Button>
@@ -154,6 +154,14 @@
 	>
 		Вы уверены, что хотите удалить объявление?
 	</ModalDeleteConfirmation>
+
+	<ModalMakeProposal
+		v-if="makeProposalModal.show"
+		:loading
+		:default-price="offer.price"
+		@make-proposal="makeProposal"
+		@close="hideMakeProposal"
+	/>
 </template>
 
 <script setup lang="ts">
@@ -162,12 +170,12 @@ import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import { Grid, Island } from '@/components/structures'
-import { ModalDeleteConfirmation } from '@/components/sections'
+import { ModalDeleteConfirmation, ModalMakeProposal } from '@/components/sections'
 import { Button, User as UserCard } from '@/components/blocks'
 import { PageTitle, Text } from '@/components/elements'
 import { useToast } from '@/components/ui/toast'
 import { Http } from '@/plugins'
-import { IJobOffer, emptyOffer } from '@/interfaces/JobOffer.ts'
+import { IJobOffer, emptyOffer, IJobOfferProposal } from '@/interfaces/JobOffer.ts'
 
 const router = useRouter()
 
@@ -204,7 +212,13 @@ const remove = async () => {
 const authStore = useAuthStore()
 const { toast } = useToast()
 
-const makeProposal = async () => {
+
+const makeProposalModal = reactive<{
+	show: boolean
+}>({
+	show: false,
+})
+const showMakeProposal = () => {
 	if (isAlreadyProposed.value) return
 	if (authStore.user.energy < 1) {
 		toast({
@@ -219,10 +233,17 @@ const makeProposal = async () => {
 		return
 	}
 
+	makeProposalModal.show = true
+}
+const hideMakeProposal = () => makeProposalModal.show = false
+const makeProposal = async (proposal: IJobOfferProposal) => {
 	loading.value = true
 
 	await Http
-		.post<IJobOffer>(`/make-proposal/${offer.value.id}`)
+		.post<IJobOffer>(`/make-proposal/${offer.value.id}`, {
+			price: proposal.price,
+			text: proposal.text
+		})
 		.then((response) => {
 			offer.value = response
 
@@ -234,6 +255,8 @@ const makeProposal = async () => {
 		})
 
 	loading.value = false
+
+	hideMakeProposal()
 }
 
 const isItMyOffer = computed(() => offer.value.creator === authStore.user.id)
@@ -252,10 +275,6 @@ const deleteConfirmationModal = reactive<{
 }>({
 	show: false,
 })
-const showDeleteConfirmation = () => {
-	deleteConfirmationModal.show = true
-}
-const hideDeleteConfirmation = () => {
-	deleteConfirmationModal.show = false
-}
+const showDeleteConfirmation = () => deleteConfirmationModal.show = true
+const hideDeleteConfirmation = () => deleteConfirmationModal.show = false
 </script>
