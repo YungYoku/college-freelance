@@ -29,7 +29,7 @@
 					v-if="!responsesLoading"
 					class="ml-auto"
 					name="check"
-					@click="choseProposal"
+					@click="choseProposal(user)"
 				/>
 			</div>
 			
