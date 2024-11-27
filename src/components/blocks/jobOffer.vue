@@ -17,7 +17,7 @@
 				</div>
 			</template>
 
-			<template v-else-if="jobOffer.proposals && showResponses">
+			<template v-else-if="jobOffer.proposals && showProposals">
 				<Skeleton
 					v-if="loading"
 					class="h-6 w-[24px]"
@@ -25,7 +25,7 @@
 				<div
 					v-else
 					class="job-offer__responses"
-					@click="openResponse"
+					@click="showProposals"
 				>
 					<Icon
 						name="user"
@@ -151,7 +151,7 @@ const props = defineProps({
 		type: Object as PropType<IJobOffer>,
 		required: true
 	},
-	showResponses: {
+	showProposals: {
 		type: Boolean,
 		default: false
 	},
@@ -175,9 +175,9 @@ const props = defineProps({
 
 const authStore = useAuthStore()
 
-const emit = defineEmits(['show-responses', 'show-chat', 'add-to-favorite', 'remove'])
+const emit = defineEmits(['show-proposals', 'show-chat', 'add-to-favorite', 'remove'])
 
-const openResponse = () => emit('show-responses', props.jobOffer)
+const showProposals = () => emit('show-proposals', props.jobOffer)
 const openChat = () => emit('show-chat', props.jobOffer)
 const addToFavorite = async () => {
 	const newFavorite = authStore.user.favorite.includes(props.jobOffer.id)

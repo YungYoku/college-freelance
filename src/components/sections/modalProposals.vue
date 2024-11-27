@@ -15,26 +15,26 @@
 			</Text>
 
 			<div
-				v-for="(user) in responsesUsers"
-				:key="user.id"
+				v-for="proposal in proposals"
+				:key="proposal.id"
 				class="flex w-full items-center gap-2"
 			>
 				<UserCard
-					:loading="responsesLoading"
-					:user="user"
+					v-if="proposal.expand?.user"
+					:user="proposal.expand.user"
 					link
 				/>
 
 				<Icon
-					v-if="!responsesLoading"
+					v-if="proposal.expand?.user"
 					class="ml-auto"
 					name="check"
-					@click="choseProposal(user)"
+					@click="choseProposal(proposal.expand?.user)"
 				/>
 			</div>
 			
 			<Text
-				v-if="responsesUsers.length === 0"
+				v-if="proposals.length === 0"
 				size="xs"
 			>
 				Пусто
@@ -44,20 +44,22 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Grid, Modal } from '@/components/structures'
 import { UserCard } from '@/components/blocks'
 import { Icon, Text } from '@/components/elements'
 import { IUser } from '@/interfaces/User.ts'
+import { emptyOffer, IJobOffer } from '@/interfaces/JobOffer.ts'
 
 interface Props {
-	responsesUsers: Array<IUser>
-	responsesLoading: boolean
+	offer: IJobOffer
 }
 
-withDefaults(defineProps<Props>(), {
-	responsesUsers: () => ([]),
-	responsesLoading: false
+const props = withDefaults(defineProps<Props>(), {
+	offer: () => ({ ...emptyOffer })
 })
+
+const proposals = computed(() => props.offer.expand?.proposals ?? [])
 
 const emit = defineEmits(['close', 'chose-proposal'])
 const close = () => emit('close')

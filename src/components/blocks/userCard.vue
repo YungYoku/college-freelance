@@ -61,7 +61,7 @@ import { emptyUser, IUser } from '@/interfaces/User'
 
 interface Props {
 	user: IUser,
-	loading: boolean
+	loading?: boolean
 	link: boolean
 }
 

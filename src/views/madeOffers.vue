@@ -24,11 +24,11 @@
 				:key="offer.id"
 				:job-offer="offer"
 				:loading="loading"
-				show-responses
+				show-proposals
 				show-chat
 				show-remove
 				show-status
-				@show-responses="openResponses"
+				@show-proposals="showProposals"
 				@show-chat="openChat"
 				@remove="showDeleteConfirmation"
 			/>
@@ -37,8 +37,7 @@
 
 	<ModalProposals
 		v-if="openedOffer"
-		:responses-users="responsesUsers"
-		:responses-loading="responsesLoading"
+		:offer="openedOffer"
 		@chose-proposal="pickExecutor"
 		@close="closeResponses"
 	/>
@@ -76,7 +75,7 @@ import { EmptyJobOffer, JobOffer } from '@/components/blocks'
 import { PageTitle } from '@/components/elements'
 import { IRating } from '@/interfaces/Rating.ts'
 import { Http } from '@/plugins'
-import { IUsers, IUser, emptyUser } from '@/interfaces/User.ts'
+import { IUser } from '@/interfaces/User.ts'
 import { IJobOffer, IJobOffers, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
 
 const auth = useAuthStore()
@@ -84,7 +83,6 @@ const auth = useAuthStore()
 const offers = ref<Array<IJobOffer>>([])
 
 const loading = ref(true)
-const responsesLoading = ref(true)
 const getUserOffers = async () => {
 	if (auth.user.id === '') return
 
@@ -93,7 +91,7 @@ const getUserOffers = async () => {
 	await Http
 		.get<IJobOffers>('/collections/job_offers/records', {
 			filter: `(creator='${auth.user.id}')`,
-			expand: ['proposals', 'type', 'discipline', 'executor', 'ratingExecutor']
+			expand: ['proposals', 'proposals.user', 'type', 'discipline', 'executor', 'ratingExecutor']
 		})
 		.then(response => {
 			offers.value = response.items
@@ -105,39 +103,13 @@ const getUserOffers = async () => {
 watch(() => auth.user.id, getUserOffers, { immediate: true })
 
 const openedOffer = ref<IJobOffer | null>(null)
-const responsesUsers = ref<Array<IUser>>([])
 
-const openResponses = async (offer: IJobOffer) => {
-	responsesLoading.value = true
-
+const showProposals = async (offer: IJobOffer) => {
 	openedOffer.value = offer
-
-	const proposals = offer.expand?.proposals ?? []
-	if (proposals.length === 0) {
-		responsesUsers.value = []
-
-		responsesLoading.value = false
-		return
-	}
-
-	responsesUsers.value = Array(proposals.length).fill(emptyUser)
-
-	let ids = proposals.reduce((result, proposal) => result + `id='${proposal.user}' || `, '')
-	ids = ids.slice(0, ids.length - 3)
-	await Http
-		.get<IUsers>('/collections/users/records', {
-			filter: `(${ids})`
-		})
-		.then(response => {
-			responsesUsers.value = response.items
-		})
-
-	responsesLoading.value = false
 }
 
 const closeResponses = () => {
 	openedOffer.value = null
-	responsesUsers.value = []
 }
 
 const pickExecutor = async (user: IUser) => {
