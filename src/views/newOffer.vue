@@ -142,7 +142,7 @@ const createOffer = async () => {
 	newOffer.description_lowercase.value = newOffer.description.value
 
 	await Http
-		.post<IJobOffer>('/collections/job_offers/records/', newOffer.get())
+		.post<IJobOffer>('/collections/job_offers/records', newOffer.get())
 		.then(response => {
 			router.push(`/offer/${response.id}`)
 		})

@@ -14,8 +14,8 @@
 		<span class="text-sm">{{ message.text }}</span>
 
 		<File
-			v-if="message.expand?.file.file"
-			:src="`${message.expand?.file.collectionId}/${message.expand?.file.id}/${message.expand?.file.file}`"
+			v-if="message.expand?.file?.file"
+			:src="`${message.expand.file.collectionId}/${message.expand.file.id}/${message.expand7.file.file}`"
 			:colors="self ? ['dark', 'light'] : ['light', 'dark']"
 		/>
 
