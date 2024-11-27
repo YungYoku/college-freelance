@@ -1,6 +1,6 @@
 <template>
 	<Modal
-		:width="400"
+		:width="440"
 		@close="close"
 	>
 		<Grid
@@ -14,25 +14,42 @@
 				Отклики
 			</Text>
 
-			<div
-				v-for="proposal in proposals"
+			<template
+				v-for="(proposal, index) in proposals"
 				:key="proposal.id"
-				class="flex w-full items-center gap-2"
 			>
-				<UserCard
-					v-if="proposal.expand?.user"
-					:user="proposal.expand.user"
-					link
-				/>
+				<div class="flex w-full items-start gap-2 flex-col">
+					<div class="flex w-full items-center gap-2">
+						<UserCard
+							v-if="proposal.expand?.user"
+							:user="proposal.expand.user"
+							link
+						/>
 
-				<Icon
-					v-if="proposal.expand?.user"
-					class="ml-auto"
-					name="check"
-					@click="choseProposal(proposal.expand?.user)"
+						<Button
+							v-if="proposal.expand?.user"
+							class="ml-auto"
+							@click="choseProposal(proposal.expand?.user)"
+						>
+							Выбрать
+						</Button>
+					</div>
+
+					<span v-if="proposal.price">
+						Предложенная цена: {{ proposal.price }}₽
+					</span>
+
+					<span v-if="proposal.text">
+						Сообщение: {{ proposal.text }}
+					</span>
+				</div>
+
+				<div
+					v-if="index !== proposals.length - 1"
+					class="border-t my-1"
 				/>
-			</div>
-			
+			</template>
+
 			<Text
 				v-if="proposals.length === 0"
 				size="xs"
@@ -46,8 +63,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Grid, Modal } from '@/components/structures'
-import { UserCard } from '@/components/blocks'
-import { Icon, Text } from '@/components/elements'
+import { UserCard, Button } from '@/components/blocks'
+import { Text } from '@/components/elements'
 import { IUser } from '@/interfaces/User.ts'
 import { emptyOffer, IJobOffer } from '@/interfaces/JobOffer.ts'
 
