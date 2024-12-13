@@ -10,17 +10,17 @@
 				{{ label }}
 			</Label>
 
-			<Input
+			<input
 				v-model="value"
-				:class="['h-12', 'bg-background', 'hover:bg-accent', 'pr-10', ` cursor-${cursor}`, {
+				class="w-[100%] h-12 py-2 pl-3 pr-10 bg-background hover:bg-accent rounded-lg border border-input font-light text-sm focus-visible:border-stone-100 outline-none disabled:opacity-50"
+				:class="[`cursor-${cursor}`, {
 					'pt-4': !placeholder
 				}]"
-				:placeholder
 				:disabled
 				:type
-				autocomplete=""
+				autocomplete="off"
 				@input="onInput"
-			/>
+			>
 
 			<span
 				v-if="error"
@@ -51,7 +51,6 @@
 import { computed } from 'vue'
 
 import { Icon, Label } from '@/components/elements'
-import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 
 interface Props {
@@ -59,7 +58,7 @@ interface Props {
 	loading?: boolean
 	label?: string
 	disabled?: boolean
-	type?: string
+	type?: 'text' | 'password' | 'email' | 'file' | 'number'
 	icon?: string | null
 	autocomplete?: 'off' | 'on' | 'new-password' | 'username',
 	cursor?: 'text' | 'pointer'
@@ -76,11 +75,21 @@ const props = withDefaults(defineProps<Props>(), {
 	cursor: 'text'
 })
 
-const value = defineModel<string | number | undefined>(undefined)
-const clear = () => value.value = undefined
+const value = defineModel<string | number>({
+	type: [String, Number],
+	default: ''
+})
+const clear = () => value.value = ''
 
-const emit = defineEmits(['input', 'action'])
-const onInput = (event: InputEvent) => emit('input', event)
+const emit = defineEmits(['update-file', 'input', 'action'])
+const onInput = (event: Event) => {
+	const target = event.target as HTMLInputElement
+	if (props.type === 'file') {
+		const file = target.files?.[0]
+		if (file) emit('update-file', file)
+	}
+	else emit('input', target.value)
+}
 const action = () => emit('action')
 
 const placeholder = computed(() => {
@@ -95,7 +104,7 @@ const placeholder = computed(() => {
 		return props.label
 	}
 
-	return null
+	return ''
 })
 
 const filled = computed(() => {

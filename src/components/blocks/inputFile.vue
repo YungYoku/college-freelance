@@ -14,7 +14,7 @@
 					:error="error"
 					type="file"
 					cursor="pointer"
-					@input="updateFile"
+					@update-file="updateFile"
 				/>
 			</div>
 		</Button>
@@ -28,7 +28,7 @@
 				:error="error"
 				type="file"
 				cursor="pointer"
-				@input="updateFile"
+				@update-file="updateFile"
 			/>
 		</div>
 	</div>
@@ -68,20 +68,17 @@ const updateName = (value: string) => {
 	emit('update:name', value)
 }
 
-const updateFile = async (event: Event) => {
-	const target = event.target as HTMLInputElement
-	if (target.files) {
-		const file = target.files[0]
-		updateName(file.name)
+const updateFile = async (file: File) => {
+	console.log(file)
+	updateName(file.name)
 
-		const formData = new FormData()
+	const formData = new FormData()
 
-		formData.append('file', file)
+	formData.append('file', file)
 
-		value.value = await Http
-			.post<{ id: string }>('/collections/files/records', formData)
-			.then(({ id }) => id)
-	}
+	value.value = await Http
+		.post<{ id: string }>('/collections/files/records', formData)
+		.then(({ id }) => id)
 }
 
 const inputWrapStyle = computed(() => {

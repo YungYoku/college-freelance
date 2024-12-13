@@ -7,7 +7,7 @@
 		<textarea
 			v-model="value"
 			:placeholder="label"
-			class="w-[100%] py-2 px-3 bg-background hover:bg-accent rounded-xl border border-input font-light text-sm focus-visible:border-stone-100 outline-none disabled:opacity-50"
+			class="w-[100%] py-2 px-3 bg-background hover:bg-accent rounded-lg border border-input font-light text-sm focus-visible:border-stone-100 outline-none disabled:opacity-50"
 			:class="[{
 				'pt-4': !placeholder,
 			}]"
@@ -53,20 +53,19 @@ const props = withDefaults(defineProps<Props>(), {
 	disabled: false
 })
 
-const value = defineModel<string | undefined>(undefined)
-const clear = () => value.value = undefined
+const value = defineModel<string>({
+	type: String,
+	default: ''
+})
+const clear = () => value.value = ''
 
 const placeholder = computed(() => {
-	const hasValue = typeof value.value === 'string' && value.value.length > 0
-	if (props.label && !hasValue) {
+	if (props.label && value.value.length === 0) {
 		return props.label
 	}
 
-	return null
+	return ''
 })
 
-const filled = computed(() => {
-	if (typeof value.value === 'string') return value.value.length > 0
-	return false
-})
+const filled = computed(() => value.value.length > 0)
 </script>
