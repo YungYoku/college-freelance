@@ -15,9 +15,9 @@
 				:class="['h-12', 'bg-background', 'hover:bg-accent', 'pr-10', ` cursor-${cursor}`, {
 					'pt-4': !placeholder
 				}]"
-				:placeholder="placeholder"
-				:disabled="disabled"
-				:type="type"
+				:placeholder
+				:disabled
+				:type
 				autocomplete=""
 				@input="onInput"
 			/>
@@ -55,7 +55,6 @@ import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 
 interface Props {
-	modelValue?: string | number | undefined
 	error?: string | null
 	loading?: boolean
 	label?: string
@@ -67,7 +66,6 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	modelValue: undefined,
 	error: null,
 	loading: false,
 	label: '',
@@ -78,21 +76,19 @@ const props = withDefaults(defineProps<Props>(), {
 	cursor: 'text'
 })
 
-const emit = defineEmits(['update:model-value', 'input', 'action'])
+const value = defineModel<string | number | undefined>(undefined)
+const clear = () => value.value = undefined
+
+const emit = defineEmits(['input', 'action'])
 const onInput = (event: InputEvent) => emit('input', event)
 const action = () => emit('action')
 
-const value = computed({
-	get: () => props.modelValue,
-	set: (val) => emit('update:model-value', val)
-})
-
 const placeholder = computed(() => {
 	let hasValue = false
-	if (typeof props.modelValue === 'number') {
+	if (typeof value.value === 'number') {
 		hasValue = true
-	} else if (typeof props.modelValue === 'string') {
-		hasValue = props.modelValue.length > 0
+	} else if (typeof value.value === 'string') {
+		hasValue = value.value.length > 0
 	}
 
 	if (props.label && !hasValue) {
@@ -107,8 +103,4 @@ const filled = computed(() => {
 	if (typeof value.value === 'string') return value.value.length > 0
 	return false
 })
-
-const clear = () => {
-	value.value = undefined
-}
 </script>

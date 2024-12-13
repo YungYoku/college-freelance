@@ -14,14 +14,13 @@
 		:disabled="searchStore.loading"
 		label="Поиск"
 		:icon="isSearchPage ? null : 'search'"
-		@update:model-value="updateSearch"
 		@action="search"
 		@keyup.enter="search"
 	/>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSearchStore } from '@/stores/search.ts'
 
@@ -31,10 +30,10 @@ import { Screen } from '@/plugins'
 
 const searchStore = useSearchStore()
 
-const value = ref(searchStore.search)
-watch(() => searchStore.search, () => value.value = searchStore.search)
-
-const updateSearch = (value: string | number) => searchStore.update(value.toString())
+const value = computed({
+	get: () => searchStore.search,
+	set: value => searchStore.update(value.toString())
+})
 
 const router = useRouter()
 const isSearchPage = computed(() => router.currentRoute.value.path === '/search')
