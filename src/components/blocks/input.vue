@@ -16,6 +16,7 @@
 				:class="[`cursor-${cursor}`, {
 					'pt-4': !placeholder
 				}]"
+				:placeholder
 				:disabled
 				:type
 				autocomplete="off"
