@@ -1,14 +1,27 @@
 <template>
 	<Grid
-		:columns="['16px', 1]"
+		:columns="['16px', '16px', 1]"
 		ver-align="center"
 		@click="value = !value"
 	>
-		<Checkbox :checked="value"/>
+		<div
+			class="w-[16px] h-[16px] active:bg-accent-1 rounded-md border border-primary outline-none flex items-center justify-center cursor-pointer"
+			:class="{
+				'bg-accent': !value,
+				'bg-primary': value
+			}"
+		>
+			<Icon
+				v-if="value"
+				name="check"
+				size="xs"
+				:colors="['dark', 'light']"
+			/>
+		</div>
 
 		<div
 			v-if="label"
-			class="text-left"
+			class="text-left font-light"
 		>
 			{{ label }}
 		</div>
@@ -16,40 +29,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-
 import { Grid } from '@/components/structures'
-import { Checkbox } from '@/components/ui/checkbox'
+import { Icon } from '@/components/elements'
 
 interface Props {
-	modelValue?: boolean,
 	error?: string | null,
 	checked?: boolean,
 	disabled?: boolean
 	label: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
-	modelValue: false,
+withDefaults(defineProps<Props>(), {
 	error: null,
 	checked: false,
 	disabled: false,
 	label: ''
 })
 
-const emit = defineEmits(['update:model-value'])
-
-const value = computed({
-	get: () => {
-		if (props.disabled) {
-			return props.checked ?? false
-		}
-		return props.modelValue
-	},
-	set: (value) => {
-		if (!props.disabled) {
-			emit('update:model-value', value)
-		}
-	}
+const value = defineModel<boolean>({
+	type: Boolean,
+	default: false
 })
 </script>
