@@ -54,8 +54,7 @@
 import { computed } from 'vue'
 
 import { Island, Grid } from '@/components/structures'
-import { Badge } from '@/components/elements'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Badge, Skeleton } from '@/components/elements'
 import Avatar from './avatar.vue'
 import { emptyUser, IUser } from '@/interfaces/User'
 

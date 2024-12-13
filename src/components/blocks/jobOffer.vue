@@ -139,8 +139,7 @@
 import { computed, PropType } from 'vue'
 
 import { Island } from '@/components/structures'
-import { Icon, Badge } from '@/components/elements'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Icon, Badge, Skeleton } from '@/components/elements'
 import User from './user.vue'
 import { Http } from '@/plugins'
 import { useAuthStore } from '@/stores/auth.ts'

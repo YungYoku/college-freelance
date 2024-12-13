@@ -21,7 +21,7 @@
 import { computed, PropType } from 'vue'
 
 import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@/components/elements'
 
 type Variant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | null | undefined
 

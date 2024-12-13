@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { emptyUser, IUser } from '@/interfaces/User'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@/components/elements'
 import Avatar from './avatar.vue'
 
 interface Props {

@@ -36,11 +36,9 @@
 import { ref, PropType, watch } from 'vue'
 
 import { Grid } from '@/components/structures'
-import { Button, Textarea } from '@/components/blocks'
-import { Text } from '@/components/elements'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Button, Textarea, RatingStars } from '@/components/blocks'
+import { Text, Skeleton } from '@/components/elements'
 import { IRating } from '@/interfaces/Rating.ts'
-import { RatingStars } from '@/components/blocks'
 
 const props = defineProps({
 	modelValue: {

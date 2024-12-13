@@ -51,8 +51,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { Icon, Label } from '@/components/elements'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Icon, Label, Skeleton } from '@/components/elements'
 
 interface Props {
 	error?: string | null
