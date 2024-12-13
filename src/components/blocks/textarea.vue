@@ -4,16 +4,17 @@
 			{{ label }}
 		</Label>
 
-		<Textarea
+		<textarea
 			v-model="value"
 			:placeholder="label"
-			:class="['bg-background', 'hover:bg-accent', {
+			class="w-[100%] py-2 px-3 bg-background hover:bg-accent rounded-xl border border-input font-light text-sm focus-visible:border-stone-100 outline-none disabled:opacity-50"
+			:class="[{
 				'pt-4': !placeholder,
 			}]"
 			:style="{
 				height
 			}"
-			:disabled="disabled"
+			:disabled
 		/>
 
 		<span
@@ -36,11 +37,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { Textarea } from '@/components/ui/textarea'
 import { Icon, Label } from '@/components/elements'
 
 interface Props {
-	modelValue: string | undefined
 	error?: string | null
 	label: string
 	height?: string
@@ -48,19 +47,14 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	modelValue: undefined,
 	error: null,
 	label: '',
 	height: '200px',
 	disabled: false
 })
 
-const emit = defineEmits(['update:model-value'])
-
-const value = computed({
-	get: () => props.modelValue,
-	set: (val) => emit('update:model-value', val)
-})
+const value = defineModel<string | undefined>(undefined)
+const clear = () => value.value = undefined
 
 const placeholder = computed(() => {
 	const hasValue = typeof value.value === 'string' && value.value.length > 0
@@ -75,8 +69,4 @@ const filled = computed(() => {
 	if (typeof value.value === 'string') return value.value.length > 0
 	return false
 })
-
-const clear = () => {
-	value.value = undefined
-}
 </script>
