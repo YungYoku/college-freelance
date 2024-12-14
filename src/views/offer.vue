@@ -167,13 +167,13 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth.ts'
+import { useAuthStore } from '@/stores/auth'
+import { useToast } from '@/stores/toast'
 
 import { Grid, Island } from '@/components/structures'
 import { ModalDeleteConfirmation, ModalMakeProposal } from '@/components/sections'
 import { Button, User as UserCard } from '@/components/blocks'
 import { PageTitle, Text } from '@/components/elements'
-import { useToast } from '@/components/ui/toast'
 import { Http } from '@/plugins'
 import { IJobOffer, emptyOffer, IJobOfferProposal } from '@/interfaces/JobOffer.ts'
 
@@ -210,7 +210,7 @@ const remove = async () => {
 }
 
 const authStore = useAuthStore()
-const { toast } = useToast()
+const toast = useToast()
 
 
 const makeProposalModal = reactive<{
@@ -221,15 +221,11 @@ const makeProposalModal = reactive<{
 const showMakeProposal = () => {
 	if (isAlreadyProposed.value) return
 	if (authStore.user.energy < 1) {
-		toast({
-			title: 'Недостаточно энергии для отклика'
-		})
+		toast.set('Недостаточно энергии для отклика')
 		return
 	}
 	if (authStore.isPersonalInfoIncomplete) {
-		toast({
-			title: 'Для отклика на объявление требуется заполнить свои имя и фамилию!'
-		})
+		toast.set('Для отклика на объявление требуется заполнить свои имя и фамилию!')
 		return
 	}
 
@@ -249,9 +245,7 @@ const makeProposal = async (proposal: IJobOfferProposal) => {
 
 			authStore.setEnergy(authStore.user.energy - 1)
 
-			toast({
-				title: 'Вы успешно откликнулись'
-			})
+			toast.set('Вы успешно откликнулись')
 		})
 
 	loading.value = false

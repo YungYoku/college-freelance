@@ -68,7 +68,7 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useColorMode } from '@vueuse/core'
-import { useToast } from '@/components/ui/toast/use-toast'
+import { useToast } from '@/stores/toast'
 
 import { useAuthStore } from '@/stores/auth.ts'
 import {
@@ -90,7 +90,7 @@ import Avatar from '@/components/blocks/avatar.vue'
 
 const auth = useAuthStore()
 const router = useRouter()
-const { toast } = useToast()
+const toast = useToast()
 
 const mode = useColorMode({ selector: 'body' })
 const currentTheme = computed(() => mode.state.value)
@@ -126,9 +126,7 @@ const copyRefLink = async () => {
 	}
 
 	await navigator.clipboard.writeText(`${window.location.origin}/registration?ref=${auth.user.referral_code}`)
-	toast({
-		title: 'Ссылка скопирована!'
-	})
+	toast.set('Ссылка скопирована!')
 }
 
 const logout = () => {

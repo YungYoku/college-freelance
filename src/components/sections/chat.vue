@@ -128,7 +128,8 @@
 
 <script setup lang="ts">
 import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'
-import { useAuthStore } from '@/stores/auth.ts'
+import { useAuthStore } from '@/stores/auth'
+import { useToast } from '@/stores/toast'
 
 import { Grid, StepByStep } from '@/components/structures'
 import { Rating } from '@/components/sections'
@@ -139,9 +140,8 @@ import { IMessage } from '@/interfaces/Message.ts'
 import { IChat } from '@/interfaces/Chat.ts'
 import { emptyOffer, IJobOffer, IJobOfferStatus } from '@/interfaces/JobOffer.ts'
 import { IRating } from '@/interfaces/Rating'
-import { useToast } from '@/components/ui/toast'
 
-const { toast } = useToast()
+const toast = useToast()
 
 interface Props {
 	offer: IJobOffer,
@@ -264,9 +264,7 @@ const sendRating = async (value: { stars: number, review: string } = { stars: 1,
 		.then((response) => {
 			emit('update:rating', response)
 
-			toast({
-				title: 'Отзыв оставлен!'
-			})
+			toast.set('Отзыв оставлен!')
 		})
 }
 </script>

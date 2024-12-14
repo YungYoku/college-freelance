@@ -101,6 +101,7 @@
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { useToast } from '@/stores/toast'
 
 import { Grid, Island } from '@/components/structures'
 import {
@@ -112,7 +113,6 @@ import {
 	InputFile,
 	Checkbox
 } from '@/components/blocks'
-import { useToast } from '@/components/ui/toast'
 import { emptyOffer, IJobOffer } from '@/interfaces/JobOffer'
 import { Http, Form } from '@/plugins'
 import { Text } from '@/components/elements'
@@ -122,16 +122,14 @@ const auth = useAuthStore()
 const newOffer = Form<IJobOffer>({ ...emptyOffer })
 
 const router = useRouter()
-const { toast } = useToast()
+const toast = useToast()
 
 watch(() => auth.user.id, () => newOffer.creator.value = auth.user.id, { immediate: true })
 
 const loading = ref(false)
 const createOffer = async () => {
 	if (auth.isPersonalInfoIncomplete) {
-		toast({
-			title: 'Для создания объявления требуется заполнить свои имя и фамилию!'
-		})
+		toast.set('Для создания объявления требуется заполнить свои имя и фамилию!')
 		return
 	}
 
@@ -149,9 +147,7 @@ const createOffer = async () => {
 		.catch(({ data }) => {
 			newOffer.setErrors(data)
 
-			toast({
-				title: 'Ошибка при создании объявления',
-			})
+			toast.set('Ошибка при создании объявления')
 
 			loading.value = false
 		})

@@ -79,13 +79,13 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useToast } from '@/stores/toast'
 
 import { Http, Form } from '@/plugins'
 import { AuthLayout } from '@/components/layouts'
 import { Card } from '@/components/structures'
 import { Select, Input, Button } from '@/components/blocks'
 import { IUser } from '@/interfaces/User.ts'
-import { useToast } from '@/components/ui/toast'
 
 interface RegistrationForm {
 	email: string
@@ -110,7 +110,7 @@ const form = Form<RegistrationForm>({
 })
 
 const router = useRouter()
-const { toast } = useToast()
+const toast = useToast()
 
 const loading = ref(false)
 
@@ -135,9 +135,7 @@ const register = async () => {
 			.catch(({ data }) => {
 				form.setErrors(data)
 
-				toast({
-					title: 'Ошибка авторизации'
-				})
+				toast.set('Ошибка авторизации')
 
 				loading.value = false
 			})

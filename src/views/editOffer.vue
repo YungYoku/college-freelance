@@ -105,16 +105,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useToast } from '@/components/ui/toast'
+import { useToast } from '@/stores/toast'
 
-import { Http, Form } from '@/plugins'
-import { IJobOffer, emptyOffer } from '@/interfaces/JobOffer.ts'
 import { Grid, Island } from '@/components/structures'
 import { Button, Checkbox, DatePicker, Input, SelectLive, Textarea } from '@/components/blocks'
 import { Text } from '@/components/elements'
+import { IJobOffer, emptyOffer } from '@/interfaces/JobOffer.ts'
 import { IUser } from '@/interfaces/User.ts'
-
-const { toast } = useToast()
+import { Http, Form } from '@/plugins'
 
 const form = Form<IJobOffer>({ ...emptyOffer })
 
@@ -139,6 +137,7 @@ const loadOffer = async () => {
 }
 loadOffer()
 
+const toast = useToast()
 const save = async () => {
 	loading.value = true
 	form.clearErrors()
@@ -151,16 +150,12 @@ const save = async () => {
 		.then(() => {
 			router.push(`/offer/${id}`)
 
-			toast({
-				title: 'Сохранено успешно!'
-			})
+			toast.set('Сохранено успешно!')
 		})
 		.catch(({ data }) => {
 			form.setErrors(data)
 
-			toast({
-				title: 'Ошибка сохранения'
-			})
+			toast.set('Ошибка сохранения')
 		})
 
 	loading.value = false

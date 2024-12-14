@@ -83,7 +83,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
-import { useToast } from '@/components/ui/toast/use-toast'
+import { useToast } from '@/stores/toast'
 
 import { Http, Form } from '@/plugins'
 import { Grid } from '@/components/structures'
@@ -92,7 +92,7 @@ import { IReferralCode } from '@/interfaces/ReferralCode.ts'
 import { IUser, emptyUser } from '@/interfaces/User.ts'
 
 const auth = useAuthStore()
-const { toast } = useToast()
+const toast = useToast()
 
 const form = Form<IUser>({ ...emptyUser })
 
@@ -129,16 +129,12 @@ const save = async () => {
 		.patch<IUser>(`/collections/users/records/${auth.user.id}`, form.get())
 		.then((res) => {
 			auth.setUser(res)
-			toast({
-				title: 'Сохранено успешно!'
-			})
+			toast.set('Сохранено успешно!')
 		})
 		.catch(({ data }) => {
 			form.setErrors(data)
 			
-			toast({
-				title: 'Ошибка сохранения'
-			})
+			toast.set('Ошибка сохранения')
 		})
 
 	loading.value = false

@@ -51,13 +51,13 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useToast } from '@/stores/toast'
 
 import { useAuthStore } from '@/stores/auth.ts'
 import { IUserLogin } from '@/interfaces/User.ts'
 import { AuthLayout } from '@/components/layouts'
 import { Card } from '@/components/structures'
 import { Input, Button } from '@/components/blocks'
-import { useToast } from '@/components/ui/toast'
 import { Http, Form } from '@/plugins'
 
 interface LoginForm {
@@ -72,7 +72,7 @@ const form = Form<LoginForm>({
 
 const auth = useAuthStore()
 const router = useRouter()
-const { toast } = useToast()
+const toast = useToast()
 
 const loading = ref(false)
 const login = async () => {
@@ -90,9 +90,7 @@ const login = async () => {
 			.catch(({ data }) => {
 				form.setErrors(data)
 
-				toast({
-					title: 'Ошибка авторизации'
-				})
+				toast.set('Ошибка авторизации')
 
 				loading.value = false
 			})

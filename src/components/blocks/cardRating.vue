@@ -23,7 +23,7 @@
 			</router-link>
 
 			<RatingStars
-				:stars
+				:stars="rating.stars"
 				size="s"
 			/>
 		</Grid>
@@ -57,13 +57,6 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
 	rating: () => emptyRating,
-})
-
-const emit = defineEmits(['update:model-value'])
-
-const stars = computed({
-	get: () => props.rating.stars,
-	set: value => emit('update:model-value', value)
 })
 
 const created = computed(() => new Date(props.rating?.created))

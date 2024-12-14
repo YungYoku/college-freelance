@@ -1,6 +1,6 @@
 <template>
 	<router-view/>
-	<Toaster/>
+	<Toast/>
 </template>
 
 <script lang="ts" setup>
@@ -10,7 +10,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { Http, LocalStorage } from '@/plugins'
 import { IUserRefresh } from '@/interfaces/User'
-import Toaster from '@/components/ui/toast/Toaster.vue'
+import { Toast } from '@/components/blocks'
 
 const auth = useAuthStore()
 const router = useRouter()
