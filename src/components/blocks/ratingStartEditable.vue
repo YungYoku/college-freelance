@@ -25,21 +25,16 @@ const value = defineModel({
 })
 
 const icons = computed(() => {
+	const max = hoverIndex.value ?? value.value
+
 	const result = []
 
+
 	for (let i = 0; i < 5; i++) {
-		if (hoverIndex.value !== null) {
-			if (i < hoverIndex.value) {
-				result.push('star-active')
-			} else {
-				result.push('star')
-			}
+		if (i < max) {
+			result.push('star-active')
 		} else {
-			if (i < value.value) {
-				result.push('star-active')
-			} else {
-				result.push('star')
-			}
+			result.push('star')
 		}
 	}
 	return result
