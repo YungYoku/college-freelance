@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, PropType } from 'vue'
+import { computed, PropType } from 'vue'
 
 import { Button, Input } from '@/components/blocks'
 import { Icon } from '@/components/elements'
