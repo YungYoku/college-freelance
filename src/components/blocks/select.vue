@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType } from 'vue'
+import { PropType } from 'vue'
 
 import {
 	Select,
@@ -36,11 +36,13 @@ interface Item {
 	text: string
 }
 
-const props = defineProps({
-	modelValue: {
-		type: String,
-		default: ''
-	},
+const value = defineModel<string>({
+	type: String,
+	default: ''
+})
+
+defineProps({
+
 	label: {
 		type: String,
 		default: ''
@@ -49,12 +51,5 @@ const props = defineProps({
 		type: Array as PropType<Array<Item>>,
 		default: () => ([])
 	}
-})
-
-const emit = defineEmits(['update:model-value'])
-
-const value = computed({
-	get: () => props.modelValue,
-	set: (val) => emit('update:model-value', val)
 })
 </script>

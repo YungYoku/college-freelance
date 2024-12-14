@@ -23,7 +23,7 @@
 			</router-link>
 
 			<RatingStars
-				v-model="stars"
+				:stars
 				size="s"
 			/>
 		</Grid>

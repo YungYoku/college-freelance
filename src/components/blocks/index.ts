@@ -13,6 +13,7 @@ const JobOffer = defineAsyncComponent(() => import('./jobOffer.vue'))
 const JobSearch = defineAsyncComponent(() => import('./jobSearch.vue'))
 const Message = defineAsyncComponent(() => import('./message.vue'))
 const RatingStars = defineAsyncComponent(() => import('./ratingStars.vue'))
+const RatingStarsEditable = defineAsyncComponent(() => import('./ratingStartEditable.vue'))
 const Notifications = defineAsyncComponent(() => import('./notifications.vue'))
 const Select = defineAsyncComponent(() => import('./select.vue'))
 const SelectLive = defineAsyncComponent(() => import('./selectLive.vue'))
@@ -36,6 +37,7 @@ export {
 	JobSearch,
 	Message,
 	RatingStars,
+	RatingStarsEditable,
 	Notifications,
 	Select,
 	SelectLive,

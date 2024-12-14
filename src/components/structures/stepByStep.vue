@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed, useSlots } from 'vue'
 
-const emit = defineEmits(['update:modelValue', 'apply'])
+const emit = defineEmits(['apply'])
 
 const slots = useSlots()
 const steps = reactive(Object.keys(slots).filter((slot) => slot !== 'footer'))

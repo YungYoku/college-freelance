@@ -110,7 +110,6 @@ const props = withDefaults(defineProps<Props>(), {
 	multiple: false
 })
 
-const emit = defineEmits(['update:model-value'])
 
 const showedResult = computed(() => {
 	const _val = expandedValue.value
@@ -132,6 +131,7 @@ const filled = computed(() => value.value.length > 0)
 const open = ref(false)
 const items = ref<Array<Item>>([])
 
+const emit = defineEmits(['update:model-value'])
 const value = computed<Array<string>| string>({
 	get: () => props.modelValue,
 	set(value) {

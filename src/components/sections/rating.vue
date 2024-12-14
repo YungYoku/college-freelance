@@ -12,9 +12,8 @@
 			Оставьте свой отзыв для {{ props.user }}!
 		</Text>
 
-		<RatingStars
+		<RatingStarsEditable
 			v-model="value.stars"
-			editable
 		/>
 
 		<Textarea
@@ -36,7 +35,7 @@
 import { ref, PropType, watch } from 'vue'
 
 import { Grid } from '@/components/structures'
-import { Button, Textarea, RatingStars } from '@/components/blocks'
+import { Button, Textarea, RatingStarsEditable } from '@/components/blocks'
 import { Text, Skeleton } from '@/components/elements'
 import { IRating } from '@/interfaces/Rating.ts'
 

@@ -52,7 +52,7 @@
 				v-model="form.role.value"
 				:error="form.role.error"
 				:items="roleItems"
-				label="Выберите роль"
+				label="Роль"
 			/>
 
 			<Button
