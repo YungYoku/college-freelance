@@ -35,41 +35,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, PropType } from 'vue'
 
 import { Button, Input } from '@/components/blocks'
 import { Icon } from '@/components/elements'
 import { Http } from '@/plugins'
 
 interface Props {
-	modelValue: string | null
 	error?: string | null
 	loading?: boolean
 	compact?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	modelValue: null,
 	error: null,
 	loading: false,
 	compact: false,
 })
 
-const emit = defineEmits(['update:model-value', 'update:name'])
 
-const value = computed({
-	get: () => props.modelValue,
-	set: (value) => emit('update:model-value', value)
+const emit = defineEmits(['update:name'])
+const updateName = (value: string) => emit('update:name', value)
+
+const value = defineModel<string | null>({
+	type: Object as PropType<string | null>,
+	default: null,
 })
-
-const name = ref('')
-const updateName = (value: string) => {
-	name.value = value
-	emit('update:name', value)
-}
-
 const updateFile = async (file: File) => {
-	console.log(file)
 	updateName(file.name)
 
 	const formData = new FormData()
