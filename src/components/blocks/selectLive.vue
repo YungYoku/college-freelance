@@ -1,80 +1,77 @@
 <template>
-	<Popover v-model:open="open">
-		<PopoverTrigger as-child>
-			<div class="relative">
-				<Label v-if="filled">
-					{{ placeHolder }}
-				</Label>
+	<Popover>
+		<template #trigger>
+			<Label v-if="filled">
+				{{ placeHolder }}
+			</Label>
 
-				<Button
-					variant="outline"
-					role="combobox"
-					:aria-expanded="open"
-					:class="['w-full', 'justify-between', 'pl-3', 'overflow-hidden', 'pr-10', {
-						'pt-4': filled,
-						'text-muted-foreground': !filled
-					}]"
-				>
-					<span class="block overflow-hidden text-ellipsis">{{ showedResult }}</span>
-				</Button>
+			<Button
+				variant="outline"
+				role="combobox"
+				:aria-expanded="open"
+				:class="['w-full', 'justify-between', 'pl-3', 'overflow-hidden', 'pr-10', {
+					'pt-4': filled,
+					'text-muted-foreground': !filled
+				}]"
+			>
+				<span class="block overflow-hidden text-ellipsis">{{ showedResult }}</span>
+			</Button>
 
-				<Icon
-					v-if="filled"
-					class="absolute right-3 top-3.5 cursor-pointer"
-					name="close"
-					size="s"
-					@click.prevent.stop="clear"
-				/>
+			<Icon
+				v-if="filled"
+				class="absolute right-3 top-3.5 cursor-pointer"
+				name="close"
+				size="s"
+				@click.prevent.stop="clear"
+			/>
 
-				<span
-					v-if="error"
-					class="pl-3 text-xs text-destructive font-extralight"
-				>
-					{{ error }}
-				</span>
-			</div>
-		</PopoverTrigger>
-		<PopoverContent class="w-full p-0">
-			<Command v-model="search">
-				<CommandInput
-					:placeholder="placeHolder"
-					@input="handleType"
-				/>
-				<CommandEmpty>Пусто.</CommandEmpty>
-				<CommandList>
-					<CommandGroup>
-						<CommandItem
-							v-for="item in items"
-							:key="item.id"
-							:value="item.name"
-							@select.prevent.stop="select(item.id)"
-						>
-							<Checkbox
-								v-if="multiple"
-								:checked="selectedItems.some(i => i === item.id)"
-								disabled
-								:label="item.name"
-							/>
+			<span
+				v-if="error"
+				class="pl-3 text-xs text-destructive font-extralight"
+			>
+				{{ error }}
+			</span>
+		</template>
 
-							<template v-else>
-								{{ item.name }}
-							</template>
-						</CommandItem>
-					</CommandGroup>
-				</CommandList>
-			</Command>
-		</PopoverContent>
+		<Command v-model="search">
+			<CommandInput
+				:placeholder="placeHolder"
+				@input="handleType"
+			/>
+			<CommandEmpty>Пусто.</CommandEmpty>
+			<CommandList>
+				<CommandGroup>
+					<CommandItem
+						v-for="item in items"
+						:key="item.id"
+						:value="item.name"
+						@select.prevent.stop="select(item.id)"
+					>
+						<Checkbox
+							v-if="multiple"
+							:checked="selectedItems.some(i => i === item.id)"
+							disabled
+							:label="item.name"
+						/>
+
+						<template v-else>
+							{{ item.name }}
+						</template>
+					</CommandItem>
+				</CommandGroup>
+			</CommandList>
+		</Command>
 	</Popover>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 
+import { Popover } from '@/components/structures'
 import { Button, Checkbox } from '@/components/blocks'
 import { Icon, Label } from '@/components/elements'
 import { Http } from '@/plugins'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 interface Item {
 	id: string

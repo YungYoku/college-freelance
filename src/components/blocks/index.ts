@@ -2,6 +2,7 @@ import { defineAsyncComponent } from 'vue'
 
 const Avatar = defineAsyncComponent(() => import('./avatar.vue'))
 const Button = defineAsyncComponent(() => import('./button.vue'))
+const Calendar = defineAsyncComponent(() => import('./calendar.vue'))
 const CardRating = defineAsyncComponent(() => import('./cardRating.vue'))
 const Checkbox = defineAsyncComponent(() => import('./checkbox.vue'))
 const DatePicker = defineAsyncComponent(() => import('./datePicker.vue'))
@@ -27,6 +28,7 @@ const UserDropdown = defineAsyncComponent(() => import('./userDropdown.vue'))
 export {
 	Avatar,
 	Button,
+	Calendar,
 	CardRating,
 	Checkbox,
 	DatePicker,
