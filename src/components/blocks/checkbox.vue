@@ -1,6 +1,6 @@
 <template>
 	<Grid
-		:columns="['16px', '16px', 1]"
+		:columns="['16px', 1]"
 		ver-align="center"
 		@click="value = !value"
 	>

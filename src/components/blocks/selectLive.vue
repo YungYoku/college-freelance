@@ -40,25 +40,23 @@
 			/>
 			<CommandEmpty>Пусто.</CommandEmpty>
 			<CommandList>
-				<CommandGroup>
-					<CommandItem
-						v-for="item in items"
-						:key="item.id"
-						:value="item.name"
-						@select.prevent.stop="select(item.id)"
-					>
-						<Checkbox
-							v-if="multiple"
-							:checked="selectedItems.some(i => i === item.id)"
-							disabled
-							:label="item.name"
-						/>
+				<CommandItem
+					v-for="item in items"
+					:key="item.id"
+					:value="item.name"
+					@select.prevent.stop="select(item.id)"
+				>
+					<Checkbox
+						v-if="multiple"
+						:checked="selectedItems.some(i => i === item.id)"
+						disabled
+						:label="item.name"
+					/>
 
-						<template v-else>
-							{{ item.name }}
-						</template>
-					</CommandItem>
-				</CommandGroup>
+					<template v-else>
+						{{ item.name }}
+					</template>
+				</CommandItem>
 			</CommandList>
 		</Command>
 	</Popover>
@@ -71,7 +69,7 @@ import { Popover } from '@/components/structures'
 import { Button, Checkbox } from '@/components/blocks'
 import { Icon, Label } from '@/components/elements'
 import { Http } from '@/plugins'
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
+import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 
 interface Item {
 	id: string
