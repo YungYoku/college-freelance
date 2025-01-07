@@ -1,37 +1,31 @@
 <template>
-	<Card
+	<div
 		:style="{
 			width
 		}"
-		class="max-w-[100%]"
+		class="max-w-[100%] border rounded-xl shadow"
 	>
-		<CardHeader
+		<div
 			v-if="title"
-			class="p-5 pb-2"
+			class="font-semibold p-5 pt-4 pb-1"
 		>
-			<CardTitle>
-				{{ title }}
-			</CardTitle>
-		</CardHeader>
+			{{ title }}
+		</div>
 
-		<CardContent class="p-5">
-			<div class="grid items-center w-full gap-2">
-				<slot/>
-			</div>
-		</CardContent>
+		<div class="grid items-center w-full gap-2 p-5">
+			<slot/>
+		</div>
 
-		<CardFooter
+		<div
 			v-if="$slots.footer"
 			class="p-5"
 		>
 			<slot name="footer"/>
-		</CardFooter>
-	</Card>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
-
 defineProps({
 	width: {
 		type: String,
