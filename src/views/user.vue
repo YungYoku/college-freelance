@@ -36,7 +36,7 @@
 					loading-width="100px"
 					size="xs"
 				>
-					Рейтинг: {{ averageRating }}
+					Рейтинг: {{ typeof averageRating === 'number' ? averageRating.toFixed(2) : averageRating }}
 				</Text>
 			</Grid>
 
