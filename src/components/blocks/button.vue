@@ -5,7 +5,7 @@
 	/>
 
 	<button
-		class=""
+		class="h-12 rounded-xl flex items-center justify-center text-sm font-medium transition-colors p-3"
 		:class="classList"
 		:type="type"
 		:disabled="disabled"
@@ -46,7 +46,7 @@ const props = defineProps({
 })
 
 const classList = computed(() => {
-	let result = 'h-12 rounded-xl flex items-center justify-center text-sm font-medium transition-colors p-3'
+	let result = ''
 
 	if (props.variant === 'default') {
 		result += ' bg-primary hover:bg-primary/90 text-primary-foreground'
