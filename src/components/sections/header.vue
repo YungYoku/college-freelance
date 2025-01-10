@@ -28,7 +28,10 @@
 					v-if="auth.isCustomer"
 					to="/new-offer"
 				>
-					<Button class="w-[48px] bg-green-600 hover:bg-green-500">
+					<Button
+						variant="positive"
+						class="w-[48px]"
+					>
 						<Icon
 							name="plus"
 							:colors="['light', 'light']"

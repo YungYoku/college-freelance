@@ -4,26 +4,23 @@
 		:class="classList"
 	/>
 
-	<Button
-		v-else
+	<button
+		class=""
 		:class="classList"
 		:type="type"
 		:disabled="disabled"
-		:variant="variant"
-		:role="role"
-		:aria-expanded="ariaExpanded"
 	>
 		<slot/>
-	</Button>
+	</button>
 </template>
 
 <script setup lang="ts">
 import { computed, PropType } from 'vue'
 
-import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/elements'
 
-type Variant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | null | undefined
+type Type = 'button' | 'submit' | 'reset'
+type Variant = 'default' | 'positive' | 'destructive' | 'outline'
 
 const props = defineProps({
 	class: {
@@ -35,8 +32,8 @@ const props = defineProps({
 		default: false
 	},
 	type: {
-		type: String,
-		default: null
+		type: String as PropType<Type>,
+		default: 'button'
 	},
 	disabled: {
 		type: Boolean,
@@ -45,19 +42,24 @@ const props = defineProps({
 	variant: {
 		type: String as PropType<Variant>,
 		default: 'default'
-	},
-	role: {
-		type: String,
-		default: null
-	},
-	ariaExpanded: {
-		type: Boolean,
-		default: false
 	}
 })
 
 const classList = computed(() => {
-	let result = 'h-12'
+	let result = 'h-12 rounded-xl flex items-center justify-center text-sm font-medium transition-colors p-3'
+
+	if (props.variant === 'default') {
+		result += ' bg-primary hover:bg-primary/90 text-primary-foreground'
+	}
+	if (props.variant === 'positive') {
+		result += ' bg-green-600 hover:bg-green-600/90'
+	}
+	if (props.variant === 'destructive') {
+		result += ' bg-destructive hover:bg-destructive/90'
+	}
+	if (props.variant === 'outline') {
+		result += ' border border-input bg-background hover:bg-accent'
+	}
 	if (props.class) {
 		result += ` ${props.class}`
 	}
