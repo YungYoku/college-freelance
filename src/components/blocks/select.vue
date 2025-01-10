@@ -16,6 +16,23 @@
 			</SelectGroup>
 		</SelectContent>
 	</Select>
+
+	<Popover v-if="false">
+		<PopoverTrigger>
+			<div class="relative w-[100%] h-12 py-2 px-3 bg-background hover:bg-accent rounded-lg border border-input font-light text-sm focus-visible:border-stone-100 outline-none disabled:opacity-50">
+				<Label v-if="value === ''">
+					{{ label }}
+				</Label>
+
+				<div>
+					123
+				</div>
+			</div>
+		</PopoverTrigger>
+		<PopoverContent>
+			Some popover
+		</PopoverContent>
+	</Popover>
 </template>
 
 <script setup lang="ts">
@@ -30,6 +47,12 @@ import {
 	SelectTrigger,
 	SelectValue
 } from '@/components/ui/select'
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from '@/components/ui/popover'
+import { Label } from '@/components/elements'
 
 interface Item {
 	value: string
@@ -42,7 +65,6 @@ const value = defineModel<string>({
 })
 
 defineProps({
-
 	label: {
 		type: String,
 		default: ''
