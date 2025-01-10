@@ -25,8 +25,8 @@
 				:key="offer.id"
 				:job-offer="offer"
 				:loading="loading"
-				show-remove
-				show-status
+				showing-remove
+				showing-status
 				@remove="remove"
 			/>
 		</template>

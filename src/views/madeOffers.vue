@@ -24,10 +24,10 @@
 				:key="offer.id"
 				:job-offer="offer"
 				:loading="loading"
-				show-proposals
-				show-chat
-				show-remove
-				show-status
+				showing-proposals
+				showing-chat
+				showing-remove
+				showing-status
 				@show-proposals="showProposals"
 				@show-chat="openChat"
 				@remove="showDeleteConfirmation"

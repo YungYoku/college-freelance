@@ -24,8 +24,8 @@
 				:key="offer.id"
 				:job-offer="offer"
 				:loading="loading"
-				show-chat
-				show-status
+				showing-chat
+				showing-status
 				@show-chat="openChat"
 			/>
 		</template>

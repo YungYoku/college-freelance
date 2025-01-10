@@ -1,7 +1,7 @@
 <template>
 	<Island class="job-offer bg-primary-foreground overflow-hidden">
 		<div class="job-offer__actions">
-			<template v-if="jobOffer.executor && showChat">
+			<template v-if="jobOffer.executor && showingChat">
 				<Skeleton
 					v-if="loading"
 					class="h-6 w-[24px]"
@@ -17,7 +17,7 @@
 				</div>
 			</template>
 
-			<template v-else-if="jobOffer.proposals && showProposals">
+			<template v-else-if="jobOffer.proposals && showingProposals">
 				<Skeleton
 					v-if="loading"
 					class="h-6 w-[24px]"
@@ -50,7 +50,7 @@
 					/>
 				</div>
 			</template>
-			<template v-if="showRemove && jobOffer.status === 'created'">
+			<template v-if="showingRemove && jobOffer.status === 'created'">
 				<Skeleton
 					v-if="loading"
 					class="h-6 w-[24px]"
@@ -96,7 +96,7 @@
 			<Badge v-if="jobOffer.expand?.discipline?.name">
 				{{ jobOffer.expand.discipline.name }}
 			</Badge>
-			<Badge v-if="showStatus && status">
+			<Badge v-if="showingStatus && status">
 				{{ status }}
 			</Badge>
 		</div>
@@ -150,19 +150,19 @@ const props = defineProps({
 		type: Object as PropType<IJobOffer>,
 		required: true
 	},
-	showProposals: {
+	showingProposals: {
 		type: Boolean,
 		default: false
 	},
-	showChat: {
+	showingChat: {
 		type: Boolean,
 		default: false
 	},
-	showRemove: {
+	showingRemove: {
 		type: Boolean,
 		default: false
 	},
-	showStatus: {
+	showingStatus: {
 		type: Boolean,
 		default: false
 	},
