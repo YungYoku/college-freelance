@@ -5,6 +5,7 @@
 	/>
 
 	<button
+		v-else
 		class="h-12 rounded-xl flex items-center justify-center text-sm font-medium transition-colors p-3"
 		:class="classList"
 		:type="type"
