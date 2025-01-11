@@ -238,5 +238,5 @@ const loadData = async () => {
 	loading.value = false
 	searchStore.setLoading(false)
 }
-loadData()
+watch(() => form.entity.value, loadData, { immediate: true })
 </script>

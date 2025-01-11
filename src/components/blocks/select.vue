@@ -1,58 +1,52 @@
 <template>
-	<Select v-model="value">
-		<SelectTrigger class="h-12">
-			<SelectValue :placeholder="label"/>
-		</SelectTrigger>
-		<SelectContent>
-			<SelectGroup>
-				<SelectLabel>{{ label }}</SelectLabel>
-				<SelectItem
-					v-for="item in items"
-					:key="item.value"
-					:value="item.value"
-				>
-					{{ item.text }}
-				</SelectItem>
-			</SelectGroup>
-		</SelectContent>
-	</Select>
-
-	<Popover v-if="false">
+	<Popover>
 		<PopoverTrigger>
 			<div class="relative w-[100%] h-12 py-2 px-3 bg-background hover:bg-accent rounded-lg border border-input font-light text-sm focus-visible:border-stone-100 outline-none disabled:opacity-50">
-				<Label v-if="value === ''">
+				<Label v-if="showedValue">
 					{{ label }}
 				</Label>
 
-				<div>
-					123
+				<div
+					class="w-[100%] h-[100%] text-sm font-semibold flex items-center justify-start"
+					:class="{
+						'pt-3': showedValue,
+						'text-muted-foreground': !showedValue
+					}"
+				>
+					{{ showedValue ?? label }}
 				</div>
 			</div>
 		</PopoverTrigger>
-		<PopoverContent>
-			Some popover
+
+		<PopoverContent class="p-1 flex flex-col gap-1">
+			<PopoverClose
+				v-for="item in items"
+				:key="item.value"
+				class="w-full flex items-center justify-between cursor-pointer rounded-sm p-2 text-sm hover:bg-accent"
+				:class="{
+					'bg-background': value !== item.value,
+					'bg-accent': value === item.value
+				}"
+				@click="value = item.value"
+			>
+				{{ item.text }}
+
+				<Icon
+					v-if="value === item.value"
+					name="check"
+					size="xs"
+				/>
+			</PopoverClose>
 		</PopoverContent>
 	</Popover>
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue'
+import { computed, PropType } from 'vue'
+import { PopoverClose } from 'radix-vue'
 
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectLabel,
-	SelectTrigger,
-	SelectValue
-} from '@/components/ui/select'
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from '@/components/ui/popover'
-import { Label } from '@/components/elements'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Label, Icon } from '@/components/elements'
 
 interface Item {
 	value: string
@@ -64,7 +58,7 @@ const value = defineModel<string>({
 	default: ''
 })
 
-defineProps({
+const props = defineProps({
 	label: {
 		type: String,
 		default: ''
@@ -73,5 +67,9 @@ defineProps({
 		type: Array as PropType<Array<Item>>,
 		default: () => ([])
 	}
+})
+
+const showedValue = computed(() => {
+	return props.items.find(item => item.value === value.value)?.text ?? null
 })
 </script>
