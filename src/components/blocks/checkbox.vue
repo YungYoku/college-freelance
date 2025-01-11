@@ -2,17 +2,17 @@
 	<Grid
 		:columns="['16px', 1]"
 		ver-align="center"
-		@click="value = !value"
+		@click="toggle"
 	>
 		<div
 			class="w-[16px] h-[16px] active:bg-accent-1 rounded-md border border-primary outline-none flex items-center justify-center cursor-pointer"
 			:class="{
-				'bg-accent': !value,
-				'bg-primary': value
+				'bg-accent': !(value ?? checked),
+				'bg-primary': (value ?? checked)
 			}"
 		>
 			<Icon
-				v-if="value"
+				v-if="value ?? checked"
 				name="check"
 				size="xs"
 				:colors="['dark', 'light']"
@@ -48,6 +48,10 @@ withDefaults(defineProps<Props>(), {
 
 const value = defineModel<boolean>({
 	type: Boolean,
-	default: false
+	default: null
 })
+
+const toggle = () => {
+	value.value = !value.value
+}
 </script>

@@ -19,24 +19,34 @@
 		</PopoverTrigger>
 
 		<PopoverContent class="p-1 flex flex-col gap-1">
-			<PopoverClose
+			<component
+				:is="multiple ? 'div' : PopoverClose"
 				v-for="item in items"
 				:key="item.value"
 				class="w-full flex items-center justify-between cursor-pointer rounded-sm p-2 text-sm hover:bg-accent"
 				:class="{
 					'bg-background': value !== item.value,
-					'bg-accent': value === item.value
+					'bg-accent': value === item.value && !multiple
 				}"
-				@click="value = item.value"
+				@click="chooseValue(item)"
 			>
-				{{ item.text }}
-
-				<Icon
-					v-if="value === item.value"
-					name="check"
-					size="xs"
+				<Checkbox
+					v-if="multiple"
+					:checked="value.includes(item.value)"
+					disabled
+					:label="item.text"
 				/>
-			</PopoverClose>
+
+				<template v-else>
+					{{ item.text }}
+
+					<Icon
+						v-if="value === item.value"
+						name="check"
+						size="xs"
+					/>
+				</template>
+			</component>
 		</PopoverContent>
 	</Popover>
 </template>
@@ -46,6 +56,7 @@ import { computed, PropType } from 'vue'
 import { PopoverClose } from 'radix-vue'
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Checkbox } from '@/components/blocks'
 import { Label, Icon } from '@/components/elements'
 
 interface Item {
@@ -53,8 +64,8 @@ interface Item {
 	text: string
 }
 
-const value = defineModel<string>({
-	type: String,
+const value = defineModel<string | Array<string>>({
+	type: [String, Array],
 	default: ''
 })
 
@@ -66,10 +77,31 @@ const props = defineProps({
 	items: {
 		type: Array as PropType<Array<Item>>,
 		default: () => ([])
+	},
+	multiple: {
+		type: Boolean,
+		default: false
 	}
 })
 
+const validationError = new Error('Select multiple, but value is not an array')
+
 const showedValue = computed(() => {
+	if (props.multiple) {
+		if (Array.isArray(value.value) === false) throw validationError
+
+		return props.items.find(item => item.value === value.value[0])?.text ?? null
+	}
 	return props.items.find(item => item.value === value.value)?.text ?? null
 })
+
+const chooseValue = (item: Item) => {
+	if (props.multiple) {
+		if (Array.isArray(value.value) === false) throw validationError
+
+		value.value.push(item.value)
+	} else {
+		value.value = item.value
+	}
+}
 </script>
