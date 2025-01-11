@@ -99,7 +99,11 @@ const chooseValue = (item: Item) => {
 	if (props.multiple) {
 		if (Array.isArray(value.value) === false) throw validationError
 
-		value.value.push(item.value)
+		if (value.value.includes(item.value)) {
+			value.value = value.value.filter(val => val !== item.value)
+		} else {
+			value.value.push(item.value)
+		}
 	} else {
 		value.value = item.value
 	}
