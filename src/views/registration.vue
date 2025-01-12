@@ -53,6 +53,7 @@
 				:error="form.role.error"
 				:items="roleItems"
 				label="Роль"
+				:clearable="false"
 			/>
 
 			<Button
@@ -115,8 +116,8 @@ const toast = useToast()
 const loading = ref(false)
 
 const roleItems = [
-	{ value: 'customer', text: 'Заказчик' },
-	{ value: 'executor', text: 'Исполнитель' }
+	{ id: 'customer', name: 'Заказчик' },
+	{ id: 'executor', name: 'Исполнитель' }
 ]
 
 const refCode = ref('')

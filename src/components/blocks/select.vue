@@ -7,7 +7,7 @@
 				</Label>
 
 				<div
-					class="w-[100%] h-[100%] text-sm font-semibold flex items-center justify-start"
+					class="w-[100%] h-[100%] text-sm font-medium flex items-center justify-start"
 					:class="{
 						'pt-3': showedValue,
 						'text-muted-foreground': !showedValue
@@ -15,33 +15,45 @@
 				>
 					{{ showedValue ?? label }}
 				</div>
+
+				<Icon
+					v-if="clearable && value.length > 0"
+					class="absolute right-3 top-3.5 cursor-pointer"
+					name="close"
+					size="s"
+					@click.prevent.stop="clear"
+				/>
 			</div>
 		</PopoverTrigger>
 
 		<PopoverContent class="p-1 flex flex-col gap-1">
+			<div v-if="searchable">
+				search
+			</div>
+
 			<component
 				:is="multiple ? 'div' : PopoverClose"
 				v-for="item in items"
-				:key="item.value"
+				:key="item.id"
 				class="w-full flex items-center justify-between cursor-pointer rounded-sm p-2 text-sm hover:bg-accent"
 				:class="{
-					'bg-background': value !== item.value,
-					'bg-accent': value === item.value && !multiple
+					'bg-background': value !== item.id,
+					'bg-accent': value === item.id && !multiple
 				}"
 				@click="chooseValue(item)"
 			>
 				<Checkbox
 					v-if="multiple"
-					:checked="value.includes(item.value)"
+					:checked="value.includes(item.id)"
 					disabled
-					:label="item.text"
+					:label="item.name"
 				/>
 
 				<template v-else>
-					{{ item.text }}
+					{{ item.name }}
 
 					<Icon
-						v-if="value === item.value"
+						v-if="value === item.id"
 						name="check"
 						size="xs"
 					/>
@@ -60,8 +72,8 @@ import { Checkbox } from '@/components/blocks'
 import { Label, Icon } from '@/components/elements'
 
 interface Item {
-	value: string
-	text: string
+	id: string
+	name: string
 }
 
 const value = defineModel<string | Array<string>>({
@@ -81,31 +93,56 @@ const props = defineProps({
 	multiple: {
 		type: Boolean,
 		default: false
+	},
+	clearable: {
+		type: Boolean,
+		default: true
+	},
+	searchable: {
+		type: Boolean,
+		default: false
 	}
 })
 
 const validationError = new Error('Select multiple, but value is not an array')
 
 const showedValue = computed(() => {
-	if (props.multiple) {
-		if (Array.isArray(value.value) === false) throw validationError
+	const _value = value.value
 
-		return props.items.find(item => item.value === value.value[0])?.text ?? null
+	if (props.multiple) {
+		if (Array.isArray(_value) === false) throw validationError
+
+		const getItemName = (id: string) => {
+			return props.items.find((item) => item.id === id)?.name ?? ''
+		}
+
+		const items = _value.length > 7 ? _value.slice(0, 7) : _value
+		const result = items.reduce((acc, item) => `${acc}, ${getItemName(item).trim()}`, '').slice(2)
+		const extra = _value.length > 7 ? `, ... (${_value.length})` : ` (${_value.length})`
+		return `${result}${extra}`
 	}
-	return props.items.find(item => item.value === value.value)?.text ?? null
+	return props.items.find(item => item.id === _value)?.name ?? null
 })
 
 const chooseValue = (item: Item) => {
 	if (props.multiple) {
 		if (Array.isArray(value.value) === false) throw validationError
 
-		if (value.value.includes(item.value)) {
-			value.value = value.value.filter(val => val !== item.value)
+		if (value.value.includes(item.id)) {
+			value.value = value.value.filter(val => val !== item.id)
 		} else {
-			value.value.push(item.value)
+			value.value.push(item.id)
 		}
 	} else {
-		value.value = item.value
+		value.value = item.id
+	}
+}
+
+const clear = () => {
+	if (props.multiple && Array.isArray(value.value)) {
+		value.value = []
+	} else {
+		value.value = ''
 	}
 }
 </script>
