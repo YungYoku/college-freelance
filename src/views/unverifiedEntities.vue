@@ -104,8 +104,8 @@ const form = Form<SearchForm>({
 	tutoring: false
 })
 const entitiesItems = [
-	{ value: 'offer', text: 'Объявление' },
-	{ value: 'executor', text: 'Исполнитель' }
+	{ id: 'offer', name: 'Объявление' },
+	{ id: 'executor', name: 'Исполнитель' }
 ]
 
 const loading = ref(true)
