@@ -38,7 +38,7 @@
 			/>
 
 			<Icon
-				v-else-if="filled"
+				v-else-if="clearable && filled"
 				class="absolute right-3 top-3.5 cursor-pointer"
 				name="close"
 				size="s"
@@ -61,7 +61,8 @@ interface Props {
 	type?: 'text' | 'password' | 'email' | 'file' | 'number'
 	icon?: string | null
 	autocomplete?: 'off' | 'on' | 'new-password' | 'username',
-	cursor?: 'text' | 'pointer'
+	cursor?: 'text' | 'pointer',
+	clearable?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -72,7 +73,8 @@ const props = withDefaults(defineProps<Props>(), {
 	type: 'text',
 	icon: null,
 	autocomplete: 'off',
-	cursor: 'text'
+	cursor: 'text',
+	clearable: true
 })
 
 const value = defineModel<string | number>({

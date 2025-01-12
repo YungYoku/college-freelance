@@ -26,16 +26,19 @@
 			</div>
 		</PopoverTrigger>
 
-		<PopoverContent class="p-1 flex flex-col gap-1">
-			<div v-if="searchable">
-				search
-			</div>
+		<PopoverContent class="max-h-[400px] p-1 flex flex-col gap-1 overflow-auto">
+			<Input
+				v-if="searchable"
+				v-model="search"
+				:label="label"
+				:clearable="false"
+			/>
 
 			<component
 				:is="multiple ? 'div' : PopoverClose"
 				v-for="item in items"
 				:key="item.id"
-				class="w-full flex items-center justify-between cursor-pointer rounded-sm p-2 text-sm hover:bg-accent"
+				class="w-full min-h-8 h-8 flex items-center justify-between cursor-pointer rounded-sm p-2 text-sm hover:bg-accent whitespace-nowrap overflow-hidden"
 				:class="{
 					'bg-background': value !== item.id,
 					'bg-accent': value === item.id && !multiple
@@ -67,9 +70,9 @@
 import { computed, PropType } from 'vue'
 import { PopoverClose } from 'radix-vue'
 
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Checkbox } from '@/components/blocks'
+import { Input, Checkbox } from '@/components/blocks'
 import { Label, Icon } from '@/components/elements'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 interface Item {
 	id: string
@@ -78,6 +81,11 @@ interface Item {
 
 const value = defineModel<string | Array<string>>({
 	type: [String, Array],
+	default: ''
+})
+
+const search = defineModel<string>('search', {
+	type: String,
 	default: ''
 })
 
