@@ -13,7 +13,7 @@
 		class="job-search"
 		:disabled="searchStore.loading"
 		label="Поиск"
-		:icon="isSearchPage ? null : 'search'"
+		icon="search"
 		@action="search"
 		@keyup.enter="search"
 	/>
