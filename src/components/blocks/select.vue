@@ -26,42 +26,47 @@
 			</div>
 		</PopoverTrigger>
 
-		<PopoverContent class="max-h-[400px] p-1 flex flex-col gap-1 overflow-auto">
+		<PopoverContent class="max-h-[360px] p-0 flex flex-col rounded-xl overflow-hidden">
 			<Input
 				v-if="searchable"
 				v-model="search"
 				:label="label"
 				:clearable="false"
+				variant="plain"
 			/>
 
-			<component
-				:is="multiple ? 'div' : PopoverClose"
-				v-for="item in items"
-				:key="item.id"
-				class="w-full min-h-8 h-8 flex items-center justify-between cursor-pointer rounded-sm p-2 text-sm hover:bg-accent whitespace-nowrap overflow-hidden"
-				:class="{
-					'bg-background': value !== item.id,
-					'bg-accent': value === item.id && !multiple
-				}"
-				@click="chooseValue(item)"
-			>
-				<Checkbox
-					v-if="multiple"
-					:checked="value.includes(item.id)"
-					disabled
-					:label="item.name"
-				/>
+			<div class="w-full h-[1px] min-h-[1px] bg-accent"/>
 
-				<template v-else>
-					{{ item.name }}
-
-					<Icon
-						v-if="value === item.id"
-						name="check"
-						size="xs"
+			<div class="p-1 flex flex-col gap-1 overflow-auto">
+				<component
+					:is="multiple ? 'div' : PopoverClose"
+					v-for="item in items"
+					:key="item.id"
+					class="w-full min-h-8 h-8 flex items-center justify-between cursor-pointer rounded-sm p-2 text-sm hover:bg-accent whitespace-nowrap overflow-hidden"
+					:class="{
+						'bg-background': value !== item.id,
+						'bg-accent': value === item.id && !multiple
+					}"
+					@click="chooseValue(item)"
+				>
+					<Checkbox
+						v-if="multiple"
+						:checked="value.includes(item.id)"
+						disabled
+						:label="item.name"
 					/>
-				</template>
-			</component>
+
+					<template v-else>
+						{{ item.name }}
+
+						<Icon
+							v-if="value === item.id"
+							name="check"
+							size="xs"
+						/>
+					</template>
+				</component>
+			</div>
 		</PopoverContent>
 	</Popover>
 </template>
@@ -119,12 +124,14 @@ const showedValue = computed(() => {
 
 	if (props.multiple) {
 		if (Array.isArray(_value) === false) throw validationError
+		const items = _value.length > 7 ? _value.slice(0, 7) : _value
+
+		if (items.length === 0) return null
 
 		const getItemName = (id: string) => {
 			return props.items.find((item) => item.id === id)?.name ?? ''
 		}
 
-		const items = _value.length > 7 ? _value.slice(0, 7) : _value
 		const result = items.reduce((acc, item) => `${acc}, ${getItemName(item).trim()}`, '').slice(2)
 		const extra = _value.length > 7 ? `, ... (${_value.length})` : ` (${_value.length})`
 		return `${result}${extra}`

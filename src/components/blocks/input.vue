@@ -12,9 +12,13 @@
 
 			<input
 				v-model="value"
-				class="w-[100%] h-12 py-2 pl-3 pr-10 bg-background hover:bg-accent rounded-lg border border-input font-light text-sm focus-visible:border-stone-100 outline-none disabled:opacity-50"
+				class="w-[100%] h-12 py-2 pl-3 pr-10 bg-background hover:bg-accent font-light text-sm outline-none disabled:opacity-50"
 				:class="[`cursor-${cursor}`, {
-					'pt-4': !placeholder
+					'pt-4': !placeholder,
+					'border': variant !== 'plain',
+					'border-input': variant !== 'plain',
+					'focus-visible:border-stone-100': variant !== 'plain',
+					'rounded-lg': variant !== 'plain'
 				}]"
 				:placeholder
 				:disabled
@@ -62,7 +66,8 @@ interface Props {
 	icon?: string | null
 	autocomplete?: 'off' | 'on' | 'new-password' | 'username',
 	cursor?: 'text' | 'pointer',
-	clearable?: boolean
+	clearable?: boolean,
+	variant?: 'default' | 'plain'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -74,7 +79,8 @@ const props = withDefaults(defineProps<Props>(), {
 	icon: null,
 	autocomplete: 'off',
 	cursor: 'text',
-	clearable: true
+	clearable: true,
+	variant: 'default'
 })
 
 const value = defineModel<string | number>({
