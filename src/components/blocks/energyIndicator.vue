@@ -1,44 +1,29 @@
 <template>
-	<DropdownMenu v-if="auth.isLoggedIn">
-		<DropdownMenuTrigger as-child>
-			<Button variant="outline">
-				<Icon
-					name="energy"
-					class="mr-1"
-				/>
-				{{ auth.user.energy }}
-			</Button>
-		</DropdownMenuTrigger>
-		<DropdownMenuContent class="w-46">
-			<Button
-				v-if="auth.isRewardClaimable"
-				variant="outline"
-				@click="claim"
-			>
-				Получить 5 энергии!
-			</Button>
-
-			<DropdownMenuItem v-else>
-				Энергию можно будет получить завтра!
-			</DropdownMenuItem>
-		</DropdownMenuContent>
-	</DropdownMenu>
+	<Dropdown
+		v-if="auth.isLoggedIn"
+		:items
+	>
+		<Button variant="outline">
+			<Icon
+				name="energy"
+				class="mr-1"
+			/>
+			{{ auth.user.energy }}
+		</Button>
+	</Dropdown>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+
 import { useAuthStore } from '@/stores/auth'
 import { useToast } from '@/stores/toast'
 
 import { Button } from '@/components/blocks'
 import { Icon } from '@/components/elements'
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
 import { Datetime, Http } from '@/plugins'
 import { IUser } from '@/interfaces/User.ts'
+import { Dropdown } from '@/components/structures'
 
 const auth = useAuthStore()
 
@@ -54,4 +39,18 @@ const claim = async () => {
 			toast.set(`Не прошло достаточно времени. Последняя дата получения энергии: ${Datetime.get(auth.user.checked_at)}`)
 		})
 }
+
+const items = computed(() => [
+	[
+		{
+			text: 'Получить 5 энергии!',
+			action: claim,
+			can: auth.isRewardClaimable
+		},
+		{
+			text: 'Энергию можно будет получить завтра!',
+			can: !auth.isRewardClaimable
+		},
+	],
+])
 </script>
