@@ -58,9 +58,8 @@ import { useAuthStore } from '@/stores/auth.ts'
 
 import { Grid } from '@/components/structures'
 import { ThemeColorToggle, UserDropdown, JobSearch, Notifications, EnergyIndicator, Button } from '@/components/blocks'
-import { Logo } from '@/components/elements'
+import { Logo, Icon } from '@/components/elements'
 import { Screen } from '@/plugins'
-import Icon from '@/components/elements/icon.vue'
 
 const auth = useAuthStore()
 

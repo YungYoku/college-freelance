@@ -23,9 +23,6 @@ interface ConnectOptions<T> {
 class Http {
 	api = import.meta.env.VITE_API
 
-	constructor() {
-	}
-
 	static inst: Http | null = null
 	static getInst() {
 		return Http.inst || (Http.inst = new Http())
