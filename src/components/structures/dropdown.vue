@@ -10,7 +10,7 @@
 
 		<div
 			v-if="contentShowed"
-			class="w-[200px] max-h-[500px] absolute right-0 top-14 bg-background border border-input p-1 rounded-xl flex flex-col gap-1 overflow-auto"
+			class="w-[200px] max-h-[500px] absolute right-0 top-14 bg-background border border-input p-1 rounded-xl flex flex-col gap-1 overflow-auto z-10"
 		>
 			<template
 				v-for="(item, index) in items"
