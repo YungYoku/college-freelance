@@ -5,9 +5,7 @@ export interface State {
     removingTimeout: ReturnType<typeof setTimeout> | null
 }
 
-export const useToast = defineStore({
-	id: 'toast',
-
+export const useToast = defineStore('toast', {
 	state: (): State => <State>({
 		text: '',
 		removingTimeout: null

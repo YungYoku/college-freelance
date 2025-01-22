@@ -7,9 +7,7 @@ export interface State {
     token: string
 }
 
-export const useAuthStore = defineStore({
-	id: 'auth',
-
+export const useAuthStore = defineStore('auth', {
 	state: (): State => <State>({
 		user: { ...emptyUser },
 
