@@ -1,12 +1,12 @@
 <template>
 	<Popover>
 		<PopoverTrigger as-child>
-			<div class="relative">
+			<div class="relative cursor-pointer">
 				<slot name="trigger"/>
 			</div>
 		</PopoverTrigger>
 
-		<PopoverContent class="w-auto p-0">
+		<PopoverContent class="w-auto max-h-[360px] p-0 flex flex-col rounded-xl overflow-hidden">
 			<slot/>
 		</PopoverContent>
 	</Popover>

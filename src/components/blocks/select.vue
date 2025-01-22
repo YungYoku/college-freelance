@@ -1,6 +1,6 @@
 <template>
 	<Popover>
-		<PopoverTrigger>
+		<template #trigger>
 			<div class="relative w-[100%] h-12 py-2 px-3 bg-background hover:bg-accent rounded-lg border border-input font-light text-sm focus-visible:border-stone-100 outline-none disabled:opacity-50">
 				<Label v-if="showedValue">
 					{{ label }}
@@ -24,50 +24,48 @@
 					@click.prevent.stop="clear"
 				/>
 			</div>
-		</PopoverTrigger>
+		</template>
 
-		<PopoverContent class="max-h-[360px] p-0 flex flex-col rounded-xl overflow-hidden">
-			<Input
-				v-if="searchable"
-				v-model="search"
-				:label="label"
-				:clearable="false"
-				variant="plain"
-			/>
+		<Input
+			v-if="searchable"
+			v-model="search"
+			:label="label"
+			:clearable="false"
+			variant="plain"
+		/>
 
-			<div class="w-full h-[1px] min-h-[1px] bg-accent"/>
+		<div class="w-full h-[1px] min-h-[1px] bg-accent"/>
 
-			<div class="p-1 flex flex-col gap-1 overflow-auto">
-				<component
-					:is="multiple ? 'div' : PopoverClose"
-					v-for="item in items"
-					:key="item.id"
-					class="w-full min-h-8 h-8 flex items-center justify-between cursor-pointer rounded-sm p-2 text-sm hover:bg-accent whitespace-nowrap overflow-hidden"
-					:class="{
-						'bg-background': value !== item.id,
-						'bg-accent': value === item.id && !multiple
-					}"
-					@click="chooseValue(item)"
-				>
-					<Checkbox
-						v-if="multiple"
-						:checked="value.includes(item.id)"
-						disabled
-						:label="item.name"
+		<div class="p-1 flex flex-col gap-1 overflow-auto">
+			<component
+				:is="multiple ? 'div' : PopoverClose"
+				v-for="item in items"
+				:key="item.id"
+				class="w-full min-h-8 h-8 flex items-center justify-between cursor-pointer rounded-sm p-2 text-sm hover:bg-accent whitespace-nowrap overflow-hidden"
+				:class="{
+					'bg-background': value !== item.id,
+					'bg-accent': value === item.id && !multiple
+				}"
+				@click="chooseValue(item)"
+			>
+				<Checkbox
+					v-if="multiple"
+					:checked="value.includes(item.id)"
+					disabled
+					:label="item.name"
+				/>
+
+				<template v-else>
+					{{ item.name }}
+
+					<Icon
+						v-if="value === item.id"
+						name="check"
+						size="xs"
 					/>
-
-					<template v-else>
-						{{ item.name }}
-
-						<Icon
-							v-if="value === item.id"
-							name="check"
-							size="xs"
-						/>
-					</template>
-				</component>
-			</div>
-		</PopoverContent>
+				</template>
+			</component>
+		</div>
 	</Popover>
 </template>
 
@@ -75,9 +73,9 @@
 import { computed, PropType } from 'vue'
 import { PopoverClose } from 'radix-vue'
 
+import { Popover } from '@/components/structures'
 import { Input, Checkbox } from '@/components/blocks'
 import { Label, Icon } from '@/components/elements'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 interface Item {
 	id: string
