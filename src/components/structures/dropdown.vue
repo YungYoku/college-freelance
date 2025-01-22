@@ -26,7 +26,7 @@
 							v-if="child.can !== false"
 							class="block w-full h-full text-sm hover:bg-accent cursor-pointer p-2 rounded-md"
 							:to="child.to"
-							@click.stop="child.action; contentShowed = false"
+							@click.stop="() => { child.action?.(); contentShowed = false }"
 						>
 							<slot
 								name="item"
