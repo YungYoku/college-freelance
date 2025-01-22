@@ -66,13 +66,13 @@ class Http {
 		return result.slice(0, -1)
 	}
 
-	async get<T>(_url: string, query: Query | null = null): Promise<T> {
+	async get<T>(url: string, query: Query | null = null): Promise<T> {
 		const auth = useAuthStore()
 
-		let url = _url
-		if (query) url += this.getFormatedQuery(query)
+		let _url = url
+		if (query) _url += this.getFormatedQuery(query)
 
-		return fetch(this.api + url, {
+		return fetch(this.api + _url, {
 			method: 'GET',
 			headers: this.getHeaders(auth.token)
 		})
@@ -93,15 +93,15 @@ class Http {
 			})
 	}
 
-	async post<T>(_url: string, _body: object | FormData = {}, query: Query | null = null): Promise<T> {
+	async post<T>(url: string, _body: object | FormData = {}, query: Query | null = null): Promise<T> {
 		const auth = useAuthStore()
 
-		let url = _url
-		if (query) url += this.getFormatedQuery(query)
+		let _url = url
+		if (query) _url += this.getFormatedQuery(query)
 
 		const body = _body instanceof FormData ? _body : JSON.stringify(_body)
 
-		return fetch(this.api + url, {
+		return fetch(this.api + _url, {
 			method: 'POST',
 			headers: this.getHeaders(auth.token, {
 				isFormData: _body instanceof FormData
@@ -125,15 +125,15 @@ class Http {
 			})
 	}
 
-	async patch<T>(_url: string, _body: object | FormData = {}, query: Query | null = null): Promise<T> {
+	async patch<T>(url: string, _body: object | FormData = {}, query: Query | null = null): Promise<T> {
 		const auth = useAuthStore()
 
-		let url = _url
-		if (query) url += this.getFormatedQuery(query)
+		let _url = url
+		if (query) _url += this.getFormatedQuery(query)
 
 		const body = _body instanceof FormData ? _body : JSON.stringify(_body)
 
-		return fetch(this.api + url, {
+		return fetch(this.api + _url, {
 			method: 'PATCH',
 			headers: this.getHeaders(auth.token, {
 				isFormData: _body instanceof FormData
@@ -157,13 +157,13 @@ class Http {
 			})
 	}
 
-	async delete(_url: string, query: Query | null = null): Promise<Response> {
+	async delete(url: string, query: Query | null = null): Promise<Response> {
 		const auth = useAuthStore()
 
-		let url = _url
-		if (query) url += this.getFormatedQuery(query)
+		let _url = url
+		if (query) _url += this.getFormatedQuery(query)
 
-		return fetch(this.api + url, {
+		return fetch(this.api + _url, {
 			method: 'DELETE',
 			headers: this.getHeaders(auth.token)
 		})

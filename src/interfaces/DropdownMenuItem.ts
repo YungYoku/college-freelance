@@ -3,4 +3,6 @@ export interface IDropdownMenuItem {
 	to?: string
 	can?: boolean
 	action?: () => void
+	created?: string
+	checked?: boolean
 }

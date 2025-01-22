@@ -13,25 +13,26 @@
 			/>
 		</Button>
 
-		<template #item="notification">
+		<template #item="{item}">
 			<Grid
 				:columns="1"
 				vertical
 				gap="xs"
 			>
 				<Text size="xs">
-					{{ notification.text }}
+					{{ item.text }}
 				</Text>
 
 				<Text
+					v-if="item?.created"
 					size="xs"
 					class="text-xs"
 				>
-					{{ $date(new Date(notification?.created), 'datetime') }}
+					{{ $date(new Date(item.created), 'datetime') }}
 				</Text>
 
 				<span
-					v-if="!notification.checked"
+					v-if="!item.checked"
 					class="bg-red-500 w-2 h-2 absolute right-2 top-2 rounded-full"
 				/>
 			</Grid>

@@ -19,6 +19,7 @@ const loadUserInfo = async () => {
 	if (auth.isLoggedIn) {
 		Http
 			.post<IUserRefresh>('/collections/users/auth-refresh', {
+			}, {
 				expand: ['notifications']
 			})
 			.then(({ token, record }) => {

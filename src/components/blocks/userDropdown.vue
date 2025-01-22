@@ -111,7 +111,7 @@ const items = computed(() => [
 	],
 	[
 		{
-			text: 'Тема: ' + isLight.value ? 'светлая' : 'темная',
+			text: 'Тема: ' + (isLight.value ? 'светлая' : 'темная'),
 			action: toggle
 		},
 		{

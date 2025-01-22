@@ -1,56 +1,80 @@
 <template>
-	<DropdownMenu>
-		<DropdownMenuTrigger as-child>
+	<div
+		ref="popover"
+		class="dropdown relative"
+		@click="contentShowed = true"
+	>
+		<div class="dropdown__trigger">
 			<slot/>
-		</DropdownMenuTrigger>
-		<DropdownMenuContent class="w-56">
+		</div>
+
+		<div
+			v-if="contentShowed"
+			class="w-[200px] max-h-[500px] absolute right-0 top-14 bg-background border border-input p-1 rounded-xl flex flex-col gap-1 overflow-auto"
+		>
 			<template
 				v-for="(item, index) in items"
 				:key="index"
 			>
-				<DropdownMenuGroup>
+				<div class="dropdown__group">
 					<template
 						v-for="child in item"
 						:key="child.text"
 					>
-						<DropdownMenuItem v-if="child.can !== false">
-							<component
-								:is="child.to ? 'router-link' : 'div'"
-								class="block w-full h-full"
-								:to="child.to"
-								@click="child.action"
+						<component
+							:is="child.to ? 'router-link' : 'div'"
+							v-if="child.can !== false"
+							class="block w-full h-full text-sm hover:bg-accent cursor-pointer p-2 rounded-md"
+							:to="child.to"
+							@click.stop="child.action; contentShowed = false"
+						>
+							<slot
+								name="item"
+								:item="child"
 							>
-								<slot :item="child">
-									{{ child.text }}
-								</slot>
-							</component>
-						</DropdownMenuItem>
+								{{ child.text }}
+							</slot>
+						</component>
 					</template>
-				</DropdownMenuGroup>
+				</div>
 
-				<DropdownMenuSeparator v-if="index !== items.length - 1"/>
+				<div
+					v-if="index !== items.length - 1"
+					class="w-full h-[1px] bg-muted"
+				/>
 			</template>
-		</DropdownMenuContent>
-	</DropdownMenu>
+
+			<div
+				v-if="items.length === 0"
+				class="block w-full h-full text-sm p-2 cursor-default rounded-sm"
+			>
+				Пусто
+			</div>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue'
+import { ref, PropType, useTemplateRef } from 'vue'
 
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { IDropdownMenuItem } from '@/interfaces/DropdownMenuItem.ts'
 
 defineProps({
 	items: {
 		type: Array as PropType<Array<Array<IDropdownMenuItem>>>,
 		default: () => ([])
+	}
+})
+
+const contentShowed = ref(false)
+
+const popover = useTemplateRef('popover')
+document.addEventListener('click', (event) => {
+	if (!popover.value) return
+
+	const withinBoundaries = event.composedPath().includes(popover.value)
+	if (!withinBoundaries) {
+		contentShowed.value = false
 	}
 })
 </script>
