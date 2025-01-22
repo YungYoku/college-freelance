@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, PropType, useTemplateRef } from 'vue'
+import { ref, PropType, useTemplateRef, onMounted, onUnmounted } from 'vue'
 
 import { IDropdownMenuItem } from '@/interfaces/DropdownMenuItem.ts'
 
@@ -69,12 +69,14 @@ defineProps({
 const contentShowed = ref(false)
 
 const popover = useTemplateRef('popover')
-document.addEventListener('click', (event) => {
+const handleClick = (e: MouseEvent) => {
 	if (!popover.value) return
 
-	const withinBoundaries = event.composedPath().includes(popover.value)
+	const withinBoundaries = e.composedPath().includes(popover.value)
 	if (!withinBoundaries) {
 		contentShowed.value = false
 	}
-})
+}
+onMounted(() => document.addEventListener('click', handleClick))
+onUnmounted(() => document.addEventListener('click', handleClick))
 </script>

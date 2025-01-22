@@ -23,12 +23,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, useSlots } from 'vue'
+import { ref, reactive, computed } from 'vue'
 
 const emit = defineEmits(['apply'])
 
-const slots = useSlots()
-const steps = reactive(Object.keys(slots).filter((slot) => slot !== 'footer'))
+const slots = defineSlots<{
+	[key: string]: string
+}>()
+const steps = reactive<Array<string>>(Object.keys(slots).filter((slot) => slot !== 'footer'))
 const currentStep = ref(1)
 
 defineProps({

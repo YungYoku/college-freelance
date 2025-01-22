@@ -93,20 +93,20 @@ class Http {
 			})
 	}
 
-	async post<T>(url: string, _body: object | FormData = {}, query: Query | null = null): Promise<T> {
+	async post<T>(url: string, body: object | FormData = {}, query: Query | null = null): Promise<T> {
 		const auth = useAuthStore()
 
 		let _url = url
 		if (query) _url += this.getFormatedQuery(query)
 
-		const body = _body instanceof FormData ? _body : JSON.stringify(_body)
+		const _body = body instanceof FormData ? body : JSON.stringify(body)
 
 		return fetch(this.api + _url, {
 			method: 'POST',
 			headers: this.getHeaders(auth.token, {
-				isFormData: _body instanceof FormData
+				isFormData: body instanceof FormData
 			}),
-			body
+			body: _body
 		})
 			.then((response) => {
 				return response.json()
@@ -125,20 +125,20 @@ class Http {
 			})
 	}
 
-	async patch<T>(url: string, _body: object | FormData = {}, query: Query | null = null): Promise<T> {
+	async patch<T>(url: string, body: object | FormData = {}, query: Query | null = null): Promise<T> {
 		const auth = useAuthStore()
 
 		let _url = url
 		if (query) _url += this.getFormatedQuery(query)
 
-		const body = _body instanceof FormData ? _body : JSON.stringify(_body)
+		const _body = body instanceof FormData ? body : JSON.stringify(body)
 
 		return fetch(this.api + _url, {
 			method: 'PATCH',
 			headers: this.getHeaders(auth.token, {
-				isFormData: _body instanceof FormData
+				isFormData: body instanceof FormData
 			}),
-			body
+			body: _body
 		})
 			.then((response) => {
 				return response.json()
