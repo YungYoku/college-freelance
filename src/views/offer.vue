@@ -48,7 +48,7 @@
 		:columns-l="1"
 		class="mt-4"
 	>
-		<Island class="overflow-hidden">
+		<Island>
 			<Text
 				size="s"
 				:loading="loading"
@@ -129,7 +129,7 @@
 			</div>
 		</Island>
 
-		<Island class="overflow-hidden">
+		<Island>
 			<Text
 				size="s"
 				class="mb-2"

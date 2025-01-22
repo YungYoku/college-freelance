@@ -37,8 +37,7 @@
 		<div class="w-full h-[1px] min-h-[1px] bg-accent"/>
 
 		<div class="p-1 flex flex-col gap-1 overflow-auto">
-			<component
-				:is="multiple ? 'div' : PopoverClose"
+			<div
 				v-for="item in items"
 				:key="item.id"
 				class="w-full min-h-8 h-8 flex items-center justify-between cursor-pointer rounded-sm p-2 text-sm hover:bg-accent whitespace-nowrap overflow-hidden"
@@ -64,14 +63,13 @@
 						size="xs"
 					/>
 				</template>
-			</component>
+			</div>
 		</div>
 	</Popover>
 </template>
 
 <script setup lang="ts">
 import { computed, PropType } from 'vue'
-import { PopoverClose } from 'radix-vue'
 
 import { Popover } from '@/components/structures'
 import { Input, Checkbox } from '@/components/blocks'

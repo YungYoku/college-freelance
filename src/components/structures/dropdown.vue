@@ -1,6 +1,6 @@
 <template>
 	<div
-		ref="popover"
+		ref="dropdown"
 		class="dropdown relative"
 		@click="contentShowed = true"
 	>
@@ -10,7 +10,7 @@
 
 		<div
 			v-if="contentShowed"
-			class="w-[200px] max-h-[500px] absolute right-0 top-14 bg-background border border-input p-1 rounded-xl flex flex-col gap-1 overflow-auto z-10"
+			class="w-[200px] max-h-[500px] absolute right-0 top-14 bg-background border border-input p-1 rounded-lg flex flex-col gap-1 overflow-auto z-10"
 		>
 			<template
 				v-for="(item, index) in items"
@@ -68,11 +68,11 @@ defineProps({
 
 const contentShowed = ref(false)
 
-const popover = useTemplateRef('popover')
+const dropdown = useTemplateRef('dropdown')
 const handleClick = (e: MouseEvent) => {
-	if (!popover.value) return
+	if (!dropdown.value) return
 
-	const withinBoundaries = e.composedPath().includes(popover.value)
+	const withinBoundaries = e.composedPath().includes(dropdown.value)
 	if (!withinBoundaries) {
 		contentShowed.value = false
 	}
