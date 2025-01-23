@@ -8,11 +8,11 @@
 			<Button
 				:variant="'outline'"
 				:class="['w-full', 'justify-between', 'pl-3', {
-					'pt-4': value,
+					'pt-5': value,
 					'text-muted-foreground': !value
 				}]"
 			>
-				{{ printedValue ? df.format(printedValue.toDate(getLocalTimeZone())) : label }}
+				{{ printedValue ?? label }}
 			</Button>
 		</template>
 		
@@ -22,12 +22,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-
-import {
-	CalendarDate,
-	DateFormatter,
-	getLocalTimeZone,
-} from '@internationalized/date'
 
 import { Popover } from '@/components/structures'
 import { Button, Calendar } from '@/components/blocks'
@@ -40,16 +34,32 @@ withDefaults(defineProps<Props>(), {
 	label: 'Дата'
 })
 
+const months = [
+	'января',
+	'февраля',
+	'марта',
+	'апреля',
+	'мая',
+	'июня',
+	'июля',
+	'августа',
+	'сентября',
+	'октября',
+	'ноября',
+	'декабря'
+]
+
 const value = defineModel<Date>({
 	default: () => new Date()
 })
 const printedValue = computed(() => {
 	const date = new Date(value.value)
-	return new CalendarDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
-})
 
-const df = new DateFormatter('ru-RU', {
-	dateStyle: 'long',
+	const day = date.getDate()
+	const month = months[date.getMonth()]
+	const year = date.getFullYear()
+
+	return `${day} ${month} ${year} г.`
 })
 </script>
 
