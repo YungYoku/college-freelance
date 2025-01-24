@@ -1,56 +1,58 @@
 <template>
 	<div
 		ref="dropdown"
-		class="dropdown relative"
+		class="dropdown"
 		@click="contentShowed = true"
 	>
 		<div class="dropdown__trigger">
 			<slot/>
 		</div>
 
-		<div
-			v-if="contentShowed"
-			class="w-[200px] max-h-[500px] absolute right-0 top-14 bg-background border border-input p-1 rounded-lg flex flex-col gap-1 overflow-auto z-10"
-		>
-			<template
-				v-for="(item, index) in items"
-				:key="index"
+		<Transition name="dropdown">
+			<div
+				v-if="contentShowed"
+				class="dropdown__content"
 			>
-				<div class="dropdown__group">
-					<template
-						v-for="child in item"
-						:key="child.text"
-					>
-						<component
-							:is="child.to ? 'router-link' : 'div'"
-							v-if="child.can !== false"
-							class="block w-full h-full text-sm hover:bg-accent cursor-pointer p-2 rounded-md"
-							:to="child.to"
-							@click.stop="() => { child.action?.(); contentShowed = false }"
+				<template
+					v-for="(item, index) in items"
+					:key="index"
+				>
+					<div class="dropdown__group">
+						<template
+							v-for="child in item"
+							:key="child.text"
 						>
-							<slot
-								name="item"
-								:item="child"
+							<component
+								:is="child.to ? 'router-link' : 'div'"
+								v-if="child.can !== false"
+								class="dropdown__item"
+								:to="child.to"
+								@click.stop="() => { child.action?.(); contentShowed = false }"
 							>
-								{{ child.text }}
-							</slot>
-						</component>
-					</template>
-				</div>
+								<slot
+									name="item"
+									:item="child"
+								>
+									{{ child.text }}
+								</slot>
+							</component>
+						</template>
+					</div>
+
+					<div
+						v-if="index !== items.length - 1"
+						class="dropdown__separator"
+					/>
+				</template>
 
 				<div
-					v-if="index !== items.length - 1"
-					class="w-full h-[1px] bg-muted"
-				/>
-			</template>
-
-			<div
-				v-if="items.length === 0"
-				class="block w-full h-full text-sm p-2 cursor-default rounded-sm"
-			>
-				Пусто
+					v-if="items.length === 0"
+					class="dropdown__empty"
+				>
+					Пусто
+				</div>
 			</div>
-		</div>
+		</Transition>
 	</div>
 </template>
 
@@ -80,3 +82,81 @@ const handleClick = (e: MouseEvent) => {
 onMounted(() => document.addEventListener('click', handleClick))
 onUnmounted(() => document.addEventListener('click', handleClick))
 </script>
+
+<style scoped lang="scss">
+.dropdown {
+	position: relative;
+
+	&__content {
+		width: 200px;
+		max-height: 500px;
+
+		position: absolute;
+		top: 56px;
+		right: 0;
+		z-index: 10;
+
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+
+		padding: 4px;
+
+		background-color: hsl(var(--background));
+		border: 1px solid hsl(var(--input));
+		border-radius: 12px;
+		overflow: auto;
+
+		&.dropdown-enter-from {
+			opacity: 0;
+		}
+		&.dropdown-enter-active {
+			transition: opacity 0.1s;
+		}
+		&.dropdown-enter-to {
+			opacity: 1;
+		}
+
+		&.dropdown-leave-from {
+			opacity: 1;
+		}
+		&.dropdown-leave-active {
+			transition: opacity 0.1s;
+		}
+		&.dropdown-leave-to {
+			opacity: 0;
+		}
+	}
+
+	&__empty,
+	&__item {
+		width: 100%;
+
+		display: block;
+
+		padding: 8px;
+
+		font-size: 14px;
+		border-radius: 8px;
+	}
+
+	&__item {
+		cursor: pointer;
+
+		&:hover {
+			background-color: hsl(var(--accent));
+		}
+	}
+
+	&__empty {
+		cursor: default;
+	}
+
+	&__separator {
+		width: 100%;
+		height: 1px;
+
+		background-color: hsl(var(--muted));
+	}
+}
+</style>
