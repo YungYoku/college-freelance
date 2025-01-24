@@ -24,20 +24,16 @@
 					</router-link>
 				</template>
 
-				<router-link
+				<Button
 					v-if="auth.isCustomer"
+					variant="positive"
 					to="/new-offer"
 				>
-					<Button
-						variant="positive"
-						class="w-[48px]"
-					>
-						<Icon
-							name="plus"
-							:colors="['light', 'light']"
-						/>
-					</Button>
-				</router-link>
+					<Icon
+						name="plus"
+						:colors="['light', 'light']"
+					/>
+				</Button>
 
 				<ThemeColorToggle v-if="!auth.isLoggedIn"/>
 

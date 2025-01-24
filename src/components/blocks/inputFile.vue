@@ -1,10 +1,10 @@
 <template>
-	<div class="relative flex items-center justify-center cursor-pointer">
+	<div class="input-file">
 		<Button
 			v-if="compact"
 			:disabled="loading"
 			variant="outline"
-			class="absolute left-0 top-0"
+			class="input-file__button"
 		>
 			<Icon name="file"/>
 
@@ -87,3 +87,21 @@ const inputWrapStyle = computed(() => {
 	return ['w-[100%]']
 })
 </script>
+
+<style lang="scss" scoped>
+.input-file {
+	position: relative;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	cursor: pointer;
+
+	&__button {
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+}
+</style>

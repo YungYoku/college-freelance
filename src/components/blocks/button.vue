@@ -1,22 +1,25 @@
 <template>
 	<Skeleton
 		v-if="loading"
-		:class="classList"
+		:class="props.class"
+		class="button-loader"
 	/>
 
-	<button
+	<component
+		:is="to ? 'router-link' : 'button'"
 		v-else
-		class="h-12 rounded-xl flex items-center justify-center text-sm font-medium transition-colors p-3"
-		:class="classList"
-		:type="type"
-		:disabled="disabled"
+		:to
+		class="button"
+		:class="[props.class, variant]"
+		:type
+		:disabled
 	>
 		<slot/>
-	</button>
+	</component>
 </template>
 
 <script setup lang="ts">
-import { computed, PropType } from 'vue'
+import { PropType } from 'vue'
 
 import { Skeleton } from '@/components/elements'
 
@@ -43,27 +46,70 @@ const props = defineProps({
 	variant: {
 		type: String as PropType<Variant>,
 		default: 'default'
+	},
+	to: {
+		type: String,
+		default: null
 	}
-})
-
-const classList = computed(() => {
-	let result = ''
-
-	if (props.variant === 'default') {
-		result += ' bg-primary hover:bg-primary/90 text-primary-foreground'
-	}
-	if (props.variant === 'positive') {
-		result += ' bg-green-600 hover:bg-green-600/90'
-	}
-	if (props.variant === 'destructive') {
-		result += ' bg-destructive hover:bg-destructive/90'
-	}
-	if (props.variant === 'outline') {
-		result += ' border border-input bg-background hover:bg-accent'
-	}
-	if (props.class) {
-		result += ` ${props.class}`
-	}
-	return result
 })
 </script>
+
+<style scoped lang="scss">
+.button-loader,
+.button {
+	height: 48px;
+}
+
+.button {
+	padding: 12px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 14px;
+	font-weight: 500;
+
+	transition: all 0.2s;
+	border-radius: 14px;
+	border: none;
+	outline: none;
+
+	&.default {
+		background-color: hsl(var(--primary));
+
+		color: hsl(var(--primary-foreground));
+
+		&:hover {
+			background-color: hsl(var(--primary) / 0.9);
+		}
+	}
+
+	&.positive {
+		--tw-bg-opacity: 1;
+		background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1));
+
+		&:hover {
+			background-color: rgb(22 163 74 / 0.9);
+		}
+	}
+
+	&.destructive {
+		background-color: hsl(var(--destructive));
+
+		&:hover {
+			background-color: hsl(var(--destructive) / 0.9);
+		}
+	}
+
+	&.outline {
+		background-color: hsl(var(--background));
+
+		border: 1px solid hsl(var(--input));
+
+		&:hover {
+			background-color: hsl(var(--accent));
+		}
+	}
+}
+</style>

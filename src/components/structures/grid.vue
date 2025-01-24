@@ -23,8 +23,8 @@ type Columns = number | Array<number | string> | null
 interface Props {
 	vertical?: boolean
 	gap?: 'xs' | 's' | 'm' |'l'
-	verAlign?: 'start' | 'center' | 'end' | 'stretch' | 'initial'
-	horAlign?: 'start' | 'center' | 'end' | 'stretch' | 'initial'
+	verAlign?: Align
+	horAlign?: Align
 	columns?: Columns
 	columnsXl?: Columns
 	columnsL?: Columns

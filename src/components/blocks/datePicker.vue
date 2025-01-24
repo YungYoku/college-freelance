@@ -1,18 +1,15 @@
 <template>
-	<Popover>
+	<Popover class="date-picker">
 		<template #trigger>
 			<Label v-if="value">
 				{{ label }}
 			</Label>
 
 			<Button
-				:variant="'outline'"
-				:class="['w-full', 'justify-between', 'pl-3', {
-					'pt-5': value,
-					'text-muted-foreground': !value
-				}]"
+				class="date-picker__button"
+				variant="outline"
 			>
-				{{ printedValue ?? label }}
+				{{ printedValue }}
 			</Button>
 		</template>
 		
@@ -63,3 +60,15 @@ const printedValue = computed(() => {
 })
 </script>
 
+<style scoped lang="scss">
+.date-picker {
+	&__button {
+		width: 100%;
+
+		justify-content: flex-start;
+
+		padding-top: 20px;
+		padding-left: 12px;
+	}
+}
+</style>

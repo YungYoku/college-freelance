@@ -4,20 +4,8 @@
 		vertical
 		class="relative max-w-screen-md"
 	>
-		<Button
-			v-if="isItMyProfile"
-			:disabled="loading"
-			class="absolute right-0 top-0"
-			@click="router.push(`/profile`)"
-		>
-			<Icon
-				:colors="['dark', 'light']"
-				name="pencil"
-			/>
-		</Button>
-
 		<Grid
-			:columns-xl="['160px', 1]"
+			:columns-xl="['160px', 1, '48px']"
 			:columns-m="1"
 			gap="l"
 		>
@@ -83,6 +71,17 @@
 					Дисциплины: {{ disciplineNames }}
 				</Text>
 			</Grid>
+
+			<Button
+				v-if="isItMyProfile"
+				:disabled="loading"
+				@click="router.push(`/profile`)"
+			>
+				<Icon
+					:colors="['dark', 'light']"
+					name="pencil"
+				/>
+			</Button>
 		</Grid>
 
 		<Text

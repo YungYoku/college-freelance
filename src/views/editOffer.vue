@@ -1,5 +1,5 @@
 <template>
-	<Grid :columns="[1, '70px', '99px']">
+	<Grid :columns="[1, '80px', '100px']">
 		<Input
 			v-model.trim="form.title.value"
 			:error="form.title.error"
@@ -7,18 +7,15 @@
 			label="Название"
 		/>
 
-		<router-link :to="`/offer/${form.id.value}`">
-			<Button
-				:disabled="loading"
-				class="ml-auto"
-			>
-				Назад
-			</Button>
-		</router-link>
+		<Button
+			:disabled="loading"
+			:to="`/offer/${form.id.value}`"
+		>
+			Назад
+		</Button>
 
 		<Button
 			:disabled="loading"
-			class="ml-auto"
 			@click="save"
 		>
 			Сохранить

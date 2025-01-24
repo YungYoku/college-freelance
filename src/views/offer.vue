@@ -18,23 +18,18 @@
 				Удалить
 			</Button>
 
-			<router-link
+			<Button
 				v-if="isItMyOffer"
 				:to="`/offer/${offer.id}/edit`"
+				:disabled="loading"
 			>
-				<Button
-					:disabled="loading"
-					class="ml-auto"
-				>
-					Редактировать
-				</Button>
-			</router-link>
+				Редактировать
+			</Button>
 
 			<template v-else-if="authStore.isExecutor">
 				<span/>
 				<Button
 					:disabled="loading || isAlreadyProposed"
-					class="ml-auto"
 					@click="showMakeProposal"
 				>
 					Откликнуться

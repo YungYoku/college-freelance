@@ -1,8 +1,11 @@
 <template>
-	<Dropdown :items>
+	<Dropdown
+		class="notifications"
+		:items
+	>
 		<Button
 			variant="outline"
-			class="relative"
+			class="notifications__button"
 			@click="onOpen"
 		>
 			<Icon name="notifications"/>
@@ -72,3 +75,11 @@ const onOpen = async () => {
 	}, 3000)
 }
 </script>
+
+<style lang="scss" scoped>
+.notifications {
+	&__button {
+		position: relative;
+	}
+}
+</style>

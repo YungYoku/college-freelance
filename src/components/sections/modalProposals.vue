@@ -19,7 +19,10 @@
 				:key="proposal.id"
 			>
 				<div class="flex w-full items-start gap-2 flex-col">
-					<div class="flex w-full items-center gap-2">
+					<Grid
+						:columns="[1, '80px']"
+						ver-align="center"
+					>
 						<UserCard
 							v-if="proposal.expand?.user"
 							:user="proposal.expand.user"
@@ -28,12 +31,11 @@
 
 						<Button
 							v-if="proposal.expand?.user"
-							class="ml-auto"
 							@click="choseProposal(proposal.expand?.user)"
 						>
 							Выбрать
 						</Button>
-					</div>
+					</Grid>
 
 					<span v-if="proposal.price">
 						Предложенная цена: {{ proposal.price }}₽

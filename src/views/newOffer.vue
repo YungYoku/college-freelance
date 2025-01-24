@@ -1,5 +1,5 @@
 <template>
-	<Grid :columns="[1, '140px']">
+	<Grid :columns="[1, '100px']">
 		<Input
 			v-model.trim="newOffer.title.value"
 			:disabled="loading"
@@ -9,7 +9,6 @@
 
 		<Button
 			:disabled="loading"
-			class="ml-auto"
 			@click="createOffer"
 		>
 			Создать
