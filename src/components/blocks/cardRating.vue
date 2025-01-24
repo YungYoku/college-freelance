@@ -1,16 +1,14 @@
 <template>
-	<Card
-		width="100%"
-		class="max-w-[100%]"
-	>
+	<Card width="100%">
 		<Grid :columns="[1, '132px']">
 			<router-link
 				class="user cursor-pointer"
 				:to="`/users/${rating.expand?.by?.id}`"
 			>
 				<Grid
-					:columns="['30px', 1]"
-					gap="l"
+					:columns="['32px', 1]"
+					gap="s"
+					ver-align="center"
 				>
 					<Avatar
 						size="s"

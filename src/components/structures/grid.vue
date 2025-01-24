@@ -1,10 +1,14 @@
 <template>
 	<div
 		class="w-full"
-		:class="[`gap-${gaps[gap]}`, {
+		:class="[{
 			grid: !vertical,
 			flex: vertical,
-			'flex-col': vertical
+			'flex-col': vertical,
+			'gap-1': gap === 'xs',
+			'gap-2': gap === 's',
+			'gap-3': gap === 'm',
+			'gap-4': gap === 'l'
 		}]"
 		:style="style"
 	>
@@ -75,12 +79,6 @@ onBeforeUnmount(() => {
 })
 watch(() => [props.columns, props.columnsXl, props.columnsL, props.columnsM, props.columnsS], updateActiveColumns)
 
-const gaps = {
-	xs: '1',
-	s: '2',
-	m: '3',
-	l: '4'
-}
 const getAlign = (align: Align) => {
 	switch (align) {
 	case 'start':
