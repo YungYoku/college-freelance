@@ -24,7 +24,7 @@
 					loading-width="100px"
 					size="xs"
 				>
-					Рейтинг: {{ typeof averageRating === 'number' ? averageRating.toFixed(2) : averageRating }}
+					Рейтинг: {{ $format('number', averageRating, 2) }}
 				</Text>
 			</Grid>
 
@@ -137,7 +137,7 @@ const averageRating = computed(() => {
 	if (rating) {
 		return rating.reduce((result, current) => result + current.stars, 0) / rating.length
 	}
-	return 'нет'
+	return 0
 })
 
 const loadUser = async () => {

@@ -11,11 +11,6 @@ interface Methods {
 }
 
 class Datetime {
-	static inst: Datetime | null = null
-	static getInst() {
-		return Datetime.inst || (Datetime.inst = new Datetime())
-	}
-
 	get(date: Date | string | null, type: Method = 'default') {
 		if (date === null) return ''
 		if (typeof date === 'string') {
@@ -47,7 +42,8 @@ class Datetime {
 		return methods[type] ? methods[type]() : ''
 	}
 }
-const datetime = Datetime.getInst()
+
+const datetime = new Datetime()
 
 const datetimePlugin: Plugin = {
 	install (app: App) {

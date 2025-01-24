@@ -23,11 +23,6 @@ interface ConnectOptions<T> {
 class Http {
 	api = import.meta.env.VITE_API
 
-	static inst: Http | null = null
-	static getInst() {
-		return Http.inst || (Http.inst = new Http())
-	}
-
 	getHeaders(token: string, options: HeadersOptions = {
 		isFormData: false,
 		isSSE: false
@@ -227,4 +222,4 @@ class Http {
 	}
 }
 
-export default Http.getInst()
+export default new Http()

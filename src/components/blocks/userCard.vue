@@ -34,7 +34,7 @@
 					</Badge>
 
 					<Badge v-if="averageRating">
-						Рейтинг {{ averageRating }}
+						Рейтинг {{ $format('number', averageRating, 2) }}
 					</Badge>
 
 					<Badge
