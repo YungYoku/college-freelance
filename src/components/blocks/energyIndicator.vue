@@ -4,11 +4,14 @@
 		:items
 	>
 		<Button variant="outline">
-			<Icon
-				name="energy"
-				class="mr-1"
-			/>
-			{{ auth.user.energy }}
+			<Grid
+				:columns="[0, 0]"
+				gap="xs"
+			>
+				<Icon name="energy"/>
+
+				{{ auth.user.energy }}
+			</Grid>
 		</Button>
 	</Dropdown>
 </template>
@@ -19,11 +22,11 @@ import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useToast } from '@/stores/toast'
 
+import { Dropdown, Grid } from '@/components/structures'
 import { Button } from '@/components/blocks'
 import { Icon } from '@/components/elements'
 import { Datetime, Http } from '@/plugins'
 import { IUser } from '@/interfaces/User.ts'
-import { Dropdown } from '@/components/structures'
 
 const auth = useAuthStore()
 

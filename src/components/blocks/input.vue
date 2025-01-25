@@ -1,8 +1,8 @@
 <template>
-	<div class="relative">
+	<div class="input">
 		<Skeleton
 			v-if="loading"
-			class="h-12"
+			height="48px"
 		/>
 
 		<template v-else>
@@ -12,14 +12,13 @@
 
 			<input
 				v-model="value"
-				class="w-[100%] h-12 py-2 pl-3 pr-10 bg-background hover:bg-accent font-light text-sm outline-none disabled:opacity-50"
-				:class="[`cursor-${cursor}`, {
-					'pt-4': !placeholder,
-					'border': variant !== 'plain',
-					'border-input': variant !== 'plain',
-					'focus-visible:border-stone-100': variant !== 'plain',
-					'rounded-lg': variant !== 'plain'
+				class="input__field"
+				:class="[variant, {
+					'_empty': !placeholder
 				}]"
+				:style="{
+					cursor
+				}"
 				:placeholder
 				:disabled
 				:type
@@ -29,21 +28,21 @@
 
 			<span
 				v-if="error"
-				class="pl-3 text-xs text-destructive font-extralight"
+				class="input__error"
 			>
 				{{ error }}
 			</span>
 
 			<Icon
 				v-if="icon"
-				class="absolute right-3 top-3.5 cursor-pointer"
+				class="input__action"
 				:name="icon"
 				@click="action"
 			/>
 
 			<Icon
 				v-else-if="clearable && filled"
-				class="absolute right-3 top-3.5 cursor-pointer"
+				class="input__clear"
 				name="close"
 				size="s"
 				@click.prevent.stop="clear"
@@ -121,3 +120,62 @@ const filled = computed(() => {
 	return false
 })
 </script>
+
+<style scoped lang="scss">
+.input {
+	position: relative;
+
+	&__field {
+		width: 100%;
+		height: 48px;
+
+		padding: 8px 40px 8px 12px;
+
+		font-size: 14px;
+		font-weight: 400;
+
+		transition: all 0.2s;
+		border-radius: 14px;
+		background: hsl(var(--background));
+		outline: none;
+
+		&._empty {
+			padding-top: 20px;
+		}
+
+		&.default {
+			border: 1px solid hsl(var(--input));
+
+			&:focus-visible {
+				--tw-border-opacity: 1;
+				border-color: rgb(245 245 244 / var(--tw-border-opacity, 1));
+			}
+		}
+
+		&:hover {
+			background: hsl(var(--accent));;
+		}
+
+		&:disabled {
+			opacity: 0.5;
+		}
+	}
+
+	&__error {
+		padding-left: 12px;
+
+		color: hsl(var(--destructive));
+		font-size: 12px;
+		font-weight: 200;
+	}
+
+	&__action,
+	&__clear {
+		position: absolute;
+		right: 12px;
+		top: 14px;
+
+		cursor: pointer;
+	}
+}
+</style>

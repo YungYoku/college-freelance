@@ -1,6 +1,25 @@
 <template>
-	<div class="skeleton"/>
+	<div
+		class="skeleton"
+		:style="{
+			width,
+			height
+		}"
+	/>
 </template>
+
+<script setup lang="ts">
+defineProps({
+	width: {
+		type: String,
+		default: '100%'
+	},
+	height: {
+		type: String,
+		default: '100%'
+	},
+})
+</script>
 
 <style scoped lang="scss">
 .skeleton {
