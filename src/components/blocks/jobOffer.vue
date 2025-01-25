@@ -4,7 +4,8 @@
 			<template v-if="jobOffer.executor && showingChat">
 				<Skeleton
 					v-if="loading"
-					class="h-6 w-[24px]"
+					width="24px"
+					height="24px"
 				/>
 				<div
 					v-else
@@ -20,7 +21,8 @@
 			<template v-else-if="jobOffer.proposals && showingProposals">
 				<Skeleton
 					v-if="loading"
-					class="h-6 w-[24px]"
+					width="24px"
+					height="24px"
 				/>
 				<div
 					v-else
@@ -38,7 +40,8 @@
 			<template v-if="authStore.isExecutor">
 				<Skeleton
 					v-if="loading"
-					class="h-6 w-[24px]"
+					width="24px"
+					height="24px"
 				/>
 				<div
 					v-else
@@ -53,7 +56,8 @@
 			<template v-if="showingRemove && jobOffer.status === 'created'">
 				<Skeleton
 					v-if="loading"
-					class="h-6 w-[24px]"
+					width="24px"
+					height="24px"
 				/>
 				<div
 					v-else
@@ -70,7 +74,8 @@
 
 		<Skeleton
 			v-if="loading"
-			class="h-8 w-[200px]"
+			width="200px"
+			height="32px"
 		/>
 		<router-link
 			v-else
@@ -103,7 +108,8 @@
 
 		<Skeleton
 			v-if="loading"
-			class="h-4 w-[140px]"
+			width="140px"
+			height="16px"
 		/>
 		<div
 			v-else
@@ -123,7 +129,8 @@
 
 			<Skeleton
 				v-if="loading"
-				class="h-6 w-[100px]"
+				width="100px"
+				height="24px"
 			/>
 			<div
 				v-else

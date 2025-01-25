@@ -1,7 +1,9 @@
 <template>
 	<Skeleton
 		v-if="loading"
-		class="h-5 w-[132px] ml-auto mr-auto"
+		width="132px"
+		height="20px"
+		class="ml-auto mr-auto"
 	/>
 
 	<Grid

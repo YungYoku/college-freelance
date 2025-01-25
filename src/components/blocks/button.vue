@@ -2,7 +2,7 @@
 	<Skeleton
 		v-if="loading"
 		:class="props.class"
-		class="button-loader"
+		height="48px"
 	/>
 
 	<component
@@ -55,12 +55,9 @@ const props = defineProps({
 </script>
 
 <style scoped lang="scss">
-.button-loader,
 .button {
 	height: 48px;
-}
 
-.button {
 	padding: 12px;
 
 	display: flex;

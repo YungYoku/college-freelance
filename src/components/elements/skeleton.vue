@@ -23,6 +23,8 @@ defineProps({
 
 <style scoped lang="scss">
 .skeleton {
+	max-width: 100%;
+
 	background-color: hsl(var(--primary) / 0.1);
 
 	border-radius: 8px;

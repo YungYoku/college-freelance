@@ -1,12 +1,8 @@
 <template>
 	<Skeleton
 		v-if="loading"
-		:class="[`w-[${loadingWidth}] max-w-[100%]`, {
-			'h-12': size === 'l',
-			'h-10': size === 'm',
-			'h-8': size === 's',
-			'h-6': size === 'xs'
-		}]"
+		:width="loadingWidth"
+		:height="skeletonHeights[size]"
 	/>
 
 	<h1
@@ -39,15 +35,16 @@
 </template>
 
 <script setup lang="ts">
+import { PropType } from 'vue'
+
 import { Skeleton } from '@/components/elements'
+
+type Size = 'xs' | 's' | 'm'| 'l'
 
 defineProps({
 	size: {
-		type: String,
-		default: 'm',
-		validator: (val: string) => {
-			return ['xs', 's', 'm', 'l'].includes(val)
-		}
+		type: String as PropType<Size>,
+		default: 'm'
 	},
 	loading: {
 		type: Boolean,
@@ -58,4 +55,11 @@ defineProps({
 		default: '400px'
 	}
 })
+
+const skeletonHeights = {
+	xs: '24px',
+	s: '32px',
+	m: '40px',
+	l: '48px'
+}
 </script>

@@ -5,8 +5,14 @@
 			vertical
 		>
 			<template v-if="loading">
-				<Skeleton class="h-8 w-[180px]"/>
-				<Skeleton class="h-5 w-[120px]"/>
+				<Skeleton
+					width="180px"
+					height="32px"
+				/>
+				<Skeleton
+					width="120px"
+					height="20px"
+				/>
 			</template>
 
 			<template v-else>

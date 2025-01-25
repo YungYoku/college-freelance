@@ -1,8 +1,10 @@
 <template>
 	<Skeleton
 		v-if="loading"
-		class="h-7 w-[120px]"
+		width="120px"
+		height="28px"
 	/>
+
 	<component
 		:is="link ? 'router-link' : 'div'"
 		v-else
