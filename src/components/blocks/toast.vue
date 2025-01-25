@@ -1,24 +1,73 @@
 <template>
-	<div
-		v-if="toast.showed"
-		class="max-w-[340px] fixed bottom-3 right-3 flex items-center gap-2 bg-background py-3 pl-4 pr-3 text-sm rounded-lg border border-zinc-500"
-	>
-		{{ toast.text }}
+	<Transition name="toast">
+		<div
+			v-if="toast.showed"
+			class="toast"
+		>
+			<Text size="xs">
+				{{ toast.text }}
+			</Text>
 
-		<Icon
-			name="close"
-			size="s"
-			@click="close"
-		/>
-	</div>
+			<Icon
+				name="close"
+				size="s"
+				@click="close"
+			/>
+		</div>
+	</Transition>
 </template>
 
 <script setup lang="ts">
 import { useToast } from '@/stores/toast'
 
-import { Icon } from '@/components/elements'
+import { Text, Icon } from '@/components/elements'
 
 const toast = useToast()
 
 const close = () => toast.close()
 </script>
+
+<style lang="scss" scoped>
+.toast {
+	max-width: 340px;
+
+	position: fixed;
+	right: 12px;
+	bottom: 12px;
+
+	display: flex;
+	align-items: center;
+	gap: 8px;
+
+	padding: 12px 12px 12px 16px;
+
+	--tw-border-opacity: 1;
+	border: 1px solid rgb(113 113 122 / var(--tw-border-opacity, 1));
+	background-color: hsl(var(--background));
+	border-radius: 12px;
+
+	&.toast-enter-from {
+		opacity: 0;
+	}
+
+	&.toast-enter-active {
+		transition: opacity 0.1s;
+	}
+
+	&.toast-enter-to {
+		opacity: 1;
+	}
+
+	&.toast-leave-from {
+		opacity: 1;
+	}
+
+	&.toast-leave-active {
+		transition: opacity 0.1s;
+	}
+
+	&.toast-leave-to {
+		opacity: 0;
+	}
+}
+</style>
