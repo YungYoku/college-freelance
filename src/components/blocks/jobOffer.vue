@@ -126,17 +126,13 @@
 				:user="jobOffer.expand.creator"
 			/>
 
-			<Skeleton
-				v-if="loading"
-				width="100px"
-				height="24px"
-			/>
-			<div
-				v-else
-				class="job-offer__deadline text-xs"
+			<Text
+				size="xs"
+				:loading
+				loading-width="100px"
 			>
 				Дедлайн: {{ $date(deadline) }}
-			</div>
+			</Text>
 		</div>
 	</Island>
 </template>

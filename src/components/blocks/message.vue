@@ -1,17 +1,13 @@
 <template>
 	<div
-		class="flex w-max max-w-[50%] flex-col gap-1 rounded-lg px-3 py-2"
+		class="message"
 		:class="{
-			'text-primary-foreground': self,
-			'bg-primary': self,
-			'bg-muted': !self,
-			'ml-auto': self,
-			'mr-auto': !self,
-			'rounded-bl-none': !self,
-			'rounded-br-none': self
+			'_self': self,
 		}"
 	>
-		<span class="text-sm">{{ message.text }}</span>
+		<Text size="xs">
+			{{ message.text }}
+		</Text>
 
 		<File
 			v-if="message.expand?.file?.file"
@@ -26,7 +22,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { File } from '@/components/elements'
+import { File, Text } from '@/components/elements'
 
 const props = defineProps({
 	message: {
@@ -41,3 +37,29 @@ const props = defineProps({
 
 const created = computed(() => new Date(props.message?.created))
 </script>
+
+<style lang="scss" scoped>
+.message {
+	width: max-content;
+	max-width: 50%;
+
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+
+	padding: 8px 12px;
+	margin-right: auto;
+
+	border-radius: 8px 8px 8px 0;
+	background-color: hsl(var(--muted));
+
+	&._self {
+		margin-left: auto;
+		margin-right: initial;
+
+		color: hsl(var(--primary-foreground));
+		border-radius: 8px 8px 0 8px;
+		background-color: hsl(var(--primary));
+	}
+}
+</style>
