@@ -200,11 +200,16 @@ const remove = () => emit('remove', props.jobOffer)
 
 const status = computed(() => {
 	switch (props.jobOffer?.status) {
-	case 'created': return 'Создано'
-	case 'in_progress': return 'В работе'
-	case 'on_review': return 'На проверке'
-	case 'ended': return 'Завершено'
-	default: return null
+	case 'created':
+		return 'Создано'
+	case 'in_progress':
+		return 'В работе'
+	case 'on_review':
+		return 'На проверке'
+	case 'ended':
+		return 'Завершено'
+	default:
+		return null
 	}
 })
 
@@ -213,50 +218,50 @@ const deadline = computed(() => new Date(props.jobOffer?.deadline))
 
 <style scoped lang="scss">
 .job-offer {
-    position: relative;
+	position: relative;
 
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 	align-items: flex-start;
 
-    max-width: 100%;
-    height: 240px;
+	max-width: 100%;
+	height: 240px;
 
-    gap: 10px;
+	gap: 10px;
 
-    &__actions {
-        position: absolute;
-        top: 10px;
-        right: 10px;
+	&__actions {
+		position: absolute;
+		top: 10px;
+		right: 10px;
 
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 
-        .job-offer__responses {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
+		.job-offer__responses {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 5px;
 
-            cursor: pointer;
-        }
-    }
+			cursor: pointer;
+		}
+	}
 
-    &__title,
+	&__title,
 	&__description {
 		display: flex;
 		justify-content: flex-start;
 		align-items: flex-start;
 	}
 
-    &__footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+	&__footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 
 		width: 100%;
-        margin: auto 0 0 0;
-    }
+		margin: auto 0 0 0;
+	}
 }
 </style>

@@ -113,108 +113,108 @@ const removeAvatar = () => loadImage('')
 
 <style lang="scss" scoped>
 .avatar {
-    position: relative;
+	position: relative;
 
 	display: flex;
 	align-items: center;
 	justify-content: center;
 
-    overflow: hidden;
+	overflow: hidden;
 
-    background-color: #444444;
+	background-color: #444444;
 	background-position: center;
 	background-size: cover;
-    border-radius: 50%;
+	border-radius: 50%;
 
-    &__image {
-        max-width: 100%;
-        max-height: 100%;
-    }
+	&__image {
+		max-width: 100%;
+		max-height: 100%;
+	}
 
-    &__icon-remove,
-    &__icon-upload {
-        position: absolute;
-        top: calc(50% - 15px);
-        right: calc(50% - 15px);
-        z-index: 2;
-    }
+	&__icon-remove,
+	&__icon-upload {
+		position: absolute;
+		top: calc(50% - 15px);
+		right: calc(50% - 15px);
+		z-index: 2;
+	}
 
 	&__icon-upload {
 		pointer-events: none;
 	}
 
-    &__icon-remove {
-        opacity: 0;
-        transition: all 0.2s;
-    }
+	&__icon-remove {
+		opacity: 0;
+		transition: all 0.2s;
+	}
 
-    &:hover {
-        .avatar__icon-remove {
-            opacity: 1;
-            transition: all 0.2s;
-        }
-    }
+	&:hover {
+		.avatar__icon-remove {
+			opacity: 1;
+			transition: all 0.2s;
+		}
+	}
 
-    &__xs {
-        min-width: 16px;
-        max-width: 16px;
-        min-height: 16px;
-        max-height: 16px;
-    }
+	&__xs {
+		min-width: 16px;
+		max-width: 16px;
+		min-height: 16px;
+		max-height: 16px;
+	}
 
-    &__s {
-        min-width: 32px;
-        max-width: 32px;
-        min-height: 32px;
-        max-height: 32px;
-    }
+	&__s {
+		min-width: 32px;
+		max-width: 32px;
+		min-height: 32px;
+		max-height: 32px;
+	}
 
-    &__m {
-        min-width: 48px;
-        max-width: 48px;
-        min-height: 48px;
-        max-height: 48px;
-    }
+	&__m {
+		min-width: 48px;
+		max-width: 48px;
+		min-height: 48px;
+		max-height: 48px;
+	}
 
-    &__l {
-        min-width: 160px;
-        max-width: 160px;
-        min-height: 160px;
-        max-height: 160px;
-    }
+	&__l {
+		min-width: 160px;
+		max-width: 160px;
+		min-height: 160px;
+		max-height: 160px;
+	}
 
-    &__editable {
-        &::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
+	&__editable {
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 1;
 
-            width: 100%;
-            height: 100%;
+			width: 100%;
+			height: 100%;
 
-            background: transparent;
+			background: transparent;
 
-            transition: all 0.2s;
-        }
+			transition: all 0.2s;
+		}
 
-        &:hover::before {
-            background: rgba(68, 68, 68, 0.8);
+		&:hover::before {
+			background: rgba(68, 68, 68, 0.8);
 
-            transition: all 0.2s;
-        }
-    }
+			transition: all 0.2s;
+		}
+	}
 
-    &__input {
-        position: absolute;
-        left: 0;
+	&__input {
+		position: absolute;
+		left: 0;
 
-        width: 100%;
-        height: 100%;
+		width: 100%;
+		height: 100%;
 
-        cursor: pointer;
-        opacity: 0;
-    }
+		cursor: pointer;
+		opacity: 0;
+	}
 }
 </style>

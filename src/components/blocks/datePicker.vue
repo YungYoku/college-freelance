@@ -12,7 +12,7 @@
 				{{ printedValue }}
 			</Button>
 		</template>
-		
+
 		<Calendar v-model="value"/>
 	</Popover>
 </template>
@@ -27,6 +27,7 @@ import { Label } from '@/components/elements'
 interface Props {
 	label: string
 }
+
 withDefaults(defineProps<Props>(), {
 	label: 'Дата'
 })

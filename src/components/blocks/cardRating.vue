@@ -61,6 +61,7 @@ import { IRating, emptyRating } from '@/interfaces/Rating.ts'
 interface Props {
 	rating: IRating
 }
+
 const props = withDefaults(defineProps<Props>(), {
 	rating: () => emptyRating,
 })
