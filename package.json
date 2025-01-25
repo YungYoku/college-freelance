@@ -15,12 +15,12 @@
 		"vue-router": "4.5.0"
 	},
 	"devDependencies": {
-		"@stylistic/eslint-plugin-js": "2.13.0",
-		"@types/node": "22.10.7",
+		"@stylistic/eslint-plugin-js": "3.0.0",
+		"@types/node": "22.10.10",
 		"@vitejs/plugin-vue": "5.2.1",
 		"autoprefixer": "10.4.20",
-		"eslint": "9.18.0",
-		"@eslint/js": "9.18.0",
+		"eslint": "9.19.0",
+		"@eslint/js": "9.19.0",
 		"@typescript-eslint/eslint-plugin": "8.21.0",
 		"@vue/eslint-config-typescript": "14.3.0",
 		"globals": "15.14.0",
