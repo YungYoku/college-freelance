@@ -1,14 +1,14 @@
 <template>
 	<Grid
+		class="checkbox"
 		:columns="['16px', 1]"
 		ver-align="center"
 		@click="toggle"
 	>
 		<div
-			class="w-[16px] h-[16px] active:bg-accent-1 rounded-md border border-primary outline-none flex items-center justify-center cursor-pointer"
+			class="checkbox__content"
 			:class="{
-				'bg-accent': !(value ?? checked),
-				'bg-primary': (value ?? checked)
+				'_active': (value ?? checked)
 			}"
 		>
 			<Icon
@@ -21,7 +21,7 @@
 
 		<div
 			v-if="label"
-			class="text-left font-light"
+			class="checkbox__label"
 		>
 			{{ label }}
 		</div>
@@ -55,3 +55,31 @@ const toggle = () => {
 	value.value = !value.value
 }
 </script>
+
+<style scoped lang="scss">
+.checkbox {
+	cursor: pointer;
+
+	&__content {
+		width: 16px;
+		height: 16px;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		background: hsl(var(--accent));
+		border-radius: 5px;
+		border: 1px solid hsl(var(--primary));
+
+		&._active {
+			background: hsl(var(--primary));
+		}
+	}
+
+	&__label {
+		text-align: left;
+		font-weight: 300;
+	}
+}
+</style>

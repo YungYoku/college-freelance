@@ -1,44 +1,52 @@
 <template>
-	<Card width="100%">
-		<Grid :columns="[1, '132px']">
-			<router-link
-				class="user cursor-pointer"
-				:to="`/users/${rating.expand?.by?.id}`"
-			>
-				<Grid
-					:columns="['32px', 1]"
-					gap="s"
-					ver-align="center"
+	<Card
+		class="card-rating"
+		width="100%"
+	>
+		<Grid
+			vertical
+			gap="l"
+		>
+			<Grid :columns="[1, '132px']">
+				<router-link
+					class="card-rating__user"
+					:to="`/users/${rating.expand?.by?.id}`"
 				>
-					<Avatar
-						size="s"
-						:user="rating.expand?.by"
-					/>
-					<div>
-						{{ rating.expand?.by?.name }} {{ rating.expand?.by?.surname }}
-					</div>
-				</Grid>
-			</router-link>
+					<Grid
+						:columns="['32px', 1]"
+						gap="s"
+						ver-align="center"
+					>
+						<Avatar
+							size="s"
+							:user="rating.expand?.by"
+						/>
+						<div>
+							{{ rating.expand?.by?.name }} {{ rating.expand?.by?.surname }}
+						</div>
+					</Grid>
+				</router-link>
 
-			<RatingStars
-				:stars="rating.stars"
-				size="s"
-			/>
-		</Grid>
+				<RatingStars
+					:stars="rating.stars"
+					size="s"
+				/>
+			</Grid>
 
-		<template v-if="rating.review">
-			<div class="border-t my-1"/>
+			<template v-if="rating.review">
+				<Separator/>
+
+				<Text size="xs">
+					{{ rating.review }}
+				</Text>
+
+				<Separator/>
+			</template>
 
 			<Text size="xs">
-				{{ rating.review }}
+				{{ $date(created) }}
 			</Text>
-
-			<div class="border-t my-1"/>
-		</template>
-
-		<Text size="xs">
-			{{ $date(created) }}
-		</Text>
+		</Grid>
 	</Card>
 </template>
 
@@ -47,7 +55,7 @@ import { computed } from 'vue'
 
 import { Card, Grid } from '@/components/structures'
 import { Avatar, RatingStars } from '@/components/blocks'
-import { Text } from '@/components/elements'
+import { Text, Separator } from '@/components/elements'
 import { IRating, emptyRating } from '@/interfaces/Rating.ts'
 
 interface Props {
@@ -59,3 +67,11 @@ const props = withDefaults(defineProps<Props>(), {
 
 const created = computed(() => new Date(props.rating?.created))
 </script>
+
+<style scoped lang="scss">
+.card-rating {
+	&__user {
+		cursor: pointer;
+	}
+}
+</style>
