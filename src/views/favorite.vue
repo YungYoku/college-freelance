@@ -7,7 +7,7 @@
 
 	<Grid
 		v-if="loading || offers.length"
-		class="mt-4"
+		class="mt-2"
 		:columns-xl="4"
 		:columns-l="3"
 		:columns-m="2"

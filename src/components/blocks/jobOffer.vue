@@ -1,5 +1,5 @@
 <template>
-	<Island class="job-offer bg-primary-foreground overflow-hidden">
+	<Island class="job-offer">
 		<div class="job-offer__actions">
 			<template v-if="jobOffer.executor && showingChat">
 				<Skeleton
@@ -26,7 +26,7 @@
 				/>
 				<div
 					v-else
-					class="job-offer__responses"
+					class="job-offer__proposals"
 					@click="showProposals"
 				>
 					<Icon
@@ -80,14 +80,16 @@
 		<router-link
 			v-else
 			:to="`/offer/${jobOffer.id}`"
-			class="job-offer__title text-2xl max-h-8 text-balance truncate pr-12"
+			class="job-offer__title"
 		>
-			{{ jobOffer.title }}
+			<Text size="m">
+				{{ jobOffer.title }}
+			</Text>
 		</router-link>
 
 		<div
 			v-if="!loading"
-			class="flex flex-wrap gap-2 pr-12"
+			class="job-offer__info"
 		>
 			<Badge
 				class="bg-purple-600"
@@ -106,22 +108,19 @@
 			</Badge>
 		</div>
 
-		<Skeleton
-			v-if="loading"
-			width="140px"
-			height="16px"
-		/>
-		<div
-			v-else
-			class="job-offer__description text-sm h-16 text-balance truncate"
+		<Text
+			class="job-offer__description"
+			size="xs"
+			:loading
+			loading-width="140px"
 		>
 			{{ jobOffer.description }}
-		</div>
+		</Text>
 
 		<div class="job-offer__footer">
 			<User
 				v-if="jobOffer?.expand?.creator"
-				:loading="loading"
+				:loading
 				class="job-offer__user"
 				link
 				:user="jobOffer.expand.creator"
@@ -146,7 +145,7 @@
 import { computed, PropType } from 'vue'
 
 import { Island } from '@/components/structures'
-import { Icon, Badge, Skeleton } from '@/components/elements'
+import { Icon, Badge, Skeleton, Text } from '@/components/elements'
 import User from './user.vue'
 import { Http } from '@/plugins'
 import { useAuthStore } from '@/stores/auth.ts'
@@ -218,16 +217,18 @@ const deadline = computed(() => new Date(props.jobOffer?.deadline))
 
 <style scoped lang="scss">
 .job-offer {
+	max-width: 100%;
+	height: 240px;
+
 	position: relative;
 
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-
-	max-width: 100%;
-	height: 240px;
-
 	gap: 10px;
+
+	background-color: hsl(var(--primary-foreground));
+	overflow: hidden;
 
 	&__actions {
 		position: absolute;
@@ -237,15 +238,22 @@ const deadline = computed(() => new Date(props.jobOffer?.deadline))
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
+	}
 
-		.job-offer__responses {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			gap: 5px;
+	&__proposals {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 5px;
 
-			cursor: pointer;
-		}
+		cursor: pointer;
+	}
+
+	&__title {
+		max-width: 100%;
+		max-height: 32px;
+
+		padding-right: 48px;
 	}
 
 	&__title,
@@ -253,6 +261,18 @@ const deadline = computed(() => new Date(props.jobOffer?.deadline))
 		display: flex;
 		justify-content: flex-start;
 		align-items: flex-start;
+	}
+
+	&__description {
+		max-height: 64px;
+	}
+
+	&__info {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+
+		padding-right: 48px;
 	}
 
 	&__footer {

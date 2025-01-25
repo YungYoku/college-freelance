@@ -41,11 +41,11 @@
 	<Grid
 		:columns-xl="2"
 		:columns-l="1"
-		class="mt-4"
+		class="mt-2"
 	>
 		<Island>
 			<Text
-				size="s"
+				size="m"
 				:loading="loading"
 				class="mb-2"
 			>
@@ -54,48 +54,48 @@
 
 			<div class="grid items-center w-full gap-2">
 				<Text
-					size="xs"
+					size="s"
 					:loading="loading"
 				>
 					Цена: {{ offer.price }}₽
 				</Text>
 
 				<Text
-					size="xs"
+					size="s"
 					:loading="loading"
 					class="mt-4"
 				>
 					Дисциплина: {{ offer.expand?.discipline?.name ?? 'Не указана' }}
 				</Text>
 				<Text
-					size="xs"
+					size="s"
 					:loading="loading"
 				>
 					Тип работы: {{ offer.expand?.type?.name ?? 'Не указан' }}
 				</Text>
 				<Text
-					size="xs"
+					size="s"
 					:loading="loading"
 				>
 					Университет: {{ offer.expand?.university?.name ?? 'Не указан' }}
 				</Text>
 
 				<Text
-					size="xs"
+					size="s"
 					:loading="loading"
 					class="mt-4"
 				>
 					Создано: {{ $date(created) }}
 				</Text>
 				<Text
-					size="xs"
+					size="s"
 					:loading="loading"
 				>
 					Срок сдачи: {{ $date(deadline) }}
 				</Text>
 
 				<Text
-					size="xs"
+					size="s"
 					:loading="loading"
 					class="mt-4"
 				>
@@ -126,7 +126,7 @@
 
 		<Island>
 			<Text
-				size="s"
+				size="m"
 				class="mb-2"
 				:loading="loading"
 			>
@@ -134,7 +134,7 @@
 			</Text>
 
 			<Text
-				size="xs"
+				size="s"
 				:loading="loading"
 			>
 				{{ offer.description }}

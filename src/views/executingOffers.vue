@@ -6,7 +6,7 @@
 	</Grid>
 
 	<Grid
-		class="mt-4"
+		class="mt-2"
 		:columns-xl="4"
 		:columns-l="3"
 		:columns-m="2"
@@ -105,15 +105,15 @@ const updateRating = async (rating: IRating) => {
 
 <style scoped lang="scss">
 .offer-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 
-    padding: 20px;
+	padding: 20px;
 
-    border: 1px solid grey;
-    border-radius: 10px;
-    gap: 20px;
+	border: 1px solid grey;
+	border-radius: 10px;
+	gap: 20px;
 }
 </style>

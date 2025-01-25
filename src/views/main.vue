@@ -1,7 +1,7 @@
 <template>
 	<Text
-		size="m"
-		class="mt-4 mr-auto"
+		size="l"
+		class="mt-2 mr-auto"
 	>
 		Актуальные заказы
 	</Text>
@@ -30,8 +30,8 @@
 
 
 	<Text
-		size="m"
-		class="mt-4 mr-auto"
+		size="l"
+		class="mt-6 mr-auto"
 	>
 		Актуальные исполнители
 	</Text>

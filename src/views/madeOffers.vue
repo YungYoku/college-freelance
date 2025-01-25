@@ -6,7 +6,7 @@
 	</Grid>
 
 	<Grid
-		class="mt-4"
+		class="mt-2"
 		:columns-xl="4"
 		:columns-l="3"
 		:columns-m="2"
@@ -55,7 +55,7 @@
 			@update:rating="updateRating"
 		/>
 	</Modal>
-	
+
 	<ModalDeleteConfirmation
 		v-if="deleteConfirmationModal.show"
 		@remove="remove"

@@ -30,7 +30,7 @@
 					:columns="1"
 					@click="loadChat(chat)"
 				>
-					<Text size="xs">
+					<Text size="s">
 						{{ chat.title }}
 					</Text>
 
@@ -90,7 +90,7 @@ const loading = ref(true)
 const chatRatingType = computed(() => auth.isCustomer ? 'ratingExecutor' : 'ratingCreator')
 const getUserForChar = (chat: IJobOffer) => {
 	if (loading.value) return emptyUser
-	
+
 	const executor = chat.expand?.executor
 	const creator = chat.expand?.creator
 	if (executor && creator) {
