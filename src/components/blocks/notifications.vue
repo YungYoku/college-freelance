@@ -12,7 +12,7 @@
 
 			<span
 				v-if="notifications.findIndex(item => !item.checked) !== -1"
-				class="bg-red-500 w-2 h-2 absolute right-1 top-1 rounded-full"
+				class="notifications__signal"
 			/>
 		</Button>
 
@@ -21,6 +21,7 @@
 				:columns="1"
 				vertical
 				gap="xs"
+				class="notifications__item"
 			>
 				<Text size="xs">
 					{{ item.text }}
@@ -29,14 +30,13 @@
 				<Text
 					v-if="item?.created"
 					size="xs"
-					class="text-xs"
 				>
 					{{ $date(new Date(item.created), 'datetime') }}
 				</Text>
 
 				<span
 					v-if="!item.checked"
-					class="bg-red-500 w-2 h-2 absolute right-2 top-2 rounded-full"
+					class="notifications__signal"
 				/>
 			</Grid>
 		</template>
@@ -79,6 +79,23 @@ const onOpen = async () => {
 <style lang="scss" scoped>
 .notifications {
 	&__button {
+		position: relative;
+	}
+
+	&__signal {
+		width: 8px;
+		height: 8px;
+
+		position: absolute;
+		top: 0;
+		right: 0;
+
+		--tw-bg-opacity: 1;
+		background-color: rgb(239 68 68 / var(--tw-bg-opacity, 1));
+		border-radius: 50%;
+	}
+
+	&__item {
 		position: relative;
 	}
 }
