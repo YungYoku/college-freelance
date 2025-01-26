@@ -1,13 +1,13 @@
 <template>
-	<Popover>
+	<Popover class="select">
 		<template #trigger>
-			<div class="relative w-[100%] h-12 py-2 px-3 bg-background hover:bg-accent rounded-lg border border-input font-light text-sm focus-visible:border-stone-100 outline-none disabled:opacity-50">
+			<div class="select__trigger py-2 px-3">
 				<Label v-if="showedValue">
 					{{ label }}
 				</Label>
 
 				<div
-					class="w-[100%] h-[100%] text-sm font-medium flex items-center justify-start"
+					class="w-[100%] h-[100%] font-medium flex items-center justify-start font-light text-sm"
 					:class="{
 						'pt-3': showedValue,
 						'text-muted-foreground': !showedValue
@@ -157,3 +157,32 @@ const clear = () => {
 	}
 }
 </script>
+
+<style scoped lang="scss">
+.select {
+	&__trigger {
+		width: 100%;
+		height: 48px;
+
+		position: relative;
+
+		transition: all 0.2s;
+		border-radius: 14px;
+		background: hsl(var(--background));
+		border: 1px solid hsl(var(--input));
+
+		&:focus-visible {
+			--tw-border-opacity: 1;
+			border-color: rgb(245 245 244 / var(--tw-border-opacity, 1));
+		}
+
+		&:hover {
+			background: hsl(var(--accent));
+		}
+
+		&:disabled {
+			opacity: 0.5;
+		}
+	}
+}
+</style>

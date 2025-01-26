@@ -94,8 +94,7 @@ const onInput = (event: Event) => {
 	if (props.type === 'file') {
 		const file = target.files?.[0]
 		if (file) emit('update-file', file)
-	}
-	else emit('input', target.value)
+	} else emit('input', target.value)
 }
 const action = () => emit('action')
 
@@ -153,7 +152,7 @@ const filled = computed(() => {
 		}
 
 		&:hover {
-			background: hsl(var(--accent));;
+			background: hsl(var(--accent));
 		}
 
 		&:disabled {
