@@ -264,6 +264,9 @@ const deadline = computed(() => new Date(props.jobOffer?.deadline))
 
 	&__description {
 		max-height: 64px;
+
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	&__info {
