@@ -87,6 +87,10 @@ onUnmounted(() => document.addEventListener('click', handleClick))
 .dropdown {
 	position: relative;
 
+	&__trigger {
+		cursor: pointer;
+	}
+
 	&__content {
 		width: 200px;
 		max-height: 500px;

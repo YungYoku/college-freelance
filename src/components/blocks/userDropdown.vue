@@ -1,9 +1,6 @@
 <template>
 	<Dropdown :items>
-		<Avatar
-			class="cursor-pointer"
-			self
-		/>
+		<Avatar self/>
 	</Dropdown>
 </template>
 
