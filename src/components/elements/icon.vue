@@ -1,9 +1,10 @@
 <template>
 	<Image
 		class="icon"
-		:class="[`icon_${size}`, currentColor, {
-			'cursor-pointer': pointer
-		}]"
+		:class="[`icon_${size}`, currentColor]"
+		:style="{
+			cursor: pointer ? 'pointer' : 'initial',
+		}"
 		:src="src"
 		alt="icon"
 		local

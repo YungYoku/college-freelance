@@ -1,14 +1,17 @@
 <template>
-	<StepByStep :key="offer.id">
+	<StepByStep
+		:key="offer.id"
+		class="chat"
+	>
 		<template #step_1="{ next }">
 			<Grid
 				vertical
 				:columns="1"
-				class="chat pt-10"
+				class="pt-10"
 			>
 				<User
 					v-if="chatMember"
-					class="absolute top-2 left-23"
+					class="chat__user"
 					:loading="loading"
 					link
 					:user="chatMember"
@@ -274,6 +277,11 @@ const sendRating = async (value: { stars: number, review: string } = { stars: 1,
 
 <style scoped lang="scss">
 .chat {
+	&__user {
+		position: absolute;
+		top: 12px;
+	}
+
 	&__messages {
 		display: flex;
 		flex-direction: column;

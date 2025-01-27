@@ -82,7 +82,10 @@
 			:to="`/offer/${jobOffer.id}`"
 			class="job-offer__title"
 		>
-			<Text size="m">
+			<Text
+				size="m"
+				:title="jobOffer.title"
+			>
 				{{ jobOffer.title }}
 			</Text>
 		</router-link>
