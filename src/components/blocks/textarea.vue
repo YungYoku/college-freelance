@@ -25,7 +25,7 @@
 		</span>
 
 		<Icon
-			v-else-if="filled"
+			v-else-if="filled && !disabled"
 			class="textarea__clear"
 			name="close"
 			size="s"

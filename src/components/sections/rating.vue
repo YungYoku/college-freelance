@@ -1,35 +1,45 @@
 <template>
-	<Skeleton
-		v-if="loading"
-		width="132px"
-		height="20px"
-		class="ml-auto mr-auto"
-	/>
-
 	<Grid
-		v-else
-		class="flex flex-wrap justify-center items-center gap-2 ml-auto mr-auto"
+		vertical
+		gap="l"
+		class="rating"
 	>
-		<Text size="s">
+		<Text
+			size="m"
+			:loading
+		>
 			Оставьте свой отзыв для {{ props.user }}!
 		</Text>
 
 		<RatingStarsEditable
+			v-if="!loading"
 			v-model="value.stars"
 		/>
 
 		<Textarea
 			v-model="value.review"
 			label="Отзыв"
+			:disabled="loading"
 		/>
 
-		<Button @click="send">
-			Отправить
-		</Button>
+		<Grid
+			:columns-xl="2"
+			:columns-s="1"
+		>
+			<Button
+				:loading
+				@click="back"
+			>
+				Назад
+			</Button>
 
-		<Button @click="back">
-			Назад
-		</Button>
+			<Button
+				:loading
+				@click="send"
+			>
+				Отправить
+			</Button>
+		</Grid>
 	</Grid>
 </template>
 
@@ -38,7 +48,7 @@ import { ref, PropType, watch } from 'vue'
 
 import { Grid } from '@/components/structures'
 import { Button, Textarea, RatingStarsEditable } from '@/components/blocks'
-import { Text, Skeleton } from '@/components/elements'
+import { Text } from '@/components/elements'
 import { IRating } from '@/interfaces/Rating.ts'
 
 const props = defineProps({
@@ -78,3 +88,8 @@ const send = () => {
 	back()
 }
 </script>
+
+<style scoped lang="scss">
+.rating {
+}
+</style>
