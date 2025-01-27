@@ -1,20 +1,20 @@
 <template>
 	<Popover class="select">
 		<template #trigger>
-			<div class="select__trigger py-2 px-3">
+			<div class="select__trigger">
 				<Label v-if="showedValue">
 					{{ label }}
 				</Label>
 
-				<div
-					class="w-[100%] h-[100%] font-medium flex items-center justify-start font-light text-sm"
+				<Text
+					class="select__showed-value"
 					:class="{
-						'pt-3': showedValue,
-						'text-muted-foreground': !showedValue
+						'_empty': !showedValue
 					}"
+					size="xs"
 				>
 					{{ showedValue ?? label }}
-				</div>
+				</Text>
 
 				<Icon
 					v-if="clearable && value.length > 0"
@@ -74,6 +74,7 @@ import { computed, PropType } from 'vue'
 import { Popover } from '@/components/structures'
 import { Input, Checkbox } from '@/components/blocks'
 import { Label, Icon } from '@/components/elements'
+import Text from '@/components/elements/text.vue'
 
 interface Item {
 	id: string
@@ -166,6 +167,8 @@ const clear = () => {
 
 		position: relative;
 
+		padding: 8px 12px;
+
 		transition: all 0.2s;
 		border-radius: 14px;
 		background: hsl(var(--background));
@@ -182,6 +185,23 @@ const clear = () => {
 
 		&:disabled {
 			opacity: 0.5;
+		}
+	}
+
+	&__showed-value {
+		width: 100%;
+		height: 100%;
+
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+
+		padding-top: 12px;
+
+		&._empty {
+			padding-top: initial;
+
+			color: hsl(var(--muted-foreground));
 		}
 	}
 }

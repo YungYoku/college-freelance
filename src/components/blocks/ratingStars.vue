@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-wrap items-center gap-2 ml-auto mr-auto">
+	<div class="rating-stars">
 		<Icon
 			v-for="i in 5"
 			:key="i"
@@ -20,3 +20,15 @@ defineProps({
 	}
 })
 </script>
+
+<style lang="scss" scoped>
+.rating-stars {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+
+	margin-left: auto;
+	margin-right: auto;
+}
+</style>

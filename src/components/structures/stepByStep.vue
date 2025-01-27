@@ -1,5 +1,5 @@
 <template>
-	<div class="step-by-step w-full">
+	<div class="step-by-step">
 		<div class="step-by-step__steps">
 			<span
 				v-for="(step, i) in steps"
@@ -72,6 +72,8 @@ const getCurrentClass = (step: number) => {
 
 <style scoped lang="scss">
 .step-by-step {
+	width: 100%;
+
 	&__steps {
 		display: flex;
 

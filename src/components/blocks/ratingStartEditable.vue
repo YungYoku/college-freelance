@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="flex flex-wrap items-center gap-2 ml-auto mr-auto"
+		class="rating-start-editable"
 		@mouseleave="hover(null)"
 	>
 		<Icon
@@ -43,3 +43,15 @@ const icons = computed(() => {
 const hoverIndex = ref<number | null>(null)
 const hover = (index: number | null) => hoverIndex.value = index
 </script>
+
+<style lang="scss" scoped>
+.rating-start-editable {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+
+	margin-left: auto;
+	margin-right: auto;
+}
+</style>

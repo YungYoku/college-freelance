@@ -1,14 +1,8 @@
 <template>
 	<div
-		class="w-full"
-		:class="[{
-			grid: !vertical,
-			flex: vertical,
-			'flex-col': vertical,
-			'gap-1': gap === 'xs',
-			'gap-2': gap === 's',
-			'gap-3': gap === 'm',
-			'gap-4': gap === 'l'
+		class="grid"
+		:class="[`_gap-${gap}`, {
+			'_vertical': vertical
 		}]"
 		:style="style"
 	>
@@ -123,4 +117,30 @@ const style = computed(() => {
 		'justify-items': getAlign(props.horAlign)
 	}
 })
-</script>
+</script>]
+
+<style lang="scss" scoped>
+.grid {
+	width: 100%;
+
+	display: grid;
+
+	&._vertical {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&._gap-xs {
+		gap: 4px;
+	}
+	&._gap-s {
+		gap: 8px;
+	}
+	&._gap-m {
+		gap: 12px;
+	}
+	&._gap-l {
+		gap: 16px;
+	}
+}
+</style>

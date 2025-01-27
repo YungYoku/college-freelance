@@ -137,17 +137,23 @@ const filled = computed(() => {
 		border-radius: 14px;
 		background: hsl(var(--background));
 		outline: none;
+		border: 1px solid hsl(var(--input));
 
 		&._empty {
 			padding-top: 20px;
 		}
 
-		&.default {
-			border: 1px solid hsl(var(--input));
+		&:focus-visible {
+			--tw-border-opacity: 1;
+			border-color: rgb(245 245 244 / var(--tw-border-opacity, 1));
+		}
+
+		&.plain {
+			border: initial;
+			border-radius: initial;
 
 			&:focus-visible {
-				--tw-border-opacity: 1;
-				border-color: rgb(245 245 244 / var(--tw-border-opacity, 1));
+				border-color: initial;
 			}
 		}
 

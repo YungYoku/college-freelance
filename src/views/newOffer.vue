@@ -22,7 +22,7 @@
 	>
 		<Island>
 			<Text
-				size="s"
+				size="m"
 				:loading="loading"
 				class="mb-2"
 			>
@@ -79,7 +79,7 @@
 
 		<Island>
 			<Text
-				size="s"
+				size="m"
 				class="mb-2"
 				:loading="loading"
 			>
