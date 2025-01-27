@@ -5,49 +5,16 @@
 		:height="skeletonHeights[size]"
 	/>
 
-	<h1
-		v-else-if="size === 'xl'"
-		class="text text-4xl font-extrabold tracking-tight lg:text-5xl truncate"
+	<span
+		v-else
+		class="text"
+		:class="size"
 		:style="{
 			height: skeletonHeights[size]
 		}"
 	>
 		<slot/>
-	</h1>
-
-	<h2
-		v-else-if="size === 'l'"
-		class="text pb-2 text-3xl font-semibold tracking-tight truncate"
-		:style="{
-			height: skeletonHeights[size]
-		}"
-	>
-		<slot/>
-	</h2>
-
-	<h3
-		v-else-if="size === 'm'"
-		class="text text-2xl font-semibold tracking-tight truncate"
-		:style="{
-			height: skeletonHeights[size]
-		}"
-	>
-		<slot/>
-	</h3>
-
-	<h4
-		v-else-if="size === 's'"
-		class="text text-l tracking-tight"
-	>
-		<slot/>
-	</h4>
-
-	<h5
-		v-else-if="size === 'xs'"
-		class="text text-sm tracking-tight"
-	>
-		<slot/>
-	</h5>
+	</span>
 </template>
 
 <script setup lang="ts">
@@ -73,16 +40,52 @@ defineProps({
 })
 
 const skeletonHeights = {
-	xs: '16px',
-	s: '24px',
-	m: '32px',
-	l: '40px',
-	xl: '56px'
+	xs: 'auto',
+	s: 'auto',
+	m: '24px',
+	l: '30px',
+	xl: '48px'
 }
 </script>
 
 <style scoped lang="scss">
 .text {
 	max-width: 100%;
+
+	&.xl,
+	&.l,
+	&.m {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		line-height: 1;
+	}
+
+	&.xl {
+		font-size: 48px;
+		font-weight: 800;
+
+		@media (max-width: 1024px) {
+			font-size: 36px;
+		};
+	}
+
+	&.l {
+		font-size: 30px;
+		font-weight: 600;
+	}
+
+	&.m {
+		font-size: 24px;
+		font-weight: 600;
+	}
+
+	&.s {
+		font-size: 16px;
+	}
+
+	&.xs {
+		font-size: 14px;
+	}
 }
 </style>
