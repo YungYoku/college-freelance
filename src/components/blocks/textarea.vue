@@ -7,7 +7,7 @@
 		<textarea
 			v-model="value"
 			:placeholder="label"
-			class="textarea__field font-light text-sm"
+			class="textarea__field"
 			:class="[{
 				'_empty': value.length === 0
 			}]"
@@ -19,7 +19,7 @@
 
 		<span
 			v-if="error"
-			class="textarea__error text-xs text-destructive font-extralight"
+			class="textarea__error"
 		>
 			{{ error }}
 		</span>
@@ -79,6 +79,9 @@ const filled = computed(() => value.value.length > 0)
 
 		padding: 16px 12px 8px 12px;
 
+		font-size: 14px;
+		font-weight: 300;
+
 		transition: all 0.2s, padding 0s;
 		border-radius: 14px;
 		background: hsl(var(--background));
@@ -105,6 +108,10 @@ const filled = computed(() => value.value.length > 0)
 
 	&__error {
 		padding-left: 12px;
+
+		font-size: 12px;
+		font-weight: 200;
+		color: hsl(var(--destructive));
 	}
 
 	&__clear {
