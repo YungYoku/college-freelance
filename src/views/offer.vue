@@ -28,8 +28,10 @@
 
 			<template v-else-if="authStore.isExecutor">
 				<span/>
+				<span v-if="isAlreadyProposed"/>
 				<Button
-					:disabled="loading || isAlreadyProposed"
+					v-else
+					:disabled="loading"
 					@click="showMakeProposal"
 				>
 					Откликнуться

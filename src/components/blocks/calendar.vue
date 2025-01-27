@@ -126,7 +126,8 @@ const daysAmount = computed(() => monthInfo[month.value].days)
 const weekInfo = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']
 
 const isDayActive = (day: number) => {
-	return value.value.getFullYear() === year.value && value.value.getMonth() === month.value && value.value.getDate() === day
+	const date = new Date(value.value)
+	return date.getFullYear() === year.value && date.getMonth() === month.value && date.getDate() === day
 }
 </script>
 
