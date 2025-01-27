@@ -18,7 +18,7 @@
 
 				<Icon
 					v-if="clearable && value.length > 0"
-					class="absolute right-3 top-3.5 cursor-pointer"
+					class="select__clear"
 					name="close"
 					size="s"
 					@click.prevent.stop="clear"
@@ -34,16 +34,15 @@
 			variant="plain"
 		/>
 
-		<div class="w-full h-[1px] min-h-[1px] bg-accent"/>
+		<Separator/>
 
-		<div class="p-1 flex flex-col gap-1 overflow-auto">
+		<div class="select__content">
 			<div
 				v-for="item in items"
 				:key="item.id"
-				class="w-full min-h-8 h-8 flex items-center justify-between cursor-pointer rounded-sm p-2 text-sm hover:bg-accent whitespace-nowrap overflow-hidden"
+				class="select__item"
 				:class="{
-					'bg-background': value !== item.id,
-					'bg-accent': value === item.id && !multiple
+					'_active': value === item.id && !multiple
 				}"
 				@click="chooseValue(item)"
 			>
@@ -55,7 +54,9 @@
 				/>
 
 				<template v-else>
-					{{ item.name }}
+					<Text size="xs">
+						{{ item.name }}
+					</Text>
 
 					<Icon
 						v-if="value === item.id"
@@ -73,8 +74,7 @@ import { computed, PropType } from 'vue'
 
 import { Popover } from '@/components/structures'
 import { Input, Checkbox } from '@/components/blocks'
-import { Label, Icon } from '@/components/elements'
-import Text from '@/components/elements/text.vue'
+import { Label, Icon, Separator, Text } from '@/components/elements'
 
 interface Item {
 	id: string
@@ -202,6 +202,50 @@ const clear = () => {
 			padding-top: initial;
 
 			color: hsl(var(--muted-foreground));
+		}
+	}
+
+	&__clear {
+		position: absolute;
+		top: 14px;
+		right: 12px;
+
+		cursor: pointer;
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+
+		padding: 4px;
+
+		overflow: auto;
+	}
+
+	&__item {
+		width: 100%;
+		height: 32px;
+		min-height: 32px;
+
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		padding: 8px;
+
+		background-color: hsl(var(--background));
+		white-space: nowrap;
+		border-radius: 4px;
+		cursor: pointer;
+		overflow: hidden;
+
+		&:hover {
+			background-color: hsl(var(--accent));
+		}
+
+		&._active {
+			background-color: hsl(var(--accent));
 		}
 	}
 }
