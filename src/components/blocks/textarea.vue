@@ -1,5 +1,5 @@
 <template>
-	<div class="relative">
+	<div class="textarea">
 		<Label v-if="!placeholder">
 			{{ label }}
 		</Label>
@@ -7,9 +7,9 @@
 		<textarea
 			v-model="value"
 			:placeholder="label"
-			class="w-[100%] py-2 px-3 bg-background hover:bg-accent rounded-lg border border-input font-light text-sm focus-visible:border-stone-100 outline-none disabled:opacity-50"
+			class="textarea__field font-light text-sm"
 			:class="[{
-				'pt-4': !placeholder,
+				'_empty': value.length === 0
 			}]"
 			:style="{
 				height
@@ -19,14 +19,14 @@
 
 		<span
 			v-if="error"
-			class="pl-3 text-xs text-destructive font-extralight"
+			class="textarea__error text-xs text-destructive font-extralight"
 		>
 			{{ error }}
 		</span>
 
 		<Icon
 			v-else-if="filled"
-			class="absolute right-3 top-3.5 cursor-pointer"
+			class="textarea__clear"
 			name="close"
 			size="s"
 			@click.prevent.stop="clear"
@@ -69,3 +69,50 @@ const placeholder = computed(() => {
 
 const filled = computed(() => value.value.length > 0)
 </script>
+
+<style scoped lang="scss">
+.textarea {
+	position: relative;
+
+	&__field {
+		width: 100%;
+
+		padding: 16px 12px 8px 12px;
+
+		transition: all 0.2s, padding 0s;
+		border-radius: 14px;
+		background: hsl(var(--background));
+		border: 1px solid hsl(var(--input));
+		outline: none;
+
+		&._empty {
+			padding-top: 8px;
+		}
+
+		&:focus-visible {
+			--tw-border-opacity: 1;
+			border-color: rgb(245 245 244 / var(--tw-border-opacity, 1));
+		}
+
+		&:hover {
+			background: hsl(var(--accent));
+		}
+
+		&:disabled {
+			opacity: 0.5;
+		}
+	}
+
+	&__error {
+		padding-left: 12px;
+	}
+
+	&__clear {
+		position: absolute;
+		top: 14px;
+		right: 12px;
+
+		cursor: pointer;
+	}
+}
+</style>
