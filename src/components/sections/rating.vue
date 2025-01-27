@@ -8,7 +8,7 @@
 			size="m"
 			:loading
 		>
-			Оставьте свой отзыв для {{ props.user }}!
+			Оставьте свой отзыв для {{ user }}!
 		</Text>
 
 		<RatingStarsEditable
