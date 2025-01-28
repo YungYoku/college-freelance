@@ -1,8 +1,8 @@
 <template>
 	<div
 		class="avatar"
-		:class="[`avatar__${size}`, {
-			'avatar__editable': editable && avatar
+		:class="[`_${size}`, {
+			'_editable': editable && avatar
 		}]"
 		:style="style"
 	>
@@ -155,35 +155,35 @@ const removeAvatar = () => loadImage('')
 		}
 	}
 
-	&__xs {
+	&._xs {
 		min-width: 16px;
 		max-width: 16px;
 		min-height: 16px;
 		max-height: 16px;
 	}
 
-	&__s {
+	&._s {
 		min-width: 32px;
 		max-width: 32px;
 		min-height: 32px;
 		max-height: 32px;
 	}
 
-	&__m {
+	&._m {
 		min-width: 48px;
 		max-width: 48px;
 		min-height: 48px;
 		max-height: 48px;
 	}
 
-	&__l {
+	&._l {
 		min-width: 160px;
 		max-width: 160px;
 		min-height: 160px;
 		max-height: 160px;
 	}
 
-	&__editable {
+	&._editable {
 		&::before {
 			content: '';
 			position: absolute;
