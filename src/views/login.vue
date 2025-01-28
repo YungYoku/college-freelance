@@ -1,5 +1,5 @@
 <template>
-	<AuthLayout>
+	<AuthLayout class="login">
 		<Card
 			width="300px"
 			title="Вход"
@@ -30,19 +30,19 @@
 			<template #footer>
 				<Text
 					size="xs"
-					class="text-center"
+					class="login__no-account"
 				>
 					Нет аккаунта?
 					<router-link
 						to="/registration"
-						class="underline"
+						class="login__link"
 					>
 						Зарегистрироваться
 					</router-link>
 				</Text>
 
 				<router-link
-					class="text-center underline"
+					class="login__link"
 					to="/login"
 				>
 					<Text size="xs">
@@ -111,3 +111,16 @@ const isLoginPossible = computed(() => {
 	return password.length >= 0 && identity.length > 0
 })
 </script>
+
+<style scoped lang="scss">
+.login {
+	&__no-account {
+		text-align: center;
+	}
+
+	&__link {
+		text-align: center;
+		text-decoration: underline;
+	}
+}
+</style>
