@@ -28,21 +28,28 @@
 		class="mt-4"
 	>
 		<Island>
-			<Text
-				size="s"
-				:loading="loading"
-				class="mb-2"
+			<Grid
+				vertical
+				:columns="1"
 			>
-				Информация о заказе
-			</Text>
+				<Text
+					size="m"
+					:loading="loading"
+				>
+					Информация о заказе
+				</Text>
 
-
-			<div class="grid items-center w-full gap-2">
 				<Input
 					v-model="form.price.value"
 					:error="form.price.error"
 					:disabled="loading"
 					label="Цена"
+				/>
+
+				<InputFile
+					v-model="form.file.value"
+					:error="form.file.error"
+					:loading="loading"
 				/>
 
 				<SelectLive
@@ -77,24 +84,28 @@
 					:error="form.tutoring.error"
 					label="Репетиторство"
 				/>
-			</div>
+			</Grid>
 		</Island>
 
 		<Island>
-			<Text
-				size="s"
-				class="mb-2"
-				:loading="loading"
+			<Grid
+				vertical
+				:columns="1"
 			>
-				Описание
-			</Text>
+				<Text
+					size="m"
+					:loading="loading"
+				>
+					Описание
+				</Text>
 
-			<Textarea
-				v-model.trim="form.description.value"
-				:error="form.description.error"
-				height="200px"
-				label="Описание"
-			/>
+				<Textarea
+					v-model.trim="form.description.value"
+					:error="form.description.error"
+					height="200px"
+					label="Описание"
+				/>
+			</Grid>
 		</Island>
 	</Grid>
 </template>
@@ -105,7 +116,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { useToast } from '@/stores/toast'
 
 import { Grid, Island } from '@/components/structures'
-import { Button, Checkbox, DatePicker, Input, SelectLive, Textarea } from '@/components/blocks'
+import { Button, Checkbox, DatePicker, Input, InputFile, SelectLive, Textarea } from '@/components/blocks'
 import { Text } from '@/components/elements'
 import { IJobOffer, emptyOffer } from '@/interfaces/JobOffer.ts'
 import { IUser } from '@/interfaces/User.ts'

@@ -167,6 +167,10 @@ const clear = () => {
 
 		position: relative;
 
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+
 		padding: 8px 12px;
 
 		transition: all 0.2s;

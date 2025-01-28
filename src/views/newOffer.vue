@@ -21,16 +21,17 @@
 		class="mt-4"
 	>
 		<Island>
-			<Text
-				size="m"
-				:loading="loading"
-				class="mb-2"
+			<Grid
+				vertical
+				:columns="1"
 			>
-				Информация о заказе
-			</Text>
+				<Text
+					size="m"
+					:loading="loading"
+				>
+					Информация о заказе
+				</Text>
 
-
-			<div class="grid items-center w-full gap-2">
 				<Input
 					v-model="newOffer.price.value"
 					:disabled="loading"
@@ -74,24 +75,28 @@
 					:error="newOffer.tutoring.error"
 					label="Репетиторство"
 				/>
-			</div>
+			</Grid>
 		</Island>
 
 		<Island>
-			<Text
-				size="m"
-				class="mb-2"
-				:loading="loading"
+			<Grid
+				vertical
+				:columns="1"
 			>
-				Описание
-			</Text>
+				<Text
+					size="m"
+					:loading="loading"
+				>
+					Описание
+				</Text>
 
-			<Textarea
-				v-model.trim="newOffer.description.value"
-				:error="newOffer.description.error"
-				height="200px"
-				label="Описание"
-			/>
+				<Textarea
+					v-model.trim="newOffer.description.value"
+					:error="newOffer.description.error"
+					height="200px"
+					label="Описание"
+				/>
+			</Grid>
 		</Island>
 	</Grid>
 </template>
