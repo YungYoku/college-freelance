@@ -2,7 +2,7 @@
 	<Grid
 		:columns="1"
 		vertical
-		class="relative max-w-screen-md"
+		class="user"
 	>
 		<Grid
 			:columns-xl="['160px', 1, '48px']"
@@ -158,3 +158,9 @@ const loadUser = async () => {
 }
 watch(() => route.params.id, loadUser, { immediate: true })
 </script>
+
+<style scoped lang="scss">
+.user {
+	max-width: 768px;
+}
+</style>

@@ -2,15 +2,13 @@
 	<Grid
 		:columns="1"
 		vertical
-		class="max-w-screen-md"
+		class="profile"
 	>
-		<div class="flex gap-4 items-center">
-			<Avatar
-				size="l"
-				editable
-				self
-			/>
-		</div>
+		<Avatar
+			size="l"
+			editable
+			self
+		/>
 
 		<Input
 			v-model="form.name.value"
@@ -142,3 +140,9 @@ const save = async () => {
 
 const isWithRefCode = computed(() => auth.user.referral_code?.length > 0)
 </script>
+
+<style scoped lang="scss">
+.profile {
+	max-width: 768px;
+}
+</style>
