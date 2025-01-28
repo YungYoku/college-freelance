@@ -1,55 +1,57 @@
 <template>
-	<Grid :columns="1">
-		<PageTitle>
-			Избранное
-		</PageTitle>
-	</Grid>
-
 	<Grid
-		v-if="loading || offers.length"
-		class="mt-2"
-		:columns-xl="4"
-		:columns-l="3"
-		:columns-m="2"
-		:columns-s="1"
+		vertical
+		:columns="1"
+		gap="l"
 	>
-		<template v-if="loading">
-			<EmptyJobOffer
-				v-for="i in 8"
-				:key="i"
-			/>
-		</template>
-		<template v-else-if="offers.length">
-			<JobOffer
-				v-for="offer in offers"
-				:key="offer.id"
-				:job-offer="offer"
-				:loading="loading"
-				showing-remove
-				showing-status
-				@remove="remove"
-			/>
-		</template>
+		<Grid :columns="1">
+			<PageTitle>
+				Избранное
+			</PageTitle>
+		</Grid>
+
+		<Grid
+			v-if="loading || offers.length"
+			:columns-xl="4"
+			:columns-l="3"
+			:columns-m="2"
+			:columns-s="1"
+		>
+			<template v-if="loading">
+				<EmptyJobOffer
+					v-for="i in 8"
+					:key="i"
+				/>
+			</template>
+			<template v-else-if="offers.length">
+				<JobOffer
+					v-for="offer in offers"
+					:key="offer.id"
+					:job-offer="offer"
+					:loading="loading"
+					showing-remove
+					showing-status
+					@remove="remove"
+				/>
+			</template>
+		</Grid>
+
+		<Text v-else>
+			Пусто
+		</Text>
 	</Grid>
-	<span
-		v-else
-		class="mt-4 mr-auto ml-auto"
-	>
-		Пусто
-	</span>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
-import { Http } from '@/plugins'
-import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
 import { Grid } from '@/components/structures'
 import { EmptyJobOffer, JobOffer } from '@/components/blocks'
-import { PageTitle } from '@/components/elements'
+import { PageTitle, Text } from '@/components/elements'
 
-
+import { Http } from '@/plugins'
+import { IJobOffer, IJobOffers } from '@/interfaces/JobOffer.ts'
 const auth = useAuthStore()
 
 const offers = ref<Array<IJobOffer>>([])
@@ -87,19 +89,3 @@ const remove = async (offer: IJobOffer) => {
 		})
 }
 </script>
-
-
-<style scoped lang="scss">
-.offer-wrapper {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-
-	padding: 20px;
-
-	border: 1px solid grey;
-	border-radius: 10px;
-	gap: 20px;
-}
-</style>

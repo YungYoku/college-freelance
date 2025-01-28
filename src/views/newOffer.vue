@@ -1,103 +1,108 @@
 <template>
-	<Grid :columns="[1, '100px']">
-		<Input
-			v-model.trim="newOffer.title.value"
-			:disabled="loading"
-			:error="newOffer.title.error"
-			label="Название"
-		/>
-
-		<Button
-			:disabled="loading"
-			@click="createOffer"
-		>
-			Создать
-		</Button>
-	</Grid>
-
 	<Grid
-		:columns-xl="2"
-		:columns-l="1"
-		class="mt-4"
+		vertical
+		:columns="1"
+		gap="l"
 	>
-		<Island>
-			<Grid
-				vertical
-				:columns="1"
+		<Grid :columns="[1, '100px']">
+			<Input
+				v-model.trim="newOffer.title.value"
+				:disabled="loading"
+				:error="newOffer.title.error"
+				label="Название"
+			/>
+
+			<Button
+				:disabled="loading"
+				@click="createOffer"
 			>
-				<Text
-					size="m"
-					:loading="loading"
+				Создать
+			</Button>
+		</Grid>
+
+		<Grid
+			:columns-xl="2"
+			:columns-l="1"
+		>
+			<Island>
+				<Grid
+					vertical
+					:columns="1"
 				>
-					Информация о заказе
-				</Text>
+					<Text
+						size="m"
+						:loading="loading"
+					>
+						Информация о заказе
+					</Text>
 
-				<Input
-					v-model="newOffer.price.value"
-					:disabled="loading"
-					:error="newOffer.price.error"
-					label="Цена"
-				/>
-				<InputFile
-					v-model="newOffer.file.value"
-					:error="newOffer.file.error"
-					:loading="loading"
-				/>
-				<SelectLive
-					v-model="newOffer.discipline.value"
-					:error="newOffer.discipline.error"
-					place-holder="Дисциплина"
-					api="disciplines"
-				/>
+					<Input
+						v-model="newOffer.price.value"
+						:disabled="loading"
+						:error="newOffer.price.error"
+						label="Цена"
+					/>
+					<InputFile
+						v-model="newOffer.file.value"
+						:error="newOffer.file.error"
+						:loading="loading"
+					/>
+					<SelectLive
+						v-model="newOffer.discipline.value"
+						:error="newOffer.discipline.error"
+						place-holder="Дисциплина"
+						api="disciplines"
+					/>
 
-				<SelectLive
-					v-model="newOffer.type.value"
-					:error="newOffer.type.error"
-					place-holder="Тип работы"
-					api="offer_types"
-				/>
+					<SelectLive
+						v-model="newOffer.type.value"
+						:error="newOffer.type.error"
+						place-holder="Тип работы"
+						api="offer_types"
+					/>
 
-				<SelectLive
-					v-model="newOffer.university.value"
-					:error="newOffer.university.error"
-					place-holder="Университет"
-					api="universities"
-				/>
+					<SelectLive
+						v-model="newOffer.university.value"
+						:error="newOffer.university.error"
+						place-holder="Университет"
+						api="universities"
+					/>
 
-				<DatePicker
-					v-model="newOffer.deadline.value"
-					:error="newOffer.deadline.error"
-					label="Срок сдачи"
-				/>
+					<DatePicker
+						v-model="newOffer.deadline.value"
+						:error="newOffer.deadline.error"
+						label="Срок сдачи"
+					/>
 				
-				<Checkbox
-					v-model="newOffer.tutoring.value"
-					:error="newOffer.tutoring.error"
-					label="Репетиторство"
-				/>
-			</Grid>
-		</Island>
+					<Checkbox
+						v-model="newOffer.tutoring.value"
+						:error="newOffer.tutoring.error"
+						label="Репетиторство"
+					/>
+				</Grid>
+			</Island>
 
-		<Island>
-			<Grid
-				vertical
-				:columns="1"
-			>
-				<Text
-					size="m"
-					:loading="loading"
+			<Island>
+				<Grid
+					vertical
+					:columns="1"
 				>
-					Описание
-				</Text>
+					<Text
+						size="m"
+						:loading="loading"
+					>
+						Описание
+					</Text>
 
-				<Textarea
-					v-model.trim="newOffer.description.value"
-					:error="newOffer.description.error"
-					height="200px"
-					label="Описание"
-				/>
-			</Grid>
-		</Island>
+					<Textarea
+						v-model.trim="newOffer.description.value"
+						:error="newOffer.description.error"
+						height="200px"
+						label="Описание"
+					/>
+				</Grid>
+			</Island>
+		</Grid>
 	</Grid>
 </template>
 

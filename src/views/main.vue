@@ -1,56 +1,66 @@
 <template>
-	<Text
-		size="l"
-		class="mt-2 mr-auto"
-	>
-		Актуальные заказы
-	</Text>
 	<Grid
-		v-if="offers.length || loadingOffers"
-		:columns-xl="4"
-		:columns-l="3"
-		:columns-m="2"
-		:columns-s="1"
+		vertical
+		:columns="1"
+		gap="l"
 	>
-		<template v-if="loadingOffers">
-			<EmptyJobOffer
-				v-for="i in 8"
-				:key="i"
-			/>
-		</template>
-		<template v-else>
-			<JobOffer
-				v-for="offer in offers"
-				:key="offer.id"
-				:job-offer="offer"
-			/>
-		</template>
-	</Grid>
-	<span v-else>Нет доступных объявлений.</span>
+		<Text size="l">
+			Актуальные заказы
+		</Text>
+		<Grid
+			v-if="offers.length || loadingOffers"
+			:columns-xl="4"
+			:columns-l="3"
+			:columns-m="2"
+			:columns-s="1"
+		>
+			<template v-if="loadingOffers">
+				<EmptyJobOffer
+					v-for="i in 8"
+					:key="i"
+				/>
+			</template>
+			<template v-else>
+				<JobOffer
+					v-for="offer in offers"
+					:key="offer.id"
+					:job-offer="offer"
+				/>
+			</template>
+		</Grid>
+		<Text
+			v-else
+			size="xs"
+		>
+			Нет доступных объявлений.
+		</Text>
 
 
-	<Text
-		size="l"
-		class="mt-6 mr-auto"
-	>
-		Актуальные исполнители
-	</Text>
-	<Grid
-		v-if="executors.length || loadingExecutors"
-		:columns-xl="4"
-		:columns-l="3"
-		:columns-m="2"
-		:columns-s="1"
-	>
-		<UserCard
-			v-for="executor in executors"
-			:key="executor.id"
-			:user="executor"
-			:loading="loadingExecutors"
-			link
-		/>
+		<Text size="l">
+			Актуальные исполнители
+		</Text>
+		<Grid
+			v-if="executors.length || loadingExecutors"
+			:columns-xl="4"
+			:columns-l="3"
+			:columns-m="2"
+			:columns-s="1"
+		>
+			<UserCard
+				v-for="executor in executors"
+				:key="executor.id"
+				:user="executor"
+				:loading="loadingExecutors"
+				link
+			/>
+		</Grid>
+		<Text
+			v-else
+			size="xs"
+		>
+			Нет доступных исполнителей.
+		</Text>
 	</Grid>
-	<span v-else>Нет доступных исполнителей.</span>
 </template>
 
 <script lang="ts" setup>

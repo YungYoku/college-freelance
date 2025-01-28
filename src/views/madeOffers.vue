@@ -1,38 +1,43 @@
 <template>
-	<Grid :columns="1">
-		<PageTitle>
-			Мои объявления
-		</PageTitle>
-	</Grid>
-
 	<Grid
-		class="mt-2"
-		:columns-xl="4"
-		:columns-l="3"
-		:columns-m="2"
-		:columns-s="1"
+		vertical
+		:columns="1"
+		gap="l"
 	>
-		<template v-if="loading">
-			<EmptyJobOffer
-				v-for="i in 8"
-				:key="i"
-			/>
-		</template>
-		<template v-else>
-			<JobOffer
-				v-for="offer in offers"
-				:key="offer.id"
-				:job-offer="offer"
-				:loading="loading"
-				showing-proposals
-				showing-chat
-				showing-remove
-				showing-status
-				@show-proposals="showProposals"
-				@show-chat="openChat"
-				@remove="showDeleteConfirmation"
-			/>
-		</template>
+		<Grid :columns="1">
+			<PageTitle>
+				Мои объявления
+			</PageTitle>
+		</Grid>
+
+		<Grid
+			:columns-xl="4"
+			:columns-l="3"
+			:columns-m="2"
+			:columns-s="1"
+		>
+			<template v-if="loading">
+				<EmptyJobOffer
+					v-for="i in 8"
+					:key="i"
+				/>
+			</template>
+			<template v-else>
+				<JobOffer
+					v-for="offer in offers"
+					:key="offer.id"
+					:job-offer="offer"
+					:loading="loading"
+					showing-proposals
+					showing-chat
+					showing-remove
+					showing-status
+					@show-proposals="showProposals"
+					@show-chat="openChat"
+					@remove="showDeleteConfirmation"
+				/>
+			</template>
+		</Grid>
 	</Grid>
 
 	<ModalProposals

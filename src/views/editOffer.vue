@@ -1,112 +1,117 @@
 <template>
-	<Grid :columns="[1, '80px', '100px']">
-		<Input
-			v-model.trim="form.title.value"
-			:error="form.title.error"
-			:disabled="loading"
-			label="Название"
-		/>
-
-		<Button
-			:disabled="loading"
-			:to="`/offer/${form.id.value}`"
-		>
-			Назад
-		</Button>
-
-		<Button
-			:disabled="loading"
-			@click="save"
-		>
-			Сохранить
-		</Button>
-	</Grid>
-
 	<Grid
-		:columns-xl="2"
-		:columns-l="1"
-		class="mt-4"
+		vertical
+		:columns="1"
+		gap="l"
 	>
-		<Island>
-			<Grid
-				vertical
-				:columns="1"
+		<Grid :columns="[1, '80px', '100px']">
+			<Input
+				v-model.trim="form.title.value"
+				:error="form.title.error"
+				:disabled="loading"
+				label="Название"
+			/>
+
+			<Button
+				:disabled="loading"
+				:to="`/offer/${form.id.value}`"
 			>
-				<Text
-					size="m"
-					:loading="loading"
-				>
-					Информация о заказе
-				</Text>
+				Назад
+			</Button>
 
-				<Input
-					v-model="form.price.value"
-					:error="form.price.error"
-					:disabled="loading"
-					label="Цена"
-				/>
-
-				<InputFile
-					v-model="form.file.value"
-					:error="form.file.error"
-					:loading="loading"
-				/>
-
-				<SelectLive
-					v-model="form.discipline.value"
-					:error="form.discipline.error"
-					place-holder="Дисциплина"
-					api="disciplines"
-				/>
-
-				<SelectLive
-					v-model="form.type.value"
-					:error="form.type.error"
-					place-holder="Тип работы"
-					api="offer_types"
-				/>
-
-				<SelectLive
-					v-model="form.university.value"
-					:error="form.university.error"
-					place-holder="Университет"
-					api="universities"
-				/>
-
-				<DatePicker
-					v-model="form.deadline.value"
-					:error="form.deadline.error"
-					label="Срок сдачи"
-				/>
-
-				<Checkbox
-					v-model="form.tutoring.value"
-					:error="form.tutoring.error"
-					label="Репетиторство"
-				/>
-			</Grid>
-		</Island>
-
-		<Island>
-			<Grid
-				vertical
-				:columns="1"
+			<Button
+				:disabled="loading"
+				@click="save"
 			>
-				<Text
-					size="m"
-					:loading="loading"
-				>
-					Описание
-				</Text>
+				Сохранить
+			</Button>
+		</Grid>
 
-				<Textarea
-					v-model.trim="form.description.value"
-					:error="form.description.error"
-					height="200px"
-					label="Описание"
-				/>
-			</Grid>
-		</Island>
+		<Grid
+			:columns-xl="2"
+			:columns-l="1"
+		>
+			<Island>
+				<Grid
+					vertical
+					:columns="1"
+				>
+					<Text
+						size="m"
+						:loading="loading"
+					>
+						Информация о заказе
+					</Text>
+
+					<Input
+						v-model="form.price.value"
+						:error="form.price.error"
+						:disabled="loading"
+						label="Цена"
+					/>
+
+					<InputFile
+						v-model="form.file.value"
+						:error="form.file.error"
+						:loading="loading"
+					/>
+
+					<SelectLive
+						v-model="form.discipline.value"
+						:error="form.discipline.error"
+						place-holder="Дисциплина"
+						api="disciplines"
+					/>
+
+					<SelectLive
+						v-model="form.type.value"
+						:error="form.type.error"
+						place-holder="Тип работы"
+						api="offer_types"
+					/>
+
+					<SelectLive
+						v-model="form.university.value"
+						:error="form.university.error"
+						place-holder="Университет"
+						api="universities"
+					/>
+
+					<DatePicker
+						v-model="form.deadline.value"
+						:error="form.deadline.error"
+						label="Срок сдачи"
+					/>
+
+					<Checkbox
+						v-model="form.tutoring.value"
+						:error="form.tutoring.error"
+						label="Репетиторство"
+					/>
+				</Grid>
+			</Island>
+
+			<Island>
+				<Grid
+					vertical
+					:columns="1"
+				>
+					<Text
+						size="m"
+						:loading="loading"
+					>
+						Описание
+					</Text>
+
+					<Textarea
+						v-model.trim="form.description.value"
+						:error="form.description.error"
+						height="200px"
+						label="Описание"
+					/>
+				</Grid>
+			</Island>
+		</Grid>
 	</Grid>
 </template>
 
