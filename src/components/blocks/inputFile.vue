@@ -1,5 +1,7 @@
 <template>
-	<div class="input-file">
+	<div
+		class="input-file"
+	>
 		<Button
 			v-if="compact"
 			:disabled="loading"
@@ -8,7 +10,12 @@
 		>
 			<Icon name="file"/>
 
-			<div :class="inputWrapStyle">
+			<div
+				class="input-file__field-wrap"
+				:class="{
+					'_compact': compact
+				}"
+			>
 				<Input
 					:disabled="loading"
 					:error="error"
@@ -21,7 +28,10 @@
 
 		<div
 			v-else
-			:class="inputWrapStyle"
+			class="input-file__field-wrap"
+			:class="{
+				'_compact': compact
+			}"
 		>
 			<Input
 				:disabled="loading"
@@ -35,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType } from 'vue'
+import { PropType } from 'vue'
 
 import { Button, Input } from '@/components/blocks'
 import { Icon } from '@/components/elements'
@@ -47,7 +57,7 @@ interface Props {
 	compact?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
 	error: null,
 	loading: false,
 	compact: false,
@@ -72,20 +82,6 @@ const updateFile = async (file: File) => {
 		.post<{ id: string }>('/collections/files/records', formData)
 		.then(({ id }) => id)
 }
-
-const inputWrapStyle = computed(() => {
-	if (props.compact) {
-		return [
-			'w-[100%]',
-			'h-[100%]',
-			'absolute',
-			'left-0',
-			'top-0',
-			'opacity-0'
-		]
-	}
-	return ['w-[100%]']
-})
 </script>
 
 <style lang="scss" scoped>
@@ -102,6 +98,20 @@ const inputWrapStyle = computed(() => {
 		position: absolute;
 		left: 0;
 		top: 0;
+	}
+
+	&__field-wrap {
+		width: 100%;
+
+		&._compact {
+			height: 100%;
+
+			position: absolute;
+			left: 0;
+			top: 0;
+
+			opacity: 0;
+		}
 	}
 }
 </style>

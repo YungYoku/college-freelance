@@ -15,11 +15,14 @@
 .logo {
 	max-width: 40px;
 
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
 	padding: 2px 4px;
 
 	border-radius: 6px;
-	--tw-bg-opacity: 1;
-	background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+	background-color: rgb(255 255 255 / 1);
 
 	&__image {
 		width: 32px;

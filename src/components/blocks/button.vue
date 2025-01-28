@@ -83,8 +83,7 @@ const props = defineProps({
 	}
 
 	&.positive {
-		--tw-bg-opacity: 1;
-		background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1));
+		background-color: rgb(22 163 74 / 1);
 
 		&:hover {
 			background-color: rgb(22 163 74 / 0.9);

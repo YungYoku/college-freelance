@@ -39,7 +39,7 @@
 					{{ user?.name }} {{ user?.surname }} | {{ user?.username }}
 				</Text>
 
-				<div class="flex justify-start gap-6">
+				<Grid :columns="['100px', '200px']">
 					<Text
 						:loading="loading"
 						loading-width="100px"
@@ -50,12 +50,12 @@
 
 					<Text
 						:loading="loading"
-						loading-width="100px"
+						loading-width="200px"
 						size="xs"
 					>
 						Завершенных заданий: {{ user?.rating.length ?? 0 }}
 					</Text>
-				</div>
+				</Grid>
 
 				<Text
 					:loading="loading"
@@ -85,8 +85,8 @@
 		</Grid>
 
 		<Text
+			class="user__about-me"
 			size="m"
-			class="mt-8"
 		>
 			Обо мне
 		</Text>
@@ -94,7 +94,6 @@
 			:loading="loading"
 			loading-width="600px"
 			size="xs"
-			class="text-base"
 		>
 			{{ user?.description }}
 		</Text>
@@ -162,5 +161,9 @@ watch(() => route.params.id, loadUser, { immediate: true })
 <style scoped lang="scss">
 .user {
 	max-width: 768px;
+
+	&__about-me {
+		margin-top: 32px;
+	}
 }
 </style>

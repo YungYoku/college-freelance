@@ -35,9 +35,3 @@ const loadUserInfo = async () => {
 }
 watch(() => auth.isLoggedIn, loadUserInfo, { immediate: true })
 </script>
-
-<style lang="scss" scoped>
-#app {
-    min-height: 100vh;
-}
-</style>

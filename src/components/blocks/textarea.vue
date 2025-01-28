@@ -87,14 +87,14 @@ const filled = computed(() => value.value.length > 0)
 		background: hsl(var(--background));
 		border: 1px solid hsl(var(--input));
 		outline: none;
+		resize: none;
 
 		&._empty {
 			padding-top: 8px;
 		}
 
 		&:focus-visible {
-			--tw-border-opacity: 1;
-			border-color: rgb(245 245 244 / var(--tw-border-opacity, 1));
+			border-color: rgb(245 245 244 / 1);
 		}
 
 		&:hover {

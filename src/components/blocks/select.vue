@@ -179,8 +179,7 @@ const clear = () => {
 		border: 1px solid hsl(var(--input));
 
 		&:focus-visible {
-			--tw-border-opacity: 1;
-			border-color: rgb(245 245 244 / var(--tw-border-opacity, 1));
+			border-color: rgb(245 245 244 / 1);
 		}
 
 		&:hover {

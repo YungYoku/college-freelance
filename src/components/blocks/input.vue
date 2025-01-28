@@ -144,8 +144,7 @@ const filled = computed(() => {
 		}
 
 		&:focus-visible {
-			--tw-border-opacity: 1;
-			border-color: rgb(245 245 244 / var(--tw-border-opacity, 1));
+			border-color: rgb(245 245 244 / 1);
 		}
 
 		&.plain {

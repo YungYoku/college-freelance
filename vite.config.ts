@@ -2,8 +2,6 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import eslint from 'vite-plugin-eslint'
-import tailwind from 'tailwindcss'
-import autoprefixer from 'autoprefixer'
 
 export default defineConfig(({ mode }) => {
 	const esbuild = { drop: [] }
@@ -15,9 +13,6 @@ export default defineConfig(({ mode }) => {
 		esbuild,
 
 		css: {
-			postcss: {
-				plugins: [tailwind(), autoprefixer()],
-			},
 			preprocessorOptions: {
 				scss: {
 					api: 'modern'

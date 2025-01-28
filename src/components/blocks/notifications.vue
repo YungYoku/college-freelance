@@ -90,8 +90,7 @@ const onOpen = async () => {
 		top: 0;
 		right: 0;
 
-		--tw-bg-opacity: 1;
-		background-color: rgb(239 68 68 / var(--tw-bg-opacity, 1));
+		background-color: rgb(239 68 68 / 1);
 		border-radius: 50%;
 	}
 

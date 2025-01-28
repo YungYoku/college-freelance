@@ -41,8 +41,7 @@ const close = () => toast.close()
 
 	padding: 12px 12px 12px 16px;
 
-	--tw-border-opacity: 1;
-	border: 1px solid rgb(113 113 122 / var(--tw-border-opacity, 1));
+	border: 1px solid rgb(113 113 122 / 1);
 	background-color: hsl(var(--background));
 	border-radius: 12px;
 
