@@ -3,7 +3,6 @@
 		<Card
 			width="300px"
 			title="Вход"
-			class="mb-auto mt-auto"
 			@keyup.enter="login"
 		>
 			<Input
@@ -28,22 +27,29 @@
 				Войти
 			</Button>
 
-			<div class="mt-2 text-center text-sm">
-				Нет аккаунта?
-				<router-link
-					to="/registration"
-					class="underline"
+			<template #footer>
+				<Text
+					size="xs"
+					class="text-center"
 				>
-					Зарегистрироваться
-				</router-link>
-			</div>
+					Нет аккаунта?
+					<router-link
+						to="/registration"
+						class="underline"
+					>
+						Зарегистрироваться
+					</router-link>
+				</Text>
 
-			<router-link
-				class="text-center text-sm underline"
-				to="/login"
-			>
-				Забыли пароль?
-			</router-link>
+				<router-link
+					class="text-center underline"
+					to="/login"
+				>
+					<Text size="xs">
+						Забыли пароль?
+					</Text>
+				</router-link>
+			</template>
 		</Card>
 	</AuthLayout>
 </template>
@@ -51,14 +57,15 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth.ts'
 import { useToast } from '@/stores/toast'
 
-import { useAuthStore } from '@/stores/auth.ts'
-import { IUserLogin } from '@/interfaces/User.ts'
 import { AuthLayout } from '@/components/layouts'
 import { Card } from '@/components/structures'
 import { Input, Button } from '@/components/blocks'
+import { Text } from '@/components/elements'
 import { Http, Form } from '@/plugins'
+import { IUserLogin } from '@/interfaces/User.ts'
 
 interface LoginForm {
 	identity: string

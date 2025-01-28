@@ -3,7 +3,6 @@
 		<Card
 			width="300px"
 			title="Регистрация"
-			class="mb-auto mt-auto"
 			@keyup.enter="register"
 		>
 			<Input
@@ -64,15 +63,17 @@
 				Зарегистрироваться
 			</Button>
 
-			<div class="mt-2 text-center text-sm">
-				Есть аккаунт?
-				<router-link
-					to="/login"
-					class="underline"
-				>
-					Войти
-				</router-link>
-			</div>
+			<template #footer>
+				<div class="text-center text-sm">
+					Есть аккаунт?
+					<router-link
+						to="/login"
+						class="underline"
+					>
+						Войти
+					</router-link>
+				</div>
+			</template>
 		</Card>
 	</AuthLayout>
 </template>

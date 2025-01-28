@@ -14,17 +14,18 @@
 
 		<Grid
 			vertical
-			class="p-5"
+			class="card__content"
 		>
 			<slot/>
 		</Grid>
 
-		<div
+		<Grid
 			v-if="$slots.footer"
+			vertical
 			class="card__footer"
 		>
 			<slot name="footer"/>
-		</div>
+		</Grid>
 	</div>
 </template>
 
@@ -59,8 +60,12 @@ defineProps({
 		font-weight: 600;
 	}
 
-	&__footer {
+	&__content {
 		padding: 20px;
+	}
+
+	&__footer {
+		padding: 0 20px 20px 20px;
 	}
 }
 </style>
