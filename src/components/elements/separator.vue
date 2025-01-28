@@ -13,6 +13,6 @@
 	min-height: 1px;
 	max-height: 1px;
 
-	background: hsl(var(--border));
+	background-color: hsl(var(--muted));
 }
 </style>

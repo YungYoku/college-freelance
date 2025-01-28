@@ -95,7 +95,7 @@
 			class="job-offer__info"
 		>
 			<Badge
-				class="bg-purple-600"
+				bg="purple"
 				variant="secondary"
 			>
 				{{ jobOffer.price }} ₽

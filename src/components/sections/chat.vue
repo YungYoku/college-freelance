@@ -7,15 +7,34 @@
 			<Grid
 				vertical
 				:columns="1"
-				class="pt-10"
 			>
-				<User
-					v-if="chatMember"
-					class="chat__user"
-					:loading="loading"
-					link
-					:user="chatMember"
-				/>
+				<Grid
+					:columns="[0, 1, 0]"
+					ver-align="center"
+				>
+					<User
+						v-if="chatMember"
+						:loading="loading"
+						link
+						:user="chatMember"
+					/>
+
+					<span/>
+
+					<Badge
+						v-if="auth.isExecutor && offer.status === 'on_review'"
+						bg="yellow"
+					>
+						Проверяется
+					</Badge>
+					<Badge
+						v-if="offer.status === 'ended'"
+						bg="green"
+					>
+						Завершено
+					</Badge>
+					<span v-else/>
+				</Grid>
 
 				<div
 					ref="messages-ref"
@@ -56,6 +75,34 @@
 					</Grid>
 				</Grid>
 
+				<Button
+					v-if="auth.isExecutor && offer.status === 'in_progress'"
+					:loading="loading"
+					@click="sendToReview"
+				>
+					Отправить на проверку
+				</Button>
+
+				<Grid
+					v-if="auth.isCustomer && offer.status === 'on_review'"
+					:columns="[1, 1]"
+				>
+					<Button
+						:loading="loading"
+						variant="destructive"
+						@click="declineReview"
+					>
+						Отказ
+					</Button>
+					<Button
+						:loading="loading"
+						variant="positive"
+						@click="approveReview"
+					>
+						Подтвердить выполнение
+					</Button>
+				</Grid>
+
 				<template v-if="offer.status === 'ended'">
 					<Button
 						v-if="rating"
@@ -69,52 +116,6 @@
 					>
 						Оставить отзыв
 					</Button>
-				</template>
-
-
-				<template v-if="auth.isExecutor">
-					<Button
-						v-if="offer.status === 'in_progress'"
-						:loading="loading"
-						@click="sendToReview"
-					>
-						Отправить на проверку
-					</Button>
-					<span
-						v-else-if="offer.status === 'on_review'"
-						class="text-xs text-center"
-					>
-						На проверке
-					</span>
-					<span
-						v-else-if="offer.status === 'ended'"
-						class="text-xs text-center"
-					>
-						Объявление завершено
-					</span>
-				</template>
-
-				<template v-if="auth.isCustomer">
-					<template v-if="offer.status === 'on_review'">
-						<Button
-							:loading="loading"
-							@click="approveReview"
-						>
-							Подтвердить выполнение
-						</Button>
-						<Button
-							:loading="loading"
-							@click="declineReview"
-						>
-							Отказ
-						</Button>
-					</template>
-					<span
-						v-else-if="offer.status === 'ended'"
-						class="h-9 text-xs text-center content-center"
-					>
-						Объявление завершено
-					</span>
 				</template>
 			</Grid>
 		</template>
@@ -277,11 +278,6 @@ const sendRating = async (value: { stars: number, review: string } = { stars: 1,
 
 <style scoped lang="scss">
 .chat {
-	&__user {
-		position: absolute;
-		top: 12px;
-	}
-
 	&__messages {
 		display: flex;
 		flex-direction: column;

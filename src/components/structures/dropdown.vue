@@ -39,10 +39,7 @@
 						</template>
 					</div>
 
-					<div
-						v-if="index !== items.length - 1"
-						class="dropdown__separator"
-					/>
+					<Separator v-if="index !== items.length - 1"/>
 				</template>
 
 				<div
@@ -60,6 +57,7 @@
 import { ref, PropType, useTemplateRef, onMounted, onUnmounted } from 'vue'
 
 import { IDropdownMenuItem } from '@/interfaces/DropdownMenuItem.ts'
+import Separator from '@/components/elements/separator.vue'
 
 defineProps({
 	items: {
@@ -154,13 +152,6 @@ onUnmounted(() => document.addEventListener('click', handleClick))
 
 	&__empty {
 		cursor: default;
-	}
-
-	&__separator {
-		width: 100%;
-		height: 1px;
-
-		background-color: hsl(var(--muted));
 	}
 }
 </style>

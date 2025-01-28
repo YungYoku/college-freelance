@@ -75,14 +75,13 @@ const getCurrentClass = (step: number) => {
 	width: 100%;
 
 	&__steps {
-		display: flex;
-
 		width: 100%;
-		padding-bottom: 10px;
+
+		display: flex;
 		gap: 5px;
+
 		& span {
 			width: 100%;
-			height: 5px;
 
 			background: transparent;
 			border-radius: 3px;

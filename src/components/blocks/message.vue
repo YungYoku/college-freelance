@@ -15,7 +15,7 @@
 			:colors="self ? ['dark', 'light'] : ['light', 'dark']"
 		/>
 
-		<span class="text-xs">{{ $date(created, 'fullDatetime') }}</span>
+		<span class="message__date">{{ $date(created, 'fullDatetime') }}</span>
 	</div>
 </template>
 
@@ -60,6 +60,10 @@ const created = computed(() => new Date(props.message?.created))
 		color: hsl(var(--primary-foreground));
 		border-radius: 8px 8px 0 8px;
 		background-color: hsl(var(--primary));
+	}
+
+	&__date {
+		font-size: 12px;
 	}
 }
 </style>

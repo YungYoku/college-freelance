@@ -44,9 +44,7 @@
 					</span>
 				</div>
 
-				<Separator
-					v-if="index !== proposals.length - 1"
-				/>
+				<Separator v-if="index !== proposals.length - 1"/>
 			</template>
 
 			<Text

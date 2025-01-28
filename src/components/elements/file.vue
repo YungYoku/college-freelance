@@ -2,20 +2,23 @@
 	<a
 		:href="file"
 		target="_blank"
-		class="text-sm flex items-center gap-1"
+		class="file"
 	>
 		<Icon
 			name="file"
 			:colors="colors"
 		/>
-		Скачать файл
+
+		<Text size="xs">
+			Скачать файл
+		</Text>
 	</a>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { Icon } from '@/components/elements'
+import { Icon, Text } from '@/components/elements'
 
 const props = defineProps({
 	src: {
@@ -30,3 +33,11 @@ const props = defineProps({
 
 const file = computed(() => `${import.meta.env.VITE_API}/files/${props.src}`)
 </script>
+
+<style scoped lang="scss">
+.file {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+</style>
