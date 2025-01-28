@@ -68,10 +68,11 @@
 						Цена: {{ offer.price }}₽
 					</Text>
 
+					<span/>
+
 					<Text
 						size="s"
 						:loading="loading"
-						class="mt-4"
 					>
 						Дисциплина: {{ offer.expand?.discipline?.name ?? 'Не указана' }}
 					</Text>
@@ -88,10 +89,11 @@
 						Университет: {{ offer.expand?.university?.name ?? 'Не указан' }}
 					</Text>
 
+					<span/>
+
 					<Text
 						size="s"
 						:loading="loading"
-						class="mt-4"
 					>
 						Создано: {{ $date(created) }}
 					</Text>
@@ -102,34 +104,53 @@
 						Срок сдачи: {{ $date(deadline) }}
 					</Text>
 
+					<span/>
+
 					<Text
 						size="s"
 						:loading="loading"
-						class="mt-4"
 					>
 						Репетиторство: {{ offer.tutoring ? 'да' : 'нет' }}
 					</Text>
-				</Grid>
 
-				<div class="flex justify-between">
-					<UserCard
+					<Grid
 						v-if="offer.expand?.creator"
-						class="mt-4 max-w-10"
-						link
-						:user="offer.expand.creator"
-						:loading="loading"
-					/>
+						:columns="[0, 0]"
+						ver-align="center"
+					>
+						<Text
+							size="s"
+							:loading="loading"
+						>
+							Заказчик:
+						</Text>
 
-					<div v-if="offer.expand?.executor">
-						Исполнитель
 						<UserCard
-							class="mt-4"
+							link
+							:user="offer.expand.creator"
+							:loading="loading"
+						/>
+					</Grid>
+
+					<Grid
+						v-if="offer.expand?.executor"
+						:columns="[0, 0]"
+						ver-align="center"
+					>
+						<Text
+							size="s"
+							:loading="loading"
+						>
+							Исполнитель:
+						</Text>
+
+						<UserCard
 							link
 							:user="offer.expand.executor"
 							:loading="loading"
 						/>
-					</div>
-				</div>
+					</Grid>
+				</Grid>
 			</Island>
 
 			<Island>
