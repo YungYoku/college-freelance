@@ -2,22 +2,10 @@
 	<Grid
 		:columns="1"
 		vertical
-		class="relative max-w-screen-md"
+		class="user"
 	>
-		<Button
-			v-if="isItMyProfile"
-			:disabled="loading"
-			class="absolute right-0 top-0"
-			@click="router.push(`/profile`)"
-		>
-			<Icon
-				:colors="['dark', 'light']"
-				name="pencil"
-			/>
-		</Button>
-
 		<Grid
-			:columns-xl="['160px', 1]"
+			:columns-xl="['160px', 1, '48px']"
 			:columns-m="1"
 			gap="l"
 		>
@@ -36,7 +24,7 @@
 					loading-width="100px"
 					size="xs"
 				>
-					Рейтинг: {{ averageRating }}
+					Рейтинг: {{ $format('number', averageRating, 2) }}
 				</Text>
 			</Grid>
 
@@ -51,7 +39,7 @@
 					{{ user?.name }} {{ user?.surname }} | {{ user?.username }}
 				</Text>
 
-				<div class="flex justify-start gap-6">
+				<Grid :columns="['100px', '200px']">
 					<Text
 						:loading="loading"
 						loading-width="100px"
@@ -62,12 +50,12 @@
 
 					<Text
 						:loading="loading"
-						loading-width="100px"
+						loading-width="200px"
 						size="xs"
 					>
 						Завершенных заданий: {{ user?.rating.length ?? 0 }}
 					</Text>
-				</div>
+				</Grid>
 
 				<Text
 					:loading="loading"
@@ -83,11 +71,22 @@
 					Дисциплины: {{ disciplineNames }}
 				</Text>
 			</Grid>
+
+			<Button
+				v-if="isItMyProfile"
+				:disabled="loading"
+				@click="router.push(`/profile`)"
+			>
+				<Icon
+					:colors="['dark', 'light']"
+					name="pencil"
+				/>
+			</Button>
 		</Grid>
 
 		<Text
+			class="user__about-me"
 			size="m"
-			class="mt-8"
 		>
 			Обо мне
 		</Text>
@@ -95,7 +94,6 @@
 			:loading="loading"
 			loading-width="600px"
 			size="xs"
-			class="text-base"
 		>
 			{{ user?.description }}
 		</Text>
@@ -138,7 +136,7 @@ const averageRating = computed(() => {
 	if (rating) {
 		return rating.reduce((result, current) => result + current.stars, 0) / rating.length
 	}
-	return 'нет'
+	return 0
 })
 
 const loadUser = async () => {
@@ -159,3 +157,13 @@ const loadUser = async () => {
 }
 watch(() => route.params.id, loadUser, { immediate: true })
 </script>
+
+<style scoped lang="scss">
+.user {
+	max-width: 768px;
+
+	&__about-me {
+		margin-top: 32px;
+	}
+}
+</style>

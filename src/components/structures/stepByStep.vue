@@ -1,5 +1,5 @@
 <template>
-	<div class="step-by-step w-full">
+	<div class="step-by-step">
 		<div class="step-by-step__steps">
 			<span
 				v-for="(step, i) in steps"
@@ -23,12 +23,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, useSlots } from 'vue'
+import { ref, reactive, computed } from 'vue'
 
-const emit = defineEmits(['update:modelValue', 'apply'])
+const emit = defineEmits(['apply'])
 
-const slots = useSlots()
-const steps = reactive(Object.keys(slots).filter((slot) => slot !== 'footer'))
+const slots = defineSlots<{
+	[key: string]: string
+}>()
+const steps = reactive<Array<string>>(Object.keys(slots).filter((slot) => slot !== 'footer'))
 const currentStep = ref(1)
 
 defineProps({
@@ -70,15 +72,16 @@ const getCurrentClass = (step: number) => {
 
 <style scoped lang="scss">
 .step-by-step {
-	&__steps {
-		display: flex;
+	width: 100%;
 
+	&__steps {
 		width: 100%;
-		padding-bottom: 10px;
+
+		display: flex;
 		gap: 5px;
+
 		& span {
 			width: 100%;
-			height: 5px;
 
 			background: transparent;
 			border-radius: 3px;

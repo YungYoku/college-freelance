@@ -4,7 +4,9 @@
 			<Header/>
 		</Page>
 
-		<slot/>
+		<div class="auth-layout__content">
+			<slot/>
+		</div>
 
 		<Footer/>
 	</div>
@@ -23,5 +25,9 @@ import { Header, Footer } from '@/components/sections'
     gap: 10px;
 
 	min-height: 100vh;
+
+	&__content {
+		margin: auto;
+	}
 }
 </style>

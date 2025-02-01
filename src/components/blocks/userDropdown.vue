@@ -1,96 +1,25 @@
 <template>
-	<DropdownMenu>
-		<DropdownMenuTrigger as-child>
-			<Avatar
-				class="cursor-pointer"
-				self
-			/>
-		</DropdownMenuTrigger>
-		<DropdownMenuContent class="w-56">
-			<DropdownMenuGroup>
-				<template
-					v-for="link in links"
-					:key="link.title"
-				>
-					<DropdownMenuItem>
-						<router-link
-							class="block w-full h-full"
-							:to="link.to"
-						>
-							{{ link.title }}
-						</router-link>
-					</DropdownMenuItem>
-
-					<DropdownMenuSeparator v-if="link.separateAfter"/>
-				</template>
-			</DropdownMenuGroup>
-
-			<DropdownMenuSeparator/>
-
-			<DropdownMenuGroup>
-				<DropdownMenuItem
-					class="cursor-pointer"
-					@click="toggle"
-				>
-					Тема: {{ isLight? 'светлая' : 'темная' }}
-				</DropdownMenuItem>
-
-				<DropdownMenuSub>
-					<DropdownMenuSubTrigger class="cursor-pointer">
-						Пригласить пользователей
-					</DropdownMenuSubTrigger>
-					<DropdownMenuPortal>
-						<DropdownMenuSubContent>
-							<DropdownMenuItem
-								class="cursor-pointer"
-								@click="copyRefLink"
-							>
-								Ссылка
-							</DropdownMenuItem>
-						</DropdownMenuSubContent>
-					</DropdownMenuPortal>
-				</DropdownMenuSub>
-			</DropdownMenuGroup>
-
-			<DropdownMenuSeparator/>
-
-			<DropdownMenuItem
-				class="cursor-pointer"
-				@click="logout"
-			>
-				Выйти
-			</DropdownMenuItem>
-		</DropdownMenuContent>
-	</DropdownMenu>
+	<Dropdown :items>
+		<Avatar self/>
+	</Dropdown>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useColorMode } from '@vueuse/core'
-import { useToast } from '@/components/ui/toast/use-toast'
+import { useToast } from '@/stores/toast'
 
+import { Dropdown } from '@/components/structures'
+import { Avatar } from '@/components/blocks'
 import { useAuthStore } from '@/stores/auth.ts'
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuItem,
-	DropdownMenuPortal,
-	DropdownMenuSeparator,
-	DropdownMenuSub,
-	DropdownMenuSubContent,
-	DropdownMenuSubTrigger,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { Http, LocalStorage } from '@/plugins'
 import { IReferralCode } from '@/interfaces/ReferralCode.ts'
 import { IUser } from '@/interfaces/User.ts'
-import Avatar from '@/components/blocks/avatar.vue'
 
 const auth = useAuthStore()
 const router = useRouter()
-const { toast } = useToast()
+const toast = useToast()
 
 const mode = useColorMode({ selector: 'body' })
 const currentTheme = computed(() => mode.state.value)
@@ -126,9 +55,7 @@ const copyRefLink = async () => {
 	}
 
 	await navigator.clipboard.writeText(`${window.location.origin}/registration?ref=${auth.user.referral_code}`)
-	toast({
-		title: 'Ссылка скопирована!'
-	})
+	toast.set('Ссылка скопирована!')
 }
 
 const logout = () => {
@@ -137,51 +64,63 @@ const logout = () => {
 	router.push('/login')
 }
 
-const links = computed(() => {
-	const items = [
+const items = computed(() => [
+	[
 		{
-			title: 'Профиль',
-			to: `/users/${auth.user.id}`,
-			can: true
+			text: 'Профиль',
+			to: `/users/${auth.user.id}`
 		},
 		{
-			title: 'Настройки',
-			to: '/profile',
-			can: true,
-			separateAfter: true
+			text: 'Настройки',
+			to: '/profile'
 		},
+	],
+	[
 		{
-			title: 'Мои объявления',
+			text: 'Мои объявления',
 			to: '/made-offers',
 			can: auth.isCustomer
 		},
 		{
-			title: 'Создать объявление',
+			text: 'Создать объявление',
 			to: '/new-offer',
 			can: auth.isCustomer
 		},
 		{
-			title: 'Выполняемые объявления',
+			text: 'Выполняемые объявления',
 			to: '/executing-offers',
 			can: auth.isExecutor
 		},
 		{
-			title: 'Мои чаты',
-			to: '/chats',
-			can: true
+			text: 'Мои чаты',
+			to: '/chats'
 		},
 		{
-			title: 'Избранное',
+			text: 'Избранное',
 			to: '/favorite',
 			can: auth.isExecutor
 		},
 		{
-			title: 'Новые сущности',
+			text: 'Новые сущности',
 			to: '/unverified-entities',
 			can: auth.isAdmin
 		}
+	],
+	[
+		{
+			text: 'Тема: ' + (isLight.value ? 'светлая' : 'темная'),
+			action: toggle
+		},
+		{
+			text: 'Пригласить друзей',
+			action: copyRefLink
+		}
+	],
+	[
+		{
+			text: 'Выйти',
+			action: logout
+		}
 	]
-
-	return items.filter(item => item.can)
-})
+])
 </script>

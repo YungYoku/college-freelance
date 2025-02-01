@@ -1,9 +1,8 @@
 <template>
-	<AuthLayout>
+	<AuthLayout class="login">
 		<Card
 			width="300px"
 			title="Вход"
-			class="mb-auto mt-auto"
 			@keyup.enter="login"
 		>
 			<Input
@@ -28,22 +27,29 @@
 				Войти
 			</Button>
 
-			<div class="mt-2 text-center text-sm">
-				Нет аккаунта?
-				<router-link
-					to="/registration"
-					class="underline"
+			<template #footer>
+				<Text
+					size="xs"
+					class="login__no-account"
 				>
-					Зарегистрироваться
-				</router-link>
-			</div>
+					Нет аккаунта?
+					<router-link
+						to="/registration"
+						class="login__link"
+					>
+						Зарегистрироваться
+					</router-link>
+				</Text>
 
-			<router-link
-				class="text-center text-sm underline"
-				to="/login"
-			>
-				Забыли пароль?
-			</router-link>
+				<router-link
+					class="login__link"
+					to="/login"
+				>
+					<Text size="xs">
+						Забыли пароль?
+					</Text>
+				</router-link>
+			</template>
 		</Card>
 	</AuthLayout>
 </template>
@@ -51,14 +57,15 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-
 import { useAuthStore } from '@/stores/auth.ts'
-import { IUserLogin } from '@/interfaces/User.ts'
+import { useToast } from '@/stores/toast'
+
 import { AuthLayout } from '@/components/layouts'
 import { Card } from '@/components/structures'
 import { Input, Button } from '@/components/blocks'
-import { useToast } from '@/components/ui/toast'
+import { Text } from '@/components/elements'
 import { Http, Form } from '@/plugins'
+import { IUserLogin } from '@/interfaces/User.ts'
 
 interface LoginForm {
 	identity: string
@@ -72,7 +79,7 @@ const form = Form<LoginForm>({
 
 const auth = useAuthStore()
 const router = useRouter()
-const { toast } = useToast()
+const toast = useToast()
 
 const loading = ref(false)
 const login = async () => {
@@ -90,9 +97,7 @@ const login = async () => {
 			.catch(({ data }) => {
 				form.setErrors(data)
 
-				toast({
-					title: 'Ошибка авторизации'
-				})
+				toast.set('Ошибка авторизации')
 
 				loading.value = false
 			})
@@ -106,3 +111,16 @@ const isLoginPossible = computed(() => {
 	return password.length >= 0 && identity.length > 0
 })
 </script>
+
+<style scoped lang="scss">
+.login {
+	&__no-account {
+		text-align: center;
+	}
+
+	&__link {
+		text-align: center;
+		text-decoration: underline;
+	}
+}
+</style>

@@ -1,31 +1,32 @@
 <template>
-	<div class="relative">
+	<div class="textarea">
 		<Label v-if="!placeholder">
 			{{ label }}
 		</Label>
 
-		<Textarea
+		<textarea
 			v-model="value"
 			:placeholder="label"
-			:class="['bg-background', 'hover:bg-accent', {
-				'pt-4': !placeholder,
+			class="textarea__field"
+			:class="[{
+				'_empty': value.length === 0
 			}]"
 			:style="{
 				height
 			}"
-			:disabled="disabled"
+			:disabled
 		/>
 
 		<span
 			v-if="error"
-			class="pl-3 text-xs text-destructive font-extralight"
+			class="textarea__error"
 		>
 			{{ error }}
 		</span>
 
 		<Icon
-			v-else-if="filled"
-			class="absolute right-3 top-3.5 cursor-pointer"
+			v-else-if="filled && !disabled"
+			class="textarea__clear"
 			name="close"
 			size="s"
 			@click.prevent.stop="clear"
@@ -36,11 +37,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { Textarea } from '@/components/ui/textarea'
 import { Icon, Label } from '@/components/elements'
 
 interface Props {
-	modelValue: string | undefined
 	error?: string | null
 	label: string
 	height?: string
@@ -48,35 +47,79 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	modelValue: undefined,
 	error: null,
 	label: '',
 	height: '200px',
 	disabled: false
 })
 
-const emit = defineEmits(['update:model-value'])
-
-const value = computed({
-	get: () => props.modelValue,
-	set: (val) => emit('update:model-value', val)
+const value = defineModel<string>({
+	type: String,
+	default: ''
 })
+const clear = () => value.value = ''
 
 const placeholder = computed(() => {
-	const hasValue = typeof value.value === 'string' && value.value.length > 0
-	if (props.label && !hasValue) {
+	if (props.label && value.value.length === 0) {
 		return props.label
 	}
 
-	return null
+	return ''
 })
 
-const filled = computed(() => {
-	if (typeof value.value === 'string') return value.value.length > 0
-	return false
-})
-
-const clear = () => {
-	value.value = undefined
-}
+const filled = computed(() => value.value.length > 0)
 </script>
+
+<style scoped lang="scss">
+.textarea {
+	position: relative;
+
+	&__field {
+		width: 100%;
+
+		padding: 16px 12px 8px 12px;
+
+		font-size: 14px;
+		font-weight: 300;
+
+		transition: all 0.2s, padding 0s;
+		border-radius: 14px;
+		background: hsl(var(--background));
+		border: 1px solid hsl(var(--input));
+		outline: none;
+		resize: none;
+
+		&._empty {
+			padding-top: 8px;
+		}
+
+		&:focus-visible {
+			border-color: rgb(245 245 244 / 1);
+		}
+
+		&:hover {
+			background: hsl(var(--accent));
+		}
+
+		&:disabled {
+			opacity: 0.5;
+		}
+	}
+
+	&__error {
+		padding-left: 12px;
+
+		font-size: 12px;
+		font-weight: 200;
+		color: hsl(var(--destructive));
+	}
+
+	&__clear {
+		position: absolute;
+		top: 14px;
+		right: 12px;
+
+		cursor: pointer;
+	}
+}
+</style>

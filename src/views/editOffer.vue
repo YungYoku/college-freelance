@@ -1,120 +1,131 @@
 <template>
-	<Grid :columns="[1, '70px', '99px']">
-		<Input
-			v-model.trim="form.title.value"
-			:error="form.title.error"
-			:disabled="loading"
-			label="Название"
-		/>
+	<Grid
+		vertical
+		:columns="1"
+		gap="l"
+	>
+		<Grid :columns="[1, '80px', '100px']">
+			<Input
+				v-model.trim="form.title.value"
+				:error="form.title.error"
+				:disabled="loading"
+				label="Название"
+			/>
 
-		<router-link :to="`/offer/${form.id.value}`">
 			<Button
 				:disabled="loading"
-				class="ml-auto"
+				:to="`/offer/${form.id.value}`"
 			>
 				Назад
 			</Button>
-		</router-link>
 
-		<Button
-			:disabled="loading"
-			class="ml-auto"
-			@click="save"
+			<Button
+				:disabled="loading"
+				@click="save"
+			>
+				Сохранить
+			</Button>
+		</Grid>
+
+		<Grid
+			:columns-xl="2"
+			:columns-l="1"
 		>
-			Сохранить
-		</Button>
-	</Grid>
+			<Island>
+				<Grid
+					vertical
+					:columns="1"
+				>
+					<Text
+						size="m"
+						:loading="loading"
+					>
+						Информация о заказе
+					</Text>
 
-	<Grid
-		:columns-xl="2"
-		:columns-l="1"
-		class="mt-4"
-	>
-		<Island class="overflow-hidden">
-			<Text
-				size="s"
-				:loading="loading"
-				class="mb-2"
-			>
-				Информация о заказе
-			</Text>
+					<Input
+						v-model="form.price.value"
+						:error="form.price.error"
+						:disabled="loading"
+						label="Цена"
+					/>
 
+					<InputFile
+						v-model="form.file.value"
+						:error="form.file.error"
+						:loading="loading"
+					/>
 
-			<div class="grid items-center w-full gap-2">
-				<Input
-					v-model="form.price.value"
-					:error="form.price.error"
-					:disabled="loading"
-					label="Цена"
-				/>
+					<SelectLive
+						v-model="form.discipline.value"
+						:error="form.discipline.error"
+						place-holder="Дисциплина"
+						api="disciplines"
+					/>
 
-				<SelectLive
-					v-model="form.discipline.value"
-					:error="form.discipline.error"
-					place-holder="Дисциплина"
-					api="disciplines"
-				/>
+					<SelectLive
+						v-model="form.type.value"
+						:error="form.type.error"
+						place-holder="Тип работы"
+						api="offer_types"
+					/>
 
-				<SelectLive
-					v-model="form.type.value"
-					:error="form.type.error"
-					place-holder="Тип работы"
-					api="offer_types"
-				/>
+					<SelectLive
+						v-model="form.university.value"
+						:error="form.university.error"
+						place-holder="Университет"
+						api="universities"
+					/>
 
-				<SelectLive
-					v-model="form.university.value"
-					:error="form.university.error"
-					place-holder="Университет"
-					api="universities"
-				/>
+					<DatePicker
+						v-model="form.deadline.value"
+						:error="form.deadline.error"
+						label="Срок сдачи"
+					/>
 
-				<DatePicker
-					v-model="form.deadline.value"
-					:error="form.deadline.error"
-					label="Срок сдачи"
-				/>
+					<Checkbox
+						v-model="form.tutoring.value"
+						:error="form.tutoring.error"
+						label="Репетиторство"
+					/>
+				</Grid>
+			</Island>
 
-				<Checkbox
-					v-model="form.tutoring.value"
-					:error="form.tutoring.error"
-					label="Репетиторство"
-				/>
-			</div>
-		</Island>
+			<Island>
+				<Grid
+					vertical
+					:columns="1"
+				>
+					<Text
+						size="m"
+						:loading="loading"
+					>
+						Описание
+					</Text>
 
-		<Island class="overflow-hidden">
-			<Text
-				size="s"
-				class="mb-2"
-				:loading="loading"
-			>
-				Описание
-			</Text>
-
-			<Textarea
-				v-model.trim="form.description.value"
-				:error="form.description.error"
-				height="200px"
-				label="Описание"
-			/>
-		</Island>
+					<Textarea
+						v-model.trim="form.description.value"
+						:error="form.description.error"
+						height="200px"
+						label="Описание"
+					/>
+				</Grid>
+			</Island>
+		</Grid>
 	</Grid>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useToast } from '@/components/ui/toast'
+import { useToast } from '@/stores/toast'
 
-import { Http, Form } from '@/plugins'
-import { IJobOffer, emptyOffer } from '@/interfaces/JobOffer.ts'
 import { Grid, Island } from '@/components/structures'
-import { Button, Checkbox, DatePicker, Input, SelectLive, Textarea } from '@/components/blocks'
+import { Button, Checkbox, DatePicker, Input, InputFile, SelectLive, Textarea } from '@/components/blocks'
 import { Text } from '@/components/elements'
+import { IJobOffer, emptyOffer } from '@/interfaces/JobOffer.ts'
 import { IUser } from '@/interfaces/User.ts'
-
-const { toast } = useToast()
+import { Http, Form } from '@/plugins'
 
 const form = Form<IJobOffer>({ ...emptyOffer })
 
@@ -139,6 +150,7 @@ const loadOffer = async () => {
 }
 loadOffer()
 
+const toast = useToast()
 const save = async () => {
 	loading.value = true
 	form.clearErrors()
@@ -151,16 +163,12 @@ const save = async () => {
 		.then(() => {
 			router.push(`/offer/${id}`)
 
-			toast({
-				title: 'Сохранено успешно!'
-			})
+			toast.set('Сохранено успешно!')
 		})
 		.catch(({ data }) => {
 			form.setErrors(data)
 
-			toast({
-				title: 'Ошибка сохранения'
-			})
+			toast.set('Ошибка сохранения')
 		})
 
 	loading.value = false

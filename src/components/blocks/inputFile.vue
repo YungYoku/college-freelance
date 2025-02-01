@@ -1,100 +1,117 @@
 <template>
-	<div class="relative flex items-center justify-center cursor-pointer">
+	<div
+		class="input-file"
+	>
 		<Button
 			v-if="compact"
 			:disabled="loading"
 			variant="outline"
-			class="absolute left-0 top-0"
+			class="input-file__button"
 		>
 			<Icon name="file"/>
 
-			<div :class="inputWrapStyle">
+			<div
+				class="input-file__field-wrap"
+				:class="{
+					'_compact': compact
+				}"
+			>
 				<Input
 					:disabled="loading"
 					:error="error"
 					type="file"
 					cursor="pointer"
-					@input="updateFile"
+					@update-file="updateFile"
 				/>
 			</div>
 		</Button>
 
 		<div
 			v-else
-			:class="inputWrapStyle"
+			class="input-file__field-wrap"
+			:class="{
+				'_compact': compact
+			}"
 		>
 			<Input
 				:disabled="loading"
 				:error="error"
 				type="file"
 				cursor="pointer"
-				@input="updateFile"
+				@update-file="updateFile"
 			/>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { PropType } from 'vue'
 
 import { Button, Input } from '@/components/blocks'
 import { Icon } from '@/components/elements'
 import { Http } from '@/plugins'
 
 interface Props {
-	modelValue: string | null
 	error?: string | null
 	loading?: boolean
 	compact?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
-	modelValue: null,
+withDefaults(defineProps<Props>(), {
 	error: null,
 	loading: false,
 	compact: false,
 })
 
-const emit = defineEmits(['update:model-value', 'update:name'])
 
-const value = computed({
-	get: () => props.modelValue,
-	set: (value) => emit('update:model-value', value)
+const emit = defineEmits(['update:name'])
+const updateName = (value: string) => emit('update:name', value)
+
+const value = defineModel<string | null>({
+	type: Object as PropType<string | null>,
+	default: null,
 })
+const updateFile = async (file: File) => {
+	updateName(file.name)
 
-const name = ref('')
-const updateName = (value: string) => {
-	name.value = value
-	emit('update:name', value)
+	const formData = new FormData()
+
+	formData.append('file', file)
+
+	value.value = await Http
+		.post<{ id: string }>('/collections/files/records', formData)
+		.then(({ id }) => id)
 }
-
-const updateFile = async (event: Event) => {
-	const target = event.target as HTMLInputElement
-	if (target.files) {
-		const file = target.files[0]
-		updateName(file.name)
-
-		const formData = new FormData()
-
-		formData.append('file', file)
-
-		value.value = await Http
-			.post<{ id: string }>('/collections/files/records', formData)
-			.then(({ id }) => id)
-	}
-}
-
-const inputWrapStyle = computed(() => {
-	if (props.compact) {
-		return [
-			'w-[100%]',
-			'h-[100%]',
-			'absolute',
-			'left-0',
-			'top-0',
-			'opacity-0'
-		]
-	}
-	return ['w-[100%]']
-})
 </script>
+
+<style lang="scss" scoped>
+.input-file {
+	position: relative;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	cursor: pointer;
+
+	&__button {
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+
+	&__field-wrap {
+		width: 100%;
+
+		&._compact {
+			height: 100%;
+
+			position: absolute;
+			left: 0;
+			top: 0;
+
+			opacity: 0;
+		}
+	}
+}
+</style>

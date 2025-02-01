@@ -1,61 +1,59 @@
 <template>
-	<DropdownMenu v-if="auth.isLoggedIn">
-		<DropdownMenuTrigger as-child>
-			<Button variant="outline">
-				<Icon
-					name="energy"
-					class="mr-1"
-				/>
-				{{ auth.user.energy }}
-			</Button>
-		</DropdownMenuTrigger>
-		<DropdownMenuContent class="w-46">
-			<Button
-				v-if="auth.isRewardClaimable"
-				variant="outline"
-				@click="claim"
+	<Dropdown
+		v-if="auth.isLoggedIn"
+		:items
+	>
+		<Button variant="outline">
+			<Grid
+				:columns="[0, 0]"
+				gap="xs"
 			>
-				Получить 5 энергии!
-			</Button>
+				<Icon name="energy"/>
 
-			<DropdownMenuItem v-else>
-				Энергию можно будет получить завтра!
-			</DropdownMenuItem>
-		</DropdownMenuContent>
-	</DropdownMenu>
+				{{ auth.user.energy }}
+			</Grid>
+		</Button>
+	</Dropdown>
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth.ts'
+import { computed } from 'vue'
 
+import { useAuthStore } from '@/stores/auth'
+import { useToast } from '@/stores/toast'
+
+import { Dropdown, Grid } from '@/components/structures'
 import { Button } from '@/components/blocks'
 import { Icon } from '@/components/elements'
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { useToast } from '@/components/ui/toast'
 import { Datetime, Http } from '@/plugins'
 import { IUser } from '@/interfaces/User.ts'
 
 const auth = useAuthStore()
 
-const { toast } = useToast()
+const toast = useToast()
 const claim = async () => {
 	await Http
 		.post<IUser>('/claim-energy')
 		.then((res) => {
 			auth.setUser(res)
-			toast({
-				title: 'Было получено 5 энергии!'
-			})
+			toast.set('Было получено 5 энергии!')
 		})
 		.catch(() => {
-			toast({
-				title: `Не прошло достаточно времени. Последняя дата получения энергии: ${Datetime.get(auth.user.checked_at)}`
-			})
+			toast.set(`Не прошло достаточно времени. Последняя дата получения энергии: ${Datetime.get(auth.user.checked_at)}`)
 		})
 }
+
+const items = computed(() => [
+	[
+		{
+			text: 'Получить 5 энергии!',
+			action: claim,
+			can: auth.isRewardClaimable
+		},
+		{
+			text: 'Энергию можно будет получить завтра!',
+			can: !auth.isRewardClaimable
+		},
+	],
+])
 </script>

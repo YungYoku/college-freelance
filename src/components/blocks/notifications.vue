@@ -1,85 +1,62 @@
 <template>
-	<DropdownMenu>
-		<DropdownMenuTrigger as-child>
-			<Button
-				variant="outline"
-				class="relative"
-				@click="onOpen"
+	<Dropdown
+		class="notifications"
+		:items
+	>
+		<Button
+			variant="outline"
+			class="notifications__button"
+			@click="onOpen"
+		>
+			<Icon name="notifications"/>
+
+			<span
+				v-if="notifications.findIndex(item => !item.checked) !== -1"
+				class="notifications__signal"
+			/>
+		</Button>
+
+		<template #item="{item}">
+			<Grid
+				:columns="1"
+				vertical
+				gap="xs"
+				class="notifications__item"
 			>
-				<Icon name="notifications"/>
+				<Text size="xs">
+					{{ item.text }}
+				</Text>
+
+				<Text
+					v-if="item?.created"
+					size="xs"
+				>
+					{{ $date(new Date(item.created), 'datetime') }}
+				</Text>
 
 				<span
-					v-if="notifications.findIndex(item => !item.checked) !== -1"
-					class="bg-red-500 w-2 h-2 absolute right-1 top-1 rounded-full"
+					v-if="!item.checked"
+					class="notifications__signal"
 				/>
-			</Button>
-		</DropdownMenuTrigger>
-		<DropdownMenuContent class="w-56">
-			<template v-if="notifications.length > 0">
-				<template
-					v-for="(notification, index) in notifications"
-					:key="notification.id"
-				>
-					<DropdownMenuItem>
-						<component
-							:is="notification.link ? 'router-link' : 'div'"
-							:to="notification.link"
-						>
-							<Grid
-								:columns="1"
-								vertical
-								gap="xs"
-							>
-								<Text size="xs">
-									{{ notification.text }}
-								</Text>
-
-								<Text
-									size="xs"
-									class="text-xs"
-								>
-									{{ $date(new Date(notification?.created), 'datetime') }}
-								</Text>
-
-								<span
-									v-if="!notification.checked"
-									class="bg-red-500 w-2 h-2 absolute right-2 top-2 rounded-full"
-								/>
-							</Grid>
-						</component>
-					</DropdownMenuItem>
-
-					<DropdownMenuSeparator v-if="notifications.length !== index + 1"/>
-				</template>
-			</template>
-
-			<DropdownMenuItem v-else>
-				Уведомления отсутствуют
-			</DropdownMenuItem>
-		</DropdownMenuContent>
-	</DropdownMenu>
+			</Grid>
+		</template>
+	</Dropdown>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-
 import { useAuthStore } from '@/stores/auth.ts'
-import { Grid } from '@/components/structures'
+
+import { Dropdown, Grid } from '@/components/structures'
 import { Button } from '@/components/blocks'
 import { Icon, Text } from '@/components/elements'
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { INotification } from '@/interfaces/Notification.ts'
 import { Http } from '@/plugins'
 
 const auth = useAuthStore()
 
 const notifications = computed<Array<INotification>>(() => auth.user?.expand?.notifications ?? [])
+const items = computed(() => notifications.value.map(item => [item]))
 
 const onOpen = async () => {
 	await Http.post<Array<INotification>>('/check-notifications')
@@ -98,3 +75,27 @@ const onOpen = async () => {
 	}, 3000)
 }
 </script>
+
+<style lang="scss" scoped>
+.notifications {
+	&__button {
+		position: relative;
+	}
+
+	&__signal {
+		width: 8px;
+		height: 8px;
+
+		position: absolute;
+		top: 0;
+		right: 0;
+
+		background-color: rgb(239 68 68 / 1);
+		border-radius: 50%;
+	}
+
+	&__item {
+		position: relative;
+	}
+}
+</style>

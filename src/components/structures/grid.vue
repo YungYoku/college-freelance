@@ -1,10 +1,8 @@
 <template>
 	<div
-		class="w-full"
-		:class="[`gap-${gaps[gap]}`, {
-			grid: !vertical,
-			flex: vertical,
-			'flex-col': vertical
+		class="grid"
+		:class="[`_gap-${gap}`, {
+			'_vertical': vertical
 		}]"
 		:style="style"
 	>
@@ -23,8 +21,8 @@ type Columns = number | Array<number | string> | null
 interface Props {
 	vertical?: boolean
 	gap?: 'xs' | 's' | 'm' |'l'
-	verAlign?: 'start' | 'center' | 'end' | 'stretch' | 'initial'
-	horAlign?: 'start' | 'center' | 'end' | 'stretch' | 'initial'
+	verAlign?: Align
+	horAlign?: Align
 	columns?: Columns
 	columnsXl?: Columns
 	columnsL?: Columns
@@ -75,12 +73,6 @@ onBeforeUnmount(() => {
 })
 watch(() => [props.columns, props.columnsXl, props.columnsL, props.columnsM, props.columnsS], updateActiveColumns)
 
-const gaps = {
-	xs: '1',
-	s: '2',
-	m: '3',
-	l: '4'
-}
 const getAlign = (align: Align) => {
 	switch (align) {
 	case 'start':
@@ -125,4 +117,30 @@ const style = computed(() => {
 		'justify-items': getAlign(props.horAlign)
 	}
 })
-</script>
+</script>]
+
+<style lang="scss" scoped>
+.grid {
+	width: 100%;
+
+	display: grid;
+
+	&._vertical {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&._gap-xs {
+		gap: 4px;
+	}
+	&._gap-s {
+		gap: 8px;
+	}
+	&._gap-m {
+		gap: 12px;
+	}
+	&._gap-l {
+		gap: 16px;
+	}
+}
+</style>

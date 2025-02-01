@@ -1,6 +1,6 @@
 <template>
 	<Text
-		size="l"
+		size="xl"
 		:loading="loading"
 	>
 		<slot/>

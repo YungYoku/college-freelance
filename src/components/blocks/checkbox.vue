@@ -1,14 +1,27 @@
 <template>
 	<Grid
+		class="checkbox"
 		:columns="['16px', 1]"
 		ver-align="center"
-		@click="value = !value"
+		@click="toggle"
 	>
-		<Checkbox :checked="value"/>
+		<div
+			class="checkbox__content"
+			:class="{
+				'_active': (value ?? checked)
+			}"
+		>
+			<Icon
+				v-if="value ?? checked"
+				name="check"
+				size="xs"
+				:colors="['dark', 'light']"
+			/>
+		</div>
 
 		<div
 			v-if="label"
-			class="text-left"
+			class="checkbox__label"
 		>
 			{{ label }}
 		</div>
@@ -16,40 +29,57 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-
 import { Grid } from '@/components/structures'
-import { Checkbox } from '@/components/ui/checkbox'
+import { Icon } from '@/components/elements'
 
 interface Props {
-	modelValue?: boolean,
 	error?: string | null,
 	checked?: boolean,
 	disabled?: boolean
 	label: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
-	modelValue: false,
+withDefaults(defineProps<Props>(), {
 	error: null,
 	checked: false,
 	disabled: false,
 	label: ''
 })
 
-const emit = defineEmits(['update:model-value'])
+const value = defineModel<boolean>({
+	type: Boolean,
+	default: null
+})
 
-const value = computed({
-	get: () => {
-		if (props.disabled) {
-			return props.checked ?? false
-		}
-		return props.modelValue
-	},
-	set: (value) => {
-		if (!props.disabled) {
-			emit('update:model-value', value)
+const toggle = () => {
+	value.value = !value.value
+}
+</script>
+
+<style scoped lang="scss">
+.checkbox {
+	cursor: pointer;
+
+	&__content {
+		width: 16px;
+		height: 16px;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		background: hsl(var(--accent));
+		border-radius: 5px;
+		border: 1px solid hsl(var(--primary));
+
+		&._active {
+			background: hsl(var(--primary));
 		}
 	}
-})
-</script>
+
+	&__label {
+		text-align: left;
+		font-weight: 300;
+	}
+}
+</style>

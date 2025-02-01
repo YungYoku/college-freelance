@@ -1,5 +1,5 @@
 <template>
-	<footer class="footer bg-primary-foreground">
+	<footer class="footer">
 		<div class="footer__content">
 			<div class="footer__column">
 				<div class="footer__column-title">
@@ -7,14 +7,14 @@
 				</div>
 
 				<a
-					class="hover:underline"
+					class="footer__link"
 					href="mailto:onyxmetaverse@gmail.com"
 					target="_blank"
 				>
 					onyxmetaverse@gmail.com
 				</a>
 				<a
-					class="hover:underline"
+					class="footer__link"
 					href="mailto:onyxmetaverse@yandex.ru"
 					target="_blank"
 				>
@@ -77,7 +77,10 @@
 <style scoped lang="scss">
 .footer {
 	width: 100%;
+
 	margin-top: auto;
+
+	background-color: hsl(var(--primary-foreground));
 
 	&__content {
 		display: flex;
@@ -108,6 +111,12 @@
 
 		&-title {
 			font-size: 16px;
+		}
+	}
+
+	&__link {
+		&:hover {
+			text-decoration: underline;
 		}
 	}
 }

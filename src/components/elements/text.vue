@@ -1,53 +1,33 @@
 <template>
 	<Skeleton
 		v-if="loading"
-		:class="[`w-[${loadingWidth}] max-w-[100%]`, {
-			'h-12': size === 'l',
-			'h-10': size === 'm',
-			'h-8': size === 's',
-			'h-6': size === 'xs'
-		}]"
+		:width="loadingWidth"
+		:height="skeletonHeights[size]"
 	/>
 
-	<h1
-		v-else-if="size === 'l'"
-		class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl"
+	<span
+		v-else
+		class="text"
+		:class="size"
+		:style="{
+			height: skeletonHeights[size]
+		}"
 	>
 		<slot/>
-	</h1>
-
-	<h2
-		v-else-if="size === 'm'"
-		class="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0"
-	>
-		<slot/>
-	</h2>
-
-	<h3
-		v-else-if="size === 's'"
-		class="scroll-m-20 text-2xl font-semibold tracking-tight"
-	>
-		<slot/>
-	</h3>
-
-	<h4
-		v-else-if="size === 'xs'"
-		class="scroll-m-20 text-l tracking-tight"
-	>
-		<slot/>
-	</h4>
+	</span>
 </template>
 
 <script setup lang="ts">
-import { Skeleton } from '@/components/ui/skeleton'
+import { PropType } from 'vue'
+
+import { Skeleton } from '@/components/elements'
+
+type Size = 'xs' | 's' | 'm' | 'l' | 'xl'
 
 defineProps({
 	size: {
-		type: String,
-		default: 'm',
-		validator: (val: string) => {
-			return ['xs', 's', 'm', 'l'].includes(val)
-		}
+		type: String as PropType<Size>,
+		default: 'm'
 	},
 	loading: {
 		type: Boolean,
@@ -58,4 +38,54 @@ defineProps({
 		default: '400px'
 	}
 })
+
+const skeletonHeights = {
+	xs: 'auto',
+	s: 'auto',
+	m: '24px',
+	l: '30px',
+	xl: '48px'
+}
 </script>
+
+<style scoped lang="scss">
+.text {
+	max-width: 100%;
+
+	&.xl,
+	&.l,
+	&.m {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		line-height: 1;
+	}
+
+	&.xl {
+		font-size: 48px;
+		font-weight: 800;
+
+		@media (max-width: 1024px) {
+			font-size: 36px;
+		};
+	}
+
+	&.l {
+		font-size: 30px;
+		font-weight: 600;
+	}
+
+	&.m {
+		font-size: 24px;
+		font-weight: 600;
+	}
+
+	&.s {
+		font-size: 16px;
+	}
+
+	&.xs {
+		font-size: 14px;
+	}
+}
+</style>

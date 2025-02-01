@@ -1,10 +1,11 @@
 <template>
-	<Island class="job-offer bg-primary-foreground overflow-hidden">
+	<Island class="job-offer">
 		<div class="job-offer__actions">
-			<template v-if="jobOffer.executor && showChat">
+			<template v-if="jobOffer.executor && showingChat">
 				<Skeleton
 					v-if="loading"
-					class="h-6 w-[24px]"
+					width="24px"
+					height="24px"
 				/>
 				<div
 					v-else
@@ -17,14 +18,15 @@
 				</div>
 			</template>
 
-			<template v-else-if="jobOffer.proposals && showProposals">
+			<template v-else-if="jobOffer.proposals && showingProposals">
 				<Skeleton
 					v-if="loading"
-					class="h-6 w-[24px]"
+					width="24px"
+					height="24px"
 				/>
 				<div
 					v-else
-					class="job-offer__responses"
+					class="job-offer__proposals"
 					@click="showProposals"
 				>
 					<Icon
@@ -38,7 +40,8 @@
 			<template v-if="authStore.isExecutor">
 				<Skeleton
 					v-if="loading"
-					class="h-6 w-[24px]"
+					width="24px"
+					height="24px"
 				/>
 				<div
 					v-else
@@ -50,10 +53,11 @@
 					/>
 				</div>
 			</template>
-			<template v-if="showRemove && jobOffer.status === 'created'">
+			<template v-if="showingRemove && jobOffer.status === 'created'">
 				<Skeleton
 					v-if="loading"
-					class="h-6 w-[24px]"
+					width="24px"
+					height="24px"
 				/>
 				<div
 					v-else
@@ -70,22 +74,28 @@
 
 		<Skeleton
 			v-if="loading"
-			class="h-8 w-[200px]"
+			width="200px"
+			height="32px"
 		/>
 		<router-link
 			v-else
 			:to="`/offer/${jobOffer.id}`"
-			class="job-offer__title text-2xl max-h-8 text-balance truncate pr-12"
+			class="job-offer__title"
 		>
-			{{ jobOffer.title }}
+			<Text
+				size="m"
+				:title="jobOffer.title"
+			>
+				{{ jobOffer.title }}
+			</Text>
 		</router-link>
 
 		<div
 			v-if="!loading"
-			class="flex flex-wrap gap-2 pr-12"
+			class="job-offer__info"
 		>
 			<Badge
-				class="bg-purple-600"
+				bg="purple"
 				variant="secondary"
 			>
 				{{ jobOffer.price }} ₽
@@ -96,41 +106,36 @@
 			<Badge v-if="jobOffer.expand?.discipline?.name">
 				{{ jobOffer.expand.discipline.name }}
 			</Badge>
-			<Badge v-if="showStatus && status">
+			<Badge v-if="showingStatus && status">
 				{{ status }}
 			</Badge>
 		</div>
 
-		<Skeleton
-			v-if="loading"
-			class="h-4 w-[140px]"
-		/>
-		<div
-			v-else
-			class="job-offer__description text-sm h-16 text-balance truncate"
+		<Text
+			class="job-offer__description"
+			size="xs"
+			:loading
+			loading-width="140px"
 		>
 			{{ jobOffer.description }}
-		</div>
+		</Text>
 
 		<div class="job-offer__footer">
 			<User
 				v-if="jobOffer?.expand?.creator"
-				:loading="loading"
+				:loading
 				class="job-offer__user"
 				link
 				:user="jobOffer.expand.creator"
 			/>
 
-			<Skeleton
-				v-if="loading"
-				class="h-6 w-[100px]"
-			/>
-			<div
-				v-else
-				class="job-offer__deadline text-xs"
+			<Text
+				size="xs"
+				:loading
+				loading-width="100px"
 			>
 				Дедлайн: {{ $date(deadline) }}
-			</div>
+			</Text>
 		</div>
 	</Island>
 </template>
@@ -139,8 +144,7 @@
 import { computed, PropType } from 'vue'
 
 import { Island } from '@/components/structures'
-import { Icon, Badge } from '@/components/elements'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Icon, Badge, Skeleton, Text } from '@/components/elements'
 import User from './user.vue'
 import { Http } from '@/plugins'
 import { useAuthStore } from '@/stores/auth.ts'
@@ -151,19 +155,19 @@ const props = defineProps({
 		type: Object as PropType<IJobOffer>,
 		required: true
 	},
-	showProposals: {
+	showingProposals: {
 		type: Boolean,
 		default: false
 	},
-	showChat: {
+	showingChat: {
 		type: Boolean,
 		default: false
 	},
-	showRemove: {
+	showingRemove: {
 		type: Boolean,
 		default: false
 	},
-	showStatus: {
+	showingStatus: {
 		type: Boolean,
 		default: false
 	},
@@ -194,11 +198,16 @@ const remove = () => emit('remove', props.jobOffer)
 
 const status = computed(() => {
 	switch (props.jobOffer?.status) {
-	case 'created': return 'Создано'
-	case 'in_progress': return 'В работе'
-	case 'on_review': return 'На проверке'
-	case 'ended': return 'Завершено'
-	default: return null
+	case 'created':
+		return 'Создано'
+	case 'in_progress':
+		return 'В работе'
+	case 'on_review':
+		return 'На проверке'
+	case 'ended':
+		return 'Завершено'
+	default:
+		return null
 	}
 })
 
@@ -207,50 +216,74 @@ const deadline = computed(() => new Date(props.jobOffer?.deadline))
 
 <style scoped lang="scss">
 .job-offer {
-    position: relative;
+	max-width: 100%;
+	height: 240px;
 
-    display: flex;
-    flex-direction: column;
+	position: relative;
+
+	display: flex;
+	flex-direction: column;
 	align-items: flex-start;
+	gap: 10px;
 
-    max-width: 100%;
-    height: 240px;
+	background-color: hsl(var(--primary-foreground));
+	overflow: hidden;
 
-    gap: 10px;
+	&__actions {
+		position: absolute;
+		top: 10px;
+		right: 10px;
 
-    &__actions {
-        position: absolute;
-        top: 10px;
-        right: 10px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
 
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
+	&__proposals {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 5px;
 
-        .job-offer__responses {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
+		cursor: pointer;
+	}
 
-            cursor: pointer;
-        }
-    }
+	&__title {
+		max-width: 100%;
+		max-height: 32px;
 
-    &__title,
+		padding-right: 48px;
+	}
+
+	&__title,
 	&__description {
 		display: flex;
 		justify-content: flex-start;
 		align-items: flex-start;
 	}
 
-    &__footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+	&__description {
+		max-height: 64px;
+
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	&__info {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+
+		padding-right: 48px;
+	}
+
+	&__footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 
 		width: 100%;
-        margin: auto 0 0 0;
-    }
+		margin: auto 0 0 0;
+	}
 }
 </style>

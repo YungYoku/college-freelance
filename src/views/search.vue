@@ -17,6 +17,7 @@
 				:error="form.entity.error"
 				:items="entitiesItems"
 				label="Сущность"
+				:clearable="false"
 			/>
 
 			<Input
@@ -176,8 +177,8 @@ const form = Form<SearchForm>({
 	tutoring: false
 })
 const entitiesItems = [
-	{ value: 'offer', text: 'Объявление' },
-	{ value: 'executor', text: 'Исполнитель' }
+	{ id: 'offer', name: 'Объявление' },
+	{ id: 'executor', name: 'Исполнитель' }
 ]
 
 const loading = ref(true)
@@ -238,5 +239,5 @@ const loadData = async () => {
 	loading.value = false
 	searchStore.setLoading(false)
 }
-loadData()
+watch(() => form.entity.value, loadData, { immediate: true })
 </script>

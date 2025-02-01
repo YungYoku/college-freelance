@@ -7,11 +7,12 @@ export interface State {
     token: string
 }
 
-export const useAuthStore = defineStore({
-	id: 'auth',
-
+export const useAuthStore = defineStore('auth', {
 	state: (): State => <State>({
-		user: { ...emptyUser },
+		user: {
+			...emptyUser,
+			...(localStorage.user ? JSON.parse(localStorage.user) : {}),
+		},
 
 		token: localStorage.token ? JSON.parse(localStorage.token) : '',
 	}),
@@ -61,8 +62,7 @@ export const useAuthStore = defineStore({
 				...user
 			}
 			LocalStorage.write('user', {
-				id: user.id,
-				name: user.name
+				role: user.role
 			})
 		},
 

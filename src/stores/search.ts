@@ -5,9 +5,7 @@ export interface State {
 	loading: boolean;
 }
 
-export const useSearchStore = defineStore({
-	id: 'search',
-
+export const useSearchStore = defineStore('search', {
 	state: (): State => <State>({
 		search: '',
 		loading: false,

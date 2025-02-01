@@ -1,10 +1,10 @@
 <template>
 	<div
-		class="modal relative"
+		class="modal"
 		@click.self="close"
 	>
 		<form
-			class="modal__form rounded-xl border bg-card text-card-foreground shadow"
+			class="modal__form"
 			:style="style"
 			@submit.prevent
 		>
@@ -59,16 +59,24 @@ const close = () => emit('close')
 	background-color: rgba(26, 26, 26, 0.7);
 
     &__form {
+		max-width: 100%;
+		min-height: 70px;
+		max-height: 70vh;
+
 		position: relative;
 
         display: flex;
         justify-content: center;
         align-items: center;
 
-        max-width: 100%;
-		min-height: 70px;
-		max-height: 70vh;
-        padding: 10px;
+		padding: 10px;
+
+		border: 1px solid hsl(var(--border));
+		background-color: hsl(var(--card));
+		border-radius: 14px;
+
+		--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     }
 
 	&__close {

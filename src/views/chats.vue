@@ -22,15 +22,15 @@
 					v-for="chat in chats"
 					:key="chat.id"
 					gap="xs"
-					class="cursor-pointer rounded-md py-2 px-4 hover:bg-card"
+					class="chats__item"
 					:class="{
-						'bg-card': openedChat?.chat === chat.chat
+						'_active': openedChat?.chat === chat.chat
 					}"
 					vertical
 					:columns="1"
 					@click="loadChat(chat)"
 				>
-					<Text size="xs">
+					<Text size="s">
 						{{ chat.title }}
 					</Text>
 
@@ -42,10 +42,7 @@
 			</Grid>
 		</Island>
 
-		<Island
-			v-if="(Screen.isSize('s') && isChatOpened) || Screen.isLarger('s')"
-			class="relative"
-		>
+		<Island v-if="(Screen.isSize('s') && isChatOpened) || Screen.isLarger('s')">
 			<Text v-if="!isChatOpened">
 				Выберите чат
 			</Text>
@@ -90,7 +87,7 @@ const loading = ref(true)
 const chatRatingType = computed(() => auth.isCustomer ? 'ratingExecutor' : 'ratingCreator')
 const getUserForChar = (chat: IJobOffer) => {
 	if (loading.value) return emptyUser
-	
+
 	const executor = chat.expand?.executor
 	const creator = chat.expand?.creator
 	if (executor && creator) {
@@ -142,3 +139,22 @@ const loadChat = (offer: IJobOffer) => {
 	openedChat.value = offer
 }
 </script>
+
+<style scoped lang="scss">
+.chats {
+	&__item {
+		padding: 8px 16px;
+
+		border-radius: 8px;
+		cursor: pointer;
+
+		&:hover {
+			background-color: hsl(var(--card));
+		}
+
+		&._active {
+			background-color: hsl(var(--card));
+		}
+	}
+}
+</style>

@@ -1,70 +1,75 @@
 <template>
-	<Popover>
-		<PopoverTrigger as-child>
-			<div class="relative">
-				<Label v-if="value">
-					{{ label }}
-				</Label>
+	<Popover class="date-picker">
+		<template #trigger>
+			<Label v-if="value">
+				{{ label }}
+			</Label>
 
-				<Button
-					:variant="'outline'"
-					:class="['w-full', 'justify-between', 'pl-3', {
-						'pt-4': value,
-						'text-muted-foreground': !value
-					}]"
-				>
-					{{ value ? df.format(value.toDate(getLocalTimeZone())) : label }}
-				</Button>
-			</div>
-		</PopoverTrigger>
-		<PopoverContent class="w-auto p-0">
-			<Calendar v-model="value"/>
-		</PopoverContent>
+			<Button
+				class="date-picker__button"
+				variant="outline"
+			>
+				{{ printedValue }}
+			</Button>
+		</template>
+
+		<Calendar v-model="value"/>
 	</Popover>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import {
-	CalendarDate,
-	DateFormatter,
-	getLocalTimeZone,
-} from '@internationalized/date'
-
-import { Button } from '@/components/blocks'
+import { Popover } from '@/components/structures'
+import { Button, Calendar } from '@/components/blocks'
 import { Label } from '@/components/elements'
-import { Calendar } from '@/components/ui/calendar'
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from '@/components/ui/popover'
 
 interface Props {
-	modelValue: Date
 	label: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
-	modelValue: () => new Date(),
+withDefaults(defineProps<Props>(), {
 	label: 'Дата'
 })
 
-const emit = defineEmits(['update:model-value'])
+const months = [
+	'января',
+	'февраля',
+	'марта',
+	'апреля',
+	'мая',
+	'июня',
+	'июля',
+	'августа',
+	'сентября',
+	'октября',
+	'ноября',
+	'декабря'
+]
 
-const value = computed({
-	get() {
-		const date = new Date(props.modelValue)
-		return new CalendarDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
-	},
-	set(value) {
-		emit('update:model-value', value.toDate(getLocalTimeZone()))
-	}
+const value = defineModel<Date>({
+	default: () => new Date()
 })
+const printedValue = computed(() => {
+	const date = new Date(value.value)
 
-const df = new DateFormatter('ru-RU', {
-	dateStyle: 'long',
+	const day = date.getDate()
+	const month = months[date.getMonth()]
+	const year = date.getFullYear()
+
+	return `${day} ${month} ${year} г.`
 })
 </script>
 
+<style scoped lang="scss">
+.date-picker {
+	&__button {
+		width: 100%;
+
+		justify-content: flex-start;
+
+		padding-top: 20px;
+		padding-left: 12px;
+	}
+}
+</style>

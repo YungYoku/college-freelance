@@ -5,7 +5,6 @@ type Size = 's' | 'm' | 'l' | 'xl'
 class Screen {
 	static inst: Screen | null = null
 	static getInst() {
-		// eslint-disable-next-line
 		return Screen.inst || (Screen.inst = new Screen())
 	}
 

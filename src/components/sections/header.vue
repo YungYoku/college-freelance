@@ -24,17 +24,16 @@
 					</router-link>
 				</template>
 
-				<router-link
+				<Button
 					v-if="auth.isCustomer"
+					variant="positive"
 					to="/new-offer"
 				>
-					<Button class="w-[48px] bg-green-600 hover:bg-green-500">
-						<Icon
-							name="plus"
-							:colors="['light', 'light']"
-						/>
-					</Button>
-				</router-link>
+					<Icon
+						name="plus"
+						:colors="['light', 'light']"
+					/>
+				</Button>
 
 				<ThemeColorToggle v-if="!auth.isLoggedIn"/>
 
@@ -55,9 +54,8 @@ import { useAuthStore } from '@/stores/auth.ts'
 
 import { Grid } from '@/components/structures'
 import { ThemeColorToggle, UserDropdown, JobSearch, Notifications, EnergyIndicator, Button } from '@/components/blocks'
-import { Logo } from '@/components/elements'
+import { Logo, Icon } from '@/components/elements'
 import { Screen } from '@/plugins'
-import Icon from '@/components/elements/icon.vue'
 
 const auth = useAuthStore()
 

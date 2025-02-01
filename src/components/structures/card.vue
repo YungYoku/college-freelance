@@ -1,36 +1,36 @@
 <template>
-	<Card
+	<div
+		class="card"
 		:style="{
 			width
 		}"
-		class="max-w-[100%]"
 	>
-		<CardHeader
+		<div
 			v-if="title"
-			class="p-5 pb-2"
+			class="card__title"
 		>
-			<CardTitle>
-				{{ title }}
-			</CardTitle>
-		</CardHeader>
+			{{ title }}
+		</div>
 
-		<CardContent class="p-5">
-			<div class="grid items-center w-full gap-2">
-				<slot/>
-			</div>
-		</CardContent>
+		<Grid
+			vertical
+			class="card__content"
+		>
+			<slot/>
+		</Grid>
 
-		<CardFooter
+		<Grid
 			v-if="$slots.footer"
-			class="p-5"
+			vertical
+			class="card__footer"
 		>
 			<slot name="footer"/>
-		</CardFooter>
-	</Card>
+		</Grid>
+	</div>
 </template>
 
 <script setup lang="ts">
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
+import { Grid } from '@/components/structures'
 
 defineProps({
 	width: {
@@ -43,3 +43,28 @@ defineProps({
 	}
 })
 </script>
+
+<style lang="scss" scoped>
+.card {
+	max-width: 100%;
+
+	border: 1px solid hsl(var(--input));
+	border-radius: 12px;
+	--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+
+	&__title {
+		padding: 16px 20px 4px 20px;
+
+		font-weight: 600;
+	}
+
+	&__content {
+		padding: 20px;
+	}
+
+	&__footer {
+		padding: 0 20px 20px 20px;
+	}
+}
+</style>

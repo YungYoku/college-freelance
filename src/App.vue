@@ -1,6 +1,6 @@
 <template>
 	<router-view/>
-	<Toaster/>
+	<Toast/>
 </template>
 
 <script lang="ts" setup>
@@ -10,7 +10,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { Http, LocalStorage } from '@/plugins'
 import { IUserRefresh } from '@/interfaces/User'
-import Toaster from '@/components/ui/toast/Toaster.vue'
+import { Toast } from '@/components/blocks'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -19,6 +19,7 @@ const loadUserInfo = async () => {
 	if (auth.isLoggedIn) {
 		Http
 			.post<IUserRefresh>('/collections/users/auth-refresh', {
+			}, {
 				expand: ['notifications']
 			})
 			.then(({ token, record }) => {
@@ -34,9 +35,3 @@ const loadUserInfo = async () => {
 }
 watch(() => auth.isLoggedIn, loadUserInfo, { immediate: true })
 </script>
-
-<style lang="scss" scoped>
-#app {
-    min-height: 100vh;
-}
-</style>
