@@ -2,6 +2,7 @@
 	<img
 		:src="image"
 		:alt="alt"
+		:loading="local ? 'eager' : 'lazy'"
 	>
 </template>
 
