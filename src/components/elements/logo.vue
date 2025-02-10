@@ -9,6 +9,7 @@
 			class="logo__image"
 			src="@/assets/img/onyx.webp"
 			alt=""
+			aria-label="Logo"
 		>
 	</router-link>
 </template>
