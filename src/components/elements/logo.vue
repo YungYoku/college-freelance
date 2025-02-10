@@ -4,6 +4,8 @@
 		class="logo"
 	>
 		<img
+			width="32px"
+			height="46px"
 			class="logo__image"
 			src="@/assets/img/onyx.webp"
 			alt=""

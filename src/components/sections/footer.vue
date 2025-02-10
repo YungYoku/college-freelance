@@ -91,6 +91,10 @@
 		max-width: 1024px;
 		margin: 0 auto;
 		padding: 10px;
+
+		@media (max-width: 1024px) {
+			gap: 15px;
+		}
 	}
 
 	&__column {
