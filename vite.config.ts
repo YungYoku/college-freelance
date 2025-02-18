@@ -12,14 +12,6 @@ export default defineConfig(({ mode }) => {
 	return {
 		esbuild,
 
-		css: {
-			preprocessorOptions: {
-				scss: {
-					api: 'modern'
-				},
-			},
-		},
-
 		plugins: [
 			vue(),
 			eslint()
