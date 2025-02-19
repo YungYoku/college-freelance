@@ -133,36 +133,37 @@ const isDayActive = (day: number) => {
 
 <style scoped lang="scss">
 .calendar {
-	max-width: 244px;
-
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
 
+	max-width: 244px;
 	padding: 10px;
+	gap: 10px;
 
 	&__next,
 	&__back {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
 		width: 32px;
 		height: 32px;
 
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
 		background: #333;
 		border-radius: 5px;
+
 		cursor: pointer;
 	}
 
 	&__header {
-		width: 100%;
 		display: flex;
-		align-items: center;
 		justify-content: space-between;
-		gap: 10px;
+		align-items: center;
+
+		width: 100%;
 
 		font-size: 14px;
+		gap: 10px;
 	}
 
 	&__week-days {
@@ -170,12 +171,12 @@ const isDayActive = (day: number) => {
 	}
 
 	&__week-day {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
 		width: 32px;
 		height: 32px;
-
-		display: flex;
-		align-items: center;
-		justify-content: center;
 
 		font-size: 14px;
 	}
@@ -186,15 +187,17 @@ const isDayActive = (day: number) => {
 	}
 
 	&__month-day {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
 		width: 32px;
 		height: 32px;
 
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
 		font-size: 14px;
+
 		border-radius: 5px;
+
 		cursor: pointer;
 
 		&:hover {

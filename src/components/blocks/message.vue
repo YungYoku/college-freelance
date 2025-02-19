@@ -40,26 +40,26 @@ const created = computed(() => new Date(props.message?.created))
 
 <style lang="scss" scoped>
 .message {
-	width: max-content;
-	max-width: 50%;
-
 	display: flex;
 	flex-direction: column;
+
+	width: max-content;
+	max-width: 50%;
+	margin-right: auto;
+	padding: 8px 12px;
+
+	background-color: hsl(var(--muted));
+	border-radius: 8px 8px 8px 0;
 	gap: 4px;
 
-	padding: 8px 12px;
-	margin-right: auto;
-
-	border-radius: 8px 8px 8px 0;
-	background-color: hsl(var(--muted));
-
 	&._self {
-		margin-left: auto;
 		margin-right: initial;
+		margin-left: auto;
 
 		color: hsl(var(--primary-foreground));
-		border-radius: 8px 8px 0 8px;
+
 		background-color: hsl(var(--primary));
+		border-radius: 8px 8px 0 8px;
 	}
 
 	&__date {

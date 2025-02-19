@@ -16,16 +16,15 @@
 
 <style scoped lang="scss">
 .logo {
-	max-width: 40px;
-
 	display: flex;
-	align-items: center;
 	justify-content: center;
+	align-items: center;
 
+	max-width: 40px;
 	padding: 2px 4px;
 
-	border-radius: 6px;
 	background-color: rgb(255 255 255 / 1);
+	border-radius: 6px;
 
 	&__image {
 		width: 32px;

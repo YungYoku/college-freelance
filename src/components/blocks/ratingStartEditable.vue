@@ -49,9 +49,9 @@ const hover = (index: number | null) => hoverIndex.value = index
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 8px;
 
-	margin-left: auto;
 	margin-right: auto;
+	margin-left: auto;
+	gap: 8px;
 }
 </style>

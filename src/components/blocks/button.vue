@@ -56,26 +56,26 @@ const props = defineProps({
 
 <style scoped lang="scss">
 .button {
-	height: 48px;
-
-	padding: 12px;
-
 	display: flex;
-	align-items: center;
 	justify-content: center;
+	align-items: center;
+
+	height: 48px;
+	padding: 12px;
 
 	font-size: 14px;
 	font-weight: 500;
 
-	transition: all 0.2s;
-	border-radius: 14px;
 	border: none;
+	border-radius: 14px;
 	outline: none;
 
-	&.default {
-		background-color: hsl(var(--primary));
+	transition: all 0.2s;
 
+	&.default {
 		color: hsl(var(--primary-foreground));
+
+		background-color: hsl(var(--primary));
 
 		&:hover {
 			background-color: hsl(var(--primary) / 0.9);
@@ -100,7 +100,6 @@ const props = defineProps({
 
 	&.outline {
 		background-color: hsl(var(--background));
-
 		border: 1px solid hsl(var(--input));
 
 		&:hover {

@@ -116,8 +116,8 @@ const removeAvatar = () => loadImage('')
 	position: relative;
 
 	display: flex;
-	align-items: center;
 	justify-content: center;
+	align-items: center;
 
 	overflow: hidden;
 

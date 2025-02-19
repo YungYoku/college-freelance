@@ -88,8 +88,3 @@ const send = () => {
 	back()
 }
 </script>
-
-<style scoped lang="scss">
-.rating {
-}
-</style>

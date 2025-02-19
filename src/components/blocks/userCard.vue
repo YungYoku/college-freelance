@@ -79,8 +79,9 @@ const disciplines = computed(() => props.user?.expand?.disciplines ?? [])
 
 <style lang="scss" scoped>
 .user-card {
-	background-color: hsl(var(--primary-foreground));
 	overflow: hidden;
+
+	background-color: hsl(var(--primary-foreground));
 
 	&__info {
 		display: flex;

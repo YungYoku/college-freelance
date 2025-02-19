@@ -216,18 +216,19 @@ const deadline = computed(() => new Date(props.jobOffer?.deadline))
 
 <style scoped lang="scss">
 .job-offer {
-	max-width: 100%;
-	height: 240px;
 
 	position: relative;
 
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: 10px;
+
+	max-width: 100%;
+	height: 240px;
+	overflow: hidden;
 
 	background-color: hsl(var(--primary-foreground));
-	overflow: hidden;
+	gap: 10px;
 
 	&__actions {
 		position: absolute;
@@ -251,7 +252,6 @@ const deadline = computed(() => new Date(props.jobOffer?.deadline))
 	&__title {
 		max-width: 100%;
 		max-height: 32px;
-
 		padding-right: 48px;
 	}
 
@@ -264,8 +264,8 @@ const deadline = computed(() => new Date(props.jobOffer?.deadline))
 
 	&__description {
 		max-height: 64px;
-
 		overflow: hidden;
+
 		text-overflow: ellipsis;
 	}
 

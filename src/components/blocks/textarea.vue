@@ -76,17 +76,18 @@ const filled = computed(() => value.value.length > 0)
 
 	&__field {
 		width: 100%;
-
 		padding: 16px 12px 8px 12px;
 
 		font-size: 14px;
 		font-weight: 300;
 
-		transition: all 0.2s, padding 0s;
-		border-radius: 14px;
 		background: hsl(var(--background));
 		border: 1px solid hsl(var(--input));
+		border-radius: 14px;
 		outline: none;
+
+		transition: all 0.2s, padding 0s;
+
 		resize: none;
 
 		&._empty {

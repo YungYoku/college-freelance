@@ -162,21 +162,22 @@ const clear = () => {
 <style scoped lang="scss">
 .select {
 	&__trigger {
-		width: 100%;
-		height: 48px;
 
 		position: relative;
 
 		display: flex;
-		align-items: center;
 		justify-content: flex-start;
+		align-items: center;
 
+		width: 100%;
+		height: 48px;
 		padding: 8px 12px;
 
-		transition: all 0.2s;
-		border-radius: 14px;
 		background: hsl(var(--background));
 		border: 1px solid hsl(var(--input));
+		border-radius: 14px;
+
+		transition: all 0.2s;
 
 		&:focus-visible {
 			border-color: rgb(245 245 244 / 1);
@@ -192,13 +193,12 @@ const clear = () => {
 	}
 
 	&__showed-value {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+
 		width: 100%;
 		height: 100%;
-
-		display: flex;
-		align-items: center;
-		justify-content: flex-start;
-
 		padding-top: 12px;
 
 		&._empty {
@@ -222,26 +222,26 @@ const clear = () => {
 		gap: 4px;
 
 		padding: 4px;
-
 		overflow: auto;
 	}
 
 	&__item {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
 		width: 100%;
 		height: 32px;
 		min-height: 32px;
-
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-
 		padding: 8px;
+		overflow: hidden;
+
+		white-space: nowrap;
 
 		background-color: hsl(var(--background));
-		white-space: nowrap;
 		border-radius: 4px;
+
 		cursor: pointer;
-		overflow: hidden;
 
 		&:hover {
 			background-color: hsl(var(--accent));
