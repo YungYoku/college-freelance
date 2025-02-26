@@ -31,9 +31,10 @@ const Form = <I>(base: I) => {
 
 	const set = (data: I) => {
 		for (const key of keys) {
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			const prevValue = form[key].value
-			form[key].value = data[key] as typeof prevValue
+			Object.assign(form[key], {
+				value: data[key],
+				error: null
+			})
 		}
 	}
 
