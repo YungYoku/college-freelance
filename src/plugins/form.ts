@@ -1,51 +1,48 @@
 import { reactive, UnwrapRef } from 'vue'
 
-type Errors<T> = {
-	// eslint-disable-next-line no-unused-vars
-	[key in keyof T]: {
-		code: string
-		message: string
-	}
-}
-type BaseType<T> = {
-	// eslint-disable-next-line no-unused-vars
-	[key in keyof T]: string | number | boolean | Date | Array<string | number> | null | object
-}
-type ListItem<T> = {
+type FormField<T> = {
 	value: T,
 	error: string | null
 }
-type List<T extends BaseType<T>> = {
-	[key in keyof T]: UnwrapRef<ListItem<T[key]>>
+type TransformedForm<T> = {
+	[key in keyof T]: UnwrapRef<FormField<T[key]>>
 }
 
-const Form = <I extends BaseType<I>>(base: I) => {
-	const keys: Array<keyof I> = Object.keys(base) as Array<keyof I>
+type Error = {
+	code: string
+	message: string
+}
+type Errors<T> = {
+	// eslint-disable-next-line no-unused-vars
+	[key in keyof T]: Error
+}
 
-	const list: List<I> = keys.reduce((obj, key) => {
-		obj[key] = reactive<ListItem<I[keyof I]>>({
+const Form = <I>(base: I) => {
+	const form = {} as TransformedForm<I>
+	const keys: Array<keyof I> = [] as Array<keyof I>
+	for (const key in base) {
+		keys.push(key)
+
+		form[key] = reactive({
 			value: base[key],
 			error: null
 		})
-
-		return obj
-	}, {} as List<I>)
-
+	}
 
 	const set = (data: I) => {
-		keys.forEach(key => {
+		for (const key of keys) {
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			const prevValue = list[key].value
-			list[key].value = data[key] as typeof prevValue
-		})
+			const prevValue = form[key].value
+			form[key].value = data[key] as typeof prevValue
+		}
 	}
 
 	const get = () => {
 		const result: I = {} as I
 
-		keys.forEach(key => {
-			result[key] = list[key].value as I[keyof I]
-		})
+		for (const key of keys) {
+			result[key] = form[key].value as I[keyof I]
+		}
 
 		return result
 	}
@@ -53,28 +50,28 @@ const Form = <I extends BaseType<I>>(base: I) => {
 	const setErrors = (errors: Errors<I>) => {
 		const errorKeys: Array<keyof I> = Object.keys(errors) as Array<keyof I>
 
-		errorKeys.forEach(key => {
-			list[key].error = errors[key].message
-		})
+		for (const key of errorKeys) {
+			form[key].error = errors[key].message
+		}
 	}
 
 	const clearErrors = () => {
-		keys.forEach(key => {
-			list[key].error = null
-		})
+		for (const key of keys) {
+			form[key].error = null
+		}
 	}
 
 	const reset = () => {
-		keys.forEach(key => {
-			Object.assign(list[key], {
+		for (const key of keys) {
+			Object.assign(form[key], {
 				value: base[key],
 				error: null
 			})
-		})
+		}
 	}
 
 	return {
-		...list,
+		...form,
 		set,
 		get,
 		setErrors,
