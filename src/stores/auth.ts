@@ -14,7 +14,7 @@ export const useAuthStore = defineStore('auth', {
 			...(localStorage.user ? JSON.parse(localStorage.user) : {}),
 		},
 
-		token: localStorage.token ? JSON.parse(localStorage.token) : '',
+		token: localStorage.token ?? '',
 	}),
 
 	getters: {

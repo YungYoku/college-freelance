@@ -127,17 +127,18 @@ const filled = computed(() => {
 	&__field {
 		width: 100%;
 		height: 48px;
-
 		padding: 8px 40px 8px 12px;
 
 		font-size: 14px;
 		font-weight: 400;
 
-		transition: all 0.2s;
-		border-radius: 14px;
 		background: hsl(var(--background));
-		outline: none;
 		border: 1px solid hsl(var(--input));
+		border-radius: 14px;
+		outline: none;
+
+		
+		transition: all 0.2s;
 
 		&._empty {
 			padding-top: 20px;
@@ -168,16 +169,16 @@ const filled = computed(() => {
 	&__error {
 		padding-left: 12px;
 
-		color: hsl(var(--destructive));
 		font-size: 12px;
 		font-weight: 200;
+		color: hsl(var(--destructive));
 	}
 
 	&__action,
 	&__clear {
 		position: absolute;
-		right: 12px;
 		top: 14px;
+		right: 12px;
 
 		cursor: pointer;
 	}

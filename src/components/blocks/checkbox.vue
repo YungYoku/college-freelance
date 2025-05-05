@@ -61,16 +61,16 @@ const toggle = () => {
 	cursor: pointer;
 
 	&__content {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
 		width: 16px;
 		height: 16px;
 
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
 		background: hsl(var(--accent));
-		border-radius: 5px;
 		border: 1px solid hsl(var(--primary));
+		border-radius: 5px;
 
 		&._active {
 			background: hsl(var(--primary));
@@ -78,8 +78,8 @@ const toggle = () => {
 	}
 
 	&__label {
-		text-align: left;
 		font-weight: 300;
+		text-align: left;
 	}
 }
 </style>

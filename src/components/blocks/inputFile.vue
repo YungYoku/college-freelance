@@ -89,26 +89,27 @@ const updateFile = async (file: File) => {
 	position: relative;
 
 	display: flex;
-	align-items: center;
 	justify-content: center;
+	align-items: center;
 
 	cursor: pointer;
 
 	&__button {
 		position: absolute;
-		left: 0;
 		top: 0;
+		left: 0;
 	}
 
 	&__field-wrap {
 		width: 100%;
 
 		&._compact {
-			height: 100%;
 
 			position: absolute;
-			left: 0;
 			top: 0;
+			left: 0;
+
+			height: 100%;
 
 			opacity: 0;
 		}

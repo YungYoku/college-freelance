@@ -29,21 +29,20 @@ const close = () => toast.close()
 
 <style lang="scss" scoped>
 .toast {
-	max-width: 340px;
-
 	position: fixed;
 	right: 12px;
 	bottom: 12px;
 
 	display: flex;
 	align-items: center;
-	gap: 8px;
 
+	max-width: 340px;
 	padding: 12px 12px 12px 16px;
 
-	border: 1px solid rgb(113 113 122 / 1);
 	background-color: hsl(var(--background));
+	border: 1px solid rgb(113 113 122 / 1);
 	border-radius: 12px;
+	gap: 8px;
 
 	&.toast-enter-from {
 		opacity: 0;

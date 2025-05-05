@@ -77,20 +77,19 @@
 <style scoped lang="scss">
 .footer {
 	width: 100%;
-
 	margin-top: auto;
 
 	background-color: hsl(var(--primary-foreground));
 
 	&__content {
 		display: flex;
-		justify-content: center;
-		gap: 20px;
 		flex-wrap: wrap;
+		justify-content: center;
 
 		max-width: 1024px;
 		margin: 0 auto;
 		padding: 10px;
+		gap: 20px;
 
 		@media (max-width: 1024px) {
 			gap: 15px;
@@ -98,12 +97,13 @@
 	}
 
 	&__column {
-		width: calc(25% - 15px);
 		display: flex;
 		flex-direction: column;
-		gap: 5px;
+
+		width: calc(25% - 15px);
 
 		font-size: 13px;
+		gap: 5px;
 
 		@media (max-width: 1024px) {
 			width: calc(50% - 10px);

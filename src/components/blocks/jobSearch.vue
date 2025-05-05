@@ -63,7 +63,6 @@ const search = () => {
 .job-search-link {
 	width: 20px;
 	height: 20px;
-
 	margin: auto 0;
 }
 </style>

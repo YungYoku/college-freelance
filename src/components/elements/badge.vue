@@ -23,9 +23,10 @@ defineProps({
 .badge {
 	padding: 1px 7px;
 
-	color: hsl(var(--primary-foreground));
 	font-size: 12px;
 	font-weight: 600;
+	color: hsl(var(--primary-foreground));
+
 	border-radius: 6px;
 
 	&._bg-white {

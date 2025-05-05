@@ -84,11 +84,11 @@ const choseProposal = (user: IUser) => emit('chose-proposal', user)
 <style scoped lang="scss">
 .modal-proposals {
 	&__item {
-		width: 100%;
-
 		display: flex;
-		align-items: flex-start;
 		flex-direction: column;
+		align-items: flex-start;
+
+		width: 100%;
 		gap: 8px;
 	}
 }
