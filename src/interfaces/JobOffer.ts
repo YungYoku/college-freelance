@@ -1,8 +1,8 @@
-import { IUser } from '@/interfaces/User.ts'
-import { IChat } from '@/interfaces/Chat.ts'
-import { IDiscipline } from '@/interfaces/Discipline.ts'
-import { IRating } from '@/interfaces/Rating.ts'
-import { IUniversity } from '@/interfaces/University.ts'
+import type { IUser } from '@/interfaces/User.ts'
+import type { IChat } from '@/interfaces/Chat.ts'
+import type { IDiscipline } from '@/interfaces/Discipline.ts'
+import type { IRating } from '@/interfaces/Rating.ts'
+import type { IUniversity } from '@/interfaces/University.ts'
 
 export type IJobOfferStatus = 'created' | 'in_progress' | 'on_review' | 'ended'
 

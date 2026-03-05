@@ -1,9 +1,15 @@
 {
 	"compilerOptions": {
-		"target": "ES2023",
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"target": "ES2024",
 		"module": "ESNext",
-		"lib": ["ES2023", "DOM", "DOM.Iterable"],
 		"skipLibCheck": true,
+		"types": ["vite/client"],
+
+		"baseUrl": "./",
+		"paths": {
+			"@/*": ["./src/*"]
+		},
 
 		/* Bundler mode */
 		"moduleResolution": "bundler",
@@ -12,18 +18,24 @@
 		"isolatedModules": true,
 		"noEmit": true,
 		"jsx": "preserve",
+		"esModuleInterop": false,
+
+		// Strict Checks
+		"strict": true,
+		"exactOptionalPropertyTypes": true,
 
 		/* Linting */
-		"strict": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true,
-
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["./src/*"],
-		}
+		"verbatimModuleSyntax": true,
+		"noImplicitReturns": true,
+		"noUncheckedIndexedAccess": true,
+		"noUncheckedSideEffectImports": true,
+		"moduleDetection": "force",
+		"noImplicitOverride": true,
+		"useUnknownInCatchVariables": true,
 	},
-	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-	"references": [{ "path": "./tsconfig.node.json" }]
+	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue", "vite.config.ts", "env.d.ts", "vite-env.d.ts", "shims-vue.d.ts"],
+	"exclude": ["db"]
 }

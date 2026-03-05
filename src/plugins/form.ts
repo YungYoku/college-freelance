@@ -1,4 +1,4 @@
-import { reactive, UnwrapRef } from 'vue'
+import { reactive, type UnwrapRef } from 'vue'
 
 type FormField<T> = {
 	value: T,

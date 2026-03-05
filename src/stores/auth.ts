@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { emptyUser, IUser } from '@/interfaces/User'
+import { emptyUser, type IUser } from '@/interfaces/User'
 import { LocalStorage } from '@/plugins'
 
 export interface State {

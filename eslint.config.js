@@ -1,23 +1,24 @@
-import stylisticJs from '@stylistic/eslint-plugin-js'
+import stylisticJs from '@stylistic/eslint-plugin'
 import js from '@eslint/js'
 import pluginVue from 'eslint-plugin-vue'
-import vueTsEslintConfig from '@vue/eslint-config-typescript'
 import globals from 'globals'
+import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
 
-export default [
-	...pluginVue.configs['flat/recommended'],
-	...vueTsEslintConfig(),
+export default defineConfigWithVueTs(
 	js.configs.recommended,
+	pluginVue.configs['flat/recommended'],
+	vueTsConfigs.strictTypeChecked,
+	vueTsConfigs.stylisticTypeChecked,
 	{
-		plugins: {
-			'@stylistic/js': stylisticJs,
-		},
-
 		languageOptions: {
 			globals: {
 				...globals.browser,
 				...globals.node
 			}
+		},
+
+		plugins: {
+			'@stylistic': stylisticJs,
 		},
 
 		rules: {
@@ -38,35 +39,45 @@ export default [
 
 			'no-debugger': 'off',
 
-			'@stylistic/js/indent': ['warn', 'tab'],
-			'@stylistic/js/semi': ['warn', 'never'],
-			'@stylistic/js/quotes': ['warn', 'single'],
-			'@stylistic/js/no-multi-spaces': ['warn'],
-			'@stylistic/js/object-curly-spacing': ['warn', 'always'],
+			'@stylistic/indent': ['warn', 'tab'],
+			'@stylistic/semi': ['warn', 'never'],
+			'@stylistic/quotes': ['warn', 'single'],
+			'@stylistic/no-multi-spaces': ['warn'],
+			'@stylistic/object-curly-spacing': ['warn', 'always'],
 
-			'@stylistic/js/keyword-spacing': ['warn', {
+			'@stylistic/keyword-spacing': ['warn', {
 				after: true,
 				before: true,
 			}],
 
-			'@stylistic/js/comma-spacing': ['warn', {
+			'@stylistic/comma-spacing': ['warn', {
 				after: true,
 				before: false,
 			}],
 
-			'@stylistic/js/key-spacing': ['warn', {
+			'@stylistic/key-spacing': ['warn', {
 				beforeColon: false,
 				afterColon: true,
 			}],
 
-			'@stylistic/js/arrow-spacing': ['warn', {
+			'@stylistic/arrow-spacing': ['warn', {
 				before: true,
 				after: true,
 			}],
 
-			'@stylistic/js/space-infix-ops': ['warn', {
+			'@stylistic/space-infix-ops': ['warn', {
 				int32Hint: false,
 			}],
 		},
+	},
+	{
+		ignores: [
+			'.github/',
+			'deploy/',
+			'dist/',
+			'node_modules/',
+			'public/',
+			'db/'
+		],
 	}
-]
+)

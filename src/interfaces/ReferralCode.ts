@@ -1,4 +1,4 @@
-import { IUser } from '@/interfaces/User.ts'
+import type {IUser} from '@/interfaces/User.ts'
 
 export interface IReferralCode {
 	collectionId: string,

@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { DefaultLayout } from '@/components/layouts'
 import { useAuthStore } from '@/stores/auth.ts'
 
-const routes: Array<RouteRecordRaw> = [
+const routes: RouteRecordRaw[] = [
 	{
 		path: '/',
 		name: 'DefaultLayout',
@@ -136,7 +136,7 @@ const router = createRouter({
 
 router.beforeEach((to) => {
 	const authStore = useAuthStore()
-	const toRules = to.meta.rules as Array<string> ?? []
+	const toRules = to.meta.rules as string[] ?? []
 
 	if (toRules.length === 0) {
 		return true
@@ -159,6 +159,8 @@ router.beforeEach((to) => {
 
 		return true
 	}
+
+	return false
 })
 
 export default router

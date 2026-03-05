@@ -1,9 +1,9 @@
-import { IUniversity } from '@/interfaces/University.ts'
-import { IDiscipline } from '@/interfaces/Discipline.ts'
-import { IReferralCode } from '@/interfaces/ReferralCode.ts'
-import { IJobOffer } from '@/interfaces/JobOffer.ts'
-import { IRating } from '@/interfaces/Rating.ts'
-import { INotification } from '@/interfaces/Notification.ts'
+import type { IUniversity } from '@/interfaces/University.ts'
+import type { IDiscipline } from '@/interfaces/Discipline.ts'
+import type { IReferralCode } from '@/interfaces/ReferralCode.ts'
+import type { IJobOffer } from '@/interfaces/JobOffer.ts'
+import type { IRating } from '@/interfaces/Rating.ts'
+import type {INotification} from '@/interfaces/Notification.ts'
 
 export interface IUser {
     avatar: string

@@ -1,4 +1,4 @@
-import { IMessage } from '@/interfaces/Message.ts'
+import type {IMessage} from '@/interfaces/Message.ts'
 
 export interface IChat {
 	id: string
